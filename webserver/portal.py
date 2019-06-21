@@ -40,7 +40,7 @@ def helloWorld():
     result = ''
     result += htmlInclude("htmlHeader")
 
-    result += "<h1>Arribada Horizon Tag Portal.</h1>"
+    result += "<h2>Welcome</h2>"
     result += "<a href='/scan'>Scan For Tags</a>"
 
     result += htmlInclude("htmlFooter")
@@ -56,7 +56,7 @@ def scanForTags():
     result = ''
     result += htmlInclude("htmlHeader")
 
-    result += "<h1>Scan</h1>"
+    result += "<h2>Scan</h2>"
 
     if len(deviceList) == 0:
         result += "<span class='error'>No Devices detected.</span>"
