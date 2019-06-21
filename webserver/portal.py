@@ -36,9 +36,10 @@ if __name__ == "__main__":
 #  Welcome screen
 def helloWorld():
 
-    result = htmlInclude("htmlHeader")
+    result = ''
+    result += htmlInclude("htmlHeader")
 
-    result += "<h1>Welcome to the Arribada Horizon Tag Portal.</h1>"
+    result += "<h1>Arribada Horizon Tag Portal.</h1>"
     result += "<a href='/scan'>Scan For Tags</a>"
 
     result += htmlInclude("htmlFooter")
@@ -49,7 +50,8 @@ def helloWorld():
 #  Welcome screen
 def scanForTags():
 
-    result = htmlInclude("htmlHeader")
+    result = ''
+    result += htmlInclude("htmlHeader")
 
     result += "<h1>Scan</h1>"
     result += ""
@@ -62,4 +64,8 @@ def scanForTags():
 
 # standard Header
 def htmlInclude(fileName):
-    return open("/includes/" + fileName + ".html", "r")
+
+    with open("includes/" + fileName + ".html", "r") as f1:
+        dataRaw = f1.read()
+
+    return dataRaw
