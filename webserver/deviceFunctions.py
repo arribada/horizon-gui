@@ -9,9 +9,14 @@ def listConnectedDevices():
 
     result = []
 
-    result = subprocess.check_output("sudo tracker_config --status")
+    #subprocess.check_output(["sudo", "whatever-command", "params"])
 
-    result.append({"ID": "123/432", "value2": 23, "value3":15})
-    result.append({"ID": "123/444", "value2": 18, "value3":88})
+    try:
+        result = subprocess.check_output(["sudo", "tracker_config", "--status"])
+
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+
 
     return result
