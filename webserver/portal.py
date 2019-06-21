@@ -19,20 +19,6 @@ import deviceFunctions
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-
-    return helloWorld()
-
-
-@app.route("/scan")
-def scan():
-
-    return scanForTags()    
-
-if __name__ == "__main__":
-    app.run()
-
 
 #  Welcome screen
 def helloWorld():
@@ -92,3 +78,18 @@ def htmlInclude(fileName):
         dataRaw = f1.read()
 
     return dataRaw
+
+
+@app.route("/")
+def hello():
+
+    return helloWorld()
+
+
+@app.route("/scan")
+def scan():
+
+    return scanForTags()    
+
+if __name__ == "__main__":
+    app.run()
