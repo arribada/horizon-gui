@@ -13,6 +13,7 @@ import re
 import shutil
 from functools import wraps
 from shutil import copyfile
+import deviceFunctions
 
 
 
@@ -50,11 +51,33 @@ def helloWorld():
 #  Welcome screen
 def scanForTags():
 
+    deviceList = deviceFunctions.listConnectedDevices()
+
     result = ''
     result += htmlInclude("htmlHeader")
 
     result += "<h1>Scan</h1>"
-    result += ""
+
+    if len(deviceList) == 0:
+        result += "<span class='error'>No Devices detected.</span>"
+    else:
+        fieldColumns = deviceList[0].keys()
+        result += "<table>"
+        result += "<tr>"
+
+        for field in fieldColumns:
+            result += "<th>" + field + "</th>"
+
+        result += "</tr>"
+
+        for device in deviceList:
+            result += "<tr>"
+            for field in fieldColumns:
+                result += "<td>" + str(device[field]) + "</td>"
+
+            result += "</tr>"
+
+        result += "</table>"
 
     result += htmlInclude("htmlFooter")
 
