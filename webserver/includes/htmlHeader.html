@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="includes/styles.css">
-
+    <!-- <link rel="stylesheet" href="/webserver/includes/styles.css">
+    <script type="text/javascript" src="/webserver/includes/arribada-giu.js"></script> -->
+    <!-- don't know why the includes of the CSS or JS files not working... -->
     <style>
         body {
             background-color: darkgrey;
         }
+
         .pageWrapper {
             padding: 30px;
             width: 50%;
             margin-left: auto;
             margin-right: auto;
-            background-color: aliceblue;
+            background-color: whitesmoke;
         }
 
         table {
@@ -30,9 +32,16 @@
         }
     </style>
 
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
 </head>
 
 <body>
     <div class='pageWrapper'>
-    <h1>Arribada Horizon Tag Portal</h1>
-    <hr>
+        <h1>Arribada Horizon Tag Portal</h1>
+        <hr>
+        <button onclick="goBack()">Go Back</button>

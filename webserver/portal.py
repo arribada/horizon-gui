@@ -14,7 +14,10 @@ import re
 import shutil
 from functools import wraps
 from shutil import copyfile
+import subprocess
+## project
 import deviceFunctions
+
 
 
 
@@ -28,22 +31,30 @@ def helloWorld():
     result += htmlInclude("htmlHeader")
 
     result += "<h2>Welcome</h2>"
-    result += "<a href='/scan'>Scan For Tags</a>"
-
+    result += "<h3>Attached Tag</h3>"
+    result += "<ul class='tag-functions'>"
+    result += "<li><a href='/version'>Version</a></li>"
+    result += "<li><a href='/status'>Status</a></li>"
+    result += "</ul>"
     result += htmlInclude("htmlFooter")
 
     return result
 
 
-#  Welcome screen
-def scanForTags():
+#  status Scan
+def htmlTrackerConfig(htmlTitle, commandToRun):
 
-    deviceList = deviceFunctions.listConnectedDevices()
+
+
+    deviceList = deviceFunctions.callTrackerConfig(commandToRun)
+    ## for testing without tracker_config
+    #deviceList = [{"111":"a111", "222":"a222", "333":"a333", "444":"a444", }, {"111":"b111", "222":"b222", "333":"b333", "444":"b444", }]
+
 
     result = ''
     result += htmlInclude("htmlHeader")
 
-    result += "<h2>Scan</h2>"
+    result += "<h2>" + htmlTitle + " Results</h2>"
 
     if len(deviceList) == 0:
         result += "<span class='error'>No Devices detected.</span>"
@@ -87,10 +98,15 @@ def hello():
     return helloWorld()
 
 
-@app.route("/scan")
-def scan():
+@app.route("/status")
+def status():
 
-    return scanForTags()    
+    return htmlTrackerConfig("Status", "--status")   
+
+@app.route("/version")
+def version():
+
+    return htmlTrackerConfig("Version", "--version") 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
