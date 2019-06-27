@@ -1,10 +1,6 @@
-# horizon-gui
-GUI tool for managing Arribada Horizon biologging tags.
+# Arribada Horizon Graphical User Interface 
 
-***** Arribada Horizon Graphical User Interface *****
-
-This tool allows Arribada Horizon tags to be configured, modified and, inspected.
-
+This tool allows Arribada Horizon biologging tags to be configured, modified and, inspected.
 
 ## Install Tools on PI:
 * Download the image (working portal image on Dropbox)
