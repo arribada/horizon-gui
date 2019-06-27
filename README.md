@@ -10,10 +10,10 @@ This tool allows Arribada Horizon biologging tags to be configured, modified and
 * `sudo python setup.py install`
 
 ## Run the GUI
-* the captive postal sowftware should startup on start, but if it the GIU doesn't load, try the following:
-* sudo nodogsplash
-* cd /home/pi/webserver
-* sudo python portal.py
+* The captive portal software should startup on start, but if it the GIU doesn't load, try the following:
+* `sudo nodogsplash`
+* `cd /home/pi/webserver`
+* `sudo python portal.py`
 
 ## GIU Test mode.
 * There is a flag in /deviceFunctions.py that puts the GUI into debug mode where dummy responses are given.
