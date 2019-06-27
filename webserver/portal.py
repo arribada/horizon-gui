@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 
 #  Welcome screen
-def helloWorld():
+def welcome():
 
     result = ''
     result += htmlInclude("htmlHeader")
@@ -33,9 +33,9 @@ def helloWorld():
     result += "<h2>Welcome</h2>"
     result += "<h3>Attached Tag</h3>"
     result += "<ul class='tag-functions'>"
-    result += "<li><a href='/version'>Version</a></li>"
-    result += "<li><a href='/status'>Status</a></li>"
+    result += "<li><a href='/status'>Tag Status</a></li>"
     result += "</ul>"
+    result += trackerVersion()
     result += htmlInclude("htmlFooter")
 
     return result
@@ -44,22 +44,27 @@ def helloWorld():
 #  status Scan
 def htmlTrackerConfig(htmlTitle, commandToRun):
 
+    tracker_configResponse = deviceFunctions.callTrackerConfig(commandToRun)
 
+    if type(tracker_configResponse) == "str":
+        tracker_configResponse = json.load(tracker_configResponse)
 
-    deviceList = deviceFunctions.callTrackerConfig(commandToRun)
-    ## for testing without tracker_config
-    #deviceList = [{"111":"a111", "222":"a222", "333":"a333", "444":"a444", }, {"111":"b111", "222":"b222", "333":"b333", "444":"b444", }]
-
-
+    if "error" in tracker_configResponse:
+        dataBlock = ''
+        errorBlock = tracker_configResponse['error']
+    else:
+        errorBlock = ''
+        dataBlock = tracker_configResponse['result']
+ 
     result = ''
     result += htmlInclude("htmlHeader")
 
     result += "<h2>" + htmlTitle + " Results</h2>"
 
-    if len(deviceList) == 0:
+    if len(errorBlock) != 0:
         result += "<span class='error'>No Devices detected.</span>"
     else:
-        fieldColumns = deviceList[0].keys()
+        fieldColumns = dataBlock.keys()
         result += "<table>"
         result += "<tr>"
 
@@ -68,15 +73,15 @@ def htmlTrackerConfig(htmlTitle, commandToRun):
 
         result += "</tr>"
 
-        for device in deviceList:
-            result += "<tr>"
-            for field in fieldColumns:
-                result += "<td>" + str(device[field]) + "</td>"
+        for field in fieldColumns:
+            result += "<td>" + str(dataBlock[field]) + "</td>"
 
-            result += "</tr>"
+        result += "</tr>"
+
 
         result += "</table>"
 
+    result += trackerVersion()
     result += htmlInclude("htmlFooter")
 
     return result
@@ -91,11 +96,15 @@ def htmlInclude(fileName):
 
     return dataRaw
 
+def trackerVersion():
+
+    return  "<div class='versionBlock'>track_config version: " + deviceFunctions.trackerConfigVesion() + "</div>"
+
 
 @app.route("/")
 def hello():
 
-    return helloWorld()
+    return welcome()
 
 
 @app.route("/status")
