@@ -33,7 +33,10 @@ def welcome():
     result += "<h2>Welcome</h2>"
     result += "<h3>Attached Tag</h3>"
     result += "<ul class='tag-functions'>"
-    result += "<li><a href='/status'>Tag Status</a></li>"
+    result += "<li><a href='/status'>Tag Status</a><br/></li>"
+    result += "<li><a href='/get_config'>Read Tag Config</a><br/></li>"
+    # result += "<li><a href='/erase_config'>Erase Tag Config</a><br/></li>"
+    result += "<li><a href='/write_config'>Write Tag Config</a><br/></li>"
     result += "</ul>"
     result += trackerVersion()
     result += htmlInclude("htmlFooter")
@@ -41,8 +44,8 @@ def welcome():
     return result
 
 
-#  status Scan
-def htmlTrackerConfig(htmlTitle, commandToRun):
+#  display screen of result 
+def htmlTrackerConfig(pageTitle, commandToRun):
 
     tracker_configResponse = deviceFunctions.callTrackerConfig(commandToRun)
 
@@ -59,7 +62,7 @@ def htmlTrackerConfig(htmlTitle, commandToRun):
     result = ''
     result += htmlInclude("htmlHeader")
 
-    result += "<h2>" + htmlTitle + " Results</h2>"
+    result += "<h2>" + pageTitle + " Results</h2>"
 
     if len(errorBlock) != 0:
         result += "<span class='error'>No Devices detected.</span>"
@@ -87,7 +90,6 @@ def htmlTrackerConfig(htmlTitle, commandToRun):
     return result
 
 
-
 # standard Header
 def htmlInclude(fileName):
 
@@ -98,7 +100,9 @@ def htmlInclude(fileName):
 
 def trackerVersion():
 
-    return  "<div class='versionBlock'>track_config version: " + deviceFunctions.trackerConfigVesion() + "</div>"
+    return  "<div class='versionBlock'>Tool Version: " + deviceFunctions.trackerConfigVesion() + " " + deviceFunctions.trackerConfigBattery() + "</div>"
+
+
 
 
 @app.route("/")
@@ -116,6 +120,96 @@ def status():
 def version():
 
     return htmlTrackerConfig("Version", "--version") 
+
+
+@app.route("/get_config")
+def get_config():
+
+    tracker_configResponse = deviceFunctions.getTrackerConfig()
+
+    result = ''
+    result += htmlInclude("htmlHeader")
+
+    result += "<h2>Get Config Results</h2>"
+
+    if 'result' in tracker_configResponse:
+        
+        result += 'Loaded to ' + tracker_configResponse['result'] + '<br/><br/>'
+
+
+
+        # read config file
+        with open(tracker_configResponse['result'], 'r') as myConfig:
+            data=myConfig.read()
+
+        result += data + '<br/><br/>'
+
+    else:
+        result += tracker_configResponse['error']
+
+    result += htmlInclude("htmlFooter")
+
+    return result
+
+@app.route("/erase_config")
+def erase_config():
+
+    return htmlTrackerConfig("Erase Config", "--erase_log") 
+
+
+
+
+@app.route("/write_config")
+def write_config():
+
+    #tracker_configResponse = deviceFunctions.getTrackerConfig()
+
+    
+
+    result = ''
+    result += htmlInclude("htmlHeader")
+
+    result += "<h2>Write Config</h2>"
+
+    # read config file
+    with open('config/from_tag/current_config.json', 'r') as myConfig:
+        data=myConfig.read()
+    result += '<form action="/save_new_config" method="post">Update latest config read'
+    result += '<textarea type="textarea" style="width:100%; height:400px; overflow-y: scroll" name="updateConfig">' + data  + '</textarea>'
+    result += '<input type="submit" value="Save">'
+
+    result += htmlInclude("htmlFooter")
+
+    return result
+
+
+@app.route("/save_new_config", methods = ['POST'])
+def save_new_config():
+
+   
+    submittedConfig =  request.form["updateConfig"]
+
+
+    newConfig =  open('config/to_tag/new_config.json', 'w')
+    ## needs to be json, not string... TODO 
+    newConfig.write(submittedConfig)
+
+    tracker_configResponse = deviceFunctions.writeTrackerConfig()
+
+
+    result = ''
+    result += htmlInclude("htmlHeader")
+
+    result += "<h2>Save Config</h2>"
+
+
+
+    result += htmlInclude("htmlFooter")
+
+    return result
+
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
