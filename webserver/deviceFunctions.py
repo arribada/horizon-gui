@@ -108,7 +108,8 @@ def writeTrackerConfig():
     if  not debugMode:
 
         try:
-            result = subprocess.check_output("sudo tracker_config --write config/to_tag/new_config.json",shell=True,stderr=subprocess.STDOUT)
+            result = subprocess.check_output(["sudo", "tracker_config", "--write", "config/to_tag/new_config.json"])
+            #result = subprocess.check_output("sudo tracker_config --write config/to_tag/new_config.json")
             #also need to creat a log file...
             #sudo tracker_config --create_log LINEAR
 
@@ -129,4 +130,37 @@ def writeTrackerConfig():
 
         return {'result': 'config/from_tag/current_config.json'}
 
+def receiveTrackerLogData(): 
 
+    if  not debugMode:
+
+        # get data off the tag
+        try:
+            result1 = subprocess.check_output("sudo tracker_config --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        # convert to json
+        try:
+            result2 = subprocess.check_output("log_parse --file tracker_data/binary/latest_binary.bin > tracker_data/json/latest_logfile.json",shell=True,stderr=subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        
+
+
+        #result = result.rstrip() # trailing new line...
+        print("Raw tracker_config log data Received ")
+
+        if len(result1) == 0 and len(result2) == 0:
+            print("Raw tracker_config log data Received ")
+            return {'result': 'tracker_data/json/latest_logfile.json'}
+        else:
+            return {'error': 'No Devices detected or data error'}
+           
+
+    else:
+
+        return {'result': 'config/from_tag/current_config.json'}

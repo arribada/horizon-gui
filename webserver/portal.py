@@ -37,6 +37,9 @@ def welcome():
     result += "<li><a href='/get_config'>Read Tag Config</a><br/></li>"
     # result += "<li><a href='/erase_config'>Erase Tag Config</a><br/></li>"
     result += "<li><a href='/write_config'>Write Tag Config</a><br/></li>"
+    result += "<li><a href='/receive_logs'>Receive Log Data</a><br/></li>"
+    result += "<li><a href='/download_logs' target='_blank'>Download Log Data</a><br/></li>"
+
     result += "</ul>"
     result += trackerVersion()
     result += htmlInclude("htmlFooter")
@@ -193,6 +196,7 @@ def save_new_config():
     newConfig =  open('config/to_tag/new_config.json', 'w')
     ## needs to be json, not string... TODO 
     newConfig.write(submittedConfig)
+    newConfig.close()
 
     tracker_configResponse = deviceFunctions.writeTrackerConfig()
 
@@ -209,6 +213,35 @@ def save_new_config():
     return result
 
 
+
+@app.route("/receive_logs")
+def receive_logs():
+
+    tracker_configResponse = deviceFunctions.receiveTrackerLogData()  # {'result': 'tracker_data/json/latest_json.json'}
+
+    result = ''
+    result += htmlInclude("htmlHeader")
+
+    result += "<h2>Receive Logs</h2>"
+
+    if 'result' in tracker_configResponse:
+
+        result += "Log Load time: %s" % time.ctime(os.path.getmtime(tracker_configResponse['result'])) + "<br><br>"
+
+        # read log file
+        with open(tracker_configResponse['result'], 'r') as myData:
+            data=myData.read()
+
+
+    result += data + '<br/><br/>'
+    
+    result += htmlInclude("htmlFooter")
+
+    return result
+
+@app.route("/download_logs")
+def download_logs():
+    return send_file('tracker_data/json/latest_logfile.json', as_attachment=True)
 
 
 if __name__ == "__main__":
