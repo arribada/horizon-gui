@@ -10,7 +10,7 @@ To use, first download and apply the Raspian image file to a microSD card and bo
 * Uncomment the line setting the device's target DNS address: `server=1.1.1.1`
 * `sudo reboot`
 
-## Install Tools on PI:
+## Install Tools on Pi:
 * `curl -L -o v0.0.6.zip "https://bitbucket.org/icoteq-eng/arribada_python_tools/get/v0.0.6.zip"`
 * `unzip v0.0.6.zip`
 * `cd icoteq-eng-arribada_python_tools-871a26caa971/`
@@ -24,6 +24,6 @@ Once external resources have been downloaded, reverse the process carried out in
 * `cd /home/pi/webserver`
 * `sudo python portal.py`
 
-## GUI Test mode.
+## GUI Test mode
 * There is a flag in /deviceFunctions.py that puts the GUI into debug mode where dummy responses are given.
 
