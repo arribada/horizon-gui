@@ -3,6 +3,8 @@ import subprocess
 import json
 
 debugMode = False # global
+noTagText = 'No Device Detected.'  # this is in both files, so needs to be indluded...
+tracker_configVersion = 'tracker_config'
 
 
 def callTrackerConfig(theCall):
@@ -10,7 +12,7 @@ def callTrackerConfig(theCall):
     if  not debugMode:
 
         try:
-            result = subprocess.check_output(["sudo", "tracker_config", theCall])
+            result = subprocess.check_output(["sudo", tracker_configVersion, theCall])
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -22,7 +24,7 @@ def callTrackerConfig(theCall):
         print("Raw tracker_config data Received: " , result)
 
         if result.startswith('Unexpected error'):
-            return {'error': 'No Devices detected'}
+            return {'error': noTagText}
         else:
             result2 = json.loads(result)
             return {'result': result2}
@@ -33,12 +35,43 @@ def callTrackerConfig(theCall):
         }
         return switcher.get(theCall, 'No Test data for ' + theCall)
 
+
+def scanForAttachedDevices(connectionType):
+
+    if not debugMode:
+        
+        result = {}
+
+        # Poll each of the ports, if tag conneced, get it's --status and read it's config.  
+        # Return list of: 
+        #   portID
+        #   deviceIdentifier
+        #   frieldlyName (currently first 10 digits of deviceIdentifier)
+
+        if connectionType == 'USB':
+            # this will scan all.  just use the current connected for now.
+            myDeviceConfigFile = getTrackerConfig()
+            # read config file
+            with open(myDeviceConfigFile['result'], 'r') as myConfig:
+                data=myConfig.read()
+            data =  json.load(data)
+            
+            print(data)
+        
+
+    else: 
+        result = {"result": "Debug Mode"}
+
+
+    return result
+
+
 def trackerConfigVesion():
 
-    if  not debugMode:
+    if not debugMode:
 
         try:
-            result = subprocess.check_output(["sudo", "tracker_config", "--version"])
+            result = subprocess.check_output(["sudo", tracker_configVersion, "--version"])
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -56,26 +89,31 @@ def trackerConfigVesion():
 
 def trackerConfigBattery():
 
-    if  not debugMode:
+    if not debugMode:
 
         try:
-            result = subprocess.check_output(["sudo", "tracker_config", "--battery"])
+            result = subprocess.check_output(["sudo", tracker_configVersion, "--battery"])
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
+        
+        result = result.rstrip() # trailing new line...
+        print("Raw tracker_config battery Received: " , result)
+
+    else: 
+        result = "Battery: Debug Mode"
+
+    if result.startswith('Unexpected error'):
+        result = noTagText
+    else:
         result = result.rstrip() # trailing new line...
         result = json.loads(result)
         print(result['charging_level'])
         print("Raw tracker_config battery Received: " , result)
-        resultString = 'Battery: ' + str(result['charging_level']) + '%'
+        result = 'Battery: ' + str(result['charging_level']) + '%'
        
-
-    else: 
-        resultString = "Battery: Debug Mode"
-
-
-    return resultString
+    return result
 
 
 def getTrackerConfig():
@@ -83,7 +121,7 @@ def getTrackerConfig():
     if  not debugMode:
 
         try:
-            result = subprocess.check_output("sudo tracker_config --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
+            result = subprocess.check_output("sudo " + tracker_configVersion + " --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -95,7 +133,7 @@ def getTrackerConfig():
         if len(result) == 0:
             return {'result': 'config/from_tag/current_config.json'}
         else:
-            return {'error': 'No Devices detected'}
+            return {'error': noTagText}
            
 
     else:
@@ -103,15 +141,13 @@ def getTrackerConfig():
         return {'result': 'config/from_tag/current_config.json'}
 
 
+
 def writeTrackerConfig():
 
     if  not debugMode:
 
         try:
-            result = subprocess.check_output(["sudo", "tracker_config", "--write", "config/to_tag/new_config.json"])
-            #result = subprocess.check_output("sudo tracker_config --write config/to_tag/new_config.json")
-            #also need to creat a log file...
-            #sudo tracker_config --create_log LINEAR
+            result = subprocess.check_output(["sudo", tracker_configVersion, "--write", "config/to_tag/new_config.json"])
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -123,7 +159,7 @@ def writeTrackerConfig():
         if len(result) == 0:
             return {'result': 'config/to_tag/new_config.json'}
         else:
-            return {'error': 'No Devices detected'}
+            return {'error': noTagText}
            
 
     else:
@@ -136,7 +172,7 @@ def receiveTrackerLogData():
 
         # get data off the tag
         try:
-            result1 = subprocess.check_output("sudo tracker_config --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
+            result1 = subprocess.check_output("sudo " + tracker_configVersion + " --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -158,7 +194,7 @@ def receiveTrackerLogData():
             print("Raw tracker_config log data Received ")
             return {'result': 'tracker_data/json/latest_logfile.json'}
         else:
-            return {'error': 'No Devices detected or data error'}
+            return {'error': noTagText + ' or data error'}
            
 
     else:

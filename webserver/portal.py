@@ -23,6 +23,16 @@ import deviceFunctions
 
 app = Flask(__name__)
 
+noTagText = 'No Device Detected.' # this is in both files, so needs to be indluded...
+scanUSB = True
+scanBluetooth = False
+
+# uploads test
+UPLOAD_FOLDER = '/uploads'
+ALLOWED_EXTENSIONS = set(['txt'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 #  Welcome screen
 def welcome():
@@ -33,11 +43,13 @@ def welcome():
     result += "<h2>Welcome</h2>"
     result += "<h3>Attached Tag</h3>"
     result += "<ul class='tag-functions'>"
+    result += "<li><a href='/scan'>Scan For Tags</a><br/></li>"
     result += "<li><a href='/status'>Tag Status</a><br/></li>"
     result += "<li><a href='/get_config'>Read Tag Config</a><br/></li>"
     # result += "<li><a href='/erase_config'>Erase Tag Config</a><br/></li>"
     result += "<li><a href='/write_config'>Write Tag Config</a><br/></li>"
     result += "<li><a href='/receive_logs'>Receive Log Data</a><br/></li>"
+    result += "<li><a href='/upload_file'>Test Upload</a><br/></li>"
     result += "<li><a href='/download_logs' target='_blank'>Download Log Data</a><br/></li>"
 
     result += "</ul>"
@@ -103,7 +115,12 @@ def htmlInclude(fileName):
 
 def trackerVersion():
 
-    return  "<div class='versionBlock'>Tool Version: " + deviceFunctions.trackerConfigVesion() + " " + deviceFunctions.trackerConfigBattery() + "</div>"
+    toolVersion = deviceFunctions.trackerConfigVesion()
+    batteryLevel = deviceFunctions.trackerConfigBattery()
+
+    print(batteryLevel)
+
+    return  "<div class='versionBlock'>Tool Version: " + toolVersion + " | " + batteryLevel + "</div>"
 
 
 
@@ -112,6 +129,25 @@ def trackerVersion():
 def hello():
 
     return welcome()
+
+@app.route("/scan")
+def scan():
+
+    connected = {}
+
+    # USB
+    if scanUSB:
+        connected['USB'] = deviceFunctions.scanForAttachedDevices('USB')
+    print(connected)
+
+    # Bluetooth
+    if scanBluetooth:
+        connected['Bluetooth'] = deviceFunctions.scanForAttachedDevices('Bluetooth')
+
+
+
+    return jsonify(connected)
+
 
 
 @app.route("/status")
@@ -168,7 +204,6 @@ def write_config():
     #tracker_configResponse = deviceFunctions.getTrackerConfig()
 
     
-
     result = ''
     result += htmlInclude("htmlHeader")
 
@@ -198,8 +233,7 @@ def save_new_config():
     newConfig.write(submittedConfig)
     newConfig.close()
 
-    tracker_configResponse = deviceFunctions.writeTrackerConfig()
-
+    deviceFunctions.writeTrackerConfig()
 
     result = ''
     result += htmlInclude("htmlHeader")
@@ -224,6 +258,8 @@ def receive_logs():
 
     result += "<h2>Receive Logs</h2>"
 
+    data = ''
+
     if 'result' in tracker_configResponse:
 
         result += "Log Load time: %s" % time.ctime(os.path.getmtime(tracker_configResponse['result'])) + "<br><br>"
@@ -241,7 +277,35 @@ def receive_logs():
 
 @app.route("/download_logs")
 def download_logs():
-    return send_file('tracker_data/json/latest_logfile.json', as_attachment=True)
+
+    # ensure there is a device connected...
+    tracker_configResponse = deviceFunctions.callTrackerConfig('--status')
+
+    print(tracker_configResponse)
+
+    if tracker_configResponse != noTagText: 
+        return send_file('tracker_data/json/latest_logfile.json', as_attachment=True)
+    else:
+        return
+
+
+
+@app.route("/upload_file")
+def upload_file():
+
+
+    result = ''
+    result += htmlInclude("htmlHeader")
+
+    result += "<h2>Upload Test</h2>"
+
+    result += '<form method=post enctype=multipart/form-data>'
+
+    result += '<input type=file name=file><input type=submit value=Upload></form>'
+
+    result += htmlInclude("htmlFooter")
+
+    return result
 
 
 if __name__ == "__main__":
