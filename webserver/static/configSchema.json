@@ -1,0 +1,41 @@
+{
+    "common": {
+        "dataItem": {
+            "title": "Device Name",
+            "type": "string",
+            "description": "The user set name for this device",
+            "default": "MyDevice",
+            "category": "Device Details",
+            "jsonDataType": "string",
+            "displayOrder": 1.02
+        }
+    },
+    "firmware_04": {
+        "dataItem": {
+            "title": "Listen inactivity",
+            "type": "number",
+            "description": "If bs sleeps, cease lora listening if inactive for this period of time",
+            "units": "seconds",
+            "minimum": 0,
+            "default": 60,
+            "category": "Advanced Settings - RSN",
+            "jsonDataType": "int",
+            "saveLocationOverride": "rsn",
+            "displayOrder": 6.02
+        }
+    },
+    "firmware_05": {
+        "dataItem": {
+            "title": "Listen inactivity",
+            "type": "number",
+            "description": "If bs sleeps, cease lora listening if inactive for this period of time",
+            "units": "seconds",
+            "minimum": 0,
+            "default": 60,
+            "category": "Advanced Settings - RSN",
+            "jsonDataType": "int",
+            "saveLocationOverride": "rsn",
+            "displayOrder": 6.02
+        }
+    }
+}

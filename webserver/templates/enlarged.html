@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+    <section id="enlarged">
+
+        <nav class="sectionHead"><a class="back" href="/"></a><span>
+                <h3>{{report.id}} - {{settings.friendlyName}}</h3>
+                <h4>Captured: {{testpic.timestamp | ctime}}</h4>
+            </span>
+            <a class="homeLink" href="/"></a>
+        </nav>
+
+        <div data-filename="{{testpic.filename}}" data-date="{{testpic.date}}" data-timestamp="{{testpic.timestamp}}" data-UTC="{{testpic.timestamp | ctime}}" class="galleryImageWrapper">
+            <img class="galleryImage" src="{{testpic.url}}" alt="camera trap image" onclick="">
+            <figcaption class="galleryImageLabel" for="{{testpic.filename}}">{{testpic.timestamp | ctime}}</figcaption>
+        </div>
+    </section>
+</main>
+{% endblock %}

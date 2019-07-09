@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main>
+  <section id="report">
+    <nav class="diagnosticsSubhead sectionHead">
+      <a class="back" onClick="goBack()"></a><span>
+        <h3>Diagnostics</h3>
+      </span>
+      <a class="homeLink" href="/"></a>
+    </nav>
+    <span onclick="collapse(this)" class="subhead">
+      <h4 class="teal">Device Status</h4><img src="../static/images/icons/noun_uncollapse.svg" />
+    </span>
+    <dl class="collapsable">
+      {% for key in deviceVariables.childReport %}
+      {% set item = deviceVariables.childReport[key] %}
+      {% if item.value is defined %}
+      <span>
+        <dt>{{item.title}}</dt>
+        {% if item["units"] == "seconds" %}
+        <dd>{{item.value | ctime}}</dd>
+        {% else %}
+        {% set value = item["value"]|string %}
+        <dd>{{value}}</dd>
+        {% endif %}
+        {% endif %}
+      </span>
+      {% endfor %}
+    </dl>
+  </section>
+  <section>
+    {% include "oamDetails.html" %}
+  </section>
+</main>
+
+{% endblock %}

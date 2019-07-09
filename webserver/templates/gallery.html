@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+    <section id="gallery">
+
+        <nav class="galleryHead">
+            {% if not isBatch %}
+            <span class="gallerySubhead sectionHead"><a class="back" onClick="goBack()"></a><span>
+                    <h3>Photos <span class="smallText"> {{pageVariables.galleryLocation}}</span></h3>
+                </span>
+                <a class="homeLink" href="/"></a>
+            </span>
+            <span class="galleryFilterWrapper">
+                <form>
+                    <div class="galleryFilter">
+                        <label class="teal" for="dateFilterFrom">From:</label><input id="dateFilterFrom" name="dateFilterFrom" type="date" value="{{pageVariables.dateFilterFrom}}" />
+                    </div>
+                    <div class="galleryFilter">
+                        <label class="teal" for="dateFilterTo">To:</label><input id="dateFilterTo" name="dateFilterTo" type="date" value="{{pageVariables.dateFilterTo}}"/>
+                    </div>
+                    <!-- <div class="galleryFilter">
+                        <label class="teal" for="endPoints">To:</label><input id="endPoints"  value="{{pageVariables.endPointFilter}}"/>
+                    </div> -->
+                    <button class="bigish teal">Filter</button>
+                </form>
+            </span>
+
+            {% else %}
+
+            <span class="gallerySubhead sectionHead">
+                <a class="back" href="/{{pageVariables.myType}}--{{pageVariables.myUID}}//gallery"></a>
+                <span>
+                    <h3>Batch</h3>
+                </span>
+                <a class="homeLink" href="/"></a>
+            </span>
+
+            {% endif %}
+
+        </nav>
+        <div class="galleryWrapper">
+            <ul class="galleryList">
+
+                {% for batchName in gallery %}
+
+                {% set batch = gallery[batchName] %}
+
+                {% set picture = batch[0] %}
+
+                <li data-filename="{{picture.filename}}" data-date="{{picture.date}}" data-timestamp="{{picture.timestamp}}" data-UTC="{{picture.timestamp | ctime}}" class="galleryImageWrapper">
+
+
+                    {% if batch|length > 1 %}
+                    <a class="" href="/{{pageVariables.myType}}--{{pageVariables.myUID}}/gallery?batch={{batchName}}">
+                    {% else %}
+                    <a href="/{{pageVariables.myType}}--{{pageVariables.myUID}}/image?url={{picture.url}}&batchName={{batchName}}">
+                    {% endif %}
+
+                    <img  {% if batch|length > 1 %} data-batch="{{batchName}}" {% endif %}  width="150" height="112" class="galleryImage" src="{{picture.url}}" alt="camera trap image" data-url="{{picture.url}}">
+                    <figcaption class="galleryImageLabel" for="{{picture.filename}}">{{picture.timestamp | ctime}}</figcaption>
+                    {% if batch|length > 1 %}
+                    <span class="enlarge batchEnlarge"><img src="/static/images/icons/batch_gallery1.svg" /></span>
+                    {% else %}
+                    <span class="enlarge" ><img src="/static/images/icons/enlarge.svg" /></span>
+                    {% endif %}
+                    </a>
+                    <span class="toggle selected"  {% if batch|length > 1 %} data-batch="{{batchName}}" {% endif %} onclick="selectToggle(this)" data-url="{{picture.url}}"  data-total="{{batch | length}}"><img src="/static/images/icons/empty_select.svg" /></span>
+                </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <nav class="galleryFooterMenu">
+        <span class="selectionCount darkgrey">
+            <p>
+                <b id="gallerySelectedCount">0</b> selected
+            </p>
+        </span>
+        <span>
+            <img onclick="download()" class="download" src="../static/images/icons/noun_Download_2027708_33cc99.svg" />
+
+            <button onclick="selectAll(this)" class="selectall bigish teal">Select All</button>
+
+            <img class="delete" src="../static/images/icons/noun_Delete_2025398_33cc99.svg" /></span>
+    </nav>
+
+</main>
+{% endblock %}

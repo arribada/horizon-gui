@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+    <section id="calibrate">
+
+        <nav class="sectionHead"><a onClick="goBack()" class="back"></a><span>
+                <h3>Test Image</h3>
+            </span>
+            <a class="homeLink" href="/"></a>
+        </nav>
+        <div data-filename="{{pageVariables.imageData.filename}}" data-date="{{pageVariables.imageData.date}}" data-timestamp="pageVariables.imageData.timestamp" data-UTC="pageVariables.imageData.timestamp" class="testImageWrapper">
+            <img class="galleryImage" src="{{pageVariables.imageData.url}}" alt="camera trap image" onclick="">
+        </div>
+        {% if pageVariables.imageData.errorMessage %}
+        <h3 class='infoMessage'>{{pageVariables.imageData.errorMessage}}</h3>
+        {% endif %}
+        <nav class="calibrateFoot">
+            <span>
+                <button onclick="calibrate('{{pageVariables.myType}}', '{{pageVariables.myUID}}')">
+                    <h3 class="big light">Retake Test Image</h3>
+                </button>
+            </span>
+        </nav>
+    </section>
+</main>
+{% endblock %}

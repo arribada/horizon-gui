@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<main id="mainMenu">
+{% if pageVariables.myType != deviceVariables.actualDeviceType %}
+<nav class="sectionHead"><a href="{{deviceVariables.actualDeviceType}}--{{deviceVariables.actualDeviceUID}}/endpoints" class="back"></a>
+</nav><br /><br />     
+{% endif %}
+<nav class="buttonStack">
+
+    <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/settings"><img src="../static/images/icons/noun_Settings_2015128_666666.svg" width="20%" /><h2 width="70%">Settings</h2>
+    </a>
+    <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/report"><img src="../static/images/icons/noun_manuscript_1596424_666666.svg" width="20%" /><h2 width="70%">Report</h2>
+    </a>
+    {% if pageVariables.myType != "bst" and deviceVariables.actualDeviceTypeDetail != "endpoint_nc"%}
+    <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/gallery?{{pageVariables.galleryStartDates}}"><img src="../static/images/icons/noun_gallery_48582_666666.svg" width="20%" /><h2 width="70%">Gallery</h2>
+    </a>
+    {% endif %}
+
+    <!-- {% if deviceVariables.actualDeviceTypeDetail != "endpoint_nc" %} {% endif %} for testing with hardware that is not a camera unit--> 
+    {% if deviceVariables.actualDeviceTypeDetail == "endpoint_cam" %}
+    <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/calibrate"><img src="../static/images/icons/noun_Camera_817334_666666.svg" width="20%" /><h2 width="70%">Test image</h2>
+    </a>
+    {% endif %}
+
+    {% if pageVariables.myType == "bst" %}
+    <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/endpoints"><img src="../static/images/icons/noun_connection_thickish.svg" width="20%" /><h2 width="70%">Device list</h2>
+    </a>
+    {% endif %}
+    <!-- if my type is my physical type, allow OAM settings -->
+    {% if pageVariables.myType == deviceVariables.actualDeviceType %}
+    <!-- <a class="commandButton" href="{{pageVariables.myType}}--{{pageVariables.myUID}}/oamsettings"><img src="../static/images/icons/Settings_filled.svg" width="20%" /><h2 width="70%">OAM Settings</h2>
+    </a> -->
+    {% endif %}
+    <button class="commandButton" onclick="exitTestMode()"><img src="../static/images/icons/noun_Close_1609004_666666.svg" width="20%" /><h2 width="70%">Exit test mode</h2>
+    </button>
+</nav>
+</main>
+{% endblock %}

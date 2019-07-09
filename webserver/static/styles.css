@@ -1,0 +1,1235 @@
+html {
+    background-color: #777777;
+    height: 100%;
+}
+
+* {
+    max-width: 100%;
+    text-decoration-line: none;
+}
+
+body {
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif !important;
+    box-sizing: border-box;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+}
+
+main {
+    position: relative;
+    background-color: white;
+    color: #0c0c0c;
+    padding: 5px;
+    padding-top: 95px;
+    min-height: calc(100% - 52px);
+}
+
+body,
+header,
+.galleryFooterMenu,
+.settingsActions,
+.calibrateFoot {
+    width: 100%;
+    min-width: 320px;
+    max-width: 640px;
+}
+
+input, textarea {
+    display: block;
+}
+
+.buttonStack,
+#disconnected {
+    display: block;
+    width: 100%;
+}
+
+button {
+    background-color: transparent;
+    border: solid 1px #006d78;
+    border-radius: 7px;
+    margin: 5px 8px;
+    padding-bottom: 2px;
+    vertical-align: middle;
+    color: #006d78;
+    font-size: 1.125rem;
+}
+
+/* Fonts */
+
+.white {
+    color: white;
+}
+
+.teal {
+    color: #006d78;
+}
+
+.lightteal {
+    color: #0097a7;
+}
+
+.lightgrey {
+    color: #bcbebf;
+}
+
+.darkgrey {
+    color: #2b3435;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+h2 {
+    font-size: 1.6875rem;
+}
+
+.sectionHead h3,
+.huge {
+    font-size: 1.5rem;
+}
+
+.big {
+    font-size: 1.125rem;
+}
+
+h3,
+.bigish {
+    font-size: 1rem;
+}
+
+h4,
+.med-large {
+    font-size: 0.9rem;
+}
+
+h5 {
+    font-size: 0.8rem;
+}
+
+.medium {
+    font-size: 0.75rem !important;
+}
+
+h6 {
+    font-size: 0.7rem;
+}
+
+.small {
+    font-size: 0.65 !important;
+}
+
+.smallest {
+    font-size: 0.55 !important;
+}
+
+.light {
+    font-weight: 400;
+}
+
+p {
+    font-size: 0.65rem;
+    margin: 0;
+}
+
+/*Header and short report*/
+
+header {
+    position: fixed;
+    font-size: 15px;
+    background-color: #2b3435;
+    z-index: 4;
+    color: white;
+}
+
+.deviceID,
+.friendlyName {
+    margin: 0 5px;
+    display: inline-block;
+    line-height: 1.2rem;
+}
+
+.friendlyName {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.miniReportHead .deviceID {
+    height: 15px;
+}
+
+#shortReport .friendlyName {
+    display: block;
+    line-height: 1.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+
+#shortReport {
+    width: 100%;
+    height: 3rem;
+    display: inline-block;
+}
+
+.miniReportHead {
+    width: 70%;
+    display: inline-block;
+}
+
+.miniReportMiddle {
+    width: 24%;
+    display: inline-block;
+}
+
+.miniReport {
+    width: 27%;
+    right: 0;
+    display: inline-block;
+    top: 2px;
+    position: absolute;
+    right: 5px
+}
+
+.reportSymbols {
+    width: 100%;
+    height: 38px;
+}
+
+.reportSymbols h6,
+.reportSymbols p {
+    background-color: #5f6566;
+    margin: 4px 0 4px 4px;
+    height: 16px;
+    width: calc(100% - 6px);
+    line-height: 1rem;
+    padding-left: 2px;
+    font-size: 0.7rem;
+}
+
+.reportSymbols .med-large {
+    float: right;
+    right: 0.3rem;
+    position: absolute;
+    font-size: 0.8rem;
+}
+
+.miniReportMiddle .trigger {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 90px;
+    margin: 1px 1px 0 1px;
+    position: absolute;
+    top: 1.38rem;
+    right: 31%;
+    border: #0200fc 2px solid;
+    background: radial-gradient(#15d0ff, #3c00fc);
+}
+
+.exit {
+    background-color: transparent;
+    border: #a0044a solid 1px;
+    border-radius: 3px;
+    color: white;
+    margin: 2px;
+    font-size: 0.9rem;
+    position: absolute;
+    top: 22px;
+    right: 105px;
+    letter-spacing: 0.08rem;
+}
+
+
+/* Subheadings */
+
+.subhead[data-collapsed] img {
+    transform: rotate(180deg);
+}
+
+.subhead[data-collapsed] + .collapsable .inner {
+    display: none !important;
+}
+
+.sectionHead,
+.galleryFooterMenu {
+    width: 100%;
+    display: inline-block;
+}
+
+.galleryHead {
+    padding-top: 5px;
+}
+
+.galleryFilterWrapper {
+    width: 100%;
+}
+
+.galleryFilter {
+    width: 30%;
+    text-align: left;
+    display: inline-block;
+}
+
+.galleryFilterWrapper button{
+    float: right;
+}
+/* .galleryFilter:nth-child(even) {
+    text-align: right;
+} */
+
+
+.galleryFilter label {
+    padding-right: 2px;
+}
+
+.galleryFilter span,
+.galleryFilter input {
+    vertical-align: middle;
+    display: inline;
+}
+
+
+.sectionHead {
+    background: linear-gradient(0deg, #027A81 0%, #0097a7 100%);
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 43px;
+    width: 100%;
+min-width: 320px;
+max-width: 640px;
+    margin: 5px 0;
+
+}
+
+.sectionHead span {
+    display: inline-block;
+    color: white;
+    vertical-align: middle;
+    margin-left: 7px;
+}
+
+.sectionHead a.back {
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url("../static/images/icons/noun_back_1270476_FFFFFF.svg");
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    background-color: #006d78;
+}
+
+.sectionHead a.homeLink {
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url("../static/images/icons/noun_Home_2045781_FFFFFF.svg");
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    background-color: #006d78;
+    float: right;
+}
+
+#calibrate span.subhead {
+    height: 1rem;
+    margin: 0px;
+    width: 100%;
+}
+
+/*Gallery and calibration*/
+
+#gallery {
+    padding-bottom: 4rem;
+}
+
+.galleryFooterMenu {
+    width: 100%;
+    display: inline-block;
+}
+
+.galleryFooterMenu img {
+    height: 1.5rem;
+    padding: 3px;
+    vertical-align: middle;
+}
+
+.galleryList {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.galleryWrapper {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+li.galleryImageWrapper {
+    display: inline-block;
+    width: calc(50% - 2.5px);
+    float: left;
+    position: relative;
+}
+
+li.galleryImageWrapper:nth-child(odd) {
+    margin-right: 5px;
+}
+
+.testImageWrapper {
+    margin-top: 5px;
+    position: relative;
+}
+
+.testImageWrapper img {
+    width: 100%;
+}
+
+img.galleryImage {
+    width: 100%;
+    height: auto;
+    filter: grayscale(60%);
+}
+
+.batchCount {
+    background-color: rgba(74, 74, 74, 0.6);
+    padding: 3px;
+    min-width: 1rem;
+    max-width: 2.8125rem;
+    height: 1rem;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border-radius: 90px;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1rem;
+}
+
+.enlarge.batchEnlarge {
+    padding: 2px;
+}
+
+.toggle {
+    padding: 5px;
+    min-width: 1.875rem;
+    max-width: 2.8125rem;
+    height: 1.875rem;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+    z-index: 10;
+}
+
+.enlarge {
+    padding: 5px;
+    min-width: 1.875rem;
+    max-width: 2.8125rem;
+    height: 1.875rem;
+    position: absolute;
+    bottom: 4px;
+    right: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.enlarge,
+.galleryImageLabel {
+    background-color: rgba(74, 74, 74, 0.8);
+    bottom: 4px;
+}
+
+.galleryImageLabel {
+    font-size: 0.65rem;
+    word-wrap: break-word;
+    position: absolute;
+    left: 0;
+    display: inline;
+    color: white;
+    z-index: 1;
+    padding: 2px;
+}
+
+.presets{
+    margin-left: 20px;
+}
+
+img[data-selected] + .selected {
+    background-image: url("images/icons/noun_select_1751205_33cc99.svg");
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.calibrateFoot button {
+    height: 3rem;
+    width: 13.5rem;
+    border-radius: 7px;
+    padding-bottom: 0.2rem;
+    letter-spacing: 0.04rem;
+    border-width: 0.15rem;
+    margin: 2rem;
+}
+
+.calibrateFoot img {
+    height: 4rem;
+    width: auto;
+    padding: 0;
+}
+
+.galleryFooterMenu,
+.settingsActions {
+    line-height: 25px;
+    font-size: 17px;
+    padding-top: 30px;
+}
+
+.galleryFooterMenu,
+.settingsActions,
+nav.calibrateFoot {
+    background-color: white;
+    text-align: center;
+    position: fixed;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 25%, rgba(255, 255, 255, 1) 100%);
+    z-index: 2;
+    left: 0;
+    bottom: 0;
+}
+
+#settings ul {
+    padding-bottom: 4rem;
+}
+
+.calibrateFoot {
+    line-height: 25px;
+    font-size: 17px;
+    text-align: center;
+}
+
+nav.calibrateFoot {
+    height: 6rem;
+}
+
+.galleryFooterMenu button {
+    margin: 5px 8px;
+    vertical-align: middle;
+}
+
+.galleryFooterMenu span:not(.selectionCount),
+.calibrateFoot span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.selectionCount {
+    display: inline-block;
+}
+
+.download {
+    position: absolute;
+    left: 5px;
+}
+
+.delete {
+    position: absolute;
+    right: 5px;
+}
+
+.selectionCount img {
+    height: 1rem;
+    padding: 3px 3px 3px 6rem;
+    vertical-align: middle;
+}
+
+.selectionCount b {
+    padding: 3px;
+}
+
+.selectionCount p {
+    padding: 3px 3px 3px 0;
+    width: 7rem;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+
+/*Enlarged Image page*/
+
+#enlarged img.galleryImage {
+    height: 100%;
+    max-width: 100%;
+}
+
+#enlarged .galleryImageWrapper {
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#enlarged .sectionHead span {
+    width: 100%;
+}
+
+#enlarged h4 {
+    float: right;
+    margin-right: 5px;
+}
+
+
+
+
+/* Main menu*/
+
+#mainMenu {
+    background-color: #666666;
+    padding-top: 52px;
+}
+
+.commandButton {
+    width: calc(100% - 16px);
+    height: calc((100% - 48px)/5);
+    background-color: white;
+    margin: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    text-align: left;
+}
+
+.commandButton:not(:first-child) {
+    margin-top: 0;
+}
+
+.commandButton img {
+    padding: 0 8px 0 8px;
+    vertical-align: middle;
+    height: 3.5rem;
+}
+
+.commandButton h2 {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+    margin: 0;
+    vertical-align: middle;
+    text-align: left;
+    line-height: 76px;
+    font-size: 27px;
+    color: #666666;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+}
+
+/*Disconnection page*/
+
+#disconnected {
+    background-color: #a0044a;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    display: none;
+}
+
+#disconnected img {
+    width: 25%;
+    margin: 1rem;
+}
+
+#disconnected h2 {
+    margin: 0.75rem;
+}
+
+#disconnected button {
+    background-color: transparent;
+    color: white;
+    border: white solid 2px;
+    border-radius: 90px;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    padding: 5px 8px 5px 8px;
+    box-sizing: border-box;
+    margin: 10px;
+}
+
+[disconnected] #disconnected {
+    display: block;
+}
+
+[disconnected] main,
+[disconnected] header {
+    display: none;
+}
+
+/*Connection Footer*/
+
+#connectionStatus {
+    background-color: #4a4a4a;
+    color: white;
+    width: 100%;
+    height: 1rem;
+    position: absolute;
+    justify-content: center;
+}
+
+#connectionStatus p {
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+    margin: 0;
+    padding: 1px 3px 1px 3px;
+}
+
+#connectionStatus img {
+    padding: 1px 3px 1px 3px;
+    height: 88%;
+    width: auto;
+}
+
+/*  Settings Menu  */
+
+.subhead {
+    color: #0097a7;
+    border-bottom: #0097a7 1px solid;
+    display: inline-block;
+    width: calc(100% - 10px);
+}
+
+.subhead h4,
+#settings .gallerySubhead h3 {
+    margin: 0;
+    display: inline-block;
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.subhead img {
+    float: right;
+    height: 1.6rem;
+    margin-top: 0.17rem;
+}
+
+#changesMade {
+    display: none;
+}
+
+#settings p.warning {
+    color: #a0044a;
+    font-size: 0.65rem;
+    margin: 10px 0 10px 0;
+    font-weight: 600;
+    font-style: oblique;
+}
+
+#settings p.warning img {
+    height: 0.7rem;
+    margin-right: 3px;
+    vertical-align: bottom;
+}
+
+#settings ul {
+    list-style: none;
+    padding-left: 5px;
+    margin-top: 5px;
+}
+
+#settings li,
+#report dl span {
+    padding: 5px 0;
+    margin-right: 5px;
+}
+
+#settings li:not(:first-child),
+#report dl span:not(:first-child) {
+    border-top: lightgrey solid 1px;
+}
+
+#settings input,
+#settings select {
+    display: inline-block;
+    background: white;
+    border: #aaaaaa 1px solid;
+    border-radius: 2px;
+    padding: 3px;
+    max-width: 6rem;
+}
+#settings textarea {
+    background: white;
+    border: #aaaaaa 1px solid;
+    border-radius: 2px;
+    padding: 3px;
+    float: right;
+}
+
+#settings li > span, #settings li span .radios,
+#report dl span {
+    display: block;
+}
+
+#settings ul li > span label,
+#report dl span dt {
+    display: inline-block;
+}
+
+#settings ul li span label, #settings ul li div label,
+#report dl span dt, #settings p.fallbackLabel {
+    color: #4c4c4c;
+    font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+    /* max-width: 53%; */
+    font-size: 0.9rem;
+}
+.nativeTimePicker input,
+#settings ul li span input,
+#settings ul li span select,
+dl span dd {
+    width: 25%;
+    float: right;
+    margin: 0 5px;
+    border: #7e7e7e solid 1px;
+    color: #4c4c4c;
+    position: relative;
+    font-size: 0.75rem;
+}
+
+dl span dd {
+    width: unset;
+}
+
+#settings [data-changed] {
+    box-shadow: 0 0 0 1px #a0044a;
+}
+
+#settings ul li span select {
+    box-sizing: content-box
+}
+
+#settings p {
+    margin: 0;
+    font-size: 10px;
+}
+
+#settings ul li span input.longer,
+#settings ul li span input#friendlyName {
+    width: 45%;
+    max-width: 45%
+}
+
+/*#settings ul li span input.shorter,
+#settings ul li span select.shorter,
+#report dl span dd.shorter {
+    width: calc(20% - 1.4rem);
+}*/
+
+#settings ul li span.radios input {
+    width: 15px;
+    height: 15px;
+}
+
+#settings ul li span label.longer,
+#report dl span dt.longer {
+    max-width: 60%;
+}
+
+#settings .description {
+    margin-top: 5px;
+    clear: both;
+}
+
+#settings .radios {
+    margin: 0 5px;
+    float: right;
+}
+
+#settings .checkradio {
+    width: 100%;
+    margin-left: 5px;
+}
+
+#settings .checkradio input {
+    float: none;
+    vertical-align: middle;
+    margin: 5px 0;
+}
+
+#settings .checkradio label {
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+}
+
+#settings input .halfWidth {
+    width: 50%;
+}
+
+
+/*Dignostics and Settings*/
+
+#report dl span {
+    clear: both;
+}
+
+#report h4:nth-child(2) {
+    margin-top: 10px;
+}
+
+#report dl span dt {
+    display: inline-block;
+    font-size: 0.8rem;
+    margin-left: 0.4rem;
+    font-weight: 600;
+    vertical-align: top;
+    max-width: unset;
+}
+
+#report dl span dd {
+    border: 0;
+    color: #4c4c4c;
+    position: relative;
+    /* min-width: 20%; */
+    font-size: 0.8rem;
+    text-align: right;
+    line-height: 0.95rem;
+    padding-left: 5px;
+}
+
+#report dl span dd.longer {
+    width: 30%;
+    max-width: 30%;
+}
+
+dl {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+
+/*Device List*/
+
+#endpoints ul {
+    list-style-type: none;
+    padding-left: unset;
+    margin: 2px;
+    font-size: 0.9rem;
+}
+
+#endpoints .subhead {
+    position: relative;
+    width: 100%;
+}
+
+.subhead .deviceID {
+    position: absolute;
+    right: 1.8rem;
+    color: #777777;
+}
+
+#endpoints .subhead img {
+    position: absolute;
+    right: 0;
+}
+
+/*
+#endpoints .subhead > span {
+    width: calc(100% - 1.6rem);
+}*/
+
+.deviceItemTop {
+    display: inline-block;
+    width: calc(100% - 10px);
+    padding: 5px;
+}
+
+.deviceItemTop * {
+    display: inline-block;
+}
+
+.deviceItemTop h5 {
+    width: 55%;
+    padding-right: 10px;
+    color: #2b3435;
+    line-height: 1.08rem;
+}
+
+.deviceItemTop .reportSymbols {
+    width: 30%;
+    float: right;
+    height: unset;
+}
+
+.deviceItemTop .reportSymbols p {
+    max-width: 8rem;
+    color: white;
+    float: right;
+    height: 1.2rem;
+    margin-bottom: 0px;
+    padding-top: 2px;
+}
+
+.deviceItemTop .reportSymbols p * {
+    height: 1.3rem;
+}
+
+.deviceItemTop .reportSymbols p .med-large {
+    font-size: 0.8rem;
+    padding-right: 3px;
+    position: unset;
+}
+
+
+
+/* #endpoints dl {
+    width: calc(100% - 10px);
+    display: inline-block;
+    vertical-align: top;
+    height: 3rem;
+    margin-top: 0.5rem;
+    color: #2b3435;
+} */
+
+#endpoints .inner {
+    /* height: 100px;
+    display: inline;
+    display: inline-flex; */
+    width: 100%;
+    color: #2b3435;
+}
+
+#endpoints .latestActivityValues {
+  text-align:center;
+  width: 95px;
+  float:left;
+  padding:5px;
+}
+
+#endpoints .count {
+  font-size:2em;
+  display:block;
+}
+
+#endpoints .last {
+  font-size:0.8em;
+}
+
+/* #endpoints .inner > div {
+  max-width: 50%;
+  min-width: calc(34% - 6px);
+}
+
+#endpoints .inner > div:not(:first-child) {
+  padding-left: 5px;
+}
+
+#endpoints dl h4,
+#endpoints dl .latestActivityValues,
+#endpoints dl span {
+    vertical-align: top;
+} */
+
+/* #endpoints dl .latestActivityValues { */
+    /* width: calc(70% + 6px); */
+    /* min-width: 11.5rem; */
+    /* position: absolute; */
+    /* right: 15px; */
+/* } */
+
+/* #endpoints dl span {
+    float: right;
+    max-width: 8rem;
+    min-width: 5.4rem;
+    width: calc(50% - 3px);
+    margin-left: 3px;
+}
+
+#endpoints dl .latestActivityValues dd {
+    border: none;
+    width: 100%;
+    margin: unset;
+    font-size: 1.5rem;
+}
+
+#endpoints table {
+  width: 100%;
+}
+
+#endpoints table > tr {
+  color: #2b3435;
+} */
+
+#endpoints th {
+  /* min-width: calc(100% / 12);
+  max-width: 120px; */
+}
+
+#endpoints th.table-words {
+  /* min-width: 90px; */
+}
+
+#endpoints tr > td:nth-child(even) {
+  font-weight: bold;
+}
+
+
+
+
+/* Browser handling */
+
+
+/*.nativeTimePicker * {
+    display: none;
+}*/
+
+.fallbackTimePicker * {
+    display: none;
+}
+
+.fallbackLabel * {
+    display: none;
+}
+
+.infoMessage{
+    padding: 15px;
+    margin:30px;
+    background-color: #d0d0d0;
+    text-align: center;
+}
+.smallText{
+    font-size: 70%;
+}
+.tinyText{
+    font-size: 50%;
+}
+
+input[type="date"],
+input[type="datetime"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+select:focus,
+textarea {
+    font-size: 16px !important;
+}
+
+.oamDetails{
+    font-size: 70%;
+    margin-top: 25px;
+    color: #666666;
+}
+
+/*Media queries*/
+
+
+@media (min-width: 640px) {
+
+    .galleryFooterMenu,
+    .settingsActions,
+    nav.calibrateFoot, .sectionHead {
+        left: calc(50% - 320px);
+    }
+    input[type="date"],
+    input[type="datetime"],
+    input[type="month"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="text"],
+    input[type="time"],
+    input[type="url"],
+    select:focus,
+    textarea {
+        font-size: 16px !important;
+    }
+
+}
+
+@media (max-width: 532px) {
+    #endpoints dl .latestActivityValues {
+        right: 8px;
+    }
+
+    #endpoints dl h4 {
+        width: auto;
+        min-width: 7.5rem;
+        max-width: calc(50% - 12px);
+    }
+
+    input[type="date"],
+    input[type="datetime"],
+    input[type="month"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    input[type="text"],
+    input[type="time"],
+    input[type="url"],
+    select:focus,
+    textarea {
+        font-size: 16px !important;
+    }
+
+}
+
+    /*
+
+@media (min-width: 520px) {
+    .miniReportMiddle {
+        float: right;
+        margin-right: 11rem;
+        max-width: 3.5rem;
+        position: relative;
+    }
+
+    .exit {
+        margin: 0.7rem 0 0.25rem 0.25rem;
+        font-size: 0.9rem;
+        position: relative;
+        top: 0.75rem;
+        right: unset;
+    }
+
+    .trigger {
+        right: 0;
+    }
+
+    #report,
+    #settings {
+        max-width: 32.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+@media (min-aspect-ratio: 1/1) {
+    img.galleryImage {
+        width: auto;
+        height: calc(100% - 13.125rem);
+    }
+}
+*/

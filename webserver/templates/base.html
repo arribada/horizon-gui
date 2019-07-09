@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/static/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{pageVariables.title}} - Instant Detect</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        {% include "minireport.html" %}
+    </header>
+    {% include "disconnected.html" %}
+    {% block content %}{% endblock %}
+
+</body>
+
+</html>
