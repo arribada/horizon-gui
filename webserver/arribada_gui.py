@@ -9,9 +9,6 @@ import sys
 import glob
 
 import subprocess
-## project functions
-import deviceFunctions
-import routingFunctions
 
 app = Flask(__name__)
 
@@ -19,6 +16,10 @@ configFile = "testConfig"
 config = __import__(configFile)
 
 config.init()
+
+## project functions
+import deviceFunctions
+import routingFunctions
 
 @app.route("/")
 def hello():

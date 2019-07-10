@@ -10,9 +10,6 @@ config = __import__(configFile)
 #  Welcome screen
 def welcome():
 
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-    print(config.runSettings['NO_TAG_TEXT'])
-
     result = ''
     result += htmlInclude("htmlHeader")
 
@@ -29,7 +26,7 @@ def welcome():
     result += "<li><a href='/download_logs' target='_blank'>Download Log Data</a><br/></li>"
 
     result += "</ul>"
-    #result += trackerVersion()
+    result += trackerVersion()
     result += htmlInclude("htmlFooter")
 
     return result
@@ -92,10 +89,9 @@ def htmlInclude(fileName):
 def trackerVersion():
 
     toolVersion = deviceFunctions.trackerConfigVesion()
-    batteryLevel = deviceFunctions.trackerConfigBattery()
+    #batteryLevel = deviceFunctions.trackerConfigBattery()
 
-    print(batteryLevel)
 
-    return  "<div class='versionBlock'>Tool Version: " + toolVersion + " | " + batteryLevel + "</div>"
+    return  "<div class='versionBlock'>Tool Version: " + toolVersion +  "</div>"
 
 
