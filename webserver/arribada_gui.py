@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+import os
 from flask import Flask
 from flask import render_template, request, redirect,\
     url_for, make_response, send_file, session, send_from_directory, jsonify
+from werkzeug.utils import secure_filename
 import json
-import os
 import time
 import sys
 import glob
@@ -29,6 +30,13 @@ def index():
                            pageVariables={"title": "Device Manager", "runMode": config.runSettings['RUNMODE']},
                            dataVariables=routingFunctions.welcome())
 
+@app.route("/test")
+def test():
+
+    return render_template('test.html',
+                           pageVariables={"title": "Arribada Test Page", "runMode": config.runSettings['RUNMODE']},
+                           dataVariables=routingFunctions.welcome())
+
 
 @app.route("/status/<tagID>")
 def status(tagID):
@@ -45,6 +53,48 @@ def getconfig(tagID):
                         pageVariables={"title": "Tag Config", "runMode": config.runSettings['RUNMODE']},
                         dataVariables=routingFunctions.getTagConfig(tagID))
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in config.runSettings['ALLOWED_EXTENSIONS']
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+
+    response = ""
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            response = "No File Selected."
+        else:
+
+            file = request.files['file']
+            # if user does not select file, browser also
+            # submit an empty part without filename
+            if file.filename == '':
+                response = "No File Selected."
+            else:
+                if not allowed_file(file.filename):
+                    response = "File type not allowed."
+                else:
+                    if file:
+                        print(file)
+                        filename = secure_filename(file.filename)
+                        print(filename)
+                        file.save(os.path.join("/uploads/test/", filename))
+                        print("hello")
+                        response = "File uploaded Sucessfully: " + filename 
+
+
+        
+        return render_template('upload.html',
+                            pageVariables={"title": "Upload Test", "runMode": config.runSettings['RUNMODE'], "response": response},
+                            dataVariables={})
+
+
+    else:
+        return render_template('upload.html',
+                            pageVariables={"title": "Upload Test", "runMode": config.runSettings['RUNMODE'], "response": ""},
+                            dataVariables={})
 
 
 
