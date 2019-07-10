@@ -10,6 +10,7 @@
 Number Devices: {{ dataVariables.numRows }}
 <br>
 {% for item in dataVariables.data %}
+{{ item['friendlyName'] }}: {{ item['deviceID'] }}<br>
 {{ item }}
 <br><br><br>
 {% endfor %}
