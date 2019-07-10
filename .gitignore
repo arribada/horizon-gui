@@ -1,2 +1,3 @@
 .vscode/settings.json
 webserver/portal.pyc
+*.pyc

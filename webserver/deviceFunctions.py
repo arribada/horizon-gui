@@ -2,14 +2,15 @@ from flask import Flask
 import subprocess
 import json
 
-debugMode = False # global
-noTagText = 'No Device Detected.'  # this is in both files, so needs to be indluded...
-tracker_configVersion = 'tracker_config'
+configFile = "testConfig"  # need to make this an env variable...
+config = __import__(configFile)
+
+tracker_configVersion = config.runSettings["TRACKER_CONFIG_VERSION"]
 
 
 def callTrackerConfig(theCall):
 
-    if  not debugMode:
+    if  config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, theCall])
@@ -24,7 +25,7 @@ def callTrackerConfig(theCall):
         print("Raw tracker_config data Received: " , result)
 
         if result.startswith('Unexpected error'):
-            return {'error': noTagText}
+            return {'error': config.runSettings['NO_TAG_TEXT']}
         else:
             result2 = json.loads(result)
             return {'result': result2}
@@ -38,7 +39,7 @@ def callTrackerConfig(theCall):
 
 def scanForAttachedDevices(connectionType):
 
-    if not debugMode:
+    if config.runSettings['RUNMODE'] != 'offline':
         
         result = {}
 
@@ -68,7 +69,7 @@ def scanForAttachedDevices(connectionType):
 
 def trackerConfigVesion():
 
-    if not debugMode:
+    if config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--version"])
@@ -89,7 +90,7 @@ def trackerConfigVesion():
 
 def trackerConfigBattery():
 
-    if not debugMode:
+    if config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--battery"])
@@ -105,7 +106,7 @@ def trackerConfigBattery():
         result = "Battery: Debug Mode"
 
     if result.startswith('Unexpected error'):
-        result = noTagText
+        result = config.runSettings['NO_TAG_TEXT']
     else:
         result = result.rstrip() # trailing new line...
         result = json.loads(result)
@@ -118,7 +119,7 @@ def trackerConfigBattery():
 
 def getTrackerConfig():
 
-    if  not debugMode:
+    if  config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output("sudo " + tracker_configVersion + " --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
@@ -133,7 +134,7 @@ def getTrackerConfig():
         if len(result) == 0:
             return {'result': 'config/from_tag/current_config.json'}
         else:
-            return {'error': noTagText}
+            return {'error': config.runSettings['NO_TAG_TEXT']}
            
 
     else:
@@ -144,7 +145,7 @@ def getTrackerConfig():
 
 def writeTrackerConfig():
 
-    if  not debugMode:
+    if  config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--write", "config/to_tag/new_config.json"])
@@ -159,7 +160,7 @@ def writeTrackerConfig():
         if len(result) == 0:
             return {'result': 'config/to_tag/new_config.json'}
         else:
-            return {'error': noTagText}
+            return {'error': config.runSettings['NO_TAG_TEXT']}
            
 
     else:
@@ -168,7 +169,7 @@ def writeTrackerConfig():
 
 def receiveTrackerLogData(): 
 
-    if  not debugMode:
+    if  config.runSettings['RUNMODE'] != 'offline':
 
         # get data off the tag
         try:
@@ -194,7 +195,7 @@ def receiveTrackerLogData():
             print("Raw tracker_config log data Received ")
             return {'result': 'tracker_data/json/latest_logfile.json'}
         else:
-            return {'error': noTagText + ' or data error'}
+            return {'error': config.runSettings['NO_TAG_TEXT'] + ' or data error'}
            
 
     else:
