@@ -1,24 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <main id="mainMenu">
-<nav class="???">
 
-</nav>
-
-{{ dataVariables.toolVersion }}
-<br><br>
-Number Devices: {{ dataVariables.numRows }}
-<br>
-
-
-{% for item in dataVariables.data %}
+    <div class="tab-titles-wrapper head-to-toe-margins">
+        <article class="tab-title happy-padding gray-background navy">
+            <h4>Radio Comms</h4>
+        </article>
+        <article class="tab-title happy-padding gray-background navy">
+            <h4>Configuration Manager</h4>
+        </article>
+        <article class="tab-title happy-padding white selected">
+            <h4>Device Manager</h4>
+        </article>
+    </div>
+    {{ dataVariables.toolVersion }}
+    <br><br>
+    Number Devices: {{ dataVariables.numRows }}
+    <br>
+    {% for item in dataVariables.data %}
     <span class="name_{{ loop.index }}">{{ item['friendlyName'] }}: {{ item['deviceID'] }}</span><br>
     {{ item }}
     <br><br><br>
-
-{% endfor %}
-<a href="/status/123456">Get Status of Tag 123456</a><br>
-<a href="/config/get/123456">Get Config of Tag 123456</a>
+    {% endfor %}
+    <a href="/status/123456">Get Status of Tag 123456</a><br>
+    <a href="/config/get/123456">Get Config of Tag 123456</a>
 
 </main>
 {% endblock %}

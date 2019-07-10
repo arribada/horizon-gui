@@ -1,3 +1,71 @@
+/* ! NM's STYLES... */
+
+/* GENERAL */
+
+.happy-margin {
+    margin: 1em;
+}
+
+.happy-padding {
+    padding: 1em;
+}
+
+.head-to-toe-margins {
+    margin: 1em 0;
+}
+
+.side-margins {
+    margin: 0 1em;
+}
+
+.selected {
+    background-color: #6ab468;
+}
+
+.navy {
+    color: #0e2940;
+}
+
+.gray-background {
+    background-color: #e8e8e8;
+}
+
+/* NAV*/
+
+nav {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.burger span {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background: white;
+}
+
+/* TAB TITLES */
+
+.tab-titles-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin-left: 0;
+}
+
+.tab-titles-wrapper article:first-of-type {
+    margin-left: 0;
+}
+
+.tab-titles-wrapper article {
+    margin: 0 0.5em;
+}
+
+/* ! END OF NM'S STYLES */
+
 * {
     max-width: 100%;
     text-decoration-line: none;
@@ -22,24 +90,6 @@ main {
     padding-top: 95px;
     min-height: calc(100% - 52px);
 }
-
-/* NAV - NM */
-
-nav {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-}
-
-.burger span {
-    display: block;
-    width: 33px;
-    height: 4px;
-    margin-bottom: 5px;
-    position: relative;
-    background: white;
-}
-
 
 body,
 header,
