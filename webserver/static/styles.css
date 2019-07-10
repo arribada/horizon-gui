@@ -84,7 +84,7 @@ nav h3 {
     margin: 0 0.5em;
 }
 
-/* TABLE NAV */
+/* MAIN TABLE */
 
 .table-nav {
     border-top: solid #6ab468;
@@ -94,7 +94,15 @@ nav h3 {
 
 .main-table {
     flex-flow: row wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
+}
+
+.main-table span {
+    background-color: #f5f5f5;
+    padding: 0.5em;
+    margin: 0.2em 0;
+    display: inline-block;
+    width: 5em;
 }
 
 /* ! END OF NM'S STYLES */
