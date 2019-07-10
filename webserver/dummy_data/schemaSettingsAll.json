@@ -1,0 +1,36 @@
+{
+    "General Settings": {
+        "DeviceTypes": "",
+        "displayOder": 1,
+        "fields" :{
+
+            "latitude": {
+                "title": "Latitude",
+                "htmlFieldType": "string",
+                "prefix": "",
+                "postfix": "deg",
+                "htmlAttributes": {"class": "", "id": ""},
+                "regexValidation" : "",
+                "clientsideValidtion": "",
+                "serversideValidation":"",
+                "enum": [ # [] or string...
+                    {
+                        "value": "868_KENYA",
+                        "label": "868_KENYA"
+                    },
+                    {
+                        "value": "868_SA",
+                        "label": "868_SA"
+                    }],
+
+                "description": "Decimal degrees latitude.",
+                "step": "any",
+                "default": "0",
+                "category": "Device Details",
+                "jsonDataType": "float",
+                "displayOrder": 1.04
+            },
+   
+        }
+    }
+}
