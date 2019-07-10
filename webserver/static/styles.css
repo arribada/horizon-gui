@@ -2,6 +2,14 @@
 
 /* GENERAL */
 
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 1em auto;
+}
+
 .happy-margin {
     margin: 1em;
 }
@@ -10,8 +18,12 @@
     padding: 1em;
 }
 
-.head-to-toe-margins {
+.top-tail-margin {
     margin: 1em 0;
+}
+
+.top-tail-padding {
+    padding: 1em 0;
 }
 
 .side-margins {
@@ -30,12 +42,20 @@
     background-color: #e8e8e8;
 }
 
+.flex {
+    display: flex;
+}
+
 /* NAV*/
 
 nav {
-    display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+}
+
+nav h3 {
+    font-weight: 400;
+    font-size: 1.2em;
 }
 
 .burger span {
@@ -64,6 +84,14 @@ nav {
     margin: 0 0.5em;
 }
 
+/* TABLE NAV */
+
+.table-nav {
+    border-top: solid #6ab468;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
 /* ! END OF NM'S STYLES */
 
 * {
@@ -74,11 +102,7 @@ nav {
 body {
     font-family: Trebuchet MS, Arial, Helvetica, sans-serif !important;
     box-sizing: border-box;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 0;
-    margin-bottom: 0;
+    position: relative; */
     height: 100%;
 }
 
@@ -86,7 +110,6 @@ main {
     position: relative;
     background-color: white;
     color: #0c0c0c;
-    padding: 5px;
     padding-top: 95px;
     min-height: calc(100% - 52px);
 }

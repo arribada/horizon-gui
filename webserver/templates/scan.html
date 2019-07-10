@@ -2,7 +2,7 @@
 {% block content %}
 <main id="mainMenu">
 
-    <div class="tab-titles-wrapper head-to-toe-margins">
+    <div class="tab-titles-wrapper top-tail-margin">
         <article class="tab-title happy-padding gray-background navy">
             <h4>Radio Comms</h4>
         </article>
@@ -13,15 +13,25 @@
             <h4>Device Manager</h4>
         </article>
     </div>
-    {{ dataVariables.toolVersion }}
-    <br><br>
-    Number Devices: {{ dataVariables.numRows }}
-    <br>
-    {% for item in dataVariables.data %}
-    <span class="name_{{ loop.index }}">{{ item['friendlyName'] }}: {{ item['deviceID'] }}</span><br>
-    {{ item }}
-    <br><br><br>
-    {% endfor %}
+
+    <section class={{ dataVariables.toolVersion }}>
+        <div class="table-nav top top-tail-margin top-tail-padding flex">
+            <span>
+                Number Devices: {{ dataVariables.numRows }}
+            </span>
+            <span>
+                Last loaded: 2X/1X/XX19 - 1X:4X
+            </span>
+        </div>
+
+        {% for item in dataVariables.data %}
+        <span class="name_{{ loop.index }}">{{ item['friendlyName'] }}: {{ item['deviceID'] }}</span><br>
+        {{ item }}
+        <br><br><br>
+        {% endfor %}
+
+    </section>
+
     <a href="/status/123456">Get Status of Tag 123456</a><br>
     <a href="/config/get/123456">Get Config of Tag 123456</a>
 
