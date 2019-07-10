@@ -18,8 +18,9 @@ def welcome():
         "toolVersion": deviceFunctions.trackerConfigVesion(runMode),
         "data":  deviceFunctions.scanForAttachedDevices(runMode, config.runSettings['SCAN_USB'],config.runSettings['SCAN_BLUETOOTH'])
     } 
+    pageData['numRows'] = len(pageData['data'])
 
-    return jsonify(pageData)
+    return pageData
 
 def getTagStatus(tagID):
 
@@ -29,7 +30,7 @@ def getTagStatus(tagID):
         "data":  deviceFunctions.getTagStatus(runMode, tagID)
     } 
 
-    return jsonify(pageData)
+    return pageData
 
 def getTagConfig(tagID):
 
@@ -39,5 +40,5 @@ def getTagConfig(tagID):
         "data":  deviceFunctions.getTagConfig(runMode, tagID)
     } 
 
-    return jsonify(pageData)
+    return pageData
 
