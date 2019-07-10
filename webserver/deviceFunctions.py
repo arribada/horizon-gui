@@ -4,13 +4,18 @@ import json
 
 configFile = "testConfig"  # need to make this an env variable...
 config = __import__(configFile)
-
 tracker_configVersion = config.runSettings["TRACKER_CONFIG_VERSION"]
+
+# load the dummy responses...
+dummyResponseSet =config.runSettings["DUMMY_RESPONSE_MODULE"]
+dummy = __import__(dummyResponseSet)
+dummy.init()
+
 
 
 def callTrackerConfig(theCall):
 
-    if  config.runSettings['RUNMODE'] != 'offline':
+    if  config.runSettings['RUNMODE'] != 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, theCall])
@@ -37,20 +42,29 @@ def callTrackerConfig(theCall):
         return switcher.get(theCall, 'No Test data for ' + theCall)
 
 
-def scanForAttachedDevices(connectionType):
+def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
-    if config.runSettings['RUNMODE'] != 'offline':
+    if runMode == 'dummy':
+
+        return dummy.responses["SCAN"]
+
+    else: 
         
         result = {}
 
-        # Poll each of the ports, if tag conneced, get it's --status and read it's config.  
-        # Return list of: 
-        #   portID
-        #   deviceIdentifier
-        #   frieldlyName (currently first 10 digits of deviceIdentifier)
+        # Poll each of the ports, if tag connected, get it's --status and read it's config.  
 
-        if connectionType == 'USB':
-            # this will scan all.  just use the current connected for now.
+        if scanUSB:
+            # this will scan all. 
+            print("TODO - scanUSB") 
+
+
+        if scanBluetooth:
+            # this will scan all.
+            print("TODO - scanBluetooth")    
+        
+        if not scanUSB and not scanBluetooth:
+            #just use the current connected
             myDeviceConfigFile = getTrackerConfig()
             # read config file
             with open(myDeviceConfigFile['result'], 'r') as myConfig:
@@ -58,18 +72,20 @@ def scanForAttachedDevices(connectionType):
             data =  json.load(data)
             
             print(data)
+            # still TODO
+        return "todo"
         
 
+    
+
+
+def trackerConfigVesion(runMode):
+
+    if runMode == 'dummy':
+
+        result = dummy.responses['VERSION']
+
     else: 
-        result = {"result": "Debug Mode"}
-
-
-    return result
-
-
-def trackerConfigVesion():
-
-    if config.runSettings['RUNMODE'] != 'offline':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--version"])
@@ -80,17 +96,62 @@ def trackerConfigVesion():
         result = result.rstrip() # trailing new line...
         print("Raw tracker_config version Received: " , result)
 
-    else: 
-        result = "Version: Debug Mode"
 
     if result.startswith('Unexpected error'):
         return 'Error - unexpected error.'
     else:
         return result
 
+
+def getTagStatus(runMode, tagID):
+
+    if  runMode == 'dummy':
+        return dummy.responses['STATUS']
+
+    else:
+
+        try:
+            result = subprocess.check_output(["sudo", tracker_configVersion, '--status'])
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        
+        print(result)
+        
+        result = result.rstrip() # trailing new line...
+        print("Raw tracker_config data Received: " , result)
+
+        if result.startswith('Unexpected error'):
+            return {'error': config.runSettings['NO_TAG_TEXT']}
+        else:
+            result2 = json.loads(result)
+            return {'result': result2}
+
+
+def getTagConfig(runMode, tagID):
+
+    if  runMode == 'dummy':
+        print(dummy.responses['CONFIG_FILE'])
+
+
+        with open(dummy.responses['CONFIG_FILE']) as json_file:  
+            data = json.load(json_file)
+
+        return data
+
+    else:
+
+        return "TODO"
+
+
+
+
+
+
 def trackerConfigBattery():
 
-    if config.runSettings['RUNMODE'] != 'offline':
+    if config.runSettings['RUNMODE'] != 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--battery"])
@@ -119,7 +180,7 @@ def trackerConfigBattery():
 
 def getTrackerConfig():
 
-    if  config.runSettings['RUNMODE'] != 'offline':
+    if  config.runSettings['RUNMODE'] != 'dummy':
 
         try:
             result = subprocess.check_output("sudo " + tracker_configVersion + " --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
@@ -145,7 +206,7 @@ def getTrackerConfig():
 
 def writeTrackerConfig():
 
-    if  config.runSettings['RUNMODE'] != 'offline':
+    if  config.runSettings['RUNMODE'] != 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--write", "config/to_tag/new_config.json"])
@@ -169,7 +230,7 @@ def writeTrackerConfig():
 
 def receiveTrackerLogData(): 
 
-    if  config.runSettings['RUNMODE'] != 'offline':
+    if  config.runSettings['RUNMODE'] != 'dummy':
 
         # get data off the tag
         try:

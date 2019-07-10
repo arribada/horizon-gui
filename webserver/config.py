@@ -1,13 +1,14 @@
 def init():
     global runSettings
     runSettings = {
-        "RUNMODE": 'PI',  # or 'offline' for running dummy tools with no hardware
+        "RUNMODE": 'full',  # or 'dummy' for running dummy tools with no hardware
         "TRACKER_CONFIG_VERSION": "tracker_config",
 
         "SCAN_USB": False,
-        "SCAN_BOOTHTOOTH": False,
+        "SCAN_BLUETOOTH": False,
 
         "ALLOWED_EXTENSIONS": set(['txt']),
         "UPLOAD_FOLDER": '/uploads',
-        "NO_TAG_TEXT": 'No Device Detected.'
+        "NO_TAG_TEXT": 'No Device Detected.',
+        "DUMMY_RESPONSE_MODULE": "dummyResponses1"
     }

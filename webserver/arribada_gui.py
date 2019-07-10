@@ -24,40 +24,22 @@ import routingFunctions
 @app.route("/")
 def hello():
 
-    print(config.runSettings['NO_TAG_TEXT'])
     return routingFunctions.welcome()
 
-@app.route("/scan")
-def scan():
-
-    connected = {}
-
-    # USB
-    if os.environ['scanUSB']:
-        connected['USB'] = deviceFunctions.scanForAttachedDevices('USB')
-    print(connected)
-
-    # Bluetooth
-    if os.environ['scanBluetooth']:
-        connected['Bluetooth'] = deviceFunctions.scanForAttachedDevices('Bluetooth')
-
-    # no scan
-    if  not os.environ['scanBluetooth'] and not os.environ['scanUSB']:
-        connected['single'] = deviceFunctions.scanForAttachedDevices('single')
-
-    return jsonify(connected)
 
 
+@app.route("/status/<tagID>")
+def status(tagID):
 
-@app.route("/status")
-def status():
+    return routingFunctions.getTagStatus(tagID)   
 
-    return routingFunctions.htmlTrackerConfig("Status", "--status")   
 
-@app.route("/version")
-def version():
+@app.route("/config/get/<tagID>")
+def getconfig(tagID):
 
-    return routingFunctions.htmlTrackerConfig("Version", "--version") 
+    return routingFunctions.getTagConfig(tagID)   
+
+
 
 
 @app.route("/get_config")
