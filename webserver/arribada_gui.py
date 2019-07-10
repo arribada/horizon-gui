@@ -25,7 +25,7 @@ import routingFunctions
 @app.route("/")
 def index():
 
-    return render_template('index.html',
+    return render_template('scan.html',
                            pageVariables={"title": "Arribada Connected Tags", "runMode": config.runSettings['RUNMODE']},
                            dataVariables=routingFunctions.welcome())
 
@@ -41,7 +41,7 @@ def status(tagID):
 @app.route("/config/get/<tagID>")
 def getconfig(tagID):
 
-    return render_template('status.html',
+    return render_template('config.html',
                         pageVariables={"title": "Tag Config", "runMode": config.runSettings['RUNMODE']},
                         dataVariables=routingFunctions.getTagConfig(tagID))
 
