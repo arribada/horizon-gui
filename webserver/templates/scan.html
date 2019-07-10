@@ -24,11 +24,39 @@
             </span>
         </div>
 
-        {% for item in dataVariables.data %}
-        <span class="name_{{ loop.index }}">{{ item['friendlyName'] }}: {{ item['deviceID'] }}</span><br>
-        {{ item }}
-        <br><br><br>
-        {% endfor %}
+        <section class="main-table flex">
+            {% for item in dataVariables.data %}
+
+            <span class="name_{{ loop.index }}">
+                {{ item['friendlyName'] }}
+            </span>
+            <span class="deviceID{{ loop.index }}">
+                {{ item['deviceID'] }}
+            </span>
+            <span class="connection{{ loop.index }}">
+                {{ item['connection'] }} #{{ item['connectionID']}}
+            </span>
+            <span class="batteryLevel{{ loop.index }}">
+                {{ item['batteryLevel'] }}%
+            </span>
+            <span class="logFileType{{ loop.index }}">
+                {{ item['logFileType'] }}
+            </span>
+            <span class="logFileSize{{ loop.index }}">
+                {{ item['logFileSize'] }}
+            </span>
+            <span class="firmwareVersion{{ loop.index }}">
+                {{ item['firmwareVersion'] }}
+            </span>
+            <span class="configVersion{{ loop.index }}">
+                {{ item['configVersion'] }}
+            </span>
+            <span class="sensorsEnabled{{ loop.index }}">
+                {{ item['sensorsEnabled'] }}
+            </span>
+
+            {% endfor %}
+        </section>
 
     </section>
 

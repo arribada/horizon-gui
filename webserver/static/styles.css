@@ -92,6 +92,11 @@ nav h3 {
     justify-content: space-between;
 }
 
+.main-table {
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
 /* ! END OF NM'S STYLES */
 
 * {
