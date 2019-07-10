@@ -26,7 +26,7 @@ import routingFunctions
 def index():
 
     return render_template('scan.html',
-                           pageVariables={"title": "Arribada Connected Tags", "runMode": config.runSettings['RUNMODE']},
+                           pageVariables={"title": "Device Manager", "runMode": config.runSettings['RUNMODE']},
                            dataVariables=routingFunctions.welcome())
 
 
