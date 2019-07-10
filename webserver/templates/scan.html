@@ -9,10 +9,13 @@
 <br><br>
 Number Devices: {{ dataVariables.numRows }}
 <br>
+
+
 {% for item in dataVariables.data %}
-{{ item['friendlyName'] }}: {{ item['deviceID'] }}<br>
-{{ item }}
-<br><br><br>
+    <span class="name_{{ loop.index }}">{{ item['friendlyName'] }}: {{ item['deviceID'] }}</span><br>
+    {{ item }}
+    <br><br><br>
+
 {% endfor %}
 <a href="/status/123456">Get Status of Tag 123456</a><br>
 <a href="/config/get/123456">Get Config of Tag 123456</a>
