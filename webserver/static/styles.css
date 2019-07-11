@@ -264,6 +264,26 @@ nav h3 {
     left: 4em;
 }
 
+/* BUTTONS */
+
+button,
+button.primary {
+    background-color: transparent;
+    border: solid 1px #0e2940;;
+    border-radius: 2px;
+    padding: 0.5em 3em;
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+button.secondary {
+    color: #8a8a8a;
+    border: solid 1px #8a8a8a;
+}
+
+
+
+
 
 /* ! END OF NM'S STYLES */
 
@@ -308,7 +328,7 @@ textarea {
     width: 100%;
 }
 
-button {
+/* button {
     background-color: transparent;
     border: solid 1px #006d78;
     border-radius: 7px;
@@ -317,7 +337,7 @@ button {
     vertical-align: middle;
     color: #006d78;
     font-size: 1.125rem;
-}
+} */
 
 /* Fonts */
 
