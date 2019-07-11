@@ -93,8 +93,9 @@ nav h3 {
 }
 
 .main-table {
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: space-between;
+    height: 31em;
 }
 
 .main-table span {
@@ -102,7 +103,8 @@ nav h3 {
     padding: 0.5em;
     margin: 0.2em 0;
     display: inline-block;
-    width: 5em;
+    width: 8.5em;
+    height: 2em;
 }
 
 /* ! END OF NM'S STYLES */

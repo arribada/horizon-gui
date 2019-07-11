@@ -25,6 +25,18 @@
         </div>
 
         <section class="main-table flex">
+
+            <div class="col0 main-table flex">
+                <span>Tag</span>
+                <span>Tag ID</span>
+                <span>Connection</span>
+                <span>Battery Level</span>
+                <span>Log File Type</span>
+                <span>Log File Size</span>
+                <span>Firmware Version</span>
+                <span>Config Version</span>
+                <span>Sensors Enabled</span>
+            </div>
             {% for item in dataVariables.data %}
 
             <span class="name_{{ loop.index }}">
@@ -60,8 +72,9 @@
 
     </section>
 
-    <a href="/status/123456">Get Status of Tag 123456</a><br>
-    <a href="/config/get/123456">Get Config of Tag 123456</a>
-
+    <section class="links top-tail-margin">
+        <a href="/status/123456">Get Status of Tag 123456</a><br>
+        <a href="/config/get/123456">Get Config of Tag 123456</a>
+    </section>
 </main>
 {% endblock %}
