@@ -2,105 +2,118 @@
 {% block content %}
 <main id="mainMenu">
 
-    <div class="tab-titles-wrapper top-tail-margin">
-        <article class="tab-title happy-padding gray-background navy">
-            <h4>Radio Comms</h4>
-        </article>
-        <article class="tab-title happy-padding gray-background navy">
-            <h4>Configuration Manager</h4>
-        </article>
-        <article class="tab-title happy-padding white selected">
-            <h4>Device Manager</h4>
-        </article>
-    </div>
+    <div class="main-wrapper happy-margin">
+        <div class="tab-titles-wrapper top-tail-margin flex">
+            <div class="tabs flex">
+                <div class="articles flex">
+                    <article class="tab-title happy-padding gray-background navy">
+                        <h4>Radio Comms</h4>
+                    </article>
+                    <article class="tab-title happy-padding gray-background navy">
+                        <h4>Configuration Manager</h4>
+                    </article>
+                    <article class="tab-title happy-padding white selected">
+                        <h4>Device Manager</h4>
+                    </article>
+                </div>
 
-    <section class="main-table-wrapper" {{ dataVariables.toolVersion }}>
-        <div class="table-nav top top-tail-margin top-tail-padding flex">
-            <div class="table-nav-left">
-                <span class="usb-icon inline-block">
-                    <img src="/static/images/usb-icon.png" alt="USB icon">
-                </span>
-                <div class="inline-block navy">
-                    <h3>Tag Manager</h3>
-                </div>
-            </div>
-            <div class="table-nav-right gray">
-                <div class="last-loaded key inline-block">
-                    <p class="inline-block light-gray">Last loaded:</p>
-                </div>
-                <div class="date value inline-block">
-                    <p class="inline-block">2X/1X/XX19 - 1X:4X</p>
+                <div class="reload-icon inline-block">
+                    <img src="/static/images/reload-icon.png" alt="Reload Icon">
                 </div>
             </div>
         </div>
 
-        <section class="main-table flex">
-
-            <div class="col0 flex">
-                <span class="row0 navy">
-                    <h3>Tag Name:</h3>
-                </span>
-                <span class="col0 navy">
-                    <p>Tag ID:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Connection:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Battery Level:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Log File Type:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Log File Size:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Firmware Version:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Config Version:</p>
-                </span>
-                <span class="col0 navy">
-                    <p>Sensors Enabled:</p>
-                </span>
+        <section class="main-table-wrapper" {{ dataVariables.toolVersion }}>
+            <div class="table-nav top top-tail-margin top-tail-padding flex">
+                <div class="table-nav-left">
+                    <span class="usb-icon inline-block">
+                        <img src="/static/images/usb-icon.png" alt="USB icon">
+                    </span>
+                    <div class="inline-block navy table-header">
+                        <h2>Tag Manager</h2>
+                    </div>
+                </div>
+                <div class="table-nav-right gray">
+                    <div class="last-loaded key inline-block">
+                        <p class="inline-block light-gray">Last loaded:</p>
+                    </div>
+                    <div class="date value inline-block">
+                        <p class="inline-block">2X/1X/XX19 - 1X:4X</p>
+                    </div>
+                </div>
             </div>
 
-            {% for item in dataVariables.data %}
-            <div>
-                <span class="name_{{ loop.index }}">
-                    {{ item['friendlyName'] }}
-                </span>
-                <span class="deviceID{{ loop.index }}">
-                    {{ item['deviceID'] }}
-                </span>
-                <span class="connection{{ loop.index }}">
-                    {{ item['connection'] }} #{{ item['connectionID']}}
-                </span>
-                <span class="batteryLevel{{ loop.index }}">
-                    {{ item['batteryLevel'] }}%
-                </span>
-                <span class="logFileType{{ loop.index }}">
-                    {{ item['logFileType'] }}
-                </span>
-                <span class="logFileSize{{ loop.index }}">
-                    {{ item['logFileSize'] }}
-                </span>
-                <span class="firmwareVersion{{ loop.index }}">
-                    {{ item['firmwareVersion'] }}
-                </span>
-                <span class="configVersion{{ loop.index }}">
-                    {{ item['configVersion'] }}
-                </span>
-                <span class="sensorsEnabled{{ loop.index }}">
-                    {{ item['sensorsEnabled'] }}
-                </span>
-            </div>
+            <section class="main-table flex">
 
-            {% endfor %}
+                <div class="col0 flex">
+                    <span class="row0 navy">
+                        <h3>Tag Name:</h3>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Tag ID:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Connection:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Battery Level:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Log File Type:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Log File Size:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Firmware Version:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Config Version:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Sensors Enabled:</p>
+                    </span>
+                    <span class="col0 navy">
+                        <p>Data:</p>
+                    </span>
+                </div>
+
+                {% for item in dataVariables.data %}
+                <div>
+                    <span class="name_{{ loop.index }}">
+                        <p>{{ item['friendlyName'] }}</p>
+                    </span>
+                    <span class="deviceID{{ loop.index }}">
+                        <p>{{ item['deviceID'] }}</p>
+                    </span>
+                    <span class="connection{{ loop.index }}">
+                        <p>{{ item['connection'] }} #{{ item['connectionID']}}</p>
+                    </span>
+                    <span class="batteryLevel{{ loop.index }}">
+                        <p>{{ item['batteryLevel'] }}%</p>
+                    </span>
+                    <span class="logFileType{{ loop.index }}">
+                        <p>{{ item['logFileType'] }}</p>
+                    </span>
+                    <span class="logFileSize{{ loop.index }}">
+                        <p>{{ item['logFileSize'] }}</p>
+                    </span>
+                    <span class="firmwareVersion{{ loop.index }}">
+                        <p>{{ item['firmwareVersion'] }}</p>
+                    </span>
+                    <span class="configVersion{{ loop.index }}">
+                        <p>{{ item['configVersion'] }}</p>
+                    </span>
+                    <span class="sensorsEnabled{{ loop.index }}">
+                        <p>{{ item['sensorsEnabled'] }}</p>
+                    </span>
+                </div>
+
+                {% endfor %}
+            </section>
+
         </section>
-
-    </section>
+    </div>
 
     <section class="links top-tail-margin">
         <a href="/status/123456">Get Status of Tag 123456</a><br>

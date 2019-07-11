@@ -64,14 +64,23 @@ p {
 
 /* NAV*/
 
+header, nav {
+    line-height: 4em;
+}
+
 nav {
     flex-flow: row nowrap;
     justify-content: space-between;
+    margin: 0 1em;
 }
 
 nav h3 {
     font-weight: 400;
     font-size: 1.2em;
+}
+
+.burger {
+    margin: auto 0;
 }
 
 .burger span {
@@ -83,10 +92,18 @@ nav h3 {
     background: white;
 }
 
+#shortReport {
+    margin-bottom: 0;
+}
+
 /* MAIN */
 
 #mainMenu {
     background-color: #f5f5f5;
+}
+
+.main-wrapper {
+    margin-top: 0;
 }
 
 .main-table-wrapper {
@@ -96,11 +113,22 @@ nav h3 {
 /* TAB TITLES */
 
 .tab-titles-wrapper {
-    display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-left: 0;
-    margin-top: 2em;
+    margin-top: 0;
+    padding-top: 2em;
+}
+
+.tabs {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+    height: 3em;
+}
+
+.articles {
+    flex-flow: row wrap;
 }
 
 .tab-titles-wrapper article:first-of-type {
@@ -116,23 +144,35 @@ nav h3 {
     font-size: 1.1em;
 }
 
+.reload-icon {
+    max-width: 1.5em;
+    margin-top: 0.8em;
+}
+
 /* MAIN TABLE */
 
 .table-nav {
     border-top: solid #6ab468;
     flex-flow: row nowrap;
     justify-content: space-between;
+    padding-bottom: 0;
 }
 
 .table-nav-left {
     line-height: 3em;
+    margin-left: 1em;
+}
+
+.table-nav-right {
+    margin-right: 1em;
+    font-weight: 300;
 }
 
 .usb-icon {
     width: 2em;
     margin-right: 0.2em;
     display: inline-block;
-    vertical-align: baseline;
+    vertical-align: super;
 }
 
 .usb-icon img {
@@ -142,8 +182,13 @@ nav h3 {
 .main-table {
     flex-flow: row nowrap;
     justify-content: space-between;
-    height: 31em;
-    background-color: #f5f5f5;
+    height: 36em;
+    background-color: white;
+    margin: 1em;
+}
+
+.table-header {
+    font-size: 1.5em;
 }
 
 .main-table>div {
@@ -151,8 +196,22 @@ nav h3 {
     flex-flow: column nowrap;
 }
 
+.main-table>div span {
+    color: #0e2940;
+    font-weight: 400;
+    line-height: 2em;
+}
+
+.main-table>div span:first-of-type {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.col0.flex > span.row0.navy {
+    text-decoration: none;
+}
+
 .main-table span {
-    /* background-color: #f5f5f5; */
     padding: 0.5em;
     margin: 0.2em 0;
     display: inline-block;
@@ -164,23 +223,19 @@ nav h3 {
     background-color: #fcfcfc;
 }
 
-.main-table.col0 span {
+.main-table .col0 span {
     font-weight: 300;
 }
 
-.main-table.col0 span h3 {
+.main-table .col0 span h3 {
     padding: 0.5em 0;
 }
 
-.main-table p {
-    font-size: 1em;
-}
-
-.main-table.col0 span:nth-child(even) {
+.main-table .col0 span:nth-child(even) {
     background-color: #f8fbf7;
 }
 
-.main-table.col0 span:nth-child(odd) {
+.main-table .col0 span:nth-child(odd) {
     background-color: #f2f8f2;
 }
 
@@ -203,7 +258,7 @@ main {
     position: relative;
     /* background-color: white; */
     color: #0c0c0c;
-    padding-top: 95px;
+    /* padding-top: 95px; */
     min-height: calc(100% - 52px);
 }
 
@@ -214,7 +269,7 @@ header,
 .calibrateFoot {
     width: 100%;
     min-width: 320px;
-    max-width: 640px;
+    max-width: 700px;
 }
 
 input,
@@ -324,7 +379,7 @@ h6 {
 /*Header and short report*/
 
 header {
-    position: fixed;
+    /* position: fixed; */
     font-size: 15px;
     background-color: #0e2940;
     z-index: 4;
@@ -356,7 +411,7 @@ header {
 }
 
 #shortReport {
-    margin: 1em;
+    /* margin: 1em; */
     display: block;
 }
 
@@ -781,9 +836,9 @@ nav.calibrateFoot {
 
 /* Main menu*/
 
-#mainMenu {
+/* #mainMenu {
     padding-top: 52px;
-}
+} */
 
 .commandButton {
     width: calc(100% - 16px);
