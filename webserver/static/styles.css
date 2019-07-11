@@ -12,6 +12,7 @@ body {
 
 p {
     font-size: 1em;
+    margin: 0;
 }
 
 .happy-margin {
@@ -169,7 +170,7 @@ nav h3 {
 }
 
 .usb-icon {
-    width: 2em;
+    width: 1.9em;
     margin-right: 0.2em;
     display: inline-block;
     vertical-align: super;
@@ -189,6 +190,10 @@ nav h3 {
 
 .table-header {
     font-size: 1.5em;
+}
+
+.table-header h2 {
+    font-size: 0.9em;
 }
 
 .main-table>div {
@@ -237,6 +242,26 @@ nav h3 {
 
 .main-table .col0 span:nth-child(odd) {
     background-color: #f2f8f2;
+}
+
+/* SCROLL BAR */
+
+.scroll-bar {
+    width: 29.5em;
+    margin-left: 5.5em;
+}
+
+.scroll-bar.gray {
+    border-bottom: solid thick #e5e5e5;
+    position: relative;
+}
+
+.scroll-bar.green {
+    border-bottom: solid thick #6ab468;
+    width: 14em;
+    position: relative;
+    bottom: 1.3em;
+    left: 4em;
 }
 
 
