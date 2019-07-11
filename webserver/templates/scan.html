@@ -14,7 +14,7 @@
         </article>
     </div>
 
-    <section class={{ dataVariables.toolVersion }}>
+    <section class="main-table-wrapper" {{ dataVariables.toolVersion }}>
         <div class="table-nav top top-tail-margin top-tail-padding flex">
             <span>
                 Number Devices: {{ dataVariables.numRows }}
@@ -26,46 +26,66 @@
 
         <section class="main-table flex">
 
-            <div class="col0 main-table flex">
-                <span>Tag</span>
-                <span>Tag ID</span>
-                <span>Connection</span>
-                <span>Battery Level</span>
-                <span>Log File Type</span>
-                <span>Log File Size</span>
-                <span>Firmware Version</span>
-                <span>Config Version</span>
-                <span>Sensors Enabled</span>
+            <div class="col0 flex">
+                <span class="row0 navy">
+                    <h3>Tag Name:</h3>
+                </span>
+                <span class="col0 navy">
+                    <p>Tag ID:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Connection:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Battery Level:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Log File Type:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Log File Size:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Firmware Version:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Config Version:</p>
+                </span>
+                <span class="col0 navy">
+                    <p>Sensors Enabled:</p>
+                </span>
             </div>
-            {% for item in dataVariables.data %}
 
-            <span class="name_{{ loop.index }}">
-                {{ item['friendlyName'] }}
-            </span>
-            <span class="deviceID{{ loop.index }}">
-                {{ item['deviceID'] }}
-            </span>
-            <span class="connection{{ loop.index }}">
-                {{ item['connection'] }} #{{ item['connectionID']}}
-            </span>
-            <span class="batteryLevel{{ loop.index }}">
-                {{ item['batteryLevel'] }}%
-            </span>
-            <span class="logFileType{{ loop.index }}">
-                {{ item['logFileType'] }}
-            </span>
-            <span class="logFileSize{{ loop.index }}">
-                {{ item['logFileSize'] }}
-            </span>
-            <span class="firmwareVersion{{ loop.index }}">
-                {{ item['firmwareVersion'] }}
-            </span>
-            <span class="configVersion{{ loop.index }}">
-                {{ item['configVersion'] }}
-            </span>
-            <span class="sensorsEnabled{{ loop.index }}">
-                {{ item['sensorsEnabled'] }}
-            </span>
+            {% for item in dataVariables.data %}
+            <div>
+                <span class="name_{{ loop.index }}">
+                    {{ item['friendlyName'] }}
+                </span>
+                <span class="deviceID{{ loop.index }}">
+                    {{ item['deviceID'] }}
+                </span>
+                <span class="connection{{ loop.index }}">
+                    {{ item['connection'] }} #{{ item['connectionID']}}
+                </span>
+                <span class="batteryLevel{{ loop.index }}">
+                    {{ item['batteryLevel'] }}%
+                </span>
+                <span class="logFileType{{ loop.index }}">
+                    {{ item['logFileType'] }}
+                </span>
+                <span class="logFileSize{{ loop.index }}">
+                    {{ item['logFileSize'] }}
+                </span>
+                <span class="firmwareVersion{{ loop.index }}">
+                    {{ item['firmwareVersion'] }}
+                </span>
+                <span class="configVersion{{ loop.index }}">
+                    {{ item['configVersion'] }}
+                </span>
+                <span class="sensorsEnabled{{ loop.index }}">
+                    {{ item['sensorsEnabled'] }}
+                </span>
+            </div>
 
             {% endfor %}
         </section>
