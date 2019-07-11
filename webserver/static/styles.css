@@ -10,6 +10,10 @@ body {
     margin: 1em auto;
 }
 
+p {
+    font-size: 1em;
+}
+
 .happy-margin {
     margin: 1em;
 }
@@ -38,12 +42,24 @@ body {
     color: #0e2940;
 }
 
+.light-gray {
+    color: #8a8a8a;
+}
+
+.gray {
+    color: #616161;
+}
+
 .gray-background {
     background-color: #e8e8e8;
 }
 
 .flex {
     display: flex;
+}
+
+.inline-block {
+    display:inline-block;
 }
 
 /* NAV*/
@@ -74,7 +90,7 @@ nav h3 {
 }
 
 .main-table-wrapper {
-    background-color: #f5f5f5;
+    background-color: white;
 }
 
 /* TAB TITLES */
@@ -106,6 +122,21 @@ nav h3 {
     border-top: solid #6ab468;
     flex-flow: row nowrap;
     justify-content: space-between;
+}
+
+.table-nav-left {
+    line-height: 3em;
+}
+
+.usb-icon {
+    width: 2em;
+    margin-right: 0.2em;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.usb-icon img {
+    vertical-align: middle;
 }
 
 .main-table {
@@ -222,9 +253,9 @@ button {
     color: #0097a7;
 }
 
-.lightgrey {
+/* .lightgrey {
     color: #bcbebf;
-}
+} */
 
 .darkgrey {
     color: #2b3435;
@@ -285,10 +316,10 @@ h6 {
     font-weight: 400;
 }
 
-p {
+/* p {
     font-size: 0.65rem;
     margin: 0;
-}
+} */
 
 /*Header and short report*/
 

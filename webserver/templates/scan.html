@@ -16,12 +16,22 @@
 
     <section class="main-table-wrapper" {{ dataVariables.toolVersion }}>
         <div class="table-nav top top-tail-margin top-tail-padding flex">
-            <span>
-                Number Devices: {{ dataVariables.numRows }}
-            </span>
-            <span>
-                Last loaded: 2X/1X/XX19 - 1X:4X
-            </span>
+            <div class="table-nav-left">
+                <span class="usb-icon inline-block">
+                    <img src="/static/images/usb-icon.png" alt="USB icon">
+                </span>
+                <div class="inline-block navy">
+                    <h3>Tag Manager</h3>
+                </div>
+            </div>
+            <div class="table-nav-right gray">
+                <div class="last-loaded key inline-block">
+                    <p class="inline-block light-gray">Last loaded:</p>
+                </div>
+                <div class="date value inline-block">
+                    <p class="inline-block">2X/1X/XX19 - 1X:4X</p>
+                </div>
+            </div>
         </div>
 
         <section class="main-table flex">
