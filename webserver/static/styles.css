@@ -10,7 +10,7 @@ body {
     margin: 1em auto;
 }
 
-p {
+p, label {
     font-size: 1em;
     margin: 0;
 }
@@ -49,6 +49,10 @@ a:hover,
 
 .gray {
     color: #616161;
+}
+
+.red {
+    color: red;
 }
 
 .gray-background {
@@ -325,6 +329,38 @@ button.secondary {
     width: 2em;
 }
 
+/* FORMS */
+
+.form-block-wrapper {
+    margin: 0 8em;
+}
+.form-block {
+    background-color: white;
+    border-top: solid thick #6ab468;
+}
+
+.icon {
+    width: 1.5em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+label {
+    color: #8a8a8a;
+}
+
+input, select {
+    line-height: 2em;
+    border-radius: 2px;
+    border: solid thin #8a8a8a;
+    width: 20em;
+    font-size: 1em;
+}
+
+select {
+    
+}
+
 /* ! END OF NM'S STYLES */
 
 * {
@@ -357,10 +393,10 @@ header,
     max-width: 800px;
 }
 
-input,
+/* input,
 textarea {
     display: block;
-}
+} */
 
 .buttonStack,
 #disconnected {
