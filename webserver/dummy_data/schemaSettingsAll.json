@@ -28,8 +28,11 @@
                 "default": "0",
                 "category": "Device Details",
                 "jsonDataType": "float",
-                "displayOrder": 1.04
-            },
+                "displayOrder": 1.04,
+                "excludeFromPreset": true,
+                "showHideDepencencyField": "",
+                "autoFill": {"parent": "", "parentValue": "", "value": ""}
+            }
    
         }
     }

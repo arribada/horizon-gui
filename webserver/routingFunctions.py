@@ -18,6 +18,8 @@ def welcome():
         "data":  deviceFunctions.scanForAttachedDevices(runMode, config.runSettings['SCAN_USB'],config.runSettings['SCAN_BLUETOOTH'])
     } 
     pageData['numRows'] = len(pageData['data'])
+    pageData['dataColumnNames'] = pageData['data'][0].keys()
+
 
     return pageData
 
