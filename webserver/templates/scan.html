@@ -3,9 +3,9 @@
 <main id="mainMenu">
 
     <div class="main-wrapper happy-margin">
-        <div class="tab-titles-wrapper top-tail-margin flex">
+        <div class="tab-titles-wrapper top-tail-margin">
             <div class="tabs flex">
-                <div class="articles flex">
+                <div class="flex">
                     <article class="tab-title happy-padding gray-background navy">
                         <h4>Radio Comms</h4>
                     </article>
@@ -24,7 +24,7 @@
         </div>
 
         <section class="main-table-wrapper" {{ dataVariables.toolVersion }}>
-            <div class="table-nav top top-tail-margin top-tail-padding flex">
+            <div class="table-nav flex top-tail-margin top-tail-padding">
                 <div class="table-nav-left">
                     <span class="usb-icon inline-block">
                         <img src="/static/images/usb-icon.png" alt="USB icon">
@@ -43,73 +43,82 @@
                 </div>
             </div>
 
-            <section class="main-table flex">
+            <section class="main-table">
 
-                <div class="col0 flex">
-                    <span class="row0 navy">
-                        <h3>Tag Name:</h3>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Tag ID:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Connection:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Battery Level:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Log File Type:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Log File Size:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Firmware Version:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Config Version:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Sensors Enabled:</p>
-                    </span>
-                    <span class="col0 navy">
-                        <p>Data:</p>
-                    </span>
-                </div>
+                <table>
 
-                {% for item in dataVariables.data %}
-                <div>
-                    <span class="name_{{ loop.index }}">
-                        <p>{{ item['friendlyName'] }}</p>
-                    </span>
-                    <span class="deviceID{{ loop.index }}">
-                        <p>{{ item['deviceID'] }}</p>
-                    </span>
-                    <span class="connection{{ loop.index }}">
-                        <p>{{ item['connection'] }} #{{ item['connectionID']}}</p>
-                    </span>
-                    <span class="batteryLevel{{ loop.index }}">
-                        <p>{{ item['batteryLevel'] }}%</p>
-                    </span>
-                    <span class="logFileType{{ loop.index }}">
-                        <p>{{ item['logFileType'] }}</p>
-                    </span>
-                    <span class="logFileSize{{ loop.index }}">
-                        <p>{{ item['logFileSize'] }}</p>
-                    </span>
-                    <span class="firmwareVersion{{ loop.index }}">
-                        <p>{{ item['firmwareVersion'] }}</p>
-                    </span>
-                    <span class="configVersion{{ loop.index }}">
-                        <p>{{ item['configVersion'] }}</p>
-                    </span>
-                    <span class="sensorsEnabled{{ loop.index }}">
-                        <p>{{ item['sensorsEnabled'] }}</p>
-                    </span>
-                </div>
+                    <thead>
+                        <th class="navy">
+                            <h3>Tag Name:</h3>
+                        </th>
+                        {% for item in dataVariables.data %}
+                        <th class="name_{{ loop.index }}">
+                            <p>{{ item['friendlyName'] }}</p>
+                        </th>
+                        {% endfor %}
+                    </thead>
 
-                {% endfor %}
+                    <tbody>
+                        <td colspan="1" class="navy">
+                            <p>Tag ID:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Connection:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Battery Level:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Log File Type:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Log File Size:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Firmware Version:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Config Version:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Sensors Enabled:</p>
+                        </td>
+                        <td class="navy">
+                            <p>Data:</p>
+                        </td>
+                    </tbody>
+
+                    {% for item in dataVariables.data %}
+                    <div>
+                      
+                        <td class="deviceID{{ loop.index }}">
+                            <p>{{ item['deviceID'] }}</p>
+                        </td>
+                        <td class="connection{{ loop.index }}">
+                            <p>{{ item['connection'] }} #{{ item['connectionID']}}</p>
+                        </td>
+                        <td class="batteryLevel{{ loop.index }}">
+                            <p>{{ item['batteryLevel'] }}%</p>
+                        </td>
+                        <td class="logFileType{{ loop.index }}">
+                            <p>{{ item['logFileType'] }}</p>
+                        </td>
+                        <td class="logFileSize{{ loop.index }}">
+                            <p>{{ item['logFileSize'] }}</p>
+                        </td>
+                        <td class="firmwareVersion{{ loop.index }}">
+                            <p>{{ item['firmwareVersion'] }}</p>
+                        </td>
+                        <td class="configVersion{{ loop.index }}">
+                            <p>{{ item['configVersion'] }}</p>
+                        </td>
+                        <td class="sensorsEnabled{{ loop.index }}">
+                            <p>{{ item['sensorsEnabled'] }}</p>
+                        </td>
+                    </div>
+
+                    {% endfor %}
+                </table>
             </section>
 
             <section class="scroll-bar">
