@@ -15,6 +15,10 @@ p {
     margin: 0;
 }
 
+a:hover,
+.burger:hover {
+    cursor: pointer;
+}
 .happy-margin {
     margin: 1em;
 }
@@ -33,10 +37,6 @@ p {
 
 .side-margins {
     margin: 0 1em;
-}
-
-.selected {
-    background-color: #6ab468;
 }
 
 .navy {
@@ -63,7 +63,7 @@ p {
     display:inline-block;
 }
 
-/* NAV*/
+/* NAV */
 
 header, nav {
     line-height: 4em;
@@ -73,6 +73,7 @@ nav {
     flex-flow: row nowrap;
     justify-content: space-between;
     margin: 0 1em;
+    background-color: #0e2940;
 }
 
 nav h3 {
@@ -130,6 +131,10 @@ nav h3 {
 
 .articles {
     flex-flow: row wrap;
+}
+
+article.selected {
+    background-color: #6ab468;
 }
 
 .tab-titles-wrapper article:first-of-type {
@@ -267,14 +272,27 @@ nav h3 {
 
 /* BUTTONS */
 
+button {
+    margin: 0 0.5em 0.5em 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+body button.selected {
+    border: solid 2px red;
+}
+
 button,
 button.primary {
     background-color: transparent;
-    border: solid 1px #0e2940;;
+    border: solid 1px #0e2940;
     border-radius: 2px;
-    padding: 0.5em 3em;
+    padding: 0.5em 1em;
     font-size: 1.1em;
     font-weight: 400;
+    width: 8.8em;
 }
 
 button.secondary {
@@ -282,9 +300,30 @@ button.secondary {
     border: solid 1px #8a8a8a;
 }
 
+.buttons-wrapper {
+    justify-content: space-between;
+}
 
+/* BANNERS */
 
+.banner-block {
+    margin-top: 2em;
+}
+.banner {
+    background-color: #0e2940;
+    color: white;
+    padding: 0.5em 1em;
+}
 
+.banner.selected-devices {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quit-button {
+    width: 2em;
+}
 
 /* ! END OF NM'S STYLES */
 
@@ -315,7 +354,7 @@ header,
 .calibrateFoot {
     width: 100%;
     min-width: 320px;
-    max-width: 700px;
+    max-width: 800px;
 }
 
 input,
