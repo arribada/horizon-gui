@@ -46,78 +46,75 @@
             <section class="main-table">
 
                 <table>
-
                     <thead>
-                        <th class="navy">
-                            <h3>Tag Name:</h3>
+                        <th>
+                            Tag Name:
                         </th>
-                        {% for item in dataVariables.data %}
-                        <th class="name_{{ loop.index }}">
-                            <p>{{ item['friendlyName'] }}</p>
+                        <th>
+                            Tag ID:
                         </th>
-                        {% endfor %}
+                        <th>
+                            Connection:
+                        </th>
+                        <th>
+                            Battery Level:
+                        </th>
+                        <th>
+                            Log File Type:
+                        </th>
+                        <th>
+                            Log File Size:
+                        </th>
+                        <th>
+                            Firmware Version:
+                        </th>
+                        <th>
+                            Config Version:
+                        </th>
+                        <th>
+                            Sensors Enabled:
+                        </th>
+                        <th>
+                            Data:
+                        </th>
                     </thead>
 
                     <tbody>
-                        <td colspan="1" class="navy">
-                            <p>Tag ID:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Connection:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Battery Level:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Log File Type:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Log File Size:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Firmware Version:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Config Version:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Sensors Enabled:</p>
-                        </td>
-                        <td class="navy">
-                            <p>Data:</p>
-                        </td>
-                    </tbody>
 
-                    {% for item in dataVariables.data %}
-                    <div>
-                      
-                        <td class="deviceID{{ loop.index }}">
-                            <p>{{ item['deviceID'] }}</p>
-                        </td>
-                        <td class="connection{{ loop.index }}">
-                            <p>{{ item['connection'] }} #{{ item['connectionID']}}</p>
-                        </td>
-                        <td class="batteryLevel{{ loop.index }}">
-                            <p>{{ item['batteryLevel'] }}%</p>
-                        </td>
-                        <td class="logFileType{{ loop.index }}">
-                            <p>{{ item['logFileType'] }}</p>
-                        </td>
-                        <td class="logFileSize{{ loop.index }}">
-                            <p>{{ item['logFileSize'] }}</p>
-                        </td>
-                        <td class="firmwareVersion{{ loop.index }}">
-                            <p>{{ item['firmwareVersion'] }}</p>
-                        </td>
-                        <td class="configVersion{{ loop.index }}">
-                            <p>{{ item['configVersion'] }}</p>
-                        </td>
-                        <td class="sensorsEnabled{{ loop.index }}">
-                            <p>{{ item['sensorsEnabled'] }}</p>
-                        </td>
-                    </div>
 
-                    {% endfor %}
+                        {% for item in dataVariables.data %}
+                        <tr>
+                            <td class="name_{{ loop.index }}">
+                                {{ item['friendlyName'] }}
+                            </td>
+                            <td class="deviceID{{ loop.index }}">
+                                {{ item['deviceID'] }}
+                            </td>
+                            <td class="connection{{ loop.index }}">
+                                {{ item['connection'] }} #{{ item['connectionID']}}
+                            </td>
+                            <td class="batteryLevel{{ loop.index }}">
+                                {{ item['batteryLevel'] }}%
+                            </td>
+                            <td class="logFileType{{ loop.index }}">
+                                {{ item['logFileType'] }}
+                            </td>
+                            <td class="logFileSize{{ loop.index }}">
+                                {{ item['logFileSize'] }}
+                            </td>
+                            <td class="firmwareVersion{{ loop.index }}">
+                                {{ item['firmwareVersion'] }}
+                            </td>
+                            <td class="configVersion{{ loop.index }}">
+                                {{ item['configVersion'] }}
+                            </td>
+                            <td class="sensorsEnabled{{ loop.index }}">
+                                {{ item['sensorsEnabled'] }}
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        {% endfor %}
                 </table>
             </section>
 
