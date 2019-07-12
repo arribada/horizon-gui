@@ -44,78 +44,24 @@
             </div>
 
             <section class="main-table">
-
                 <table>
-                    <thead>
-                        <th>
-                            Tag Name:
-                        </th>
-                        <th>
-                            Tag ID:
-                        </th>
-                        <th>
-                            Connection:
-                        </th>
-                        <th>
-                            Battery Level:
-                        </th>
-                        <th>
-                            Log File Type:
-                        </th>
-                        <th>
-                            Log File Size:
-                        </th>
-                        <th>
-                            Firmware Version:
-                        </th>
-                        <th>
-                            Config Version:
-                        </th>
-                        <th>
-                            Sensors Enabled:
-                        </th>
-                        <th>
-                            Data:
-                        </th>
-                    </thead>
-
-                    <tbody>
+                        {% for row in dataVariables.dataColumnNames %}
+                            <tr>
+                                <th>
+                                    {{row}}
+                                </th>
+                                {% for _ in range(0, dataVariables.numRows ) %}
+                                <td class="data-{{ row}}"  id="{{ row}}_{{loop.index-1}}" >{{dataVariables.data[loop.index-1][row]|safe}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor%}
 
 
-                        {% for item in dataVariables.data %}
-                        <tr>
-                            <td class="name_{{ loop.index }}">
-                                {{ item['friendlyName'] }}
-                            </td>
-                            <td class="deviceID{{ loop.index }}">
-                                {{ item['deviceID'] }}
-                            </td>
-                            <td class="connection{{ loop.index }}">
-                                {{ item['connection'] }} #{{ item['connectionID']}}
-                            </td>
-                            <td class="batteryLevel{{ loop.index }}">
-                                {{ item['batteryLevel'] }}%
-                            </td>
-                            <td class="logFileType{{ loop.index }}">
-                                {{ item['logFileType'] }}
-                            </td>
-                            <td class="logFileSize{{ loop.index }}">
-                                {{ item['logFileSize'] }}
-                            </td>
-                            <td class="firmwareVersion{{ loop.index }}">
-                                {{ item['firmwareVersion'] }}
-                            </td>
-                            <td class="configVersion{{ loop.index }}">
-                                {{ item['configVersion'] }}
-                            </td>
-                            <td class="sensorsEnabled{{ loop.index }}">
-                                {{ item['sensorsEnabled'] }}
-                            </td>
-                            <td></td>
-                        </tr>
 
-                        {% endfor %}
+
+
                 </table>
+
             </section>
 
             <section class="scroll-bar">
