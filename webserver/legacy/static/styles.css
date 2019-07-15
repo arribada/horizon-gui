@@ -10,7 +10,8 @@ body {
     margin: 1em auto;
 }
 
-p, label {
+p,
+label {
     font-size: 1em;
     margin: 0;
 }
@@ -19,6 +20,7 @@ a:hover,
 .burger:hover {
     cursor: pointer;
 }
+
 .happy-margin {
     margin: 1em;
 }
@@ -64,12 +66,13 @@ a:hover,
 }
 
 .inline-block {
-    display:inline-block;
+    display: inline-block;
 }
 
 /* NAV */
 
-header, nav {
+header,
+nav {
     line-height: 4em;
 }
 
@@ -222,7 +225,7 @@ article.selected {
     font-weight: 600;
 }
 
-.col0.flex > span.row0.navy {
+.col0.flex>span.row0.navy {
     text-decoration: none;
 }
 
@@ -313,6 +316,7 @@ button.secondary {
 .banner-block {
     margin-top: 2em;
 }
+
 .banner {
     background-color: #0e2940;
     color: white;
@@ -334,6 +338,7 @@ button.secondary {
 .form-block-wrapper {
     margin: 0 8em;
 }
+
 .form-block {
     background-color: white;
     border-top: solid thick #6ab468;
@@ -347,19 +352,65 @@ button.secondary {
 
 label {
     color: #8a8a8a;
+    margin-right: 3em;
 }
 
-input, select {
-    line-height: 2em;
+input,
+select {
+    line-height: 1.8em;
     border-radius: 2px;
     border: solid thin #8a8a8a;
     width: 20em;
     font-size: 1em;
+    padding: 0.2em;
 }
 
 select {
-    
+    height: 2.5em;
+    width: 20.5em;
+    -webkit-appearance: none;
+    padding: 0.5em;
 }
+
+input:focus {
+    border: solid thin red;
+}
+
+/*  CHECKBOXES */
+
+input[type="checkbox"] {
+    opacity: 0;
+    position: relative;
+    bottom: -1.5em;
+    z-index: 1;
+}
+
+input[type="checkbox"]+label::after {
+    content: "";
+    position: absolute;
+    left: 8.4em;
+    top: 0.3em;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-image: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-style: solid;
+    border-color: #616161;
+    border-width: 1px;
+    vertical-align: middle;
+}
+
+.checkbox-wrapper label {
+    position: relative;
+    width: 100%;
+}
+
+input:checked+label::after {
+    background-image: url(/static/images/check-icon.png);
+}
+
 
 /* ! END OF NM'S STYLES */
 
