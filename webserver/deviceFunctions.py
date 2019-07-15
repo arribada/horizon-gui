@@ -12,7 +12,7 @@ with open('dummy_data/dummyResponses.json') as json_file:
 
 def callTrackerConfig(theCall):
 
-    if  config.runSettings['RUNMODE'] != 'dummy':
+    if  runMode == 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, theCall])
@@ -42,8 +42,7 @@ def callTrackerConfig(theCall):
 def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
     if runMode == 'dummy':
-
-        return dummyResponses["SCAN"]
+        return dummyResponses['SCAN'].keys()
 
     else: 
         
@@ -73,13 +72,9 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         return "todo"
         
 
-def getOneDeviceReport(runMode, deviceID):
-
+def getDeviceReport(runMode, deviceID):
     
-
     if runMode == 'dummy':
-        print (deviceID)
-        print(dummyResponses["SCAN"][deviceID])
         return dummyResponses["SCAN"][deviceID]
 
     else: 
@@ -97,7 +92,7 @@ def trackerConfigVesion(runMode):
 
     if runMode == 'dummy':
 
-        result = dummy.responses['VERSION']
+        result = dummyResponses['VERSION']
 
     else: 
 
@@ -120,7 +115,7 @@ def trackerConfigVesion(runMode):
 def getTagStatus(runMode, tagID):
 
     if  runMode == 'dummy':
-        return dummy.responses['STATUS']
+        return dummyResponses['STATUS']
 
     else:
 
@@ -143,13 +138,16 @@ def getTagStatus(runMode, tagID):
             return {'result': result2}
 
 
-def getTagConfig(runMode, tagID):
+def getDeviceConfig(runMode, deviceID):
 
     if  runMode == 'dummy':
-        print(dummy.responses['CONFIG_FILE'])
 
+        deviceID = deviceID.replace(":", "")
 
-        with open(dummy.responses['CONFIG_FILE']) as json_file:  
+        configFile = "dummy_data/" + deviceID + ".json"
+        print(configFile)
+        
+        with open(configFile) as json_file:  
             data = json.load(json_file)
 
         return data
@@ -159,13 +157,32 @@ def getTagConfig(runMode, tagID):
         return "TODO"
 
 
+def saveDeviceConfig(runMode, deviceID, config):
+
+    if  runMode == 'dummy':
+
+        deviceID = deviceID.replace(":", "")
+
+        configFile = "dummy_data/" + deviceID + ".json"
+        print(configFile)
+
+
+        with open(configFile, 'w') as configFile:  
+            json.dump(config, configFile)
+
+        return "OK."
+
+    else:
+
+        return "TODO"
+
 
 
 
 
 def trackerConfigBattery():
 
-    if config.runSettings['RUNMODE'] != 'dummy':
+    if runMode == 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--battery"])
@@ -194,7 +211,7 @@ def trackerConfigBattery():
 
 def getTrackerConfig():
 
-    if  config.runSettings['RUNMODE'] != 'dummy':
+    if  runMode == 'dummy':
 
         try:
             result = subprocess.check_output("sudo " + tracker_configVersion + " --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
@@ -220,7 +237,7 @@ def getTrackerConfig():
 
 def writeTrackerConfig():
 
-    if  config.runSettings['RUNMODE'] != 'dummy':
+    if  runMode == 'dummy':
 
         try:
             result = subprocess.check_output(["sudo", tracker_configVersion, "--write", "config/to_tag/new_config.json"])
@@ -244,7 +261,7 @@ def writeTrackerConfig():
 
 def receiveTrackerLogData(): 
 
-    if  config.runSettings['RUNMODE'] != 'dummy':
+    if  runMode == 'dummy':
 
         # get data off the tag
         try:

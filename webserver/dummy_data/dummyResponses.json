@@ -1,12 +1,12 @@
 {
     "VERSION": "Version: Debug Mode...",
     "SCAN": {
-        "1111111111111111": {
+        "11:11:00:00:00:00:00:00": {
             "friendlyName": "Tony Tag",
             "connection": "USB",
             "batteryLevel": 50,
             "fileSize": 123456,
-            "deviceID": "1111111111111111",
+            "deviceID": "11:11:00:00:00:00:00:00",
             "configVerison": 10,
             "sensorsEnabled": [
                 "gps",
@@ -18,12 +18,12 @@
             "firmwareVersion": 4,
             "fileType": "LINEAR"
         },
-        "2222222222222222": {
+        "22:22:00:00:00:00:00:00": {
             "friendlyName": "Timmy Tag",
             "connection": "USB",
             "batteryLevel": 100,
             "fileSize": 123456,
-            "deviceID": "2222222222222222",
+            "deviceID": "22:22:00:00:00:00:00:00",
             "configVerison": 8,
             "sensorsEnabled": [
                 "gps",
@@ -34,12 +34,12 @@
             "firmwareVersion": 3,
             "fileType": "LINEAR"
         },
-        "333333333333": {
+        "33:33:00:00:00:00:00:00": {
             "friendlyName": "Thomasina Tag",
             "connection": "Bluetooth",
             "batteryLevel": 35,
             "fileSize": 123456,
-            "deviceID": "333333333333",
+            "deviceID": "33:33:00:00:00:00:00:00",
             "configVerison": 10,
             "sensorsEnabled": [
                 "gps"
@@ -48,12 +48,12 @@
             "firmwareVersion": 4,
             "fileType": "LINEAR"
         },
-        "666666666666666": {
+        "66:66:00:00:00:00:00:00": {
             "friendlyName": "Tiny Tag",
             "connection": "Bluetooth",
             "batteryLevel": 35,
             "fileSize": 123456,
-            "deviceID": "666666666666666",
+            "deviceID": "66:66:00:00:00:00:00:00",
             "configVerison": 10,
             "sensorsEnabled": [
                 "gps"
@@ -62,12 +62,12 @@
             "firmwareVersion": 4,
             "fileType": "LINEAR"
         },
-        "444444444444": {
+        "44:44:00:00:00:00:00:00": {
             "friendlyName": "Tobias Tag",
             "connection": "USB",
             "batteryLevel": 35,
             "fileSize": 123456,
-            "deviceID": "444444444444",
+            "deviceID": "44:44:00:00:00:00:00:00",
             "configVerison": 10,
             "sensorsEnabled": [
                 "gps"
@@ -76,12 +76,12 @@
             "firmwareVersion": 4,
             "fileType": "LINEAR"
         },
-        "5555555555555": {
+        "55:55:00:00:00:00:00:00": {
             "friendlyName": "Tabatha Tag",
             "connection": "USB",
             "batteryLevel": 35,
             "fileSize": 123456,
-            "deviceID": "5555555555555",
+            "deviceID": "55:55:00:00:00:00:00:00",
             "configVerison": 10,
             "sensorsEnabled": [
                 "gps"

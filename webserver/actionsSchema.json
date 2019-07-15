@@ -1,6 +1,10 @@
 {
-    "/export": {
-        "label": "export",
+    "/view_log": {
+        "label": "View Log Data",
         "order": 3
+    },
+    "/export_log": {
+        "label": "Export Log Data",
+        "order": 4
     }
 }

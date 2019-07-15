@@ -9,10 +9,7 @@ import deviceFunctions
 
 app = Flask(__name__)
 
-configFile = "testConfig"
-config = __import__(configFile)
-
-config.init()
+RUNMODE = "dummy"
 
 options = {
         "reportSchema": "reportSchema.json",
@@ -24,15 +21,14 @@ options = {
 test = scute(options, app)
 
 def getDevices():
-    return ["1111111111111111", "2222222222222222", "333333333333", "666666666666666","444444444444", "5555555555555" ]
+    return deviceFunctions.scanForAttachedDevices(RUNMODE, False, False)    
+
 
 test.registerHook("get_devices", getDevices)
 
 def getFields(deviceID):
-    data =  deviceFunctions.getOneDeviceReport('dummy', deviceID)    
-    #print(data)
-    return(data)
-    #return {"hello": "world"}
+    return deviceFunctions.getDeviceReport(RUNMODE, deviceID)    
+
 
 test.registerHook("get_report_fields", getFields)
 
@@ -42,18 +38,24 @@ test.registerHook("get_report_fields", getFields)
 # test.registerHook("get_report_field__friendlyName", getFriendlyName)
 
 def saveConfig(deviceID, config):
-    with open(deviceID + '_config.json', 'w') as configFile:  
-        json.dump(config, configFile)
+    deviceFunctions.saveDeviceConfig(RUNMODE, deviceID, config)
 
 test.registerHook("save_config", saveConfig)
 
 def readConfig(deviceID):
-    with open(deviceID + '_config.json', 'r') as configFile:
-        return json.load(configFile)
+
+    data = deviceFunctions.getDeviceConfig(RUNMODE, deviceID)
+    print(data)
+    return data
 
 test.registerHook("read_config", readConfig)
 
-@app.route('/export/<device>')
+@app.route('/view_log/<device>')
+def viewLog(device):
+    return 'Log data for ' + device
+    
+
+@app.route('/export_log/<device>')
 def export(device):
-    return 'Export data for ' + device
+    return 'Log data for ' + device
     
