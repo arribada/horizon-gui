@@ -1,0 +1,350 @@
+{
+    "accelerometer": {
+        "label": "Accelerometer Settings",
+        "description": "Accelerometer settings for the device",
+        "order": 1,
+        "fields": {
+            "config": {
+                "label": "Config",
+                "description": "Accelerometer config number",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 1
+            },
+            "accelerometer|highThreshold": {
+                "label": "highThreshold",
+                "description": "highThreshold",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 2
+            },
+            "accelerometer|logEnable": {
+                "label": "logEnable",
+                "type": "boolean",
+                "order": 3
+            },
+            "maximumAquisitionTime": {
+                "label": "maximumAquisitionTime",
+                "description": "maximumAquisitionTime",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 4
+            },
+            "accelerometer|mode": {
+                "label": "mode",
+                "type": "select",
+                "list": {
+                    "PERIODIC": "Periodic"
+                },
+                "order": 5
+            },
+            "accelerometer|sampleRate": {
+                "label": "sampleRate",
+                "description": "sampleRate",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 6
+            },
+            "accelerometer|scheduledAquisitionInterval": {
+                "label": "scheduledAquisitionInterval",
+                "description": "scheduledAquisitionInterval",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 7
+            }
+        }
+    },
+    "battery": {
+        "label": "Battery Settings",
+        "description": "",
+        "order": 2,
+        "fields": {
+            "battery|logEnable": {
+                "label": "logEnable",
+                "type": "boolean"
+            }
+        }
+    },
+    "bluetooth": {
+        "label": "Bluetooth Settings",
+        "description": "",
+        "order": 3,
+        "fields": {
+            "advertisingInterval": {
+                "label": "advertisingInterval",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 1
+            },
+            "connectionInterval": {
+                "label": "connectionInterval",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 2
+            },
+            "inactivityTimeout": {
+                "label": "inactivityTimeout",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 3
+            },
+            "bluetooth|logEnable": {
+                "label": "logEnable",
+                "type": "boolean",
+                "order": 4
+            },
+            "phyMode": {
+                "label": "phyMode",
+                "type": "select",
+                "list": {
+                    "1_MBPS": "1 Mb PS"
+                },
+                "order": 5
+            },
+            "scheduledDuration": {
+                "label": "scheduledDuration",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 6
+            },
+            "scheduledInterval": {
+                "label": "scheduledInterval",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 6
+            },
+            "triggerControl": {
+                "label": "triggerControl",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 8
+            }
+        }
+    },
+    "gps": {
+        "label": "GPS Settings",
+        "description": "",
+        "order": 4,
+        "fields": {
+            "logDebugEnable": {
+                "label": "logDebugEnable",
+                "type": "boolean",
+                "order": 2
+            },
+            "logPositionEnable": {
+                "label": "logPositionEnable",
+                "type": "boolean",
+                "order": 3
+            },
+            "logTTFFEnable": {
+                "label": "logTTFFEnable",
+                "type": "boolean",
+                "order": 4
+            },
+            "gps|maximumAquisitionTime": {
+                "label": "maximumAquisitionTime",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 5
+            },
+            "gps|mode": {
+                "label": "mode",
+                "type": "select",
+                "list": {
+                    "PERIODIC": "Periodic"
+                },
+                "order": 6
+            },
+            "gps|sampleRate": {
+                "label": "sampleRate",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 7
+            },
+            "gps|scheduledAquisitionInterval": {
+                "label": "scheduledAquisitionInterval",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 8
+            }
+        }
+    },
+    "logging": {
+        "label": "Logging Settings",
+        "description": "",
+        "order": 5,
+        "fields": {
+            "dateTimeStampEnable": {
+                "label": "dateTimeStampEnable",
+                "type": "boolean",
+                "order": 1
+            },
+            "enable": {
+                "label": "enable",
+                "type": "boolean",
+                "order": 2
+            },
+            "fileSize": {
+                "label": "fileSize",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 3
+            },
+            "fileType": {
+                "label": "fileType",
+                "type": "select",
+                "list": {
+                    "LINEAR": "Linear"
+                },
+                "order": 4
+            },
+            "startEndSyncEnable": {
+                "label": "startEndSyncEnable",
+                "type": "boolean",
+                "order": 5
+            }
+        }
+    },
+    "pressureSensor": {
+        "label": "Pressure Sensor Settings",
+        "description": "",
+        "order": 6,
+        "fields": {
+            "pressureSensor|highThreshold": {
+                "label": "highThreshold",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 1
+            },
+            "pressureSensor|logEnable": {
+                "label": "logEnable",
+                "type": "boolean",
+                "order": 2
+            },
+            "lowThreshold": {
+                "label": "lowThreshold",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 3
+            },
+            "pressureSensor|maximumAquisitionTime": {
+                "label": "maximumAquisitionTime",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 4
+            },
+            "pressureSensor|mode": {
+                "label": "mode",
+                "type": "select",
+                "list": {
+                    "PERIODIC": "Periodic"
+                },
+                "order": 5
+            },
+            "pressureSensor|sampleRate": {
+                "label": "sampleRate",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 6
+            },
+            "pressureSensor|scheduledAquisitionInterval": {
+                "label": "scheduledAquisitionInterval",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 7
+            }
+        }
+    },
+    "rtc": {
+        "label": "RTC",
+        "description": "",
+        "order": 7,
+        "fields": {
+            "dateTime": {
+                "label": "dateTime",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>"
+            }
+        }
+    },
+    "saltwaterSwitch": {
+        "label": "Saltwater Switch Settings",
+        "description": "",
+        "order": 8,
+        "fields": {
+            "hysteresisPeriod": {
+                "label": "hysteresisPeriod",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 1
+            },
+            "saltwaterSwitch|logEnable": {
+                "label": "logEnable",
+                "type": "boolean",
+                "order": 2
+            }
+        }
+    },
+    "system": {
+        "label": "System Settings",
+        "description": "",
+        "order": 9,
+        "fields": {
+            "friendlyName": {
+                "label": "friendlyName",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 2
+            },
+            "deviceIdentifier": {
+                "label": "deviceIdentifier",
+                "description": "",
+                "type": "text",
+                "exclueFromPresets": "<boolean>",
+                "validateWith": "<functionName>",
+                "order": 1
+            }
+        }
+    }
+}

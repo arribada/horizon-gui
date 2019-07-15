@@ -1,0 +1,47 @@
+{
+    "connection": "USB",
+    "batteryLevel": 50,
+    "logFileSize": 123456,
+    "deviceID": "1111111111111111",
+    "configVerison": 10,
+    "friendlyName": "Tony Tag",
+    "sensorsEnabled": [
+        "gps",
+        "pressure",
+        "saltwater",
+        "accelerometer"
+    ],
+    "connectionID": 1,
+    "firmwareVersion": 4,
+    "logFileType": "LINEAR"
+},
+{
+    "connection": "USB",
+    "batteryLevel": 100,
+    "logFileSize": 123456,
+    "deviceID": "2222222222222222",
+    "configVerison": 8,
+    "friendlyName": "Timmy Tag",
+    "sensorsEnabled": [
+        "gps",
+        "saltwater",
+        "accelerometer"
+    ],
+    "connectionID": 2,
+    "firmwareVersion": 3,
+    "logFileType": "LINEAR"
+},
+{
+    "connection": "Bluetooth",
+    "batteryLevel": 35,
+    "logFileSize": 123456,
+    "deviceID": "333333333333",
+    "configVerison": 10,
+    "friendlyName": "Thomasina Tag",
+    "sensorsEnabled": [
+        "gps"
+    ],
+    "connectionID": 2,
+    "firmwareVersion": 4,
+    "logFileType": "LINEAR"
+}

@@ -2,12 +2,15 @@ from flask import Flask
 import subprocess
 import json
 
-
-tracker_configVersion = "tracker_config"
+configFile = "testConfig"  # need to make this an env variable...
+config = __import__(configFile)
+tracker_configVersion = config.runSettings["TRACKER_CONFIG_VERSION"]
 
 # load the dummy responses...
-with open('dummy_data/dummyResponses.json') as json_file:  
-    dummyResponses = json.load(json_file)
+dummyResponseSet =config.runSettings["DUMMY_RESPONSE_MODULE"]
+dummy = __import__(dummyResponseSet)
+dummy.init()
+
 
 
 def callTrackerConfig(theCall):
@@ -43,7 +46,7 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
     if runMode == 'dummy':
 
-        return dummyResponses["SCAN"]
+        return dummy.responses["SCAN"]
 
     else: 
         
@@ -73,23 +76,6 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         return "todo"
         
 
-def getOneDeviceReport(runMode, deviceID):
-
-    
-
-    if runMode == 'dummy':
-        print (deviceID)
-        print(dummyResponses["SCAN"][deviceID])
-        return dummyResponses["SCAN"][deviceID]
-
-    else: 
-        
-        result = {}
-
-        # Poll each of the ports, if tag connected, get it's --status and read it's config.  
-
-        return "todo"
-        
     
 
 

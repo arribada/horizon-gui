@@ -1,0 +1,56 @@
+{
+    "system": {
+        "label": "System Settings",
+        "description": "",
+        "order": 1,
+        "fields": {
+            "friendlyName": {
+                "label": "friendlyName",
+                "order": 1
+            },
+            "deviceIdentifier": {
+                "label": "deviceIdentifier",
+                "order": 2
+            },
+            "batteryLevel": {
+                "label": "batteryLevel",
+                "order": 3
+            },
+            "connection": {
+                "label": "connection",
+                "order": 4
+            },
+            "connectionID": {
+                "label": "connectionID",
+                "order": 5
+            },
+            "configVerison": {
+                "label": "configVerison",
+                "order": 6
+            },
+            "firmwareVersion": {
+                "label": "firmwareVersion",
+                "order": 7
+            }
+        }
+    },
+    "logging": {
+        "label": "Logging settings",
+        "description": "",
+        "order": 2,
+        "fields": {
+            "fileSize": {
+                "label": "fileSize",
+                "order": 1
+            },
+            "fileType": {
+                "label": "fileType",
+                "order": 2
+            },
+            "sensorsEnabled": {
+                "label": "sensorsEnabled",
+                "order": 3
+            }
+        }
+    }
+}
