@@ -178,7 +178,7 @@ def saveDeviceConfig(runMode, deviceID, config):
 
         output = {}
 
-        for thisField, thisValue in config:
+        for thisField, thisValue in config.items():
             print(thisField, thisValue)
             for categoryKey, categoryFields in mainDictionary.items():
                 for field, value in categoryFields.items():
