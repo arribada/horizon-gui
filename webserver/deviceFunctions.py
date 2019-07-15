@@ -150,7 +150,12 @@ def getDeviceConfig(runMode, deviceID):
         with open(configFile) as json_file:  
             data = json.load(json_file)
 
-        return data
+        output = {}
+        for categoryKey, categoryFields in data.items():
+            for field, value in categoryFields.items():
+                output[field] = value
+
+        return output
 
     else:
 
@@ -163,12 +168,28 @@ def saveDeviceConfig(runMode, deviceID, config):
 
         deviceID = deviceID.replace(":", "")
 
-        configFile = "dummy_data/" + deviceID + ".json"
-        print(configFile)
+        destinationFile = "dummy_data/" + deviceID + ".json"
+        print(type(config))
+
+        # load the configSchema for reference
+        with open("configSchema.json") as json_file:  
+            mainDictionary = json.load(json_file)
+        #print(mainDictionary)
+
+        output = {}
+
+        for thisField, thisValue in config:
+            print(thisField, thisValue)
+            for categoryKey, categoryFields in mainDictionary.items():
+                for field, value in categoryFields.items():
+                    if field == thisField:
+                        output[categoryKey][thisField] = thisValue
+                
+        print(output)
 
 
-        with open(configFile, 'w') as configFile:  
-            json.dump(config, configFile)
+        # with open(destinationFile, 'w') as configFile:  
+        #     json.dump(config, configFile)
 
         return "OK."
 

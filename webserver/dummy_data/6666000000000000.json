@@ -1,1 +1,74 @@
-{"scheduledInterval": "", "accelerometer|highThreshold": "13132", "pressureSensor|mode": "PERIODIC", "pressureSensor|scheduledAquisitionInterval": "0", "logTTFFEnable": "on", "scheduledDuration": "1", "battery|logEnable": "on", "accelerometer|scheduledAquisitionInterval": "321321", "gps|scheduledAquisitionInterval": "165", "dateTimeStampEnable": "on", "lowThreshold": "0", "logDebugEnable": "on", "bluetooth|logEnable": "on", "gps|maximumAquisitionTime": "20", "fileType": "LINEAR", "gps|mode": "SCHEDULED", "gps|sampleRate": "165", "pressureSensor|maximumAquisitionTime": "0", "connectionInterval": "1", "hysteresisPeriod": "0", "config": "5", "enable": "on", "advertisingInterval": "1", "accelerometer|logEnable": "on", "friendlyName": "Device 1", "maximumAquisitionTime": "313213", "deviceIdentifier": "11:11:00:00:00:00:00:00", "accelerometer|sampleRate": "21231", "accelerometer|mode": "PERIODIC", "logPositionEnable": "on", "pressureSensor|sampleRate": "5", "dateTime": "Sun Jan  7 21:59:10 2018", "inactivityTimeout": "1", "phyMode": "1_MBPS", "triggerControl": "1", "pressureSensor|highThreshold": "0", "fileSize": "1205498"}
+{
+	"accelerometer": {
+		"config": 0,
+		"highThreshold": 0,
+		"logEnable": false,
+		"maximumAquisitionTime": 0,
+		"mode": "PERIODIC",
+		"sampleRate": 0,
+		"scheduledAquisitionInterval": 0
+	},
+	"battery": {
+		"logEnable": true
+	},
+	"bluetooth": {
+		"advertisingInterval": 0,
+		"connectionInterval": 0,
+		"inactivityTimeout": 0,
+		"logEnable": false,
+		"phyMode": "1_MBPS",
+		"scheduledDuration": 0,
+		"scheduledInterval": 0,
+		"triggerControl": 0
+	},
+	"gps": {
+		"lastKnownPosition": {
+			"accuracyHorizontal": 13.356,
+			"accuracyVertical": 1.557,
+			"day": 7,
+			"height": 0.013,
+			"hours": 21,
+			"iTOW": 118596000,
+			"latitude": 51.5815359,
+			"longitude": -0.019696099999999998,
+			"minutes": 40,
+			"month": 1,
+			"seconds": 15,
+			"year": 2018
+		},
+		"logDebugEnable": true,
+		"logPositionEnable": true,
+		"logTTFFEnable": true,
+		"maximumAquisitionTime": 20,
+		"mode": "SCHEDULED",
+		"scheduledAquisitionInterval": 165,
+		"scheduledAquisitionNoFixTimeout": 0,
+		"veryFirstFixHoldTime": 120
+	},
+	"logging": {
+		"dateTimeStampEnable": true,
+		"enable": true,
+		"fileSize": 1205498,
+		"fileType": "LINEAR",
+		"startEndSyncEnable": false
+	},
+	"pressureSensor": {
+		"highThreshold": 0,
+		"logEnable": false,
+		"lowThreshold": 0,
+		"maximumAquisitionTime": 0,
+		"mode": "PERIODIC",
+		"sampleRate": 0,
+		"scheduledAquisitionInterval": 0
+	},
+	"rtc": {
+		"dateTime": "Sun Jan  7 21:59:10 2018"
+	},
+	"saltwaterSwitch": {
+		"hysteresisPeriod": 0,
+		"logEnable": false
+	},
+	"system": {
+		"deviceIdentifier": "66:66:00:00:00:00:00:00"
+	}
+}

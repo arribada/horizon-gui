@@ -45,7 +45,7 @@ test.registerHook("save_config", saveConfig)
 def readConfig(deviceID):
 
     data = deviceFunctions.getDeviceConfig(RUNMODE, deviceID)
-    print(data)
+    
     return data
 
 test.registerHook("read_config", readConfig)
