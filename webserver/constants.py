@@ -1,5 +1,6 @@
 # set to "dummy" to run without PI or devices
 RUNMODE = "dummy"
+DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 
 # the toolset command name
 TRACKER_CONFIG = "tracker_config"

@@ -4,9 +4,10 @@ import json
 
 import constants
 
-# load the dummy responses...
-with open('dummy_data/dummyResponses.json') as json_file:  
-    dummyResponses = json.load(json_file)
+if constants.RUNMODE == "dummy":
+    # load the dummy responses...
+    with open(constants.DUMMY_RESPONSES) as json_file:  
+        dummyResponses = json.load(json_file)
 
 
 def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
@@ -115,7 +116,6 @@ def getDeviceConfig(runMode, deviceID):
         deviceID = deviceID.replace(":", "")
 
         configFile = "dummy_data/" + deviceID + ".json"
-        print(configFile)
         
         with open(configFile) as json_file:  
             data = json.load(json_file)
@@ -153,9 +153,13 @@ def saveDeviceConfig(runMode, deviceID, config):
 
 
 
-def trackerConfigBattery():
+def trackerConfigBattery(runMode, deviceID):
 
-    if constants.RUNMODE == 'dummy':
+    if runMode == 'dummy':
+
+        return = "Battery: Dummy Mode"
+
+    else:
 
         try:
             result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--battery"])
@@ -167,70 +171,19 @@ def trackerConfigBattery():
         result = result.rstrip() # trailing new line...
         print("Raw tracker_config battery Received: " , result)
 
-    else: 
-        result = "Battery: Debug Mode"
+
 
     if result.startswith('Unexpected error'):
         result = constants.NO_TAG_TEXT
     else:
         result = result.rstrip() # trailing new line...
         result = json.loads(result)
-        print(result['charging_level'])
-        print("Raw tracker_config battery Received: " , result)
+
         result = 'Battery: ' + str(result['charging_level']) + '%'
        
     return result
 
 
-def getTrackerConfig():
-
-    if  constants.RUNMODE == 'dummy':
-
-        try:
-            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read config/from_tag/current_config.json",shell=True,stderr=subprocess.STDOUT)
-
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
-        
-        #result = result.rstrip() # trailing new line...
-        print("Raw tracker_config data Received: " , result, len(result))
-
-        if len(result) == 0:
-            return {'result': 'config/from_tag/current_config.json'}
-        else:
-            return {'error': constants.NO_TAG_TEXT}
-           
-
-    else:
-
-        return {'result': 'config/from_tag/current_config.json'}
-
-
-
-def writeTrackerConfig():
-
-    if  constants.RUNMODE == 'dummy':
-
-        try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--write", "config/to_tag/new_config.json"])
-
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
-        
-        #result = result.rstrip() # trailing new line...
-        print("Raw tracker_config data saved: " , result, len(result))
-
-        if len(result) == 0:
-            return {'result': 'config/to_tag/new_config.json'}
-        else:
-            return {'error': constants.NO_TAG_TEXT}
-           
-
-    else:
-
-        return {'result': 'config/from_tag/current_config.json'}
 
 def receiveTrackerLogData(runMode, deviceID): 
 
