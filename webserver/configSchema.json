@@ -4,7 +4,7 @@
         "description": "Accelerometer settings for the device",
         "order": 1,
         "fields": {
-            "config": {
+            "accelerometer.config": {
                 "label": "Config",
                 "description": "Accelerometer config number",
                 "type": "text",
@@ -12,7 +12,7 @@
                 "validateWith": "<functionName>",
                 "order": 1
             },
-            "accelerometer|highThreshold": {
+            "accelerometer.highThreshold": {
                 "label": "highThreshold",
                 "description": "highThreshold",
                 "type": "text",
@@ -20,12 +20,12 @@
                 "validateWith": "<functionName>",
                 "order": 2
             },
-            "accelerometer|logEnable": {
+            "accelerometer.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
                 "order": 3
             },
-            "maximumAquisitionTime": {
+            "accelerometer.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "maximumAquisitionTime",
                 "type": "text",
@@ -33,7 +33,7 @@
                 "validateWith": "<functionName>",
                 "order": 4
             },
-            "accelerometer|mode": {
+            "accelerometer.mode": {
                 "label": "mode",
                 "type": "select",
                 "list": {
@@ -41,7 +41,7 @@
                 },
                 "order": 5
             },
-            "accelerometer|sampleRate": {
+            "accelerometer.sampleRate": {
                 "label": "sampleRate",
                 "description": "sampleRate",
                 "type": "text",
@@ -49,7 +49,7 @@
                 "validateWith": "<functionName>",
                 "order": 6
             },
-            "accelerometer|scheduledAquisitionInterval": {
+            "accelerometer.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "scheduledAquisitionInterval",
                 "type": "text",
@@ -64,7 +64,7 @@
         "description": "",
         "order": 2,
         "fields": {
-            "battery|logEnable": {
+            "battery.logEnable": {
                 "label": "logEnable",
                 "type": "boolean"
             }
@@ -75,7 +75,7 @@
         "description": "",
         "order": 3,
         "fields": {
-            "advertisingInterval": {
+            "bluetooth.advertisingInterval": {
                 "label": "advertisingInterval",
                 "description": "",
                 "type": "text",
@@ -83,7 +83,7 @@
                 "validateWith": "<functionName>",
                 "order": 1
             },
-            "connectionInterval": {
+            "bluetooth.connectionInterval": {
                 "label": "connectionInterval",
                 "description": "",
                 "type": "text",
@@ -91,7 +91,7 @@
                 "validateWith": "<functionName>",
                 "order": 2
             },
-            "inactivityTimeout": {
+            "bluetooth.inactivityTimeout": {
                 "label": "inactivityTimeout",
                 "description": "",
                 "type": "text",
@@ -99,12 +99,12 @@
                 "validateWith": "<functionName>",
                 "order": 3
             },
-            "bluetooth|logEnable": {
+            "bluetooth.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
                 "order": 4
             },
-            "phyMode": {
+            "bluetooth.phyMode": {
                 "label": "phyMode",
                 "type": "select",
                 "list": {
@@ -112,7 +112,7 @@
                 },
                 "order": 5
             },
-            "scheduledDuration": {
+            "bluetooth.scheduledDuration": {
                 "label": "scheduledDuration",
                 "description": "",
                 "type": "text",
@@ -120,7 +120,7 @@
                 "validateWith": "<functionName>",
                 "order": 6
             },
-            "scheduledInterval": {
+            "bluetooth.scheduledInterval": {
                 "label": "scheduledInterval",
                 "description": "",
                 "type": "text",
@@ -128,7 +128,7 @@
                 "validateWith": "<functionName>",
                 "order": 6
             },
-            "triggerControl": {
+            "bluetooth.triggerControl": {
                 "label": "triggerControl",
                 "description": "",
                 "type": "text",
@@ -143,22 +143,22 @@
         "description": "",
         "order": 4,
         "fields": {
-            "logDebugEnable": {
+            "gps.logDebugEnable": {
                 "label": "logDebugEnable",
                 "type": "boolean",
                 "order": 2
             },
-            "logPositionEnable": {
+            "gps.logPositionEnable": {
                 "label": "logPositionEnable",
                 "type": "boolean",
                 "order": 3
             },
-            "logTTFFEnable": {
+            "gps.logTTFFEnable": {
                 "label": "logTTFFEnable",
                 "type": "boolean",
                 "order": 4
             },
-            "gps|maximumAquisitionTime": {
+            "gps.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "",
                 "type": "text",
@@ -166,7 +166,7 @@
                 "validateWith": "<functionName>",
                 "order": 5
             },
-            "gps|mode": {
+            "gps.mode": {
                 "label": "mode",
                 "type": "select",
                 "list": {
@@ -175,7 +175,7 @@
                 },
                 "order": 6
             },
-            "gps|sampleRate": {
+            "gps.sampleRate": {
                 "label": "sampleRate",
                 "description": "",
                 "type": "text",
@@ -183,7 +183,7 @@
                 "validateWith": "<functionName>",
                 "order": 7
             },
-            "gps|scheduledAquisitionInterval": {
+            "gps.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "",
                 "type": "text",
@@ -198,17 +198,17 @@
         "description": "",
         "order": 5,
         "fields": {
-            "dateTimeStampEnable": {
+            "logging.dateTimeStampEnable": {
                 "label": "dateTimeStampEnable",
                 "type": "boolean",
                 "order": 1
             },
-            "enable": {
+            "logging.enable": {
                 "label": "enable",
                 "type": "boolean",
                 "order": 2
             },
-            "fileSize": {
+            "logging.fileSize": {
                 "label": "fileSize",
                 "description": "",
                 "type": "text",
@@ -216,7 +216,7 @@
                 "validateWith": "<functionName>",
                 "order": 3
             },
-            "fileType": {
+            "logging.fileType": {
                 "label": "fileType",
                 "type": "select",
                 "list": {
@@ -224,7 +224,7 @@
                 },
                 "order": 4
             },
-            "startEndSyncEnable": {
+            "logging.startEndSyncEnable": {
                 "label": "startEndSyncEnable",
                 "type": "boolean",
                 "order": 5
@@ -236,7 +236,7 @@
         "description": "",
         "order": 6,
         "fields": {
-            "pressureSensor|highThreshold": {
+            "pressureSensor.highThreshold": {
                 "label": "highThreshold",
                 "description": "",
                 "type": "text",
@@ -244,12 +244,12 @@
                 "validateWith": "<functionName>",
                 "order": 1
             },
-            "pressureSensor|logEnable": {
+            "pressureSensor.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
                 "order": 2
             },
-            "lowThreshold": {
+            "pressureSensor.lowThreshold": {
                 "label": "lowThreshold",
                 "description": "",
                 "type": "text",
@@ -257,7 +257,7 @@
                 "validateWith": "<functionName>",
                 "order": 3
             },
-            "pressureSensor|maximumAquisitionTime": {
+            "pressureSensor.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "",
                 "type": "text",
@@ -265,7 +265,7 @@
                 "validateWith": "<functionName>",
                 "order": 4
             },
-            "pressureSensor|mode": {
+            "pressureSensor.mode": {
                 "label": "mode",
                 "type": "select",
                 "list": {
@@ -273,7 +273,7 @@
                 },
                 "order": 5
             },
-            "pressureSensor|sampleRate": {
+            "pressureSensor.sampleRate": {
                 "label": "sampleRate",
                 "description": "",
                 "type": "text",
@@ -281,7 +281,7 @@
                 "validateWith": "<functionName>",
                 "order": 6
             },
-            "pressureSensor|scheduledAquisitionInterval": {
+            "pressureSensor.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "",
                 "type": "text",
@@ -296,7 +296,7 @@
         "description": "",
         "order": 7,
         "fields": {
-            "dateTime": {
+            "rtc.dateTime": {
                 "label": "dateTime",
                 "description": "",
                 "type": "text",
@@ -310,7 +310,7 @@
         "description": "",
         "order": 8,
         "fields": {
-            "hysteresisPeriod": {
+            "saltwaterSwitch.hysteresisPeriod": {
                 "label": "hysteresisPeriod",
                 "description": "",
                 "type": "text",
@@ -318,7 +318,7 @@
                 "validateWith": "<functionName>",
                 "order": 1
             },
-            "saltwaterSwitch|logEnable": {
+            "saltwaterSwitch.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
                 "order": 2
@@ -330,7 +330,7 @@
         "description": "",
         "order": 9,
         "fields": {
-            "friendlyName": {
+            "system.friendlyName": {
                 "label": "friendlyName",
                 "description": "",
                 "type": "text",
@@ -338,7 +338,7 @@
                 "validateWith": "<functionName>",
                 "order": 2
             },
-            "deviceIdentifier": {
+            "system.deviceIdentifier": {
                 "label": "deviceIdentifier",
                 "description": "",
                 "type": "text",
