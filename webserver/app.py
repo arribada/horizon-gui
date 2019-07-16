@@ -50,12 +50,8 @@ def readConfig(deviceID):
 
 test.registerHook("read_config", readConfig)
 
-@app.route('/view_log/<device>')
+@app.route('/export/<device>')
 def viewLog(device):
-    return 'Log data for ' + device
-    
 
-@app.route('/export_log/<device>')
-def export(device):
-    return 'Log data for ' + device
+    return deviceFunctions.receiveTrackerLogData(RUNMODE, device)
     

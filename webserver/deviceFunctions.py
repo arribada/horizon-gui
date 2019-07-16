@@ -280,10 +280,23 @@ def writeTrackerConfig():
 
         return {'result': 'config/from_tag/current_config.json'}
 
-def receiveTrackerLogData(): 
+def receiveTrackerLogData(runMode, deviceID): 
 
+    deviceID = deviceID.replace(":", "")
+
+    
     if  runMode == 'dummy':
 
+        destinationFile = "dummy_data/latest_logfile_" + deviceID + ".json"
+
+        f = open(destinationFile, "r")
+
+        fileContents = f.read()
+        f.close()
+
+        return {"file": destinationFile, "data": fileContents }
+
+    else:
         # get data off the tag
         try:
             result1 = subprocess.check_output("sudo " + tracker_configVersion + " --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
@@ -310,7 +323,3 @@ def receiveTrackerLogData():
         else:
             return {'error': config.runSettings['NO_TAG_TEXT'] + ' or data error'}
            
-
-    else:
-
-        return {'result': 'config/from_tag/current_config.json'}
