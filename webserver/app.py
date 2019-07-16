@@ -20,7 +20,7 @@ options = {
 horizonSCUTE = scute(options, app)
 
 def getDevices():
-    return deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, SCAN_BLUETOOTH)    
+    return deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)    
 
 
 horizonSCUTE.registerHook("get_devices", getDevices)
