@@ -6,10 +6,9 @@ import json
 
 ## project functions
 import deviceFunctions
+import constants
 
 app = Flask(__name__)
-
-RUNMODE = "dummy"
 
 options = {
         "reportSchema": "reportSchema.json",
@@ -18,40 +17,57 @@ options = {
         "dataViews": "dataViews.json",
     }
 
-test = scute(options, app)
+horizonSCUTE = scute(options, app)
 
 def getDevices():
-    return deviceFunctions.scanForAttachedDevices(RUNMODE, False, False)    
+    return deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, SCAN_BLUETOOTH)    
 
 
-test.registerHook("get_devices", getDevices)
+horizonSCUTE.registerHook("get_devices", getDevices)
 
 def getFields(deviceID):
-    return deviceFunctions.getDeviceReport(RUNMODE, deviceID)    
+    return deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)    
 
 
-test.registerHook("get_report_fields", getFields)
+horizonSCUTE.registerHook("get_report_fields", getFields)
 
 # def getFriendlyName(deviceID):
 #     return deviceID + "FRIENDLY"
 
-# test.registerHook("get_report_field__friendlyName", getFriendlyName)
+# horizonSCUTE.registerHook("get_report_field__friendlyName", getFriendlyName)
 
 def saveConfig(deviceID, config):
-    deviceFunctions.saveDeviceConfig(RUNMODE, deviceID, config)
 
-test.registerHook("save_config", saveConfig)
+    config = horizonSCUTE.expandJSON(config)
+
+    deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
+
+horizonSCUTE.registerHook("save_config", saveConfig)
 
 def readConfig(deviceID):
 
-    data = deviceFunctions.getDeviceConfig(RUNMODE, deviceID)
+    config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID)
+    print(config)
+
+    config = horizonSCUTE.flattenJSON(config)
+    print(config)
+    return config
+
+horizonSCUTE.registerHook("read_config", readConfig)
+
+
+@app.route('/export')
+def export():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+            return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
+    else:
+        #TODO
+        return "Functionality to be confirmed for multiple exports."
+
     
-    return data
 
-test.registerHook("read_config", readConfig)
 
-@app.route('/export/<device>')
-def viewLog(device):
 
-    return deviceFunctions.receiveTrackerLogData(RUNMODE, device)
+
     

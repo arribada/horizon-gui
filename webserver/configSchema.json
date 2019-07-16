@@ -8,30 +8,40 @@
                 "label": "Config",
                 "description": "Accelerometer config number",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 1
+                "exclueFromPresets": false,
+                "order": 1,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.highThreshold": {
                 "label": "highThreshold",
                 "description": "highThreshold",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 2
+                "exclueFromPresets": false,
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
-                "order": 3
+                "order": 3,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "maximumAquisitionTime",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 4
+                "exclueFromPresets": false,
+
+                "order": 4,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.mode": {
                 "label": "mode",
@@ -39,34 +49,44 @@
                 "list": {
                     "PERIODIC": "Periodic"
                 },
-                "order": 5
+                "order": 5,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.sampleRate": {
                 "label": "sampleRate",
                 "description": "sampleRate",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 6
+                "exclueFromPresets": false,
+                "order": 6,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "accelerometer.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "scheduledAquisitionInterval",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 7
+                "exclueFromPresets": false,
+                "order": 7,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
     "battery": {
         "label": "Battery Settings",
-        "description": "",
+        "description": "    ",
         "order": 2,
         "fields": {
             "battery.logEnable": {
                 "label": "logEnable",
-                "type": "boolean"
+                "type": "boolean",
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -79,30 +99,39 @@
                 "label": "advertisingInterval",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 1
+                "exclueFromPresets": false,
+                "order": 1,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.connectionInterval": {
                 "label": "connectionInterval",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 2
+                "exclueFromPresets": false,
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.inactivityTimeout": {
                 "label": "inactivityTimeout",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 3
+                "exclueFromPresets": false,
+                "order": 3,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
-                "order": 4
+                "order": 4,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.phyMode": {
                 "label": "phyMode",
@@ -110,31 +139,40 @@
                 "list": {
                     "1_MBPS": "1 Mb PS"
                 },
-                "order": 5
+                "order": 5,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.scheduledDuration": {
                 "label": "scheduledDuration",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 6
+                "exclueFromPresets": false,
+                "order": 6,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.scheduledInterval": {
                 "label": "scheduledInterval",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 6
+                "exclueFromPresets": false,
+                "order": 6,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "bluetooth.triggerControl": {
                 "label": "triggerControl",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 8
+                "exclueFromPresets": false,
+                "order": 8,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -146,25 +184,36 @@
             "gps.logDebugEnable": {
                 "label": "logDebugEnable",
                 "type": "boolean",
-                "order": 2
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.logPositionEnable": {
                 "label": "logPositionEnable",
                 "type": "boolean",
-                "order": 3
+                "order": 3,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.logTTFFEnable": {
                 "label": "logTTFFEnable",
                 "type": "boolean",
-                "order": 4
+                "order": 4,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 5
+                "exclueFromPresets": false,
+                "order": 5,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.mode": {
                 "label": "mode",
@@ -173,23 +222,31 @@
                     "PERIODIC": "Periodic",
                     "SCHEDULED": "Scheduled"
                 },
-                "order": 6
+                "order": 6,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.sampleRate": {
                 "label": "sampleRate",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 7
+                "exclueFromPresets": false,
+
+                "order": 7,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "gps.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 8
+                "exclueFromPresets": false,
+                "order": 8,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -201,20 +258,28 @@
             "logging.dateTimeStampEnable": {
                 "label": "dateTimeStampEnable",
                 "type": "boolean",
-                "order": 1
+                "order": 1,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "logging.enable": {
                 "label": "enable",
                 "type": "boolean",
-                "order": 2
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "logging.fileSize": {
                 "label": "fileSize",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 3
+                "exclueFromPresets": true,
+                "order": 3,
+                "default": "",
+                "userLocked": true,
+                "advanced": false
             },
             "logging.fileType": {
                 "label": "fileType",
@@ -222,12 +287,18 @@
                 "list": {
                     "LINEAR": "Linear"
                 },
-                "order": 4
+                "order": 4,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "logging.startEndSyncEnable": {
                 "label": "startEndSyncEnable",
                 "type": "boolean",
-                "order": 5
+                "order": 5,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -240,30 +311,39 @@
                 "label": "highThreshold",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 1
+                "exclueFromPresets": false,
+                "order": 1,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
-                "order": 2
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.lowThreshold": {
                 "label": "lowThreshold",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 3
+                "exclueFromPresets": false,
+                "order": 3,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.maximumAquisitionTime": {
                 "label": "maximumAquisitionTime",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 4
+                "exclueFromPresets": false,
+                "order": 4,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.mode": {
                 "label": "mode",
@@ -271,23 +351,31 @@
                 "list": {
                     "PERIODIC": "Periodic"
                 },
-                "order": 5
+                "order": 5,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.sampleRate": {
                 "label": "sampleRate",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 6
+                "exclueFromPresets": false,
+
+                "order": 6,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "pressureSensor.scheduledAquisitionInterval": {
                 "label": "scheduledAquisitionInterval",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 7
+                "exclueFromPresets": false,
+                "order": 7,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -300,8 +388,10 @@
                 "label": "dateTime",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>"
+                "exclueFromPresets": true,
+                "default": "",
+                "userLocked": true,
+                "advanced": false
             }
         }
     },
@@ -314,14 +404,19 @@
                 "label": "hysteresisPeriod",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 1
+                "exclueFromPresets": false,
+                "order": 1,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "saltwaterSwitch.logEnable": {
                 "label": "logEnable",
                 "type": "boolean",
-                "order": 2
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             }
         }
     },
@@ -334,17 +429,21 @@
                 "label": "friendlyName",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 2
+                "exclueFromPresets": true,
+                "order": 2,
+                "default": "",
+                "userLocked": false,
+                "advanced": false
             },
             "system.deviceIdentifier": {
                 "label": "deviceIdentifier",
                 "description": "",
                 "type": "text",
-                "exclueFromPresets": "<boolean>",
-                "validateWith": "<functionName>",
-                "order": 1
+                "exclueFromPresets": true,
+                "order": 1,
+                "default": "",
+                "userLocked": true,
+                "advanced": false
             }
         }
     }

@@ -1,0 +1,24 @@
+{
+    "branding": {
+        "siteName": "Horizon Portal",
+        "siteLogo": "theLogo.svg"
+    },
+    "colours": {
+        "mainColour": "#111111",
+        "highlightColour": "#222222"
+    },
+    "mainNavigation": [
+        {
+            "title": "Device Manager",
+            "route": "/"
+        },
+        {
+            "title": "Preset Manager",
+            "route": "/presets"
+        },
+        {
+            "title": "Visualisations",
+            "route": "/visuals"
+        }
+    ]
+}

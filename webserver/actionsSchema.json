@@ -1,6 +1,7 @@
 {
     "/export": {
-        "label": "export",
-        "order": 3
+        "label": "View Logs",
+        "order": 3, 
+        "bulk" : true
     }
 }

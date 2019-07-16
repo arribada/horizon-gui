@@ -5,31 +5,15 @@
         "order": 1,
         "fields": {
             "friendlyName": {
-                "label": "friendlyName",
+                "label": "Nickname",
                 "order": 1
             },
-            "deviceIdentifier": {
-                "label": "deviceIdentifier",
-                "order": 2
-            },
             "batteryLevel": {
-                "label": "batteryLevel",
+                "label": "Battery Level",
                 "order": 3
             },
-            "connection": {
-                "label": "connection",
-                "order": 4
-            },
-            "connectionID": {
-                "label": "connectionID",
-                "order": 5
-            },
-            "configVerison": {
-                "label": "configVerison",
-                "order": 6
-            },
             "firmwareVersion": {
-                "label": "firmwareVersion",
+                "label": "Firmware Version",
                 "order": 7
             }
         }
@@ -40,15 +24,15 @@
         "order": 2,
         "fields": {
             "fileSize": {
-                "label": "fileSize",
+                "label": "File Size",
                 "order": 1
             },
             "fileType": {
-                "label": "fileType",
+                "label": "Log Type",
                 "order": 2
             },
             "sensorsEnabled": {
-                "label": "sensorsEnabled",
+                "label": "Sensors Enabled",
                 "order": 3
             }
         }
