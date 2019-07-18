@@ -72,7 +72,8 @@ def export():
         return "<h1>Functionality to be confirmed for multiple exports.</h1>"
 
     
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
 
 
 
