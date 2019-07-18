@@ -157,7 +157,7 @@ def trackerConfigBattery(runMode, deviceID):
 
     if runMode == 'dummy':
 
-        return = "Battery: Dummy Mode"
+        return "Battery: Dummy Mode"
 
     else:
 
