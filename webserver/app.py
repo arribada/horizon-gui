@@ -2,8 +2,9 @@
 # see https://github.com/Octophin/scute for more info.
 
 from scute import scute
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import json
+import os
 
 ## project functions
 import deviceFunctions
@@ -30,6 +31,7 @@ horizonSCUTE.registerHook("get_devices", getDevices)
 
 # get the report data for one device
 def getReportFields(deviceID):
+
     return deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)    
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)

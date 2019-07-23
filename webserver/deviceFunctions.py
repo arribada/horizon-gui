@@ -17,30 +17,39 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
     else: 
         
-        result = {}
+        result = []
 
-        # Poll each of the ports, if tag connected, get it's --status and read it's config.  
+        # this returns {"0": "00:00:00:00:00:00:00:00"} for one, assume 
+        # [ {"0": "00:00:00:00:00:00:00:00"},  {"1": "11:00:00:00:00:00:00:00"}]  for multiple
 
         if scanUSB:
             # this will scan all. 
-            print("TODO - scanUSB") 
+            devices = deviceScan("USB")
+            devices = json.loads(devices)
 
+            for connectionID, deviceID in devices.items():
+                print(connectionID, deviceID)
+                result.append(deviceID)
+
+
+         
 
         if scanBluetooth:
-            # this will scan all.
+            # this will scan BT - might not be needed, but setting up...
             print("TODO - scanBluetooth")    
         
-        if not scanUSB and not scanBluetooth:
-            #just use the current connected
-            myDeviceConfigFile = getTrackerConfig()
-            # read config file
-            with open(myDeviceConfigFile['result'], 'r') as myConfig:
-                data=myConfig.read()
-            data =  json.load(data)
+        # if not scanUSB and not scanBluetooth: # this is not needed, but keep for a bit.
+        #     #just use the current connected
+        #     myDeviceConfigFile = getTrackerConfig()
+        #     # read config file
+        #     with open(myDeviceConfigFile['result'], 'r') as myConfig:
+        #         data=myConfig.read()
+        #     data =  json.load(data)
             
-            print(data)
-            # still TODO
-        return "todo"
+        #     print(data)
+        #     # still TODO
+        print(result)
+        return result
         
 
 def getDeviceReport(runMode, deviceID):
@@ -49,14 +58,62 @@ def getDeviceReport(runMode, deviceID):
         return dummyResponses["SCAN"][deviceID]
 
     else: 
-        
+        print("getDeviceReport", deviceID)
+
         result = {}
+        
+        batteryLevel = trackerConfigBattery(runMode, deviceID)
 
-        # Poll each of the ports, if tag connected, get it's --status and read it's config.  
+        result['batteryLevel'] = batteryLevel
+        result['friendlyName'] = "Not Real"
 
-        return "todo"
+
+
+        #    "id": "11:11:00:00:00:00",
+        #    "batteryLevel": 50,
+        #    "fileSize": 123456,
+        #    "sensorsEnabled": [
+        #        "gps",
+        #        "pressure",
+        #        "saltwater",
+        #        "accelerometer"
+        #    ],
+        #    "firmwareVersion": 4,
+        #    "fileType": "LINEAR"
+
+
+
+        print (result)
+
+        return result
         
     
+
+
+
+def deviceScan(runMode):
+
+    if runMode == 'dummy':
+
+        result = {"0": "00:00:00:00:00:00:00:00"}
+
+    else: 
+
+        try:
+            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--list_id"])
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        result = result.rstrip() # trailing new line...
+        print("Raw tracker_config list_id Received: " , result)
+
+
+    if result.startswith('Unexpected error'):
+        return "{}" # no devices...
+    else:
+        return result
+
 
 
 def trackerConfigVesion(runMode):
@@ -157,7 +214,7 @@ def trackerConfigBattery(runMode, deviceID):
 
     if runMode == 'dummy':
 
-        return "Battery: Dummy Mode"
+        return "-"
 
     else:
 
@@ -179,7 +236,7 @@ def trackerConfigBattery(runMode, deviceID):
         result = result.rstrip() # trailing new line...
         result = json.loads(result)
 
-        result = 'Battery: ' + str(result['charging_level']) + '%'
+        result = str(result['charging_level'])
        
     return result
 

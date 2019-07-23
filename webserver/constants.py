@@ -1,5 +1,5 @@
 # set to "dummy" to run without PI or devices
-RUNMODE = "dummy"
+RUNMODE = "pi"
 DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 
 # the toolset command name
@@ -9,7 +9,7 @@ TRACKER_CONFIG = "tracker_config"
 NO_TAG_TEXT = "No Device Detected."
 
 # when not in dummy mode, should we scan for USB devices?
-SCAN_USB= False
+SCAN_USB= True
 
 # when not in dummy mode, should we scan for Bluetooth devices?
 SCAN_BLUETOOTH = False

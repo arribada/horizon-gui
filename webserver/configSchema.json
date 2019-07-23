@@ -1,450 +1,635 @@
 {
-    "accelerometer": {
-        "label": "Accelerometer Settings",
-        "description": "Accelerometer settings for the device",
+    "system": {
+    	"label": "System Settings",
+        "description": "",
         "order": 1,
         "fields": {
-            "accelerometer.config": {
-                "label": "Config",
-                "description": "Accelerometer config number",
+        	"system.friendlyName": {
+                "label": "Nickname",
+                "description": "A user-readable name for the tag",
                 "type": "text",
-                "exclueFromPresets": false,
+                "excludeFromPresets": true,
                 "order": 1,
-                "default": "",
+                "default": "HORIZON_TAG",
                 "userLocked": false,
                 "advanced": false
             },
-            "accelerometer.highThreshold": {
-                "label": "highThreshold",
-                "description": "highThreshold",
-                "type": "text",
-                "exclueFromPresets": false,
+	        "system.deviceIdentity": {
+				"label": "ID",
+	            "type": "text",
+	            "description": "ID string in the format: 'xx:xx:xx:xx:xx:xx:xx:xx'",
+	            "excludeFromPresets": true,
                 "order": 2,
-                "default": "",
-                "userLocked": false,
+                "default": "The device identity expressed as a MAC address style ID",
+                "userLocked": true,
                 "advanced": false
-            },
-            "accelerometer.logEnable": {
-                "label": "logEnable",
-                "type": "boolean",
-                "order": 3,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "accelerometer.maximumAquisitionTime": {
-                "label": "maximumAquisitionTime",
-                "description": "maximumAquisitionTime",
-                "type": "text",
-                "exclueFromPresets": false,
-
-                "order": 4,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "accelerometer.mode": {
-                "label": "mode",
-                "type": "select",
-                "list": {
-                    "PERIODIC": "Periodic"
-                },
-                "order": 5,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "accelerometer.sampleRate": {
-                "label": "sampleRate",
-                "description": "sampleRate",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 6,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "accelerometer.scheduledAquisitionInterval": {
-                "label": "scheduledAquisitionInterval",
-                "description": "scheduledAquisitionInterval",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 7,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            }
-        }
+	        }
+	    }
     },
     "battery": {
         "label": "Battery Settings",
-        "description": "    ",
+        "description": "",
         "order": 2,
         "fields": {
             "battery.logEnable": {
-                "label": "logEnable",
+                "label": "Enable Battery Log",
+                "description": "Whether or not to log the current battery level",
                 "type": "boolean",
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            }
-        }
-    },
-    "bluetooth": {
-        "label": "Bluetooth Settings",
-        "description": "",
-        "order": 3,
-        "fields": {
-            "bluetooth.advertisingInterval": {
-                "label": "advertisingInterval",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 1,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.connectionInterval": {
-                "label": "connectionInterval",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 2,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.inactivityTimeout": {
-                "label": "inactivityTimeout",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 3,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.logEnable": {
-                "label": "logEnable",
-                "type": "boolean",
-                "order": 4,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.phyMode": {
-                "label": "phyMode",
-                "type": "select",
-                "list": {
-                    "1_MBPS": "1 Mb PS"
-                },
-                "order": 5,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.scheduledDuration": {
-                "label": "scheduledDuration",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 6,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.scheduledInterval": {
-                "label": "scheduledInterval",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 6,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "bluetooth.triggerControl": {
-                "label": "triggerControl",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 8,
-                "default": "",
+                "excludeFromPresets": true,
                 "userLocked": false,
                 "advanced": false
             }
         }
     },
     "gps": {
-        "label": "GPS Settings",
+    	"label": "GPS Settings",
         "description": "",
-        "order": 4,
+        "order": 3,
         "fields": {
-            "gps.logDebugEnable": {
-                "label": "logDebugEnable",
-                "type": "boolean",
-                "order": 2,
-                "default": "",
+	        "gps.lastKnownPosition": {
+	        	"label": "Last known GPS position",
+		        "description": "",
+		        "order": 1,
+		        "fields": {
+		            "lastknown.accuracyHorizontal": {
+		                "type": "number",
+		                "description": "The horizontal accuracy of the last known GPS position",
+		                "excludeFromPresets": true,
+		                "order": 1,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.accuracyVertical": {
+		                "type": "number",
+		                "description": "The vertical accuracy of the last known GPS position",
+		                "excludeFromPresets": true,
+		                "order": 2,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.height": {
+		                "type": "number",
+		                "description": "Read-only last recorded height",
+		                "excludeFromPresets": true,
+		                "order": 3,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.iTOW": {
+		                "type": "number",
+		                "description": "",
+		                "excludeFromPresets": true,
+		                "order": 4,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.latitude": {
+		                "type": "number",
+		                "description": "Read-only last recorded latitude",
+		                "excludeFromPresets": true,
+		                "order": 5,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.longitude": {
+		                "type": "number",
+		                "description": "Read-only last recorded longitude",
+		                "excludeFromPresets": true,
+		                "order": 6,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.day": {
+		                "type": "integer",
+		                "description": "Day when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 7,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.month": {
+		                "type": "integer",
+		                "description": "Month when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 8,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.year": {
+		                "type": "integer",
+		                "description": "Year when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 9,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.hours": {
+		                "type": "integer",
+		                "description": "Hour when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 10,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.minutes": {
+		                "type": "integer",
+		                "description": "Minute when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 11,
+		                "userLocked": false,
+		                "advanced": false
+		            },
+		            "lastknown.seconds": {
+		                "type": "integer",
+		                "description": "Second when last recorded GPS position was obtained",
+		                "excludeFromPresets": true,
+		                "order": 12,
+		                "userLocked": false,
+		                "advanced": false
+		            }
+		        }
+	        },
+	        "gps.logPositionEnable": {
+				"label": "Enable GPS Log",
+	            "type": "boolean",
+	            "description": "Enable GPS logging",
+	            "order": 2,
+                "default": true,
                 "userLocked": false,
                 "advanced": false
-            },
-            "gps.logPositionEnable": {
-                "label": "logPositionEnable",
-                "type": "boolean",
-                "order": 3,
-                "default": "",
+	        },
+	        "gps.logTTFFEnable": {
+				"label": "Enable TTFF Log",
+	            "type": "boolean",
+	            "description": "Enable logging time till first fix",
+	            "order": 3,
+                "default": true,
                 "userLocked": false,
                 "advanced": false
-            },
-            "gps.logTTFFEnable": {
-                "label": "logTTFFEnable",
-                "type": "boolean",
-                "order": 4,
-                "default": "",
+	        },
+	        "gps.logDebugEnable": {
+				"label": "Debug Log",
+				"type": "boolean",
+	            "description": "Enable logging GPS debug events",
+	            "order": 4,
+	            "excludeFromPresets": false,
+                "default": false,
                 "userLocked": false,
                 "advanced": false
-            },
-            "gps.maximumAquisitionTime": {
-                "label": "maximumAquisitionTime",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
+	        },
+	        "gps.maximumAcquisitionTime": {
+				"label": "Max Acquisition Time",
+	            "type": "integer",
+	            "description": "Maximum GPS acqusition time (0=>indefinite)",
+	            "excludeFromPresets": false,
                 "order": 5,
-                "default": "",
+                "default": 15,
                 "userLocked": false,
                 "advanced": false
-            },
-            "gps.mode": {
-                "label": "mode",
-                "type": "select",
+	        },
+	        "gps.scheduledAcquisitionInterval": {
+				"label": "Scheduled Acquisition Interval",
+	            "type": "integer",
+	            "description": "GPS scheduling period (0=>continuous)",
+	            "excludeFromPresets": false,
+                "order": 6,
+                "default": 165,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "gps.scheduledAcquisitionNoFixTimeout": {
+				"label": "Scheduled Acquisition NoFix Timeout",
+	            "type": "integer",
+	            "description": "GPS no-fix timeout period (0=>indefinite)",
+	            "excludeFromPresets": false,
+                "order": 7,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "gps.veryFirstFixHoldTime": {
+				"label": "Very First Fix Hold Time",
+	            "type": "integer",
+	            "description": "Hold period after first GPS fix before shutting down (0=>disabled)",
+	            "excludeFromPresets": false,
+                "order": 7,
+                "default": 120,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "gps.mode": {
+				"label": "Mode",
+	            "description": "One of { 'SWITCH_TRIGGERED', 'SCHEDULED', 'HYBRID' }",
+	            "type": "select",
                 "list": {
                     "PERIODIC": "Periodic",
                     "SCHEDULED": "Scheduled"
                 },
-                "order": 6,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "gps.sampleRate": {
-                "label": "sampleRate",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-
-                "order": 7,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "gps.scheduledAquisitionInterval": {
-                "label": "scheduledAquisitionInterval",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
                 "order": 8,
-                "default": "",
+                "default": "SCHEDULED",
                 "userLocked": false,
                 "advanced": false
-            }
-        }
+	        }
+	    }
+	},
+    "rtc": {
+    	"label": "RTC",
+        "description": "",
+        "order": 4,
+        "fields": {
+	        "rtc.syncToGPS": {
+				"label": "Sync To GPS",
+	            "type": "boolean",
+	            "description": "Sync the clock using the GPS",
+	            "order": 1,
+                "excludeFromPresets": true,
+                "userLocked": true,
+                "advanced": false
+	        },
+	        "rtc.dateTime": {
+				"label": "Date Time",
+	            "type": "text",
+	            "description": "Accepts any reasonable time string e.g. 'Wed, 21 Feb 2018 16:17:13 GMT'",
+	            "order": 2,
+                "excludeFromPresets": true,
+                "userLocked": true,
+                "advanced": false
+	        }
+	    }
     },
     "logging": {
-        "label": "Logging Settings",
+    	"label": "Logging Settings",
         "description": "",
         "order": 5,
         "fields": {
-            "logging.dateTimeStampEnable": {
-                "label": "dateTimeStampEnable",
-                "type": "boolean",
-                "order": 1,
-                "default": "",
+	        "logging.enable": {
+				"label": "Global Logging",
+	            "type": "boolean",
+	            "description": "Global logging enable/disable",
+	            "excludeFromPresets": true,
+	            "order": 1,
+                "default": true,
                 "userLocked": false,
                 "advanced": false
-            },
-            "logging.enable": {
-                "label": "enable",
-                "type": "boolean",
-                "order": 2,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "logging.fileSize": {
-                "label": "fileSize",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": true,
-                "order": 3,
-                "default": "",
+	        },
+	        "logging.bytesWritten": {
+				"label": "Bytes Written",
+	            "type": "integer",
+	            "description": "Read-only count of the number of bytes written to the log",
+	            "excludeFromPresets": true,
+	            "order": 2,
                 "userLocked": true,
                 "advanced": false
-            },
-            "logging.fileType": {
-                "label": "fileType",
-                "type": "select",
-                "list": {
+	        },
+	        "logging.fileSize": {
+				"label": "Log Filesize",
+	            "type": "integer",
+	            "description": "Read-only count of the log size",
+	            "excludeFromPresets": true,
+	            "order": 3,
+                "userLocked": true,
+                "advanced": false
+	        },
+	        "logging.fileType": {
+				"label": "Log File Type",
+	            "type": "select", 
+	            "description": "Read-only type of log file (LINEAR or CIRCULAR)",
+	            "list": {
                     "LINEAR": "Linear"
                 },
+                "excludeFromPresets": true,
                 "order": 4,
-                "default": "",
+                "default": "LINEAR",
                 "userLocked": false,
                 "advanced": false
-            },
-            "logging.startEndSyncEnable": {
-                "label": "startEndSyncEnable",
-                "type": "boolean",
-                "order": 5,
-                "default": "",
+	        },
+	        "logging.groupSensorReadingsEnable": {
+				"label": "Group Sensor Readings Enable",
+	            "type": "boolean", 
+	            "description": "Try to group log entries with a single timestamp entry",
+	            "excludeFromPresets": false,
+	            "order": 5,
+                "default": false,
                 "userLocked": false,
                 "advanced": false
-            }
-        }
+	        },
+	        "logging.syncFramingEnable": {
+				"label": "Sync Framing Enable",
+	            "type": "boolean",
+	            "description": "This attribute is read only",
+	            "excludeFromPresets": true,
+	            "order": 6,
+                "userLocked": true,
+                "advanced": false
+	        },
+	        "logging.hrtEnable": {
+				"label": "Hrt Enable",
+	            "type": "boolean",
+	            "description": "Reserved for future use",
+	            "excludeFromPresets": true,
+	            "order": 7,
+                "userLocked": true,
+                "advanced": true
+	        },
+	        "logging.dateTimeEnable": {
+				"label": "Date Time Log Enable",
+	            "type": "boolean",
+	            "description": "Log the date/time",
+	            "excludeFromPresets": false,
+	            "order": 8,
+                "default": true,
+                "userLocked": false,
+                "advanced": false
+	        }
+	    }
     },
-    "pressureSensor": {
-        "label": "Pressure Sensor Settings",
+    "saltwaterSwitch": {
+    	"label": "Saltwater Switch Settings",
         "description": "",
         "order": 6,
         "fields": {
-            "pressureSensor.highThreshold": {
-                "label": "highThreshold",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
+	        "saltwaterSwitch.logEnable": {
+				"label": "Saltwater Switch Log Enable",
+	            "type": "boolean",
+	            "description": "Log enable/disable of saltwater switch submerged and surfaced event transitions",
+	            "order": 1,
+	            "excludeFromPresets": false,
+                "default": false,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "saltwaterSwitch.hysteresisPeriod": {
+				"label": "Hysteresis Period",
+	            "type": "integer",
+	            "description": "Required settling period in seconds for debouncing switch closed events (0=>no debouncing)",
+	            "excludeFromPresets": false,
                 "order": 1,
-                "default": "",
+                "default": 0,
                 "userLocked": false,
                 "advanced": false
-            },
-            "pressureSensor.logEnable": {
-                "label": "logEnable",
-                "type": "boolean",
-                "order": 2,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "pressureSensor.lowThreshold": {
-                "label": "lowThreshold",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 3,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "pressureSensor.maximumAquisitionTime": {
-                "label": "maximumAquisitionTime",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 4,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "pressureSensor.mode": {
-                "label": "mode",
-                "type": "select",
-                "list": {
-                    "PERIODIC": "Periodic"
-                },
-                "order": 5,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "pressureSensor.sampleRate": {
-                "label": "sampleRate",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-
-                "order": 6,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            },
-            "pressureSensor.scheduledAquisitionInterval": {
-                "label": "scheduledAquisitionInterval",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": false,
-                "order": 7,
-                "default": "",
-                "userLocked": false,
-                "advanced": false
-            }
-        }
+	        }
+	    }
     },
-    "rtc": {
-        "label": "RTC",
+    "bluetooth": {
+    	"label": "Bluetooth Settings",
         "description": "",
         "order": 7,
         "fields": {
-            "rtc.dateTime": {
-                "label": "dateTime",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": true,
-                "default": "",
+	        "bluetooth.deviceAddress": {
+				"label": "Device Address",
+	            "type": "text",
+	            "description": "Format shall be 'xx:xx:xx:xx:xx:xx' and the upper 2 most MSBs must be set to 1.",
+	            "excludeFromPresets": true,
+                "order": 1,
                 "userLocked": true,
                 "advanced": false
-            }
-        }
+	        },
+	        "bluetooth.triggerControl": {
+				"label": "Trigger Control",
+	            "type": "integer",
+	            "description": "Bit-mask: 1=>REED SWITCH, 2=>SCHEDULED, 4=>GEOFENCE; multiple options can be logically OR'd together",
+	            "excludeFromPresets": false,
+                "order": 2,
+                "default": 1,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.scheduledInterval": {
+				"label": "Scheduled Interval",
+	            "type": "integer",
+	            "description": "Scheduling period in seconds; 0=>CONTINUOUS",
+	            "excludeFromPresets": false,
+                "order": 3,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.scheduledDuration": {
+				"label": "Scheduled Duration",
+	            "type": "integer",
+	            "description": "Scheduled duration in seconds; 0=>INDEFINITE",
+	            "excludeFromPresets": false,
+                "order": 4,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.advertisingInterval": {
+				"label": "Advertising Interval",
+	            "type": "number",
+	            "description": "Expressed in units of 0.625 ms",
+	            "excludeFromPresets": false,
+                "order": 5,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.connectionInterval": {
+				"label": "Connection Interval",
+	            "type": "number",
+	            "description": "Expressed in units of 1.25 ms",
+	            "excludeFromPresets": false,
+                "order": 6,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.connectionInactivityTimeout": {
+				"label": "Connection Inactivity Timeout",
+	            "type": "integer",
+	            "description": "Force connection to drop after inactivity period in seconds",
+	            "excludeFromPresets": false,
+                "order": 7,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.phyMode": {
+				"label": "phy Mode",
+	            "type": "select",
+	            "description": "",
+	            "list": {
+                    "1_MBPS": "1 MBPS",
+                    "2_MBPS": "2 MBPS"
+                },
+                "excludeFromPresets": false,
+	            "order": 8,
+                "default": "1_MBPS",
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "bluetooth.logEnable": {
+				"label": "Enable Bluetooth Log",
+	            "type": "boolean",
+	            "description": "Enable/disable logging of BLUETOOTH_xxx log messages",
+	            "order": 9,
+	            "excludeFromPresets": false,
+                "default": false,
+                "userLocked": false,
+                "advanced": false
+	        }
+	    }
     },
-    "saltwaterSwitch": {
-        "label": "Saltwater Switch Settings",
-        "description": "",
+    "accelerometer": {
+        "label": "Accelerometer Settings",
+        "description": "Accelerometer settings for the device",
         "order": 8,
         "fields": {
-            "saltwaterSwitch.hysteresisPeriod": {
-                "label": "hysteresisPeriod",
-                "description": "",
+        	"accelerometer.config": {
+                "label": "Config",
+                "description": "Accelerometer config number",
                 "type": "text",
-                "exclueFromPresets": false,
+                "excludeFromPresets": false,
                 "order": 1,
                 "default": "",
                 "userLocked": false,
                 "advanced": false
             },
-            "saltwaterSwitch.logEnable": {
-                "label": "logEnable",
+            "accelerometer.logEnable": {
+            	"label": "logEnable",
                 "type": "boolean",
+                "description": "Enable accelerometer logging",
                 "order": 2,
-                "default": "",
+                "excludeFromPresets": false,
+                "default": false,
+                "userLocked": false,
+                "advanced": false
+            },
+            "accelerometer.highThreshold": {
+				"label": "High Threshold",
+                "type": "integer",
+                "description": "Vector magnitude sum high threshold (when TRIGGERED)",
+                "excludeFromPresets": false,
+                "order": 3,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+            },
+            "accelerometer.sampleRate": {
+				"label": "Sample Rate",
+                "type": "integer",
+                "description": "Sample rate (when PERIODIC)",
+                "excludeFromPresets": false,
+                "order": 4,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+            },
+            "accelerometer.mode": {
+				"label": "Mode",
+                "type": "select", 
+                "description": "One of { 'PERIODIC', 'TRIGGERED' }",
+                "list": {
+                    "PERIODIC": "Periodic",
+                    "TRIGGERED": "Triggered"
+                },
+                "excludeFromPresets": false,
+                "order": 5,
+                "default": "PERIODIC",
+                "userLocked": false,
+                "advanced": false
+            },
+            "accelerometer.scheduledAcquisitionInterval": {
+				"label": "Scheduled Acquisition Interval",
+                "type": "integer",
+                "description": "The repetition period in seconds at which acquisitions are started for PERIODIC mode, 0=>continuously",
+                "excludeFromPresets": false,
+                "order": 6,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+            },
+            "accelerometer.maximumAcquisitionTime": {
+				"label": "Maximum Acquisition Time",
+                "type": "integer",
+                "description": "The period in seconds over which acquisitions are made for PERIODIC mode, 0=>indefinitely",
+                "excludeFromPresets": false,
+                "order": 7,
+                "default": 0,
                 "userLocked": false,
                 "advanced": false
             }
         }
     },
-    "system": {
-        "label": "System Settings",
+    "pressure_sensor": {
+    	"label": "Pressure Sensor Settings",
         "description": "",
         "order": 9,
         "fields": {
-            "system.friendlyName": {
-                "label": "friendlyName",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": true,
-                "order": 2,
-                "default": "",
+	        "pressureSensor.logEnable": {
+				"label": "Pressure Log Enable",
+	            "type": "boolean",
+	            "description": "Enable pressure sensor logging",
+	            "order": 1,
+	            "excludeFromPresets": false,
+                "default": false,
                 "userLocked": false,
                 "advanced": false
-            },
-            "system.deviceIdentifier": {
-                "label": "deviceIdentifier",
-                "description": "",
-                "type": "text",
-                "exclueFromPresets": true,
-                "order": 1,
-                "default": "",
-                "userLocked": true,
+	        },
+	        "pressureSensor.sampleRate": {
+				"label": "Sample Rate",
+	            "type": "integer",
+	            "description": "Sampling rate for PERIODIC or TRIGGERED modes",
+	            "order": 2,
+	            "excludeFromPresets": false,
+                "default": 0,
+                "userLocked": false,
                 "advanced": false
-            }
-        }
+	        },
+	        "pressureSensor.highThreshold": {
+				"label": "High Threshold",
+	            "type": "integer",
+	            "description": "High threshold (TRIGGERED_BETWEEN or TRIGGERED_ABOVE)",
+	            "order": 3,
+	            "excludeFromPresets": false,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "pressureSensor.lowThreshold": {
+				"label": "Low Threshold",
+	            "type": "integer",
+	            "description": "Low threshold (TRIGGERED_BELOW, TRIGGERED_BETWEEN)",
+	            "order": 4,
+	            "excludeFromPresets": false,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "pressureSensor.mode": {
+				"label": "Mode",
+	            "type": "select",
+	            "description": "One of { 'PERIODIC', 'TRIGGERED' }",
+	            "list": {
+                    "PERIODIC": "Periodic",
+                    "TRIGGERED": "Triggered"
+                },
+	            "order": 5,
+	            "excludeFromPresets": false,
+                "default": "PERIODIC",
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "pressureSensor.scheduledAcquisitionInterval": {
+				"label": "Scheduled Acquisition Interval",
+	            "type": "integer",
+	            "description": "The repetition period in seconds at which acquisitions are started for PERIODIC mode, 0=>continuously",
+	            "order": 6,
+	            "excludeFromPresets": false,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        },
+	        "pressureSensor.maximumAcquisitionTime": {
+				"label": "Maximum Acquisition Time",
+	            "type": "integer",
+	            "description": "The period in seconds over which acquisitions are made for PERIODIC mode, 0=>indefinitely",
+	            "order": 7,
+	            "excludeFromPresets": false,
+                "default": 0,
+                "userLocked": false,
+                "advanced": false
+	        }
+	    }
     }
 }
