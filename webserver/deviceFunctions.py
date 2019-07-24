@@ -1,8 +1,21 @@
 from flask import Flask
 import subprocess
 import json
+from scute import scute
 
 import constants
+
+app = Flask(__name__)
+options = {
+        "reportSchema": "reportSchema.json",
+        "actionsSchema": "actionsSchema.json",
+        "configSchema": "configSchema.json",
+        "dataViews": "dataViews.json",
+        "dashboardSchema": "dashboardSchema.json"
+    }
+#instantiate SCUTE
+horizonSCUTE = scute(options, app)
+
 
 if constants.RUNMODE == "dummy":
     # load the dummy responses...
@@ -28,27 +41,14 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
             devices = json.loads(devices)
 
             for connectionID, deviceID in devices.items():
-                print(connectionID, deviceID)
                 result.append(deviceID)
-
-
-         
+       
 
         if scanBluetooth:
             # this will scan BT - might not be needed, but setting up...
             print("TODO - scanBluetooth")    
         
-        # if not scanUSB and not scanBluetooth: # this is not needed, but keep for a bit.
-        #     #just use the current connected
-        #     myDeviceConfigFile = getTrackerConfig()
-        #     # read config file
-        #     with open(myDeviceConfigFile['result'], 'r') as myConfig:
-        #         data=myConfig.read()
-        #     data =  json.load(data)
-            
-        #     print(data)
-        #     # still TODO
-        print(result)
+     
         return result
         
 
@@ -58,37 +58,48 @@ def getDeviceReport(runMode, deviceID):
         return dummyResponses["SCAN"][deviceID]
 
     else: 
-        print("getDeviceReport", deviceID)
 
         result = {}
+        # battery level
+        deviceBatteryLevel = getDeviceBattery(runMode, deviceID)
+
+        # status items
+        deviceStatus = getDeviceStatus(runMode, deviceID)
+
+        # config items
+        deviceConfig = getDeviceConfig(runMode, deviceID)
+
+
+        result['batteryLevel'] = deviceBatteryLevel['result']
+        result['firmwareVersion'] = deviceStatus['result']['fw_version']
+
+        result['friendlyName'] = "Not Implemented"
+
+        result['fileSize']  = deviceConfig['result']['logging.fileSize']
+        result['fileType']  = deviceConfig['result']['logging.fileType']
+
+        result['sensorsEnabled']  = []
+        if deviceConfig['result']['accelerometer.logEnable']:
+            result['sensorsEnabled'].append("Accelerometer")
+
+        if deviceConfig['result']['gps.logPositionEnable']:
+            result['sensorsEnabled'].append("GPS Position")
+
+        if deviceConfig['result']['pressureSensor.logEnable']:
+              result['sensorsEnabled'].append("Pressure")
+
+        if deviceConfig['result']['saltwaterSwitch.logEnable']:
+            result['sensorsEnabled'].append("Saltwater")
+
+        if deviceConfig['result']['battery.logEnable']:
+            result['sensorsEnabled'].append("Battery")
         
-        batteryLevel = trackerConfigBattery(runMode, deviceID)
-
-        result['batteryLevel'] = batteryLevel
-        result['friendlyName'] = "Not Real"
-
-
-
-        #    "id": "11:11:00:00:00:00",
-        #    "batteryLevel": 50,
-        #    "fileSize": 123456,
-        #    "sensorsEnabled": [
-        #        "gps",
-        #        "pressure",
-        #        "saltwater",
-        #        "accelerometer"
-        #    ],
-        #    "firmwareVersion": 4,
-        #    "fileType": "LINEAR"
-
-
-
-        print (result)
+        if deviceConfig['result']['logging.dateTimeStampEnable']:
+            result['sensorsEnabled'].append("Date Time")
 
         return result
         
     
-
 
 
 def deviceScan(runMode):
@@ -140,7 +151,7 @@ def trackerConfigVesion(runMode):
         return result
 
 
-def getTagStatus(runMode, tagID):
+def getDeviceStatus(runMode, deviceID):
 
     if  runMode == 'dummy':
         return dummyResponses['STATUS']
@@ -148,13 +159,11 @@ def getTagStatus(runMode, tagID):
     else:
 
         try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, '--status'])
+            testString = "sudo " + constants.TRACKER_CONFIG + " --status --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
-        
-        print(result)
         
         result = result.rstrip() # trailing new line...
         print("Raw tracker_config data Received: " , result)
@@ -162,8 +171,12 @@ def getTagStatus(runMode, tagID):
         if result.startswith('Unexpected error'):
             return {'error': constants.NO_TAG_TEXT}
         else:
-            result2 = json.loads(result)
-            return {'result': result2}
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+            resultJson = json.loads(result[len(result) -1])
+            return {'result': resultJson}
 
 
 def getDeviceConfig(runMode, deviceID):
@@ -177,16 +190,47 @@ def getDeviceConfig(runMode, deviceID):
         with open(configFile) as json_file:  
             data = json.load(json_file)
 
-        # output = {}
-        # for categoryKey, categoryFields in data.items():
-        #     for field, value in categoryFields.items():
-        #         output[field] = value
-
         return data
 
     else:
 
-        return "TODO"
+        configFileName = downloadDeviceConfigToLocal(deviceID)
+
+        if "error" in configFileName:
+            return configFileName
+        
+        # read config file
+        with open(configFileName['result'], 'r') as configFile:
+            data = horizonSCUTE.flattenJSON(json.load(configFile))
+
+        return {'result': data}
+
+
+def downloadDeviceConfigToLocal(deviceID):
+
+        #??  deviceID.replace(":","")??
+        configFileName = "config/from_tag/config" + deviceID.replace(":","") + ".json"
+
+        try:
+            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        
+        #result = result.rstrip() # trailing new line...
+        print("Raw tracker_config data Received: " , result, len(result))
+
+        # result = 'Connecting to device at index 0\n'
+        result = result.split('\n')
+        resultResponse = result[len(result) -1]
+        
+        # some error...
+        if len(resultResponse) != 0:
+            return {'error': constants.NO_TAG_TEXT}
+
+        return {'result': configFileName}
+
 
 
 def saveDeviceConfig(runMode, deviceID, config):
@@ -210,11 +254,11 @@ def saveDeviceConfig(runMode, deviceID, config):
 
 
 
-def trackerConfigBattery(runMode, deviceID):
+def getDeviceBattery(runMode, deviceID):
 
     if runMode == 'dummy':
 
-        return "-"
+        return {"result": "-"}
 
     else:
 
@@ -231,12 +275,15 @@ def trackerConfigBattery(runMode, deviceID):
 
 
     if result.startswith('Unexpected error'):
-        result = constants.NO_TAG_TEXT
+        result = {"error": constants.NO_TAG_TEXT}
+        
     else:
         result = result.rstrip() # trailing new line...
         result = json.loads(result)
 
-        result = str(result['charging_level'])
+        #result = str(result['charging_level'])
+        result = {"result": result['charging_level']}
+
        
     return result
 
