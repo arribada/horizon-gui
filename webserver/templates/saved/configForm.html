@@ -1,0 +1,96 @@
+<form class="form-body flex" method="post">
+    {% for key,category in schema.items() | sort(attribute='1.order')%}
+        <div class="form-title happy-padding navy">
+            <h2>{{category.label}}</h2>
+            {% if category.description|length > 1 %}
+                <p>{{category.description}}</p>
+            {% endif %}
+        </div>
+
+
+        {% for fieldKey,fieldSchema in category.fields.items() | sort(attribute='1.order') %}
+            <div class="form-field happy-margin" {% if fieldSchema.exclueFromPresets == true %} data-exclude-from-preset="true" {% endif %}>
+
+                {% if fieldSchema.type == "text" %}
+
+                    {% if fieldSchema.description|length > 1 %}
+                        <span class="icon" title="{{ fieldSchema.description }}">
+                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                        </span>
+                    {% endif %}
+
+                    <label for="{{fieldKey}}">{{fieldSchema.label}}
+                        {% if fieldSchema.userLocked == true %}
+                            (read only)
+                        {% endif %}
+                    </label>
+                    <input id="{{fieldKey}}" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+                {% endif %}
+
+                {% if fieldSchema.type == "integer" %}
+
+                    {% if fieldSchema.description|length > 1 %}
+                        <span class="icon" title="{{ fieldSchema.description }}">
+                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                        </span>
+                    {% endif %}
+                    <label for="{{fieldKey}}">{{fieldSchema.label}}
+                        {% if fieldSchema.userLocked == true %}
+                            (read only)
+                        {% endif %}
+                    </label>
+                    <input id="{{fieldKey}}" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+                {% endif %}
+
+                {% if fieldSchema.type == "select" %}
+
+                    {% if fieldSchema.description|length > 1 %}
+                        <span class="icon" title="{{ fieldSchema.description }}">
+                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                        </span>
+                    {% endif %}
+                    <label for="{{fieldKey}}">{{fieldSchema.label}}
+                        {% if fieldSchema.userLocked == true %}
+                            (read only)
+                        {% endif %}
+                    </label>
+                    <select id="{{fieldKey}}" name="{{fieldKey}}">
+
+                        {% for value,label in fieldSchema.list.items() %}
+
+                            <option {% if current[fieldKey] == value %} selected="selected" {% endif %} value="{{value}}">
+                                {{label}}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+                {% endif %}
+
+                {% if fieldSchema.type == "boolean" %}
+
+                    {% if fieldSchema.description|length > 1 %}
+                        <span class="icon" title="{{ fieldSchema.description }}">
+                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                        </span>
+                    {% endif %}
+                    <input id="{{fieldKey}}" {% if current[fieldKey] is defined %} checked="checked" {% endif %} type="checkbox" name="{{fieldKey}}" {% if fieldSchema.userLocked == true %} onclick="return false;" {% endif %}/>
+                    <label for="{{fieldKey}}">{{fieldSchema.label}}
+                        {% if fieldSchema.userLocked == true %}
+                            (read only)
+                        {% endif %}
+                    </label>
+
+                {% endif %}
+            </div>
+        {% endfor %}
+
+    {% endfor %}
+
+    <div class="buttons-wrapper form-buttons">
+        <button class="featured button" type="submit">Save</button>
+        <button class="primary button" onclick="savePreset()" type="button">Save as preset</button>
+    </div>
+</form>

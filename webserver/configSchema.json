@@ -6,15 +6,15 @@
         "fields": {
         	"system.friendlyName": {
                 "label": "Nickname",
-                "description": "A user-readable name for the tag",
+                "description": "A user-readable name for the tag - Functionality Not yet active.",
                 "type": "text",
                 "excludeFromPresets": true,
                 "order": 1,
                 "default": "HORIZON_TAG",
                 "userLocked": false,
-                "advanced": false
+				"advanced": false
             },
-	        "system.deviceIdentity": {
+	        "system.deviceIdentifier": {
 				"label": "ID",
 	            "type": "text",
 	            "description": "ID string in the format: 'xx:xx:xx:xx:xx:xx:xx:xx'",
@@ -37,7 +37,7 @@
                 "type": "boolean",
                 "excludeFromPresets": true,
                 "userLocked": false,
-                "advanced": false
+				"advanced": false				
             }
         }
     },
@@ -100,7 +100,7 @@
 		                "advanced": false
 		            },
 		            "lastknown.day": {
-		                "type": "integer",
+		                "type": "number",
 		                "description": "Day when last recorded GPS position was obtained",
 		                "excludeFromPresets": true,
 		                "order": 7,
@@ -108,7 +108,7 @@
 		                "advanced": false
 		            },
 		            "lastknown.month": {
-		                "type": "integer",
+		                "type": "number",
 		                "description": "Month when last recorded GPS position was obtained",
 		                "excludeFromPresets": true,
 		                "order": 8,
@@ -116,7 +116,7 @@
 		                "advanced": false
 		            },
 		            "lastknown.year": {
-		                "type": "integer",
+		                "type": "number",
 		                "description": "Year when last recorded GPS position was obtained",
 		                "excludeFromPresets": true,
 		                "order": 9,
@@ -124,7 +124,7 @@
 		                "advanced": false
 		            },
 		            "lastknown.hours": {
-		                "type": "integer",
+		                "type": "number",
 		                "description": "Hour when last recorded GPS position was obtained",
 		                "excludeFromPresets": true,
 		                "order": 10,

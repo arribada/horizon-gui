@@ -1,20 +1,8 @@
-from flask import Flask
+from flask import Flask, session
 import subprocess
 import json
-from scute import scute
 
 import constants
-
-app = Flask(__name__)
-options = {
-        "reportSchema": "reportSchema.json",
-        "actionsSchema": "actionsSchema.json",
-        "configSchema": "configSchema.json",
-        "dataViews": "dataViews.json",
-        "dashboardSchema": "dashboardSchema.json"
-    }
-#instantiate SCUTE
-horizonSCUTE = scute(options, app)
 
 
 if constants.RUNMODE == "dummy":
@@ -42,12 +30,16 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
             for connectionID, deviceID in devices.items():
                 result.append(deviceID)
+                # add the device to session data..
+                
        
 
         if scanBluetooth:
             # this will scan BT - might not be needed, but setting up...
             print("TODO - scanBluetooth")    
         
+        #result is a list of connected devices..
+        #session['connectedDevices'] = result
      
         return result
         
@@ -69,33 +61,46 @@ def getDeviceReport(runMode, deviceID):
         # config items
         deviceConfig = getDeviceConfig(runMode, deviceID)
 
+        if "result" in deviceBatteryLevel:
+            result['batteryLevel'] = deviceBatteryLevel['result']['charging_level']
 
-        result['batteryLevel'] = deviceBatteryLevel['result']['charging_level']
-        result['firmwareVersion'] = deviceStatus['result']['fw_version']
+
+        if "result" in deviceStatus:
+            result['firmwareVersion'] = deviceStatus['result']['fw_version']
+
 
         result['friendlyName'] = "Not Implemented"
 
-        result['fileSize']  = deviceConfig['result']['logging.fileSize']
-        result['fileType']  = deviceConfig['result']['logging.fileType']
+        if "result" in deviceConfig:
 
-        result['sensorsEnabled']  = []
-        if deviceConfig['result']['accelerometer.logEnable']:
-            result['sensorsEnabled'].append("Accelerometer")
+            if constants.FRIENDLY_NAME_ACTIVE:
+                result['friendlyName'] = deviceConfig['result']['system']['friendlyName']
+            else:
+                result['friendlyName'] = "Not Yet Implemented"
 
-        if deviceConfig['result']['gps.logPositionEnable']:
-            result['sensorsEnabled'].append("GPS Position")
+            
+            result['fileSize']  = deviceConfig['result']['logging']['fileSize']
+            result['fileType']  = deviceConfig['result']['logging']['fileType']
+            
 
-        if deviceConfig['result']['pressureSensor.logEnable']:
-              result['sensorsEnabled'].append("Pressure")
+            result['sensorsEnabled']  = []
+            if deviceConfig['result']['accelerometer']['logEnable']:
+                result['sensorsEnabled'].append("Accelerometer")
 
-        if deviceConfig['result']['saltwaterSwitch.logEnable']:
-            result['sensorsEnabled'].append("Saltwater")
+            if deviceConfig['result']['gps']['logPositionEnable']:
+                result['sensorsEnabled'].append("GPS Position")
 
-        if deviceConfig['result']['battery.logEnable']:
-            result['sensorsEnabled'].append("Battery")
-        
-        if deviceConfig['result']['logging.dateTimeStampEnable']:
-            result['sensorsEnabled'].append("Date Time")
+            if deviceConfig['result']['pressureSensor']['logEnable']:
+                result['sensorsEnabled'].append("Pressure")
+
+            if deviceConfig['result']['saltwaterSwitch']['logEnable']:
+                result['sensorsEnabled'].append("Saltwater")
+
+            if deviceConfig['result']['battery']['logEnable']:
+                result['sensorsEnabled'].append("Battery")
+            
+            if deviceConfig['result']['logging']['dateTimeStampEnable']:
+                result['sensorsEnabled'].append("Date Time")
 
         return result
         
@@ -201,15 +206,16 @@ def getDeviceConfig(runMode, deviceID):
         
         # read config file
         with open(configFileName['result'], 'r') as configFile:
-            data = horizonSCUTE.flattenJSON(json.load(configFile))
-
+            data = json.load(configFile)
+        
         return {'result': data}
 
 
 def downloadDeviceConfigToLocal(deviceID):
 
         #??  deviceID.replace(":","")??
-        configFileName = "config/from_tag/config" + deviceID.replace(":","") + ".json"
+        configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
+
 
         try:
             result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
@@ -218,7 +224,7 @@ def downloadDeviceConfigToLocal(deviceID):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         
-        #result = result.rstrip() # trailing new line...
+        
         print("Raw tracker_config data Received: " , result, len(result))
 
         # result = 'Connecting to device at index 0\n'
@@ -248,9 +254,31 @@ def saveDeviceConfig(runMode, deviceID, config):
 
     else:
 
-        return "TODO"
+        if not constants.FRIENDLY_NAME_ACTIVE:
+            del config["system"]["friendlyName"]
 
+        configFileName = constants.CONFIG_LOCAL_SAVE_LOCATION + "config-" + deviceID + ".json"
 
+        with open(configFileName, 'w') as outfile:
+            json.dump(config, outfile)
+  
+        try:
+            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        print("Raw tracker_config data saved: " , result, len(result))
+
+        # result = 'Connecting to device at index 0\n'
+        result = result.split('\n')
+        resultResponse = result[len(result) -1]
+        
+        # some error...
+        if len(resultResponse) != 0:
+            return {'error': result[0]}
+
+        return {'result': configFileName}
 
 
 

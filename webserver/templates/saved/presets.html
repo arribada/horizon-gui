@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script type="text/javascript">
+    var presetList = [];
+    {% for preset in presets  %}
+    presetList.push({{ preset|tojson }});
+
+    {% endfor %}
+</script>
+
+<section class="happy-margin presetManager">
+
+    <h1 class="navy">Set and Edit Presents Below ({{presets|length}}) </h1>
+    
+    <div class="presets-manager-wrapper flex">
+        <div class="presets-manager-list scrolling">
+            <div class="edit-presets-icons flex">
+                <span class="icon add-preset" onclick="addPreset()">
+                    <img src="scute/images/add-icon.png" alt="Delete icon" />
+                </span>
+                <span class="icon">
+                    <img src="scute/images/delete-icon.png" alt="Delete icon" />
+                </span>
+            </div>
+            <div class="presets-list">
+                <ul>
+                    {% for preset in presets  %}
+                    <li onclick="loadPreset({{ preset.ID }})" class="preset-list-item" id="preset-list-item-{{ preset.ID }}"  ><span class="preset-title navy bold">{{ preset.name }}</span><br>
+                        <span class="description gray">{{ preset.description }}</span>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+        <div class="presets-manager-content">
+                <div class="heading">
+                        <h1 id="presetHeading"></h1>
+                        <span id="presetDate"></span>
+                    </div>
+                    <div class="presetForm" id="presetForm" style="visibility:hidden">
+                        
+                            {% include 'configForm.html' %}
+                            
+                    </div>
+            
+
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+
