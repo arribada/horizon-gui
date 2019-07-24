@@ -70,7 +70,7 @@ def getDeviceReport(runMode, deviceID):
         deviceConfig = getDeviceConfig(runMode, deviceID)
 
 
-        result['batteryLevel'] = deviceBatteryLevel['result']
+        result['batteryLevel'] = deviceBatteryLevel['result']['charging_level']
         result['firmwareVersion'] = deviceStatus['result']['fw_version']
 
         result['friendlyName'] = "Not Implemented"
@@ -263,7 +263,9 @@ def getDeviceBattery(runMode, deviceID):
     else:
 
         try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--battery"])
+
+            testString = "sudo " + constants.TRACKER_CONFIG + " --battery --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -275,17 +277,17 @@ def getDeviceBattery(runMode, deviceID):
 
 
     if result.startswith('Unexpected error'):
-        result = {"error": constants.NO_TAG_TEXT}
+        returnResult = {"error": constants.NO_TAG_TEXT}
         
     else:
-        result = result.rstrip() # trailing new line...
-        result = json.loads(result)
 
-        #result = str(result['charging_level'])
-        result = {"result": result['charging_level']}
-
+        # the result is:  'Connecting to device at index 0\n{"charging_level": 100, "charging_ind": true}'
+        # so we need to divide at the '\n' and json load the last part...
+        result = result.split('\n')
+        resultJson = json.loads(result[len(result) -1])
+        returnResult  = {'result': resultJson}
        
-    return result
+    return returnResult
 
 
 
