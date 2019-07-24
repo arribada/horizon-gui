@@ -258,6 +258,11 @@ def saveDeviceConfig(runMode, deviceID, config):
             del config["system"]["friendlyName"]
 
         configFileName = constants.CONFIG_LOCAL_SAVE_LOCATION + "config-" + deviceID + ".json"
+        
+        # convert to correct json types
+        config = correctJsonTypesInConfig(config)
+
+
 
         with open(configFileName, 'w') as outfile:
             json.dump(config, outfile)
@@ -280,6 +285,72 @@ def saveDeviceConfig(runMode, deviceID, config):
 
         return {'result': configFileName}
 
+
+def correctJsonTypesInConfig(config):
+
+    print("in correctJsonTypesInConfig")
+    #print(config)
+    print (config['saltwaterSwitch']['logEnable'])
+
+    with open('configSchema.json') as json_file:
+        masterSchema = json.load(json_file)
+
+    #print(masterSchema)
+
+    result = {}
+
+    for categoryName, categoryData in masterSchema.items(): 
+        
+        for fieldName, fieldData in categoryData['fields'].items():
+            splitFieldName = fieldName.split(".")
+
+            if splitFieldName[1] == "lastKnownPosition":
+                # skip for now..  multi level
+                print ("skipping lastKnownPosition")
+            else:
+
+                if splitFieldName[1] in config[categoryName]:
+
+                    if categoryName not in result:
+                        result[categoryName] = {}
+
+                    # convert to correct jsonType
+                    if fieldData['type'] == "number" or fieldData['type'] == "integer": 
+
+                        if len(config[categoryName][splitFieldName[1]]) != 0:
+
+                            result[categoryName][splitFieldName[1]] = int(config[categoryName][splitFieldName[1]])
+                        else:
+                            print ("not set ",categoryName, splitFieldName[1])
+                            result[categoryName][splitFieldName[1]] = 0 
+
+                    if fieldData['type'] == "text": 
+
+                        if len(config[categoryName][splitFieldName[1]]) != 0:
+
+                            result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
+                        else:
+                            print ("not set ",categoryName, splitFieldName[1])
+                            result[categoryName][splitFieldName[1]] = "" 
+
+                    if fieldData['type'] == "boolean": 
+
+                        if config[categoryName][splitFieldName[1]] == "on":
+
+                            result[categoryName][splitFieldName[1]] = True 
+                        else:
+
+                            result[categoryName][splitFieldName[1]] = False ## or default 
+
+                else:
+                    # default value
+                    print(splitFieldName[1] + " not in config")
+                    print(" ")
+                # result[categoryName]['Fields'][categoryName + "." + fieldName] = config[categoryName][fieldName]
+
+    print(result)
+
+    return result
 
 
 def getDeviceBattery(runMode, deviceID):

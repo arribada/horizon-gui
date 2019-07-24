@@ -58,7 +58,7 @@ horizonSCUTE.registerHook("read_config", readConfig)
 
 # save config for one device
 def saveConfig(deviceID, config):
-    print(config)
+
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
     #save config
