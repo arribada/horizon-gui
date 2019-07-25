@@ -39,7 +39,6 @@ horizonSCUTE.registerHook("get_devices", getDevices)
 
 # get the report data for one device
 def getReportFields(deviceID):
-
     return deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)    
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)
@@ -58,7 +57,6 @@ horizonSCUTE.registerHook("read_config", readConfig)
 
 # save config for one device
 def saveConfig(deviceID, config):
-
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
     #save config

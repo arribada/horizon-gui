@@ -16,14 +16,17 @@ SCAN_USB= True
 # when not in dummy mode, should we scan for Bluetooth devices?
 SCAN_BLUETOOTH = False
 
-CONFIG_LOCAL_LOAD_LOCATION = "config/"
-CONFIG_LOCAL_SAVE_LOCATION = "config/to_tag/"  # keep separate for now for debudding...
+CONFIG_LOCAL_LOAD_LOCATION = "config/" # can separate these if needed...
+CONFIG_LOCAL_SAVE_LOCATION = "config/" 
 
 # for uploads - TBC
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])
 UPLOAD_FOLDERS =  {"config": "/uploads/config", "firmware": "/uploads/firmware" }
 
 FRIENDLY_NAME_ACTIVE = False
+
+#LOGGING_LEVEL = "none"
+LOGGING_LEVEL = "verbose"
 
 
 

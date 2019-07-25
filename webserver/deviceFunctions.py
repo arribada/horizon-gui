@@ -38,7 +38,7 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
         if scanBluetooth:
             # this will scan BT - might not be needed, but setting up...
-            print("TODO - scanBluetooth")    
+            logMessage("TODO - scanBluetooth")    
         
         #result is a list of connected devices..
         #session['connectedDevices'] = result
@@ -61,7 +61,7 @@ def getDeviceReport(runMode, deviceID):
         deviceStatus = getDeviceStatus(runMode, deviceID)
 
         # config items
-        deviceConfig = getDeviceConfig(runMode, deviceID)
+        deviceConfig = getDeviceConfig(runMode, deviceID, True)
 
         if "result" in deviceBatteryLevel:
             result['batteryLevel'] = deviceBatteryLevel['result']['charging_level']
@@ -87,22 +87,22 @@ def getDeviceReport(runMode, deviceID):
 
             result['sensorsEnabled']  = []
             if deviceConfig['result']['accelerometer']['logEnable']:
-                result['sensorsEnabled'].append("Accelerometer")
+                result['sensorsEnabled'].append("Accelerometer.")
 
             if deviceConfig['result']['gps']['logPositionEnable']:
-                result['sensorsEnabled'].append("GPS Position")
+                result['sensorsEnabled'].append("GPS Position.")
 
             if deviceConfig['result']['pressureSensor']['logEnable']:
-                result['sensorsEnabled'].append("Pressure")
+                result['sensorsEnabled'].append("Pressure.")
 
             if deviceConfig['result']['saltwaterSwitch']['logEnable']:
-                result['sensorsEnabled'].append("Saltwater")
+                result['sensorsEnabled'].append("Saltwater.")
 
             if deviceConfig['result']['battery']['logEnable']:
-                result['sensorsEnabled'].append("Battery")
+                result['sensorsEnabled'].append("Battery.")
             
             if deviceConfig['result']['logging']['dateTimeStampEnable']:
-                result['sensorsEnabled'].append("Date Time")
+                result['sensorsEnabled'].append("Date Time.")
 
         return result
         
@@ -124,7 +124,7 @@ def deviceScan(runMode):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         result = result.rstrip() # trailing new line...
-        print("Raw tracker_config list_id Received: " , result)
+        logMessage("Raw tracker_config list_id Received: " + result)
 
 
     if result.startswith('Unexpected error'):
@@ -149,7 +149,7 @@ def trackerConfigVesion(runMode):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         result = result.rstrip() # trailing new line...
-        print("Raw tracker_config version Received: " , result)
+        logMessage("Raw tracker_config version Received: " + result)
 
 
     if result.startswith('Unexpected error'):
@@ -173,20 +173,27 @@ def getDeviceStatus(runMode, deviceID):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
         
         result = result.rstrip() # trailing new line...
-        print("Raw tracker_config data Received: " , result)
+
 
         if result.startswith('Unexpected error'):
+            logMessage(result)
             return {'error': constants.NO_TAG_TEXT}
         else:
 
             # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
             # so we need to divide at the '\n' and json load the last part...
             result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
             resultJson = json.loads(result[len(result) -1])
             return {'result': resultJson}
 
 
-def getDeviceConfig(runMode, deviceID):
+def getDeviceConfig(runMode, deviceID, forceReload = False):
+
 
     if  runMode == 'dummy':
 
@@ -200,12 +207,15 @@ def getDeviceConfig(runMode, deviceID):
         return data
 
     else:
-
-        # if there is already a file loaded, don't load it again...
-        configFileName = isConfigAlreadyOnLocal(deviceID)
-
-        if not configFileName:
+        
+        if forceReload:
             configFileName = downloadDeviceConfigToLocal(deviceID)['result']
+        else:
+            # if there is already a file loaded, don't load it again...
+            configFileName = isConfigAlreadyOnLocal(deviceID)
+            if not configFileName:
+                configFileName = downloadDeviceConfigToLocal(deviceID)['result']
+          
 
         if "error" in configFileName:
             return configFileName
@@ -222,15 +232,14 @@ def isConfigAlreadyOnLocal(deviceID):
     configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
 
     if os.path.isfile(configFileName):
+        logMessage("Using Local config: "+ configFileName )
         return configFileName
     else:
-        return false
+        return False
 
 def downloadDeviceConfigToLocal(deviceID):
 
-        #??  deviceID.replace(":","")??
         configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
-
 
         try:
             result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
@@ -238,12 +247,13 @@ def downloadDeviceConfigToLocal(deviceID):
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
-        
-        
-        print("Raw tracker_config data Received: " , result, len(result))
-
         # result = 'Connecting to device at index 0\n'
         result = result.split('\n')
+
+        logMessage("Raw tracker_config config load recieved" )
+        for row in result:
+            logMessage(row)
+            
         resultResponse = result[len(result) -1]
         
         # some error...
@@ -255,6 +265,8 @@ def downloadDeviceConfigToLocal(deviceID):
 
 
 def saveDeviceConfig(runMode, deviceID, config):
+
+    logMessage("device functions saveDeviceConfig")
 
     if  runMode == 'dummy':
 
@@ -273,29 +285,34 @@ def saveDeviceConfig(runMode, deviceID, config):
             del config["system"]["friendlyName"]
 
         configFileName = constants.CONFIG_LOCAL_SAVE_LOCATION + "config-" + deviceID + ".json"
-        
+
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
 
-
-
-        with open(configFileName, 'w') as outfile:
+        # save this config locally
+        with open(configFileName, 'w+') as outfile:
             json.dump(config, outfile)
-  
         try:
             result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
-        print("Raw tracker_config data saved: " , result, len(result))
+        
 
         # result = 'Connecting to device at index 0\n'
         result = result.split('\n')
+        
+        logMessage("Raw tracker_config data save result " )
+        for row in result:
+            logMessage(row)
+
         resultResponse = result[len(result) -1]
+
         
         # some error...
         if len(resultResponse) != 0:
+            # error coule mean malformed local config file for this device... remove it
+            os.remove(configFileName)
             return {'error': result[0]}
 
         return {'result': configFileName}
@@ -303,14 +320,8 @@ def saveDeviceConfig(runMode, deviceID, config):
 
 def correctJsonTypesInConfig(config):
 
-    #print("in correctJsonTypesInConfig")
-    #print(config)
-    #print (config['saltwaterSwitch']['logEnable'])
-
     with open('configSchema.json') as json_file:
         masterSchema = json.load(json_file)
-
-    #print(masterSchema)
 
     result = {}
 
@@ -322,7 +333,6 @@ def correctJsonTypesInConfig(config):
         
         for fieldName, fieldData in categoryData['fields'].items():
             splitFieldName = fieldName.split(".")
-
 
             if splitFieldName[1] in config[categoryName]:
 
@@ -339,7 +349,6 @@ def correctJsonTypesInConfig(config):
                         if "default" in fieldData:
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
-                
                 elif fieldData['jsonType'] == "int": 
 
                     if len(config[categoryName][splitFieldName[1]]) != 0:
@@ -360,12 +369,12 @@ def correctJsonTypesInConfig(config):
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
                 elif fieldData['jsonType'] == "boolean": 
-
-                    if config[categoryName][splitFieldName[1]] == "on":
+                   
+                    if config[categoryName][splitFieldName[1]] == "selected":
 
                         result[categoryName][splitFieldName[1]] = True 
 
-                    elif config[categoryName][splitFieldName[1]] == "off":
+                    elif config[categoryName][splitFieldName[1]] == "notselected":
 
                         result[categoryName][splitFieldName[1]] = False 
                     else:                                
@@ -374,12 +383,8 @@ def correctJsonTypesInConfig(config):
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
             else:
-                # default value
-                print(categoryName + " > " + splitFieldName[1] + " not in config")
+                logMessage(categoryName + " > " + splitFieldName[1] + " in configSchema.jason, but not in config sent")
 
-
-
-    print(result)
 
     return result
 
@@ -402,9 +407,6 @@ def getDeviceBattery(runMode, deviceID):
 
         
         result = result.rstrip() # trailing new line...
-        print("Raw tracker_config battery Received: " , result)
-
-
 
     if result.startswith('Unexpected error'):
         returnResult = {"error": constants.NO_TAG_TEXT}
@@ -414,6 +416,12 @@ def getDeviceBattery(runMode, deviceID):
         # the result is:  'Connecting to device at index 0\n{"charging_level": 100, "charging_ind": true}'
         # so we need to divide at the '\n' and json load the last part...
         result = result.split('\n')
+
+        logMessage("Raw tracker_config battery result " )
+        for row in result:
+            logMessage(row)
+
+
         resultJson = json.loads(result[len(result) -1])
         returnResult  = {'result': resultJson}
        
@@ -453,14 +461,15 @@ def receiveTrackerLogData(runMode, deviceID):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         
-
-
-        #result = result.rstrip() # trailing new line...
-        print("Raw tracker_config log data Received ")
-
         if len(result1) == 0 and len(result2) == 0:
-            print("Raw tracker_config log data Received ")
+            logMessage("Raw tracker_config log data Received ")
             return {'result': 'tracker_data/json/latest_logfile.json'}
         else:
             return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+def logMessage(message):
+    # expand on this later.
+    if constants.LOGGING_LEVEL == "verbose":
+        print(message)
            

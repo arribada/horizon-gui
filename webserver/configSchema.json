@@ -262,16 +262,6 @@
 		"description": "",
 		"order": 4,
 		"fields": {
-			"rtc.syncToGPS": {
-				"label": "Sync To GPS",
-				"type": "boolean",
-				"description": "Sync the clock using the GPS",
-				"order": 1,
-				"excludeFromPresets": true,
-				"userLocked": true,
-				"advanced": false,
-				"jsonType": "boolean"
-			},
 			"rtc.dateTime": {
 				"label": "Date Time",
 				"type": "text",
