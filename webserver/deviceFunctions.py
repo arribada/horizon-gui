@@ -288,9 +288,9 @@ def saveDeviceConfig(runMode, deviceID, config):
 
 def correctJsonTypesInConfig(config):
 
-    print("in correctJsonTypesInConfig")
+    #print("in correctJsonTypesInConfig")
     #print(config)
-    print (config['saltwaterSwitch']['logEnable'])
+    #print (config['saltwaterSwitch']['logEnable'])
 
     with open('configSchema.json') as json_file:
         masterSchema = json.load(json_file)
@@ -300,53 +300,69 @@ def correctJsonTypesInConfig(config):
     result = {}
 
     for categoryName, categoryData in masterSchema.items(): 
+
+        if "hasSubLevel" in categoryData:
+            #  skip for now - will need to cone back to this.  See gps.lastKnownPosition in config.
+            continue
         
         for fieldName, fieldData in categoryData['fields'].items():
             splitFieldName = fieldName.split(".")
 
-            if splitFieldName[1] == "lastKnownPosition":
-                # skip for now..  multi level
-                print ("skipping lastKnownPosition")
+
+            if splitFieldName[1] in config[categoryName]:
+
+                if categoryName not in result:
+                    result[categoryName] = {}
+
+                # convert to correct jsonType
+                if fieldData['jsonType'] == "number": 
+
+                    if len(config[categoryName][splitFieldName[1]]) != 0:
+                        result[categoryName][splitFieldName[1]] = float(config[categoryName][splitFieldName[1]])
+                    else:
+                        # default?
+                        if "default" in fieldData:
+                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
+
+                
+                elif fieldData['jsonType'] == "int": 
+
+                    if len(config[categoryName][splitFieldName[1]]) != 0:
+                        result[categoryName][splitFieldName[1]] = int(config[categoryName][splitFieldName[1]])
+                    else:
+                        # default?
+                        if "default" in fieldData:
+                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
+
+                elif fieldData['jsonType'] == "text": 
+
+                    if len(config[categoryName][splitFieldName[1]]) != 0:
+
+                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
+                    else:
+                        # default?
+                        if "default" in fieldData:
+                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
+
+                elif fieldData['jsonType'] == "boolean": 
+
+                    if config[categoryName][splitFieldName[1]] == "on":
+
+                        result[categoryName][splitFieldName[1]] = True 
+
+                    elif config[categoryName][splitFieldName[1]] == "off":
+
+                        result[categoryName][splitFieldName[1]] = False 
+                    else:                                
+                        # default?
+                        if "default" in fieldData:
+                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
+
             else:
+                # default value
+                print(categoryName + " > " + splitFieldName[1] + " not in config")
 
-                if splitFieldName[1] in config[categoryName]:
 
-                    if categoryName not in result:
-                        result[categoryName] = {}
-
-                    # convert to correct jsonType
-                    if fieldData['type'] == "number" or fieldData['type'] == "integer": 
-
-                        if len(config[categoryName][splitFieldName[1]]) != 0:
-
-                            result[categoryName][splitFieldName[1]] = int(config[categoryName][splitFieldName[1]])
-                        else:
-                            print ("not set ",categoryName, splitFieldName[1])
-                            result[categoryName][splitFieldName[1]] = 0 
-
-                    if fieldData['type'] == "text": 
-
-                        if len(config[categoryName][splitFieldName[1]]) != 0:
-
-                            result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
-                        else:
-                            print ("not set ",categoryName, splitFieldName[1])
-                            result[categoryName][splitFieldName[1]] = "" 
-
-                    if fieldData['type'] == "boolean": 
-
-                        if config[categoryName][splitFieldName[1]] == "on":
-
-                            result[categoryName][splitFieldName[1]] = True 
-                        else:
-
-                            result[categoryName][splitFieldName[1]] = False ## or default 
-
-                else:
-                    # default value
-                    print(splitFieldName[1] + " not in config")
-                    print(" ")
-                # result[categoryName]['Fields'][categoryName + "." + fieldName] = config[categoryName][fieldName]
 
     print(result)
 
