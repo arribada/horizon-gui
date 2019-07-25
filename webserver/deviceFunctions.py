@@ -2,6 +2,7 @@ from flask import Flask, session
 import subprocess
 import json
 import os.path
+import datetime
 
 # system config.
 import constants
@@ -292,6 +293,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         # save this config locally
         with open(configFileName, 'w+') as outfile:
             json.dump(config, outfile)
+
         try:
             result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
 
@@ -431,9 +433,6 @@ def getDeviceBattery(runMode, deviceID):
 
 def receiveTrackerLogData(runMode, deviceID): 
 
-    deviceID = deviceID.replace(":", "")
-
-    
     if  runMode == 'dummy':
 
         destinationFile = "dummy_data/latest_logfile_" + deviceID + ".json"
@@ -446,26 +445,104 @@ def receiveTrackerLogData(runMode, deviceID):
         return {"file": destinationFile, "data": fileContents }
 
     else:
+
+        logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID 
+        currentDT = datetime.datetime.now()
+        currentDateTime = currentDT.strftime("%Y-%m-%d_%H:%M:%S")
+        
+        if not os.path.exists(logPath):
+            os.makedirs(logPath)
+            logMessage("Directory Created: " + logPath)
+
+        binaryFile = logPath + "/" + currentDateTime + ".bin"
+        jsonFile = logPath + "/" + currentDateTime + ".json"
+
+        logMessage("Making call to get " + binaryFile )
+
         # get data off the tag
         try:
-            result1 = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
+            result1 = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read_log " + binaryFile + " --id " + deviceID ,shell=True,stderr=subprocess.STDOUT)
+            logMessage("Call complete for " + binaryFile )
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
-        # convert to json
-        try:
-            result2 = subprocess.check_output("log_parse --file tracker_data/binary/latest_binary.bin > tracker_data/json/latest_logfile.json",shell=True,stderr=subprocess.STDOUT)
 
-        except subprocess.CalledProcessError as e:
-            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
+        result1 = result1.split('\n')
         
-        if len(result1) == 0 and len(result2) == 0:
-            logMessage("Raw tracker_config log data Received ")
-            return {'result': 'tracker_data/json/latest_logfile.json'}
+        logMessage("Raw tracker_config binary load result " )
+        for row in result1:
+            logMessage(row)
+
+        result1Response = result1[len(result1) -1]
+
+        # convert to json if success...
+        if len(result1Response) == 0:
+            try:
+                logMessage("Making call to create " + jsonFile )
+                result2 = subprocess.check_output("log_parse --file "+ binaryFile + " > " + jsonFile ,shell=True,stderr=subprocess.STDOUT)
+                logMessage("Call complete for " + jsonFile )
+            except subprocess.CalledProcessError as e:
+                raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+
+            result2 = result2.split('\n')
+            
+            logMessage("Raw tracker_config json convert result " )
+            for row in result2:
+                logMessage(row)
+
+            result2Response = result2[len(result2) -1]
         else:
             return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+        if len(result1Response) == 0 and len(result2Response) == 0:
+            logMessage("Raw tracker_config log data Received and converted")
+
+            # write the dateTime to the lastLoaded file
+            with open(logPath + "/latest_log.txt" , 'w+') as outfile:
+                outfile.write(currentDateTime)
+
+            return {'result': 'currentDateTime'}
+        else:
+            return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+def dummyResponse(runMode, deviceID, runtype): 
+
+    message = runtype + "for " + deviceID + " not yet implemented"
+    logMessage(message)
+    return message
+    
+
+def vewLatestLogData(runMode, deviceID):
+
+    logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
+
+    logMessage(logPath)
+
+    if not os.path.exists(logPath):
+        return "There are no logs for " + deviceID + ". Please request them."
+
+    pathContent = os.listdir(logPath)
+    returnFiles = []
+
+    for file in pathContent:
+        if file != "latest_log.txt":
+            returnFiles.append(logPath+ "/" + file)
+
+    latestLogInfo =open(logPath + "/latest_log.txt", "r")
+    latestLogDate =latestLogInfo.read()
+
+    # top 50 records
+    with open(logPath + "/" + latestLogDate + ".json" ) as myfile:
+        head = [next(myfile) for x in xrange(50)]
+
+
+    message = {"latestLogDateTime": latestLogDate, "fileHead": json.dumps(head), "allLogFiles": returnFiles }
+
+    return message
 
 
 def logMessage(message):

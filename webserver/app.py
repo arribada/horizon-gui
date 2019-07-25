@@ -65,13 +65,44 @@ def saveConfig(deviceID, config):
 horizonSCUTE.registerHook("save_config", saveConfig)
 
 
-
-# andle export requests - either for one device or multiple.
-@app.route('/export')
-def export():
+@app.route('/erase_log')
+def erase_log():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-            return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
+        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Erase Log")
+
+@app.route('/update_gps_almanac')
+def update_gps_almanac():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Update GPS Almanac")
+
+@app.route('/reset_flash')
+def reset_flash():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Reset Flash")
+
+@app.route('/apply_gps_ascii')
+def apply_gps_ascii():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")
+
+
+@app.route('/view_log')
+def view_log():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+            return deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0])
+
+
+# andle export requests - either for one device or multiple.
+@app.route('/request_log')
+def request_log():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
     else:
         #TODO
         return "<h1>Functionality to be confirmed for multiple exports.</h1>"

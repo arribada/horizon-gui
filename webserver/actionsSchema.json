@@ -1,9 +1,18 @@
 {
-    "export": {
-        "label": "Export data",
+    "request_log": {
+        "label": "Request Log",
         "order": 2,
-        "bulk": true,
-        "url": "/export",
+        "bulk": false,
+        "onclick": "triggerLogLoad",
+        "url": "/request_log",
+        "icon": "",
+        "helpText": "TODO"
+    },
+    "view_log": {
+        "label": "Latest Logs",
+        "order": 3,
+        "bulk": false,
+        "url": "/view_log",
         "icon": ""
     },
     "erase_log": {

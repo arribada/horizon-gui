@@ -19,6 +19,8 @@ SCAN_BLUETOOTH = False
 CONFIG_LOCAL_LOAD_LOCATION = "config/" # can separate these if needed...
 CONFIG_LOCAL_SAVE_LOCATION = "config/" 
 
+LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
+
 # for uploads - TBC
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])
 UPLOAD_FOLDERS =  {"config": "/uploads/config", "firmware": "/uploads/firmware" }
