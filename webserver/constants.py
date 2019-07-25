@@ -1,5 +1,7 @@
 # set to "dummy" to run without PI or devices
 RUNMODE = "pi"
+#RUNMODE = "dummy"
+
 DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 
 # the toolset command name
@@ -14,8 +16,8 @@ SCAN_USB= True
 # when not in dummy mode, should we scan for Bluetooth devices?
 SCAN_BLUETOOTH = False
 
-CONFIG_LOCAL_LOAD_LOCATION = "config/from_tag/"
-CONFIG_LOCAL_SAVE_LOCATION = "config/to_tag/"
+CONFIG_LOCAL_LOAD_LOCATION = "config/"
+CONFIG_LOCAL_SAVE_LOCATION = "config/to_tag/"  # keep separate for now for debudding...
 
 # for uploads - TBC
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])

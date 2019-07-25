@@ -1,7 +1,9 @@
 from flask import Flask, session
 import subprocess
 import json
+import os.path
 
+# system config.
 import constants
 
 
@@ -199,17 +201,30 @@ def getDeviceConfig(runMode, deviceID):
 
     else:
 
-        configFileName = downloadDeviceConfigToLocal(deviceID)
+        # if there is already a file loaded, don't load it again...
+        configFileName = isConfigAlreadyOnLocal(deviceID)
+
+        if not configFileName:
+            configFileName = downloadDeviceConfigToLocal(deviceID)['result']
 
         if "error" in configFileName:
             return configFileName
         
         # read config file
-        with open(configFileName['result'], 'r') as configFile:
+        with open(configFileName, 'r') as configFile:
             data = json.load(configFile)
         
         return {'result': data}
 
+
+def isConfigAlreadyOnLocal(deviceID):
+
+    configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
+
+    if os.path.isfile(configFileName):
+        return configFileName
+    else:
+        return false
 
 def downloadDeviceConfigToLocal(deviceID):
 

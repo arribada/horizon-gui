@@ -1,0 +1,74 @@
+{
+    "accelerometer": {
+        "config": 0, 
+        "highThreshold": 0, 
+        "logEnable": true, 
+        "maximumAquisitionTime": 0, 
+        "mode": "PERIODIC", 
+        "sampleRate": 0, 
+        "scheduledAquisitionInterval": 0
+    }, 
+    "battery": {
+        "logEnable": true
+    }, 
+    "bluetooth": {
+        "advertisingInterval": 0, 
+        "connectionInterval": 0, 
+        "inactivityTimeout": 0, 
+        "logEnable": true, 
+        "phyMode": "2_MBPS", 
+        "scheduledDuration": 0, 
+        "scheduledInterval": 0, 
+        "triggerControl": 0
+    }, 
+    "gps": {
+        "lastKnownPosition": {
+            "accuracyHorizontal": 31.66, 
+            "accuracyVertical": 12.349, 
+            "day": 3, 
+            "height": 0.003, 
+            "hours": 2, 
+            "iTOW": 322315000, 
+            "latitude": 51.5279467, 
+            "longitude": -0.0939511, 
+            "minutes": 26, 
+            "month": 1, 
+            "seconds": 3, 
+            "year": 2018
+        }, 
+        "logDebugEnable": true, 
+        "logPositionEnable": true, 
+        "logTTFFEnable": true, 
+        "maximumAquisitionTime": 20, 
+        "mode": "SCHEDULED", 
+        "scheduledAquisitionInterval": 165, 
+        "scheduledAquisitionNoFixTimeout": 0, 
+        "veryFirstFixHoldTime": 120
+    }, 
+    "logging": {
+        "dateTimeStampEnable": true, 
+        "enable": true, 
+        "fileSize": 3032991, 
+        "fileType": "LINEAR", 
+        "startEndSyncEnable": true
+    }, 
+    "pressureSensor": {
+        "highThreshold": 0, 
+        "logEnable": true, 
+        "lowThreshold": 0, 
+        "maximumAquisitionTime": 0, 
+        "mode": "PERIODIC", 
+        "sampleRate": 0, 
+        "scheduledAquisitionInterval": 0
+    }, 
+    "rtc": {
+        "dateTime": "Wed Jan  3 18:43:19 2018"
+    }, 
+    "saltwaterSwitch": {
+        "hysteresisPeriod": 0, 
+        "logEnable": true
+    }, 
+    "system": {
+        "deviceIdentifier": "00:00:00:00:00:00:00:00"
+    }
+}
