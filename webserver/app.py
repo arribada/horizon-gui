@@ -5,6 +5,7 @@ from scute import scute
 from flask import Flask, request, jsonify, render_template, send_file, send_from_directory
 import json
 import os
+import datetime
 
 ## project functions
 import deviceFunctions
@@ -69,22 +70,53 @@ horizonSCUTE.registerHook("save_config", saveConfig)
 def erase_log():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Erase Log")
+        response = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
 
-@app.route('/update_gps_almanac')
-def update_gps_almanac():
-    devices = request.args.getlist("devices[]")
-    if len(devices) == 1:
-        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Update GPS Almanac")
+        if response["result"] == "erased":
+                usermessage = "Log erased for " + devices[0]
+        else:
+                usermessage = "Log erase failed for " + devices[0] + ". " + response["result"]
+
+        return render_template("list.html", title="Horizon", userMessage=usermessage, reportValues=horizonSCUTE.getAllDeviceReports(), reportSchema=horizonSCUTE.reportSchema, actions=horizonSCUTE.actionsSchema, timeLoaded=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+
+def scanDirectory(target):
+
+        return [{"filename": "123456.22", "dateTime":"12345678"},{"filename": "123456.22", "dateTime":"12345678"},{"filename": "123456.22", "dateTime":"12345678"}]
+
+
+@app.route('/uploads')
+def uploads():
+
+        return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("uploads/gps_almanac"),  gps_asciiFiles=scanDirectory("uploads/gps_ascii"), firmwareFiles=scanDirectory("uploads/firmware"))
+   
+
+
+@app.route('/gps_almanac', methods = ['POST'])
+def gps_almanac():
+        print("gps_almanac")
+        if request.method == 'POST':
+                print(request.args)
+                # check for post data and deal with it...
+                return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0])
+
 
 @app.route('/reset_flash')
 def reset_flash():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Reset Flash")
+        response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
 
-@app.route('/apply_gps_ascii')
-def apply_gps_ascii():
+        if response["result"] == "flashed":
+                usermessage = "Device " + devices[0] + " flashed."
+        else:
+                usermessage = "Flash failed for " + devices[0] + ". " + response["result"]
+
+        return render_template("list.html", title="Horizon", userMessage=usermessage, reportValues=horizonSCUTE.getAllDeviceReports(), reportSchema=horizonSCUTE.reportSchema, actions=horizonSCUTE.actionsSchema, timeLoaded=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    
+
+@app.route('/gps_ascii')
+def gps_ascii():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
         return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")

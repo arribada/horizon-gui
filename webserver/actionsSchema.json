@@ -24,13 +24,5 @@
         "bulk": true,
         "warn": true,
         "label": "Reset flash"
-    },
-    "update_gps_almanac": {
-        "bulk": true,
-        "label": "Update GPS almanac"
-    },
-    "apply_gps_ascii": {
-        "bulk": true,
-        "label": "Apply GPS ASCII"
     }
 }

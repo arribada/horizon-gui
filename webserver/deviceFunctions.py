@@ -514,7 +514,83 @@ def dummyResponse(runMode, deviceID, runtype):
     message = runtype + "for " + deviceID + " not yet implemented"
     logMessage(message)
     return message
-    
+
+
+def eraseLog(runMode, deviceID): 
+    logMessage("eraseLog for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {'result': "erased"}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --erase_log --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        elif "CMD_ERROR_FILE_NOT_FOUND" in result:
+            return {"result":"No Log file to erase."}
+        else:
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "erased"}
+            else:
+                return {'result': "Noterased"}
+
+ 
+def flashDevice(runMode, deviceID): 
+    logMessage("flashDevice for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {'result': "flashed"}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --reset FLASH --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+        print(result)
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        # elif "CMD_ERROR_FILE_NOT_FOUND" in result:
+        #     return {"result":"No Log file to erase."}
+        else:
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "flashed"}
+            else:
+                return {'result': "NotFlashed"}
+
 
 def vewLatestLogData(runMode, deviceID):
 
@@ -543,9 +619,12 @@ def vewLatestLogData(runMode, deviceID):
     latestLogInfo =open(logPath + "/latest_log.txt", "r")
     latestLogDate =latestLogInfo.read()
 
-    # top 50 records
-    with open(logPath + "/" + latestLogDate + ".json" ) as myfile:
-        head = [next(myfile) for x in xrange(50)]
+    if os.path.getsize(logPath + "/" + latestLogDate + ".json") > 0:
+        # top 50 records
+        with open(logPath + "/" + latestLogDate + ".json" ) as myfile:
+            head = [next(myfile) for x in xrange(50)]
+    else:
+        head = "No Log Data"
 
     logAnalysis = getLogAnalysis(logPath + "/ " + latestLogDate + ".json")
 
