@@ -2,7 +2,7 @@
 # see https://github.com/Octophin/scute for more info.
 
 from scute import scute
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, render_template, send_file, send_from_directory
 import json
 import os
 
@@ -94,7 +94,10 @@ def apply_gps_ascii():
 def view_log():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-            return deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0])
+        logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0])
+
+        return render_template("view_log.html", title="Latest Log for " + devices[0], logData=logData, device=devices[0])
+
 
 
 # andle export requests - either for one device or multiple.
@@ -107,7 +110,15 @@ def request_log():
         #TODO
         return "<h1>Functionality to be confirmed for multiple exports.</h1>"
 
-    
+
+@app.route('/download')
+def downloadFile ():
+    fileName = request.args.getlist("file")[0]
+    directory = request.args.getlist("device")[0]
+    root = constants.LOG_DATA_LOCAL_LOCATION
+
+    return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 

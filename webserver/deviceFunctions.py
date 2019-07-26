@@ -518,6 +518,13 @@ def dummyResponse(runMode, deviceID, runtype):
 
 def vewLatestLogData(runMode, deviceID):
 
+    # based on the latest loaded log (latest_log.txt), return:
+    #  - log loaded data time
+    #  - list of all logs
+    #  - top 50 records of latest log
+    #  - log inteligance: how many of what records in the json file...
+
+
     logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
 
     logMessage(logPath)
@@ -530,7 +537,8 @@ def vewLatestLogData(runMode, deviceID):
 
     for file in pathContent:
         if file != "latest_log.txt":
-            returnFiles.append(logPath+ "/" + file)
+            fileName = file.split(".")
+            returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(logPath + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
 
     latestLogInfo =open(logPath + "/latest_log.txt", "r")
     latestLogDate =latestLogInfo.read()
@@ -539,10 +547,17 @@ def vewLatestLogData(runMode, deviceID):
     with open(logPath + "/" + latestLogDate + ".json" ) as myfile:
         head = [next(myfile) for x in xrange(50)]
 
+    logAnalysis = getLogAnalysis(logPath + "/ " + latestLogDate + ".json")
 
-    message = {"latestLogDateTime": latestLogDate, "fileHead": json.dumps(head), "allLogFiles": returnFiles }
+
+    message = {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": json.dumps(head), "allLogFiles": returnFiles, "logAnalysis": logAnalysis }
 
     return message
+
+
+def getLogAnalysis(logFileName):
+
+    return ["To Be Completed", "Soon"]
 
 
 def logMessage(message):
