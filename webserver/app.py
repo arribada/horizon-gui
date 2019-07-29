@@ -99,7 +99,7 @@ def scanDirectory(target):
 @app.route('/uploads')
 def uploads():
 
-        return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("uploads/gps_almanac"),  gps_asciiFiles=scanDirectory("uploads/gps_ascii"), firmwareFiles=scanDirectory("uploads/firmware"))
+        return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
    
 
 
@@ -125,14 +125,28 @@ def getAlmanacList():
 horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
 
 
-@app.route('/gps_almanac', methods = ['POST'])
+@app.route('/gps_almanac')
 def gps_almanac():
-        print("gps_almanac")
+    print("gps_almanac")
 
-        if request.method == 'POST':
-                print(request.args)
-                # check for post data and deal with it...
-                return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0], gps_almanacFiles=scanDirectory("uploads/gps_almanac"))
+
+    devices = request.args.getlist("devices[]")
+    fileToApply = request.args.get("value")
+    if len(devices) == 1:
+        response = deviceFunctions.writeGPSAlmanacToDevice(constants.RUNMODE, devices[0], fileToApply )
+
+        if response["result"] == "flashed":
+                usermessage = "Device " + devices[0] + " GPS Almanac Uploaded."
+        else:
+                usermessage = "GPS Almanac Upload failed for " + devices[0] + ". " + response["result"]
+
+        return render_template("emptyPage.html", title="GPS Almanac Upload Result", userMessage=usermessage )
+
+
+    # if request.method == 'POST':
+    #         print(request.args)
+    #         # check for post data and deal with it...
+    #         return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0], gps_almanacFiles=scanDirectory("upload/gps_almanac"))
 
 
 @app.route('/reset_flash')
@@ -146,7 +160,7 @@ def reset_flash():
         else:
                 usermessage = "Flash failed for " + devices[0] + ". " + response["result"]
 
-        return render_template("emptyPage.html", title="Reset Flash Result", userMessage=usermessage )
+        return render_template("reset_flash.html", title="Reset Flash Result", userMessage=usermessage )
     
 
 @app.route('/gps_ascii')
