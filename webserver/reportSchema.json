@@ -27,10 +27,6 @@
                 "label": "File Size",
                 "order": 1
             },
-            "fileType": {
-                "label": "Log Type",
-                "order": 2
-            },
             "sensorsEnabled": {
                 "label": "Sensors Enabled",
                 "order": 3

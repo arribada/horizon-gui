@@ -2,9 +2,7 @@
     "view_log": {
         "label": "Device Logs",
         "order": 3,
-        "bulk": false,
-        "url": "/view_log",
-        "icon": ""
+        "bulk": false
     },
     "erase_log": {
         "bulk": true,
@@ -20,13 +18,6 @@
         "bulk": false,
         "warn": true,
         "label": "GPS Almanac",
-        "onclick": "triggerLogLoad",
-        "url": "/gps_almanac",
-        "enum": {
-            "source": "gps_almanacFiles",
-            "form": "post"
-
-        }
+        "list": "gps_almanacFiles"
     }
-
 }

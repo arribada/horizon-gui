@@ -42,8 +42,7 @@
                     
                     {% for row in logData.logAnalysis %}
                     <div class="analysisBlock">
-                        <span class="title">{{ row.name }}</span>
-                        Count: {{ row.count }}<br>
+                        {{ row.name }} ({{ row.count }})<br>
                         First: {{ row.first }}<br>
                         Last: {{ row.last }}<br>
                     </div>

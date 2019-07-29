@@ -87,6 +87,7 @@ def scanDirectory(target):
         return "There are files in this directory."
 
     pathContent = os.listdir(target)
+   
     returnFiles = []
 
     for file in pathContent:
@@ -100,6 +101,28 @@ def uploads():
 
         return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("uploads/gps_almanac"),  gps_asciiFiles=scanDirectory("uploads/gps_ascii"), firmwareFiles=scanDirectory("uploads/firmware"))
    
+
+
+def getAlmanacList():
+
+    almanacPath = "upload/gps_almanac"
+
+    if not os.path.exists(almanacPath):
+        print(almanacPath + " not there")
+        return {}
+
+    pathContent = os.listdir(almanacPath)
+   
+    returnFiles = {}
+
+    for file in pathContent:
+        fileName = file.split(".")
+        returnFiles[fileName[0]] = file
+    
+    return returnFiles
+
+
+horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
 
 
 @app.route('/gps_almanac', methods = ['POST'])

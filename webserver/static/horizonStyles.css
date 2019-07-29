@@ -23,13 +23,10 @@
 
 
 .analysisBlock{
-  width: 48%;
-  float: left;
-
   padding: 10px;
   border: 1px solid grey;
 
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 
 }
 .analysisBlock.title{
@@ -37,7 +34,5 @@
   background-color: lightslategrey;
   color: black;
 }
-.clearFloat{
-  clear: both;
-}
+
 
