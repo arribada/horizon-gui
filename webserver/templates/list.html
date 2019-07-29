@@ -24,11 +24,12 @@
                 </div>
                 {% if userMessage|length > 0 %}
                 <section>
-                <div class="alert info">
-                        {{userMessage}}
-                </div>
+                    <div class="happy-margin">
+                        <div class="alert {{userMessage.type}}">
+                            {{userMessage.message}}
+                        </div>
+                    </div>
                 </section>
-                <div class="divider"></div>
                 {% endif %}
                 {% if reportValues|length > 0 %}
                 <section class="main-table">
@@ -91,8 +92,32 @@
 
                         {% for key,action in actions.items() %}
 
-                            <button {% if action.warn %} data-warn="true" {% endif %} {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>{{action.label}}</button>
+                        {% if action.enum in action.items() %}
 
+                            <form action="{{action.url}}" methon="{{action.enum.form}}">
+                                <selec data-bulk="false" name="gps_almanac" id="gps_almanac" onchange="this.form.submit()">
+                                    <option>{{action.label}}</option>
+                                    {% if action.enum.source != "list"%}
+
+                                         {% for value in action.enum.source %} <!-- <<<  as a variable name -->
+
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                        <!-- TODO output enum values from action.enum -->
+
+                                    {% endif %}
+                                    <option value="text_almanac_1.ubx">text almanac 1</option>
+                                    <option value="text_almanac_2.ubx">text almanac 2</option>
+                            </select>
+
+                            </form>
+                        {% else %}
+
+                            <button {% if action.warn %} data-warn="true" {% endif %} {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>{{action.label}}</button>
+                        {% endif %}
+                        
                         {% endfor %}
                         <select disabled data-bulk="true">
                                 <option>Apply Preset</option>
@@ -101,20 +126,6 @@
                                 <option>Preset C</option>
                         </select>
 
-                        <form action="/gps_almanac" method="post">
-                            <selec data-bulk="false" name="gps_almanac" id="gps_almanac" onchange="this.form.submit()">
-                                    <option>Update GPS Almanac</option>
-                                    <option value="text_almanac_1.ubx">text almanac 1</option>
-                                    <option value="text_almanac_2.ubx">text almanac 2</option>
-                            </select>
-                        </form>
-                        <form action="/gps_ascii" method="get">
-                            <select disabled data-bulk="false" name="gps_ascii" id="gps_ascii" onchange="this.form.submit()">
-                                    <option>Apply GPS ASCII</option>
-                                    <option>ASCII 1</option>
-                                    <option>ASCII 2</option>
-                            </select>
-                        </form>
 
                         <br/>
 

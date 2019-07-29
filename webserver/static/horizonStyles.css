@@ -1,0 +1,43 @@
+
+.alert {
+    padding: 20px;
+    background-color: grey;
+    color: white;
+    margin-bottom: 15px;
+  }
+
+.alert.success {
+  background-color:#51f251;
+  border: 1px solid forestgreen;
+}
+
+.alert.error {
+  background-color: #ff8a8a;
+  border: 1px solid red;
+}
+
+.alert.info {
+  background-color: #5962fd;
+  border: 1px solid blue;
+}
+
+
+.analysisBlock{
+  width: 48%;
+  float: left;
+
+  padding: 10px;
+  border: 1px solid grey;
+
+  margin-bottom: 15px;
+
+}
+.analysisBlock.title{
+  width: 100%;
+  background-color: lightslategrey;
+  color: black;
+}
+.clearFloat{
+  clear: both;
+}
+

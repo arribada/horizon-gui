@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+        <div class="main-wrapper happy-margin">
+
+            <section class="main-table-wrapper" toolversion>
+                <div class="table-nav flex top-tail-margin top-tail-padding">
+                    <div class="table-nav-left">
+                        <span class="usb-icon inline-block">
+                            <img alt="USB icon" src="/scute/images/usb-icon.png">
+                        </span>
+                        <div class="inline-block navy table-header">
+                            <h2>{{ title }}</h2>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            {% if userMessage|length > 0 %}
+            <section>
+                <div class="happy-margin">
+        
+                    <div class="alert {{userMessage.type}}">
+                        {{userMessage.message}}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+
+            <div class="divider"></div>
+   
+
+        </div>
+{% endblock %}

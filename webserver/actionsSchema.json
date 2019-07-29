@@ -1,15 +1,6 @@
 {
-    "request_log": {
-        "label": "Request Log",
-        "order": 2,
-        "bulk": false,
-        "onclick": "triggerLogLoad",
-        "url": "/request_log",
-        "icon": "",
-        "helpText": "TODO"
-    },
     "view_log": {
-        "label": "Latest Logs",
+        "label": "Device Logs",
         "order": 3,
         "bulk": false,
         "url": "/view_log",
@@ -24,5 +15,18 @@
         "bulk": true,
         "warn": true,
         "label": "Reset flash"
+    },
+    "gps_almanac": {
+        "bulk": false,
+        "warn": true,
+        "label": "GPS Almanac",
+        "onclick": "triggerLogLoad",
+        "url": "/gps_almanac",
+        "enum": {
+            "source": "gps_almanacFiles",
+            "form": "post"
+
+        }
     }
+
 }

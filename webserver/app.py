@@ -73,16 +73,26 @@ def erase_log():
         response = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
 
         if response["result"] == "erased":
-                usermessage = "Log erased for " + devices[0]
+                usermessage = {"type": "success",  "message": "Log erased for " + devices[0]}
         else:
-                usermessage = "Log erase failed for " + devices[0] + ". " + response["result"]
+                usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("list.html", title="Horizon", userMessage=usermessage, reportValues=horizonSCUTE.getAllDeviceReports(), reportSchema=horizonSCUTE.reportSchema, actions=horizonSCUTE.actionsSchema, timeLoaded=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-
+        return render_template("erase_log.html", title="Erase Log Result", userMessage=usermessage )
 
 def scanDirectory(target):
 
-        return [{"filename": "123456.22", "dateTime":"12345678"},{"filename": "123456.22", "dateTime":"12345678"},{"filename": "123456.22", "dateTime":"12345678"}]
+    print("Scanning " + target)
+
+    if not os.path.exists(target):
+        return "There are files in this directory."
+
+    pathContent = os.listdir(target)
+    returnFiles = []
+
+    for file in pathContent:
+        fileName = file.split(".")
+        returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(target + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
+
 
 
 @app.route('/uploads')
@@ -95,10 +105,11 @@ def uploads():
 @app.route('/gps_almanac', methods = ['POST'])
 def gps_almanac():
         print("gps_almanac")
+
         if request.method == 'POST':
                 print(request.args)
                 # check for post data and deal with it...
-                return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0])
+                return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0], gps_almanacFiles=scanDirectory("uploads/gps_almanac"))
 
 
 @app.route('/reset_flash')
@@ -112,7 +123,7 @@ def reset_flash():
         else:
                 usermessage = "Flash failed for " + devices[0] + ". " + response["result"]
 
-        return render_template("list.html", title="Horizon", userMessage=usermessage, reportValues=horizonSCUTE.getAllDeviceReports(), reportSchema=horizonSCUTE.reportSchema, actions=horizonSCUTE.actionsSchema, timeLoaded=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        return render_template("emptyPage.html", title="Reset Flash Result", userMessage=usermessage )
     
 
 @app.route('/gps_ascii')
@@ -125,8 +136,12 @@ def gps_ascii():
 @app.route('/view_log')
 def view_log():
     devices = request.args.getlist("devices[]")
+    downloadNew = request.args.get("new") # returns 'None' or the value
+
+    print (downloadNew)
     if len(devices) == 1:
-        logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0])
+
+        logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
 
         return render_template("view_log.html", title="Latest Log for " + devices[0], logData=logData, device=devices[0])
 

@@ -19,7 +19,7 @@
                             <img alt="USB icon" src="/scute/images/usb-icon.png">
                         </span>
                         <div class="inline-block navy table-header">
-                            <h2>View Latest Log for {{device}}</h2>
+                            <h2>Viewing Latest Log Data for {{device}}</h2>
                         </div>
                     </div>
                     <div class="table-nav-right gray">
@@ -33,16 +33,22 @@
                 </div>
 
                 {% if logData.latestLogDateTime | length >0%}
-                
+
                 <section class="logData analysis">
                     <div class="inline-block navy">
                             <h2>Log Analysis for {{logData.latestLogDateTime}}</h2>
                     </div>
-                    <ul>
+                    <span class="clearFloat"></span>
+                    
                     {% for row in logData.logAnalysis %}
-                    <li>{{ row }}</li>
+                    <div class="analysisBlock">
+                        <span class="title">{{ row.name }}</span>
+                        Count: {{ row.count }}<br>
+                        First: {{ row.first }}<br>
+                        Last: {{ row.last }}<br>
+                    </div>
                     {% endfor %}
-                </ul>
+                    <span class="clearFloat"></span>
 
                 </section>
                 <div class="divider"></div>
@@ -83,10 +89,14 @@
                 {% else %}
                 <!--  no Log data -->
                 <section class="logData noData">
-                        <div class="inline-block navy">
+                        <div class="happy-margin">
+        
+                            <div class="alert error">
+                        
                                 <h2>There is no Log Data downloaded for tag {{ device }}</h2>
-                                <a href="/request_log?devices[]={{device}}">Download Now</a><br>
+                                <a href="/view_log?devices[]={{device}}&new=yes">Download Now</a><br>
                         </div>
+                    </div>
     
                 </section>
                 {% endif %}

@@ -592,7 +592,11 @@ def flashDevice(runMode, deviceID):
                 return {'result': "NotFlashed"}
 
 
-def vewLatestLogData(runMode, deviceID):
+def vewLatestLogData(runMode, deviceID, downloadNew):
+
+    # force loading of new logs first...
+    if downloadNew == "yes":
+        downloadResponse = receiveTrackerLogData(runMode, deviceID)
 
     # based on the latest loaded log (latest_log.txt), return:
     #  - log loaded data time
@@ -600,10 +604,9 @@ def vewLatestLogData(runMode, deviceID):
     #  - top 50 records of latest log
     #  - log inteligance: how many of what records in the json file...
 
-
     logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
 
-    logMessage(logPath)
+    logMessage("Getting info for " + logPath)
 
     if not os.path.exists(logPath):
         return "There are no logs for " + deviceID + ". Please request them."
@@ -626,7 +629,7 @@ def vewLatestLogData(runMode, deviceID):
     else:
         head = "No Log Data"
 
-    logAnalysis = getLogAnalysis(logPath + "/ " + latestLogDate + ".json")
+    logAnalysis = getLogAnalysis(logPath + "/" + latestLogDate + ".json")
 
 
     message = {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": json.dumps(head), "allLogFiles": returnFiles, "logAnalysis": logAnalysis }
@@ -636,7 +639,30 @@ def vewLatestLogData(runMode, deviceID):
 
 def getLogAnalysis(logFileName):
 
-    return ["To Be Completed", "Soon"]
+    logMessage(logFileName)
+
+    outputTypes = []
+    resultsDict = {}
+
+    with open(logFileName, "r") as file:
+        for line in file.readlines():
+            thisLine = json.loads(line.rstrip()) #convert to json
+            
+            for key in thisLine:  # check to see if this type already in the output results
+                if key not in outputTypes:
+                    outputTypes.append(key)
+                    resultsDict[key] = {"name": key, "first": thisLine[key], "last": "", "count": 1}
+                else:
+                    resultsDict[key]["count"] += 1
+                    resultsDict[key]["last"] = thisLine[key]
+
+
+    #print(resultsDict)
+    outputResults = []
+    for row in resultsDict:
+        outputResults.append(resultsDict[row])
+
+    return outputResults
 
 
 def logMessage(message):
