@@ -1,6 +1,6 @@
 # set to "dummy" to run without PI or devices
-RUNMODE = "pi"
-#RUNMODE = "dummy"
+#RUNMODE = "pi"
+RUNMODE = "dummy"
 
 DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 

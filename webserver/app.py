@@ -79,6 +79,7 @@ def erase_log():
 
         return render_template("erase_log.html", title="Erase Log Result", userMessage=usermessage )
 
+
 def scanDirectory(target):
 
     print("Scanning " + target)
@@ -94,7 +95,7 @@ def scanDirectory(target):
         fileName = file.split(".")
         returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(target + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
 
-
+    return returnFiles
 
 @app.route('/uploads')
 def uploads():

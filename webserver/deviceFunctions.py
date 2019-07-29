@@ -517,11 +517,10 @@ def writeGPSAlmanacToDevice(runMode, deviceID, fileToApply):
 
     else:
 
-        
         try:
 
-            testString = "sudo " + constants.TRACKER_CONFIG + " sudo gps_almanac --file upload/gps_almanac/" + fileToApply + " --id "+deviceID
-            print("Sending: " + testString)
+            testString = "sudo " + constants.TRACKER_CONFIG + " sudo gps_almanac --file upload/gps_almanac" + fileToApply + " --id "+deviceID
+            print("Sending: " + restString)
             result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
