@@ -8,16 +8,5 @@
         "bulk": true,
         "warn": true,
         "label": "Erase log"
-    },
-    "reset_flash": {
-        "bulk": true,
-        "warn": true,
-        "label": "Reset flash"
-    },
-    "gps_almanac": {
-        "bulk": false,
-        "warn": true,
-        "label": "GPS Almanac",
-        "list": "gps_almanacFiles"
     }
 }

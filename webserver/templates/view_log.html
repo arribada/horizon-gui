@@ -52,6 +52,7 @@
                 </section>
                 <div class="divider"></div>
                 <section class="logData fileList">
+                   
                         <div class="inline-block navy table-header">
                                 <h2>Available Log Files ({{logData.allLogFiles|length}})</h2>
                         </div>
@@ -59,8 +60,8 @@
                         <ul>
     
                         
-                        {% for file in logData.allLogFiles%}
-                            <li><a href="/download?device={{logData.selectedDevice}}&file={{file.fileName}}" target="_blank">{{ file.fileDate }} {{file.fileSizeKb}}kb ({{file.fileType}})</a></li>
+                        {% for key, value in logData.allLogFiles.items()%}
+                            <li>{{ key }}<br>Download Log: <a class="downloadLink"href="/download?device={{logData.selectedDevice}}&file={{value['json']}}" target="_blank">JSON</a>  <a class="downloadLink" href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}" target="_blank">Binary</a></li>
     
                         {% endfor %}
     

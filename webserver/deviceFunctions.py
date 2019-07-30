@@ -520,7 +520,7 @@ def writeGPSAlmanacToDevice(runMode, deviceID, fileToApply):
         try:
 
             testString = "sudo " + constants.TRACKER_CONFIG + " sudo gps_almanac --file upload/gps_almanac" + fileToApply + " --id "+deviceID
-            print("Sending: " + restString)
+            print("Sending: " + testString)
             result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
@@ -640,7 +640,7 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
     # force loading of new logs first...
     if downloadNew == "yes":
-        downloadResponse = receiveTrackerLogData(runMode, deviceID)
+        receiveTrackerLogData(runMode, deviceID)
 
     # based on the latest loaded log (latest_log.txt), return:
     #  - log loaded data time
@@ -650,35 +650,54 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
     logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
 
+    latestLogInfo =open(logPath + "/latest_log.txt", "r")
+    latestLogDate =latestLogInfo.read()
+
     logMessage("Getting info for " + logPath)
+
+    logFiles = getLogFileListByDate(logPath, deviceID)
+
+    logHead = getFileHead(logPath, latestLogDate + ".json", 50)
+
+    logAnalysis = getLogAnalysis(logPath + "/" + latestLogDate + ".json")
+
+    return {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": logHead, "allLogFiles": logFiles, "logAnalysis": logAnalysis }
+
+
+def getLogFileListByDate(logPath, deviceID):
 
     if not os.path.exists(logPath):
         return "There are no logs for " + deviceID + ". Please request them."
 
     pathContent = os.listdir(logPath)
-    returnFiles = []
+    returnFiles = {}
 
     for file in pathContent:
         if file != "latest_log.txt":
             fileName = file.split(".")
-            returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(logPath + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
 
-    latestLogInfo =open(logPath + "/latest_log.txt", "r")
-    latestLogDate =latestLogInfo.read()
+            if fileName[0] not in returnFiles:
+                returnFiles[fileName[0]] = {}
+            returnFiles[fileName[0]][fileName[1]] = logPath + '/' +file
+    
+    return returnFiles
 
-    if os.path.getsize(logPath + "/" + latestLogDate + ".json") > 0:
+
+
+def getFileHead(directory, fileName, count):
+    
+    if os.path.getsize(directory) > 0:
         # top 50 records
-        with open(logPath + "/" + latestLogDate + ".json" ) as myfile:
+        with open(directory + '/' + fileName ) as myfile:
             head = [next(myfile) for x in xrange(50)]
+        
+        return json.dumps(head)
     else:
-        head = "No Log Data"
 
-    logAnalysis = getLogAnalysis(logPath + "/" + latestLogDate + ".json")
+        return "No Log Data"
+    
+    return 
 
-
-    message = {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": json.dumps(head), "allLogFiles": returnFiles, "logAnalysis": logAnalysis }
-
-    return message
 
 
 def getLogAnalysis(logFileName):
