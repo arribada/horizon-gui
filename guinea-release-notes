@@ -1,0 +1,40 @@
+Guinea version release;
+
+- Hardware: v2.1
+- Firmware: 10 
+- Python Tools: 0.0.6
+- SCUTE GUI v.X
+
+*****
+
+1) Hardware needs to be prefixed with the version of the hardware
+
+We suggest major hardware versioning to be 
+
+Hardware 2.0
+Hardware 3.0 
+etc...
+
+**********************************
+Major version is 1. (incompatible changes)
+Minor version (add functionality)
+Patch (backwards compatible bug fix)
+
+We suggest hardware and firmware followed by tools, seperated by a -
+
+Firmware is prefixed by the hardware version
+
+2.x.x-10.0.0
+
+Tools should be written as firmware-tools;
+
+10.x.x-6.0.0
+
+GUI should be written as tools-gui
+
+6.0.0-1.0.0
+
+
+
+Therefore release is;
+
