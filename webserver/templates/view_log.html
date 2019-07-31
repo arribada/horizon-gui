@@ -72,8 +72,7 @@
         {% for logDate in logData.allLogFiles%}
         <li>
             {% for key, value in logDate.items() %}
-                {{key}}
-                <br>Download Log: <a class="downloadLink"
+                {{key}} -  Download: <a class="downloadLink"
                 href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']}}" target="_blank">JSON</a> <a
                 class="downloadLink" href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}"
                 target="_blank">Binary</a>

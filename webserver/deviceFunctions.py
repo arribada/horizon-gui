@@ -2,6 +2,7 @@ from flask import Flask, session
 import subprocess
 import json
 import os.path
+import glob
 import datetime
 
 # system config.
@@ -230,20 +231,36 @@ def getDeviceConfig(runMode, deviceID, forceReload = False):
 
 def isConfigAlreadyOnLocal(deviceID):
 
-    configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
-
-    if os.path.isfile(configFileName):
-        logMessage("Using Local config: "+ configFileName )
-        return configFileName
-    else:
+    # if there is a directory in constants.CONFIG_LOCAL_LOAD_LOCATION for this device, get the latest file from it 
+    if not os.path.exists(constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/' ):
         return False
+
+    list_of_files = glob.glob(constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/*.' + constants.CONFIG_FILE_EXTENSION) 
+    if not list_of_files: #no files
+        return False
+
+    latest_file = max(list_of_files, key=os.path.getctime)
+
+    logMessage("Using Local config: "+ latest_file )
+    return latest_file
+
 
 def downloadDeviceConfigToLocal(deviceID):
 
-        configFileName = constants.CONFIG_LOCAL_LOAD_LOCATION + "config-" + deviceID + ".json"
+
+        myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
+
+        if not os.path.exists(myConfigDirectory):
+
+            os.mkdir(myConfigDirectory)
+
+        currentDT = datetime.datetime.now()
+        currentDateTime = currentDT.strftime("%Y%m%d_%H%M%S")
+
+        newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
 
         try:
-            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
+            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read " + newConfigFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
@@ -261,7 +278,7 @@ def downloadDeviceConfigToLocal(deviceID):
         if len(resultResponse) != 0:
             return {'error': constants.NO_TAG_TEXT}
 
-        return {'result': configFileName}
+        return {'result': newConfigFileName}
 
 
 
@@ -285,17 +302,26 @@ def saveDeviceConfig(runMode, deviceID, config):
         if not constants.FRIENDLY_NAME_ACTIVE:
             del config["system"]["friendlyName"]
 
-        configFileName = constants.CONFIG_LOCAL_SAVE_LOCATION + "config-" + deviceID + ".json"
+
+        myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
+
+        if not os.path.exists(myConfigDirectory):
+            os.mkdir(myConfigDirectory)
+
+        currentDT = datetime.datetime.now()
+        currentDateTime = currentDT.strftime("%Y%m%d_%H%M%S")
+
+        newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
 
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
 
         # save this config locally
-        with open(configFileName, 'w+') as outfile:
+        with open(newConfigFileName, 'w+') as outfile:
             json.dump(config, outfile)
 
         try:
-            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
+            result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + newConfigFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))

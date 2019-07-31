@@ -102,7 +102,11 @@ def uploads():
 
         return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
    
+@app.route('/help')
+def help():
 
+        return render_template("help.html", title="Help Resources" )
+   
 
 def getAlmanacList():
 

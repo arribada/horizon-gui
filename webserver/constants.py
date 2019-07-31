@@ -1,6 +1,6 @@
 # set to "dummy" to run without PI or devices
-#RUNMODE = "pi"
-RUNMODE = "dummy"
+RUNMODE = "pi"
+#RUNMODE = "dummy"
 
 DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 
@@ -29,6 +29,8 @@ FRIENDLY_NAME_ACTIVE = False
 
 #LOGGING_LEVEL = "none"
 LOGGING_LEVEL = "verbose"
+
+CONFIG_FILE_EXTENSION = 'config'
 
 
 
