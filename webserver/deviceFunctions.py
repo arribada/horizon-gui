@@ -278,8 +278,17 @@ def downloadDeviceConfigToLocal(deviceID):
         if len(resultResponse) != 0:
             return {'error': constants.NO_TAG_TEXT}
 
+        # only keep constants.CONFIG_FILE_NUMBER_TO_KEEP different files
+        tidyUpConfigDirectory(deviceID)
+
         return {'result': newConfigFileName}
 
+
+def tidyUpConfigDirectory(deviceID):
+    # TODO
+    #  loop myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
+    # and only keep the latest 10 files...
+    print("TODO tidyUpConfigDirectory")
 
 
 def saveDeviceConfig(runMode, deviceID, config):
