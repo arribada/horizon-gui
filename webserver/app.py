@@ -2,9 +2,10 @@
 # see https://github.com/Octophin/scute for more info.
 
 from scute import scute
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, render_template, send_file, send_from_directory
 import json
 import os
+import datetime
 
 ## project functions
 import deviceFunctions
@@ -65,18 +66,144 @@ def saveConfig(deviceID, config):
 horizonSCUTE.registerHook("save_config", saveConfig)
 
 
-
-# andle export requests - either for one device or multiple.
-@app.route('/export')
-def export():
+@app.route('/erase_log')
+def erase_log():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-            return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
+        response = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
+
+        if response["result"] == "erased":
+                usermessage = {"type": "success",  "message": "Log erased for " + devices[0]}
+        else:
+                usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + response["result"] }
+
+        return render_template("erase_log.html", title="Erase Log Result", userMessage=usermessage )
+
+
+def scanDirectory(target):
+
+    print("Scanning " + target)
+
+    if not os.path.exists(target):
+        return "There are files in this directory."
+
+    pathContent = os.listdir(target)
+   
+    returnFiles = []
+
+    for file in pathContent:
+        fileName = file.split(".")
+        returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(target + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
+
+    return returnFiles
+
+@app.route('/uploads')
+def uploads():
+
+        return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
+   
+
+
+def getAlmanacList():
+
+    almanacPath = "upload/gps_almanac"
+
+    if not os.path.exists(almanacPath):
+        print(almanacPath + " not there")
+        return {}
+
+    pathContent = os.listdir(almanacPath)
+   
+    returnFiles = {}
+
+    for file in pathContent:
+        fileName = file.split(".")
+        returnFiles[fileName[0]] = file
+    
+    return returnFiles
+
+
+horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
+
+
+@app.route('/gps_almanac')
+def gps_almanac():
+    print("gps_almanac")
+
+
+    devices = request.args.getlist("devices[]")
+    fileToApply = request.args.get("value")
+    if len(devices) == 1:
+        response = deviceFunctions.writeGPSAlmanacToDevice(constants.RUNMODE, devices[0], fileToApply )
+
+        if response["result"] == "flashed":
+                usermessage = "Device " + devices[0] + " GPS Almanac Uploaded."
+        else:
+                usermessage = "GPS Almanac Upload failed for " + devices[0] + ". " + response["result"]
+
+        return render_template("emptyPage.html", title="GPS Almanac Upload Result", userMessage=usermessage )
+
+
+    # if request.method == 'POST':
+    #         print(request.args)
+    #         # check for post data and deal with it...
+    #         return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0], gps_almanacFiles=scanDirectory("upload/gps_almanac"))
+
+
+@app.route('/reset_flash')
+def reset_flash():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
+
+        if response["result"] == "flashed":
+                usermessage = "Device " + devices[0] + " flashed."
+        else:
+                usermessage = "Flash failed for " + devices[0] + ". " + response["result"]
+
+        return render_template("reset_flash.html", title="Reset Flash Result", userMessage=usermessage )
+    
+
+@app.route('/gps_ascii')
+def gps_ascii():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")
+
+
+@app.route('/view_log')
+def view_log():
+    devices = request.args.getlist("devices[]")
+    downloadNew = request.args.get("new") # returns 'None' or the value
+
+    print (downloadNew)
+    if len(devices) == 1:
+
+        logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
+
+        return render_template("view_log.html", title="Latest Log for " + devices[0], logData=logData, device=devices[0])
+
+
+
+# andle export requests - either for one device or multiple.
+@app.route('/request_log')
+def request_log():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
     else:
         #TODO
         return "<h1>Functionality to be confirmed for multiple exports.</h1>"
 
-    
+
+@app.route('/download')
+def downloadFile ():
+    fileName = request.args.getlist("file")[0]
+    directory = request.args.getlist("device")[0]
+    root = constants.LOG_DATA_LOCAL_LOCATION
+
+    return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 

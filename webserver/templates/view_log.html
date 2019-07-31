@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+
+.logPreview textarea {
+    overflow-y: scroll;
+    height: 300px;
+    width: 100%;
+    resize: none; /* Remove this if you want the user to resize the textarea */
+}
+</style>
+
+        <div class="main-wrapper happy-margin">
+
+            <section class="main-table-wrapper" toolversion>
+                <div class="table-nav flex top-tail-margin top-tail-padding">
+                    <div class="table-nav-left">
+                        <span class="usb-icon inline-block">
+                            <img alt="USB icon" src="/scute/images/usb-icon.png">
+                        </span>
+                        <div class="inline-block navy table-header">
+                            <h2>Viewing Latest Log Data for {{device}}</h2>
+                        </div>
+                    </div>
+                    <div class="table-nav-right gray">
+                        <div class="last-loaded key inline-block">
+                            <p class="inline-block light-gray">Data Load Time:</p>
+                        </div>
+                        <div class="date value inline-block">
+                            <p class="inline-block">{{logData.latestLogDateTime}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if logData.latestLogDateTime | length >0%}
+
+                <section class="logData analysis">
+                    <div class="inline-block navy">
+                            <h2>Log Analysis for {{logData.latestLogDateTime}}</h2>
+                    </div>
+                    <span class="clearFloat"></span>
+                    
+                    {% for row in logData.logAnalysis %}
+                    <div class="analysisBlock">
+                        {{ row.name }} ({{ row.count }})<br>
+                        First: {{ row.first }}<br>
+                        Last: {{ row.last }}<br>
+                    </div>
+                    {% endfor %}
+                    <span class="clearFloat"></span>
+
+                </section>
+                <div class="divider"></div>
+                <section class="logData fileList">
+                   
+                        <div class="inline-block navy table-header">
+                                <h2>Available Log Files ({{logData.allLogFiles|length}})</h2>
+                        </div>
+    
+                        <ul>
+    
+                        
+                        {% for key, value in logData.allLogFiles.items()%}
+                            <li>{{ key }}<br>Download Log: <a class="downloadLink"href="/download?device={{logData.selectedDevice}}&file={{value['json']}}" target="_blank">JSON</a>  <a class="downloadLink" href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}" target="_blank">Binary</a></li>
+    
+                        {% endfor %}
+    
+    
+                        </ul>
+                </section>
+                <div class="divider"></div>
+                <section class="logData logPreview">
+                    <div class="inline-block navy">
+                        <h2>Log Preview (first 50 records)</h2>
+                    </div>
+                {% if logData.fileHead|length > 0 %}
+                <textarea id="logPreview">
+
+                    {{  logData.fileHead }}
+                </textarea>
+
+                {% else %}
+                    <div class="alert info">
+                        No Log Data.
+                    </div>
+
+                {% endif %}
+                </section>
+                {% else %}
+                <!--  no Log data -->
+                <section class="logData noData">
+                        <div class="happy-margin">
+        
+                            <div class="alert error">
+                        
+                                <h2>There is no Log Data downloaded for tag {{ device }}</h2>
+                                <a href="/view_log?devices[]={{device}}&new=yes">Download Now</a><br>
+                        </div>
+                    </div>
+    
+                </section>
+                {% endif %}
+            </section>
+
+        </div>
+{% endblock %}

@@ -2,6 +2,7 @@ from flask import Flask, session
 import subprocess
 import json
 import os.path
+import datetime
 
 # system config.
 import constants
@@ -292,6 +293,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         # save this config locally
         with open(configFileName, 'w+') as outfile:
             json.dump(config, outfile)
+
         try:
             result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --write " + configFileName + " --id " + deviceID  ,shell=True,stderr=subprocess.STDOUT)
 
@@ -431,9 +433,6 @@ def getDeviceBattery(runMode, deviceID):
 
 def receiveTrackerLogData(runMode, deviceID): 
 
-    deviceID = deviceID.replace(":", "")
-
-    
     if  runMode == 'dummy':
 
         destinationFile = "dummy_data/latest_logfile_" + deviceID + ".json"
@@ -446,26 +445,287 @@ def receiveTrackerLogData(runMode, deviceID):
         return {"file": destinationFile, "data": fileContents }
 
     else:
+
+        logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID 
+        currentDT = datetime.datetime.now()
+        currentDateTime = currentDT.strftime("%Y-%m-%d_%H:%M:%S")
+        
+        if not os.path.exists(logPath):
+            os.makedirs(logPath)
+            logMessage("Directory Created: " + logPath)
+
+        binaryFile = logPath + "/" + currentDateTime + ".bin"
+        jsonFile = logPath + "/" + currentDateTime + ".json"
+
+        logMessage("Making call to get " + binaryFile )
+
         # get data off the tag
         try:
-            result1 = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read_log tracker_data/binary/latest_binary.bin",shell=True,stderr=subprocess.STDOUT)
+            result1 = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read_log " + binaryFile + " --id " + deviceID ,shell=True,stderr=subprocess.STDOUT)
+            logMessage("Call complete for " + binaryFile )
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
-        # convert to json
+
+        result1 = result1.split('\n')
+        
+        logMessage("Raw tracker_config binary load result " )
+        for row in result1:
+            logMessage(row)
+
+        result1Response = result1[len(result1) -1]
+
+        # convert to json if success...
+        if len(result1Response) == 0:
+            try:
+                logMessage("Making call to create " + jsonFile )
+                result2 = subprocess.check_output("log_parse --file "+ binaryFile + " > " + jsonFile ,shell=True,stderr=subprocess.STDOUT)
+                logMessage("Call complete for " + jsonFile )
+            except subprocess.CalledProcessError as e:
+                raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+
+            result2 = result2.split('\n')
+            
+            logMessage("Raw tracker_config json convert result " )
+            for row in result2:
+                logMessage(row)
+
+            result2Response = result2[len(result2) -1]
+        else:
+            return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+        if len(result1Response) == 0 and len(result2Response) == 0:
+            logMessage("Raw tracker_config log data Received and converted")
+
+            # write the dateTime to the lastLoaded file
+            with open(logPath + "/latest_log.txt" , 'w+') as outfile:
+                outfile.write(currentDateTime)
+
+            return {'result': 'currentDateTime'}
+        else:
+            return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+def writeGPSAlmanacToDevice(runMode, deviceID, fileToApply):
+
+    if runMode == 'dummy':
+
+        return {"result": "-"}
+
+    else:
+
         try:
-            result2 = subprocess.check_output("log_parse --file tracker_data/binary/latest_binary.bin > tracker_data/json/latest_logfile.json",shell=True,stderr=subprocess.STDOUT)
+
+            testString = "sudo " + constants.TRACKER_CONFIG + " sudo gps_almanac --file upload/gps_almanac" + fileToApply + " --id "+deviceID
+            print("Sending: " + testString)
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         
-        if len(result1) == 0 and len(result2) == 0:
-            logMessage("Raw tracker_config log data Received ")
-            return {'result': 'tracker_data/json/latest_logfile.json'}
+        result = result.rstrip() # trailing new line...
+
+    if result.startswith('Unexpected error'):
+        returnResult = {"error": constants.NO_TAG_TEXT}
+        
+    else:
+
+        # the result is:  'Connecting to device at index 0\n{"charging_level": 100, "charging_ind": true}'
+        # so we need to divide at the '\n' and json load the last part...
+        result = result.split('\n')
+
+        logMessage("Raw tracker_config upload Almanac result " )
+        for row in result:
+            logMessage(row)
+
+
+        resultJson = json.loads(result[len(result) -1])
+        returnResult  = {'result': resultJson}
+       
+    return returnResult
+
+
+
+
+
+
+def dummyResponse(runMode, deviceID, runtype): 
+
+    message = runtype + "for " + deviceID + " not yet implemented"
+    logMessage(message)
+    return message
+
+
+def eraseLog(runMode, deviceID): 
+    logMessage("eraseLog for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {'result': "erased"}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --erase_log --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        elif "CMD_ERROR_FILE_NOT_FOUND" in result:
+            return {"result":"No Log file to erase."}
         else:
-            return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "erased"}
+            else:
+                return {'result': "Noterased"}
+
+ 
+def flashDevice(runMode, deviceID): 
+    logMessage("flashDevice for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {'result': "flashed"}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --reset FLASH --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+        print(result)
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        # elif "CMD_ERROR_FILE_NOT_FOUND" in result:
+        #     return {"result":"No Log file to erase."}
+        else:
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "flashed"}
+            else:
+                return {'result': "NotFlashed"}
+
+
+def vewLatestLogData(runMode, deviceID, downloadNew):
+
+    # force loading of new logs first...
+    if downloadNew == "yes":
+        receiveTrackerLogData(runMode, deviceID)
+
+    # based on the latest loaded log (latest_log.txt), return:
+    #  - log loaded data time
+    #  - list of all logs
+    #  - top 50 records of latest log
+    #  - log inteligance: how many of what records in the json file...
+
+    logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
+
+    latestLogInfo =open(logPath + "/latest_log.txt", "r")
+    latestLogDate =latestLogInfo.read()
+
+    logMessage("Getting info for " + logPath)
+
+    logFiles = getLogFileListByDate(logPath, deviceID)
+
+    logHead = getFileHead(logPath, latestLogDate + ".json", 50)
+
+    logAnalysis = getLogAnalysis(logPath + "/" + latestLogDate + ".json")
+
+    return {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": logHead, "allLogFiles": logFiles, "logAnalysis": logAnalysis }
+
+
+def getLogFileListByDate(logPath, deviceID):
+
+    if not os.path.exists(logPath):
+        return "There are no logs for " + deviceID + ". Please request them."
+
+    pathContent = os.listdir(logPath)
+    returnFiles = {}
+
+    for file in pathContent:
+        if file != "latest_log.txt":
+            fileName = file.split(".")
+
+            if fileName[0] not in returnFiles:
+                returnFiles[fileName[0]] = {}
+            returnFiles[fileName[0]][fileName[1]] = logPath + '/' +file
+    
+    return returnFiles
+
+
+
+def getFileHead(directory, fileName, count):
+    
+    if os.path.getsize(directory) > 0:
+        # top 50 records
+        with open(directory + '/' + fileName ) as myfile:
+            head = [next(myfile) for x in xrange(50)]
+        
+        return json.dumps(head)
+    else:
+
+        return "No Log Data"
+    
+    return 
+
+
+
+def getLogAnalysis(logFileName):
+
+    logMessage(logFileName)
+
+    outputTypes = []
+    resultsDict = {}
+
+    with open(logFileName, "r") as file:
+        for line in file.readlines():
+            thisLine = json.loads(line.rstrip()) #convert to json
+            
+            for key in thisLine:  # check to see if this type already in the output results
+                if key not in outputTypes:
+                    outputTypes.append(key)
+                    resultsDict[key] = {"name": key, "first": thisLine[key], "last": "", "count": 1}
+                else:
+                    resultsDict[key]["count"] += 1
+                    resultsDict[key]["last"] = thisLine[key]
+
+
+    #print(resultsDict)
+    outputResults = []
+    for row in resultsDict:
+        outputResults.append(resultsDict[row])
+
+    return outputResults
 
 
 def logMessage(message):

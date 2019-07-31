@@ -24,12 +24,8 @@
         "order": 2,
         "fields": {
             "fileSize": {
-                "label": "File Size",
+                "label": "Log File Size",
                 "order": 1
-            },
-            "fileType": {
-                "label": "Log Type",
-                "order": 2
             },
             "sensorsEnabled": {
                 "label": "Sensors Enabled",

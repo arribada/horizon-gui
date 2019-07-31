@@ -1,6 +1,6 @@
 # set to "dummy" to run without PI or devices
-RUNMODE = "pi"
-#RUNMODE = "dummy"
+#RUNMODE = "pi"
+RUNMODE = "dummy"
 
 DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 
@@ -18,6 +18,8 @@ SCAN_BLUETOOTH = False
 
 CONFIG_LOCAL_LOAD_LOCATION = "config/" # can separate these if needed...
 CONFIG_LOCAL_SAVE_LOCATION = "config/" 
+
+LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
 
 # for uploads - TBC
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])

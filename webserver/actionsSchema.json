@@ -1,27 +1,12 @@
 {
-    "export": {
-        "label": "Export data",
-        "order": 2,
-        "bulk": true,
-        "url": "/export",
-        "icon": ""
+    "view_log": {
+        "label": "Device Logs",
+        "order": 3,
+        "bulk": false
     },
     "erase_log": {
         "bulk": true,
         "warn": true,
         "label": "Erase log"
-    },
-    "reset_flash": {
-        "bulk": true,
-        "warn": true,
-        "label": "Reset flash"
-    },
-    "update_gps_almanac": {
-        "bulk": true,
-        "label": "Update GPS almanac"
-    },
-    "apply_gps_ascii": {
-        "bulk": true,
-        "label": "Apply GPS ASCII"
     }
 }
