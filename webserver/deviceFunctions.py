@@ -670,16 +670,22 @@ def getLogFileListByDate(logPath, deviceID):
         return "There are no logs for " + deviceID + ". Please request them."
 
     pathContent = os.listdir(logPath)
-    returnFiles = {}
+
+    tempDict = {}
 
     for file in pathContent:
         if file != "latest_log.txt":
             fileName = file.split(".")
 
-            if fileName[0] not in returnFiles:
-                returnFiles[fileName[0]] = {}
-            returnFiles[fileName[0]][fileName[1]] = logPath + '/' +file
+            if fileName[0] not in tempDict:
+                tempDict[fileName[0]] = {}
+            tempDict[fileName[0]][fileName[1]] = file
     
+    # converto to ordered list...
+    returnFiles = []
+    for key in reversed(sorted(tempDict.keys())):
+        returnFiles.append({key: tempDict[key]})
+
     return returnFiles
 
 

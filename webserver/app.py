@@ -196,8 +196,8 @@ def request_log():
         return "<h1>Functionality to be confirmed for multiple exports.</h1>"
 
 
-@app.route('/download')
-def downloadFile ():
+@app.route('/downloadLog')
+def downloadLogFile ():
     fileName = request.args.getlist("file")[0]
     directory = request.args.getlist("device")[0]
     root = constants.LOG_DATA_LOCAL_LOCATION

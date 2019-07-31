@@ -36,3 +36,33 @@
 }
 
 
+.loadingPopup{
+
+  display: none;
+
+  position:absolute;
+  background-color: white;
+  top:100px;
+  left:50%;
+  width:400px; 
+  height:400px;  
+  margin-left:-200px;  
+
+  padding: 20px;
+  text-align: center;
+  font-size: 120%;
+
+  -webkit-box-shadow: 0px 0px 10px grey;
+     -moz-box-shadow: 0px 0px 10px grey;
+          box-shadow: 0px 0px 10px grey; 
+       
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  
+
+
+
+
+}
+
