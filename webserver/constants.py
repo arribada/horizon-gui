@@ -33,5 +33,8 @@ LOGGING_LEVEL = "verbose"
 CONFIG_FILE_EXTENSION = 'config'
 CONFIG_FILE_NUMBER_TO_KEEP = 10
 
+# for the field test, the unique ID is not hardware based...
+DEVICE_UNIQUE_IDENTIFIER = 'system.deviceIdentifier'
+
 
 

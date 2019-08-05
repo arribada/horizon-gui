@@ -23,7 +23,7 @@
 				"excludeFromPresets": true,
 				"order": 2,
 				"default": "The device identity expressed as a MAC address style ID",
-				"userLocked": true,
+				"userLocked": false,
 				"advanced": false,
 				"jsonType": "text"
 			}

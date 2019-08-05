@@ -8,5 +8,10 @@
         "bulk": true,
         "warn": true,
         "label": "Erase log"
+    },
+    "erase_tag": {
+        "bulk": true,
+        "warn": true,
+        "label": "Erase Device"
     }
 }

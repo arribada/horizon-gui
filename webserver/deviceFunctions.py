@@ -311,7 +311,6 @@ def saveDeviceConfig(runMode, deviceID, config):
         if not constants.FRIENDLY_NAME_ACTIVE:
             del config["system"]["friendlyName"]
 
-
         myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
 
         if not os.path.exists(myConfigDirectory):
@@ -348,11 +347,15 @@ def saveDeviceConfig(runMode, deviceID, config):
         
         # some error...
         if len(resultResponse) != 0:
-            # error coule mean malformed local config file for this device... remove it
-            os.remove(configFileName)
+            # error could mean malformed local config file for this device... remove it
+            os.remove(newConfigFileName)
             return {'error': result[0]}
 
-        return {'result': configFileName}
+        # for field test the system.deviceIdentifier is editable and is the deviceID
+        # flag back to calling routine if this has changed..
+
+        return {'result': newConfigFileName}
+
 
 
 def correctJsonTypesInConfig(config):
@@ -406,12 +409,12 @@ def correctJsonTypesInConfig(config):
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
                 elif fieldData['jsonType'] == "boolean": 
-                   
-                    if config[categoryName][splitFieldName[1]] == "selected":
+
+                    if config[categoryName][splitFieldName[1]] == True:
 
                         result[categoryName][splitFieldName[1]] = True 
 
-                    elif config[categoryName][splitFieldName[1]] == "notselected":
+                    elif config[categoryName][splitFieldName[1]] == False:
 
                         result[categoryName][splitFieldName[1]] = False 
                     else:                                
@@ -484,6 +487,7 @@ def receiveTrackerLogData(runMode, deviceID):
         logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID 
         currentDT = datetime.datetime.now()
         currentDateTime = currentDT.strftime("%Y-%m-%d_%H:%M:%S")
+        print("receiveTrackerLogData logPath=" + logPath)
         
         if not os.path.exists(logPath):
             os.makedirs(logPath)
@@ -599,7 +603,7 @@ def eraseLog(runMode, deviceID):
     logMessage("eraseLog for " + deviceID)
 
     if  runMode == 'dummy':
-        return {'result': "erased"}
+        return {"type": "success",  "message": "Log Erased for " + deviceID}
     else:
 
         try:
@@ -637,7 +641,7 @@ def flashDevice(runMode, deviceID):
     logMessage("flashDevice for " + deviceID)
 
     if  runMode == 'dummy':
-        return {'result': "flashed"}
+        return {"type": "success",  "message": "Device Flashed: " + deviceID}
     else:
 
         try:
@@ -670,6 +674,43 @@ def flashDevice(runMode, deviceID):
             else:
                 return {'result': "NotFlashed"}
 
+def eraseDevice(runMode, deviceID): 
+    logMessage("eraseDevice for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {"type": "success",  "message": "Device Erased: " + deviceID}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --erase --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+        print(result)
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        else:
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config status result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "erased"}
+            else:
+                return {'result': "NotErased"}
+
+
+
+
+
 
 def vewLatestLogData(runMode, deviceID, downloadNew):
 
@@ -685,15 +726,24 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
     logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
 
-    latestLogInfo =open(logPath + "/latest_log.txt", "r")
+    # log might not exist...
+    try:
+        latestLogInfo =open(logPath + "/latest_log.txt", "r")
+    except:
+        return {"selectedDevice":deviceID, "latestLogDateTime": '', "logFilePath":logPath + "/", "fileHead": [], "allLogFiles": [], "logAnalysis": [] }
+
+    # this file holds the date time of the last log read time
     latestLogDate =latestLogInfo.read()
 
     logMessage("Getting info for " + logPath)
 
+    # all the log files available
     logFiles = getLogFileListByDate(logPath, deviceID)
 
+    # top 50 records of the file
     logHead = getFileHead(logPath, latestLogDate + ".json", 50)
 
+    # analysis of the log file records
     logAnalysis = getLogAnalysis(logPath + "/" + latestLogDate + ".json")
 
     return {"selectedDevice":deviceID, "latestLogDateTime": latestLogDate.replace("_", " "), "logFilePath":logPath + "/", "fileHead": logHead, "allLogFiles": logFiles, "logAnalysis": logAnalysis }

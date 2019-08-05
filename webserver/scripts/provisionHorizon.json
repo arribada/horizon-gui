@@ -1,0 +1,32 @@
+{
+    "name": "SetUpTag",
+    "description": "Set a tag up ready for deployment: erasing/replacing the log, initialising the GPS and applying the configuration. NOTE: this will destroy all data on tag, please only have one device connected.",
+    "commands": [
+        {
+            "command": "sudo gps_ascii_config --file provisioning_data/ublox_gnss_configuration.dat",
+            "description": "Configure the GPS.",
+            "parameters": {}
+        },
+        {
+            "command": "sudo gps_almanac --file provisioning_data/mgaoffline.ubx",
+            "description": "Apply the GPS almanac."
+        },
+        {
+            "command": "sudo tracker_config --erase_log",
+            "description": "Erase the log currently on the tag."
+        },
+        {
+            "command": "sudo tracker_config --create_log LINEAR",
+            "description": "Create a new, blank log on the tag."
+        },
+        {
+            "command": "sudo tracker_config --write provisioning_data/default_config.json",
+            "description": "Load default config to the tag - remember to set a unique Device ID after provisioning."
+        },
+        {
+            "command": "sudo tracker_config --set_date_time \"`date`\"",
+            "description": "Update the clock to the current date and time."
+        }
+
+    ]
+}

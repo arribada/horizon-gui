@@ -2,7 +2,7 @@
 # see https://github.com/Octophin/scute for more info.
 
 from scute import scute
-from flask import Flask, request, jsonify, render_template, send_file, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, redirect, g
 import json
 import os
 import datetime
@@ -61,6 +61,9 @@ def saveConfig(deviceID, config):
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
     #save config
+    if deviceID != config['system']['deviceIdentifier']:
+        g.redirect = '/'
+
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
 
 horizonSCUTE.registerHook("save_config", saveConfig)
@@ -77,7 +80,7 @@ def erase_log():
         else:
                 usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("erase_log.html", title="Erase Log Result", userMessage=usermessage )
+        return render_template("defaultPage.html", title="Erase Log Result", userMessage=usermessage )
 
 
 def scanDirectory(target):
@@ -99,14 +102,9 @@ def scanDirectory(target):
 
 @app.route('/uploads')
 def uploads():
-
+        # this is on hold for current release
         return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
-   
-@app.route('/help')
-def help():
-
-        return render_template("help.html", title="Help Resources" )
-   
+  
 
 def getAlmanacList():
 
@@ -145,7 +143,7 @@ def gps_almanac():
         else:
                 usermessage = "GPS Almanac Upload failed for " + devices[0] + ". " + response["result"]
 
-        return render_template("emptyPage.html", title="GPS Almanac Upload Result", userMessage=usermessage )
+        return render_template("defaultPage.html", title="GPS Almanac Upload Result", userMessage=usermessage )
 
 
     # if request.method == 'POST':
@@ -161,12 +159,27 @@ def reset_flash():
         response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
 
         if response["result"] == "flashed":
-                usermessage = "Device " + devices[0] + " flashed."
+                usermessage = {"type": "success",  "message": "Device Flashed: " + devices[0]}
         else:
-                usermessage = "Flash failed for " + devices[0] + ". " + response["result"]
+                usermessage = {"type": "error", "message": "Flash failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("reset_flash.html", title="Reset Flash Result", userMessage=usermessage )
-    
+        return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage )
+
+
+@app.route('/erase_tag')
+def erase_tag():
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        response = deviceFunctions.eraseDevice(constants.RUNMODE, devices[0])
+
+        if response["result"] == "erased":
+                usermessage = {"type": "success",  "message": "Device Erased: " + devices[0]}
+        else:
+                usermessage = {"type": "error", "message": "Erase failed for " + devices[0] + ". " + response["result"] }
+
+        return render_template("defaultPage.html", title="Erase Device Result", userMessage=usermessage )
+
+
 
 @app.route('/gps_ascii')
 def gps_ascii():
@@ -211,6 +224,3 @@ def downloadLogFile ():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
-
-
-    

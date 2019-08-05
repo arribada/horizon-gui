@@ -16,20 +16,23 @@
             </div>
 
         </div>
-    </section>
-    {% if userMessage|length > 0 %}
-    <section>
+        {% if userMessage|length > 0 %}
+
         <div class="happy-margin">
 
             <div class="alert {{userMessage.type}}">
                 {{userMessage.message}}
             </div>
         </div>
+
+        {% endif %}
+        <div class="happy-margin">
+            &nbsp;
+ 
+        </div>
     </section>
-    {% endif %}
 
 
-    <div class="divider"></div>
 
 
 </div>

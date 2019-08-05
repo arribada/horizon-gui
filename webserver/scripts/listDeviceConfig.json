@@ -1,0 +1,13 @@
+{
+    "name": "List Device Config History",
+    "description": "List config files for specified device",
+    "commands": [
+        {
+            "command": "cd config/${device} && ls -lthGr",
+            "description": "Go into the device directory",
+            "parameters": {
+                "device": "The device identifier"
+            }
+        }
+    ]
+}
