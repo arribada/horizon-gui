@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Move this into SCUTE -->
+<style>
+    .commandList {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 7px;
+        border: solid 1px grey;
+        background-color: white;
+        display: block;
+    }
+</style>
+<section class="happy-margin scriptRun">
+    <div class="happy-margin">
+    <h1>{{script.name}}</h1>
+
+    {% if output %}
+    <br><span class="commandList">Result from: [ {{ script.commands[nextCommand - 2].command }} ]<br></span>
+    <pre>{{output}}</pre>
+    <hr>
+    {% endif %}
+</div>
+    {% if nextCommand == 0 %}
+
+    <p class="happy-margin">{{script.description}}</p>
+
+    <a class="happy-margin start button" href="/scripts/{{fileName}}?command={{nextCommand}}">Start</a>
+
+    {% elif nextCommand > script.commands|length %}
+
+    <span class="alert success">The script is complete.</span>
+
+    {% else %}
+
+    <p class="happy-margin">{{script.commands[nextCommand - 1].description}}</p>
+
+    {# Form for parameters #}
+
+    <form class="happy-margin">
+
+        <input type="hidden" name="command" value="{{nextCommand}}">
+
+        {% if script.commands[nextCommand - 1].parameters %}
+
+        {% for key,value in script.commands[nextCommand - 1].parameters.items() %}
+
+        <label for="{{key}}">{{value}}</label>
+        <input type="text" id="{{key}}" name="{{key}}" />
+
+        {% endfor %}
+
+        {% endif %}
+        <span class="commandList">About to run: [ {{ script.commands[nextCommand - 1].command }} ]<br></span>
+        <button type="submit">Run Command</button>
+
+    </form>
+
+    {% endif %}
+</section>
+{% endblock %}

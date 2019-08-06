@@ -1,0 +1,23 @@
+{
+    "name": "Quickstart: Clear",
+    "description": "Set a tag up ready for deployment. Apply a configuration after completion.",
+    "commands": [
+        {
+            "command": "sudo tracker_config --battery",
+            "description": "Verify battery is at 100.",
+            "parameters": {}
+        },
+        {
+            "command": "sudo tracker_config --set_date_time \"`date`\"",
+            "description": "Update the clock to the current date and time."
+        },
+        {
+            "command": "sudo tracker_config --erase_log",
+            "description": "Erase the log currently on the tag."
+        },
+        {
+            "command": "sudo tracker_config --create_log LINEAR",
+            "description": "Create a new, blank log on the tag."
+        }
+    ]
+}

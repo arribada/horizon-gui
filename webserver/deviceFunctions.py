@@ -4,6 +4,7 @@ import json
 import os.path
 import glob
 import datetime
+from itertools import islice
 
 # system config.
 import constants
@@ -223,6 +224,7 @@ def getDeviceConfig(runMode, deviceID, forceReload = False):
             return configFileName
         
         # read config file
+        print("getDeviceConfig " + configFileName)
         with open(configFileName, 'r') as configFile:
             data = json.load(configFile)
         
@@ -308,7 +310,7 @@ def saveDeviceConfig(runMode, deviceID, config):
 
     else:
 
-        if not constants.FRIENDLY_NAME_ACTIVE:
+        if not constants.FRIENDLY_NAME_ACTIVE and "friendlyName" in config["system"]:
             del config["system"]["friendlyName"]
 
         myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
@@ -380,7 +382,16 @@ def correctJsonTypesInConfig(config):
                     result[categoryName] = {}
 
                 # convert to correct jsonType
-                if fieldData['jsonType'] == "number": 
+                if 'jsonType' not in fieldData or fieldData['jsonType'] == "text":
+                    if len(config[categoryName][splitFieldName[1]]) != 0:
+
+                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
+                    else:
+                        # default?
+                        if "default" in fieldData:
+                            result[categoryName][splitFieldName[1]] = fieldData["default"]                     
+
+                elif fieldData['jsonType'] == "number": 
 
                     if len(config[categoryName][splitFieldName[1]]) != 0:
                         result[categoryName][splitFieldName[1]] = float(config[categoryName][splitFieldName[1]])
@@ -391,22 +402,13 @@ def correctJsonTypesInConfig(config):
 
                 elif fieldData['jsonType'] == "int": 
 
-                    if len(config[categoryName][splitFieldName[1]]) != 0:
+                    if config[categoryName][splitFieldName[1]] != '':
                         result[categoryName][splitFieldName[1]] = int(config[categoryName][splitFieldName[1]])
                     else:
                         # default?
                         if "default" in fieldData:
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
-                elif fieldData['jsonType'] == "text": 
-
-                    if len(config[categoryName][splitFieldName[1]]) != 0:
-
-                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
-                    else:
-                        # default?
-                        if "default" in fieldData:
-                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
                 elif fieldData['jsonType'] == "boolean": 
 
@@ -780,9 +782,9 @@ def getFileHead(directory, fileName, count):
     if os.path.getsize(directory) > 0:
         # top 50 records
         with open(directory + '/' + fileName ) as myfile:
-            head = [next(myfile) for x in xrange(50)]
+            head = list(islice(myfile, count))
         
-        return json.dumps(head)
+        return head
     else:
 
         return "No Log Data"

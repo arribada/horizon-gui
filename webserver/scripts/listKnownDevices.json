@@ -1,0 +1,10 @@
+{
+    "name": "List Decives known to this PI",
+    "description": "List the decives that have previously connected to this Raspberry Pi",
+    "commands": [
+        {
+            "command": "cd config && ls ",
+            "description": "Go to the device config directory"
+        }
+    ]
+}

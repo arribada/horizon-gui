@@ -13,8 +13,7 @@
 				"default": "HORIZON_TAG",
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "text",
-				"default": "Not Set"
+				"jsonType": "text"
 			},
 			"system.deviceIdentifier": {
 				"label": "ID",
@@ -246,8 +245,9 @@
 				"description": "One of { 'SWITCH_TRIGGERED', 'SCHEDULED', 'HYBRID' }",
 				"type": "select",
 				"list": {
-					"PERIODIC": "Periodic",
-					"SCHEDULED": "Scheduled"
+					"SCHEDULED": "Scheduled",
+					"SWITCH_TRIGGERED": "Switch Triggered",
+					"HYBRID": "Hybrid"
 				},
 				"order": 8,
 				"default": "SCHEDULED",

@@ -10,7 +10,7 @@
         "label": "Erase log"
     },
     "erase_tag": {
-        "bulk": true,
+        "bulk": false,
         "warn": true,
         "label": "Erase Device"
     }

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+ <section class="happy-margin scriptsIndex">
+    {% if scripts|length > 0 %}
+
+        {% for script in scripts %}
+<div class="script-item-wrapper happy-margin">
+            <h2>{{script.name}}</h2>
+            <a class="happy-margin" href="/scripts/{{script.fileName}}">More information</a>
+</div>
+<hr/>
+        {% endfor %}
+
+    {% else %}
+
+        <p>No scripts detected</p>
+
+    {% endif %}
+</section>
+{% endblock %}

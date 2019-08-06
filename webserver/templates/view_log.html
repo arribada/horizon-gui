@@ -85,15 +85,14 @@
     </ul>
 </section>
 <div class="divider"></div>
-<section class="happy-margin logData logPreview">
+<section class="happy-margin logData logPreviewSection">
     <div class="inline-block navy">
-        <h1>Log Preview (first 50 records)</h1>
+        <h1>Log Preview (first {{ logData.fileHead|length }} records)</h1>
     </div>
+    
     {% if logData.fileHead|length > 0 %}
-    <textarea id="logPreview">
-
-                    {{  logData.fileHead }}
-                </textarea>
+    <div id="logPreview">{% for row in logData.fileHead %}{{ row }}<br>{% endfor %}
+    </div>
 
     {% else %}
     <div class="alert info">
