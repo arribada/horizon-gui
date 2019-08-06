@@ -638,6 +638,41 @@ def eraseLog(runMode, deviceID):
             else:
                 return {'result': "Noterased"}
 
+
+def createLog(runMode, deviceID): 
+    logMessage("createLog for " + deviceID)
+
+    if  runMode == 'dummy':
+        return {"type": "success",  "message": "Log Created for " + deviceID}
+    else:
+
+        try:
+            testString = "sudo " + constants.TRACKER_CONFIG + " --create_log LINEAR --id "+deviceID
+            result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        
+        result = result.rstrip() # trailing new line...
+
+
+        if result.startswith('Unexpected error'):
+            logMessage(result)
+            return {'error': constants.NO_TAG_TEXT}
+        else:
+
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
+
+            logMessage("Raw tracker_config create log result" )
+            for row in result:
+                logMessage(row)
+
+            if len(result) == 1:
+                return {'result': "created"}
+            else:
+                return {'result': "Notcreated"}
  
 def flashDevice(runMode, deviceID): 
     logMessage("flashDevice for " + deviceID)

@@ -73,12 +73,13 @@ horizonSCUTE.registerHook("save_config", saveConfig)
 def erase_log():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
-        response = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
+        eraseResponse = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
+        createResponse = deviceFunctions.createLog(constants.RUNMODE, devices[0])
 
-        if response["result"] == "erased":
-                usermessage = {"type": "success",  "message": "Log erased for " + devices[0]}
+        if eraseResponse["result"] == "erased" and createResponse["result"] == "created" :
+                usermessage = {"type": "success",  "message": "Log erased and created for " + devices[0]}
         else:
-                usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + response["result"] }
+                usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + eraseResponse["result"]  + "  " + createResponse["result"] }
 
         return render_template("defaultPage.html", title="Erase Log Result", userMessage=usermessage )
 

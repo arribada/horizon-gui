@@ -18,6 +18,10 @@
         {
             "command": "sudo tracker_config --create_log LINEAR",
             "description": "Create a new, blank log on the tag."
+        },
+        {
+            "command": "sudo tracker_config --write provisioning_data/default_config.json",
+            "description": "Load default config to the tag - remember to set a unique Device ID after provisioning."
         }
     ]
 }
