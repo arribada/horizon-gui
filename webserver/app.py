@@ -31,7 +31,7 @@ horizonSCUTE = scute(options, app)
 
 
 
-# get list of currnetly connected devices
+# get list of currently connected devices
 def getDevices():
     return deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)    
 

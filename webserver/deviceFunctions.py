@@ -5,6 +5,7 @@ import os.path
 import glob
 import datetime
 from itertools import islice
+from baseconv import base64
 
 # system config.
 import constants
@@ -50,6 +51,8 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         
 
 def getDeviceReport(runMode, deviceID):
+
+    
     
     if runMode == 'dummy':
         return dummyResponses["SCAN"][deviceID]
@@ -57,56 +60,59 @@ def getDeviceReport(runMode, deviceID):
     else: 
 
         result = {}
+        #  all the details are now on --status
+        
         # battery level
-        deviceBatteryLevel = getDeviceBattery(runMode, deviceID)
+        #deviceBatteryLevel = getDeviceBattery(runMode, deviceID)
+        # config items
+        #deviceConfig = getDeviceConfig(runMode, deviceID, True)
 
         # status items
+        print("HERE")
+        print(deviceID)
         deviceStatus = getDeviceStatus(runMode, deviceID)
-
-        # config items
-        deviceConfig = getDeviceConfig(runMode, deviceID, True)
-
-        if "result" in deviceBatteryLevel:
-            result['batteryLevel'] = deviceBatteryLevel['result']['charging_level']
-
+        print(deviceStatus)
 
         if "result" in deviceStatus:
+            result['batteryLevel'] = deviceStatus['result']['charge_level']
             result['firmwareVersion'] = deviceStatus['result']['fw_version']
 
-
-        result['friendlyName'] = "Not Implemented"
-
-        if "result" in deviceConfig:
-
             if constants.FRIENDLY_NAME_ACTIVE:
-                result['friendlyName'] = deviceConfig['result']['system']['friendlyName']
+                ##result['friendlyName'] = deviceStatus['result']['system']['friendlyName']
+                result['friendlyName'] = "TBC"
             else:
                 result['friendlyName'] = "Not Yet Implemented"
 
-            
-            result['fileSize']  = deviceConfig['result']['logging']['fileSize']
-            result['fileType']  = deviceConfig['result']['logging']['fileType']
-            
+            result['fileSize']  = deviceStatus['result']['log_file_size']
 
             result['sensorsEnabled']  = []
-            if deviceConfig['result']['accelerometer']['logEnable']:
+            if deviceStatus['result']['accel_enabled']:
                 result['sensorsEnabled'].append("Accelerometer.")
 
-            if deviceConfig['result']['gps']['logPositionEnable']:
-                result['sensorsEnabled'].append("GPS Position.")
-
-            if deviceConfig['result']['pressureSensor']['logEnable']:
+            if deviceStatus['result']['pressure_enabled']:
                 result['sensorsEnabled'].append("Pressure.")
 
-            if deviceConfig['result']['saltwaterSwitch']['logEnable']:
-                result['sensorsEnabled'].append("Saltwater.")
+            if deviceStatus['result']['temp_enabled']:
+                result['sensorsEnabled'].append("Temp.")
 
-            if deviceConfig['result']['battery']['logEnable']:
-                result['sensorsEnabled'].append("Battery.")
+            result['displayDeviceID'] = base64.encode(deviceID)
+
+
+            # these were in the old config, but not in current --status
+            # if deviceStatus['result']['gps']['logPositionEnable']:
+            #     result['sensorsEnabled'].append("GPS Position.")
+
+            # if deviceStatus['result']['saltwaterSwitch']['logEnable']:
+            #     result['sensorsEnabled'].append("Saltwater.")
+
+            # if deviceStatus['result']['battery']['logEnable']:
+            #     result['sensorsEnabled'].append("Battery.")
             
-            if deviceConfig['result']['logging']['dateTimeStampEnable']:
-                result['sensorsEnabled'].append("Date Time.")
+            # if deviceStatus['result']['logging']['dateTimeStampEnable']:
+            #     result['sensorsEnabled'].append("Date Time.")
 
+        logMessage("WWWWeeeeee!!!!!")
+        logMessage(result)
         return result
         
     
@@ -127,6 +133,7 @@ def deviceScan(runMode):
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
 
         result = result.rstrip() # trailing new line...
+        
         logMessage("Raw tracker_config list_id Received: " + result)
 
 
@@ -163,15 +170,20 @@ def trackerConfigVesion(runMode):
 
 def getDeviceStatus(runMode, deviceID):
 
+    deviceID = str(deviceID) 
+
+    testString = "sudo " + constants.TRACKER_CONFIG + " --status --id " + deviceID
+    print(testString)
+
     if  runMode == 'dummy':
         return dummyResponses['STATUS']
 
     else:
 
         try:
-            testString = "sudo " + constants.TRACKER_CONFIG + " --status --id "+deviceID
+            
             result = subprocess.check_output(testString,shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
-
+            
         except subprocess.CalledProcessError as e:
             raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
         

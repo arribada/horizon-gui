@@ -48,8 +48,5 @@
         "scheduledAquisitionNoFixTimeout": 0,
         "veryFirstFixHoldTime": 120,
         "mode": "SCHEDULED"
-    },
-    "system": {
-        "deviceIdentifier": "00:00:00:00:00:00:00:00"
     }
 }
