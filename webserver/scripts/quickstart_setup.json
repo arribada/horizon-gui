@@ -1,6 +1,6 @@
 {
     "name": "Quickstart: Setup OLD",
-    "description": "Apply fresh firmware to a tag and prepare for deployment. Apply a configuration after completion.",
+    "description": "Apply fresh firmware to a tag and prepare for deployment and apply default configuration after completion.",
     "commands": [
         {
             "command": "sudo tracker_config --battery",

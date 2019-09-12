@@ -1,6 +1,6 @@
 {
     "name": "Quickstart: Clear",
-    "description": "Set a tag up ready for deployment. Apply a configuration after completion.",
+    "description": "Set a tag up ready for deployment.",
     "commands": [
         {
             "command": "sudo tracker_config --battery",
@@ -21,7 +21,7 @@
         },
         {
             "command": "sudo tracker_config --write provisioning_data/default_config.json",
-            "description": "Load default config to the tag - remember to set a unique Device ID after provisioning."
+            "description": "Load default config to the tag."
         }
     ]
 }

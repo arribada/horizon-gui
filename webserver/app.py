@@ -33,7 +33,17 @@ horizonSCUTE = scute(options, app)
 
 # get list of currently connected devices
 def getDevices():
-    return deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)    
+
+    scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
+
+    # if 'error' in scanResults:
+        
+    #     for key, value in scanResults.items():
+    #         usermessage = {"type": "error", "message": value }
+        
+    #     #return render_template("defaultPage.html", title="Error", userMessage=usermessage )
+        
+    return scanResults  
 
 horizonSCUTE.registerHook("get_devices", getDevices)
 
@@ -100,6 +110,7 @@ def scanDirectory(target):
         returnFiles.append({"fileName": file, "fileSizeKb": os.path.getsize(target + "/" + file) / 10000, "fileDate": fileName[0], "fileType": fileName[1]})
 
     return returnFiles
+
 
 @app.route('/uploads')
 def uploads():

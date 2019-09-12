@@ -26,33 +26,30 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         
         result = []
 
-        # this returns {"0": "00:00:00:00:00:00:00:00"} for one, assume 
-        # [ {"0": "00:00:00:00:00:00:00:00"},  {"1": "11:00:00:00:00:00:00:00"}]  for multiple
-
         if scanUSB:
             # this will scan all. 
             devices = deviceScan("USB")
-            devices = json.loads(devices)
+            print(devices)
 
-            for connectionID, deviceID in devices.items():
-                result.append(deviceID)
-                # add the device to session data..
-                
+            if 'error' not in devices:
+                devices = json.loads(devices)
+                for connectionID, deviceID in devices.items():
+                    result.append(deviceID)
+                    # add the device to session data..
+            else:
+                result = devices    
        
 
         if scanBluetooth:
             # this will scan BT - might not be needed, but setting up...
             logMessage("TODO - scanBluetooth")    
-        
-        #result is a list of connected devices..
-        #session['connectedDevices'] = result
-     
+
         return result
         
 
 def getDeviceReport(runMode, deviceID):
 
-    
+    deviceID = str(deviceID)     
     
     if runMode == 'dummy':
         return dummyResponses["SCAN"][deviceID]
@@ -67,19 +64,18 @@ def getDeviceReport(runMode, deviceID):
         # config items
         #deviceConfig = getDeviceConfig(runMode, deviceID, True)
 
-        # status items
-        print("HERE")
-        print(deviceID)
+        # status items - this now has all the report items
         deviceStatus = getDeviceStatus(runMode, deviceID)
-        print(deviceStatus)
 
         if "result" in deviceStatus:
             result['batteryLevel'] = deviceStatus['result']['charge_level']
             result['firmwareVersion'] = deviceStatus['result']['fw_version']
 
+            result['displayDeviceID'] = displayVersionID(deviceID)
+
             if constants.FRIENDLY_NAME_ACTIVE:
-                ##result['friendlyName'] = deviceStatus['result']['system']['friendlyName']
-                result['friendlyName'] = "TBC"
+                
+                result['friendlyName'] = setFriendlyName(deviceID, result['displayDeviceID'])
             else:
                 result['friendlyName'] = "Not Yet Implemented"
 
@@ -95,8 +91,6 @@ def getDeviceReport(runMode, deviceID):
             if deviceStatus['result']['temp_enabled']:
                 result['sensorsEnabled'].append("Temp.")
 
-            result['displayDeviceID'] = base64.encode(deviceID)
-
 
             # these were in the old config, but not in current --status
             # if deviceStatus['result']['gps']['logPositionEnable']:
@@ -111,8 +105,8 @@ def getDeviceReport(runMode, deviceID):
             # if deviceStatus['result']['logging']['dateTimeStampEnable']:
             #     result['sensorsEnabled'].append("Date Time.")
 
-        logMessage("WWWWeeeeee!!!!!")
-        logMessage(result)
+        print(result
+        )
         return result
         
     
@@ -122,7 +116,7 @@ def deviceScan(runMode):
 
     if runMode == 'dummy':
 
-        result = {"0": "00:00:00:00:00:00:00:00"}
+        result = {"0": "1234567890123456789"}
 
     else: 
 
@@ -136,8 +130,10 @@ def deviceScan(runMode):
         
         logMessage("Raw tracker_config list_id Received: " + result)
 
-
-    if result.startswith('Unexpected error'):
+    # device with incompatible firmware breaks the call.
+    if 'requires a buffer of at least 31 bytes' in result:
+        return {'error':'Incompatible Device Detected','message': 'One or more connected devices do not dontain the correct firmware.  Please check device. You can use the Scripts Menu to update firmware.'}
+    elif result.startswith('Unexpected error'):
         return "{}" # no devices...
     else:
         return result
@@ -209,7 +205,6 @@ def getDeviceStatus(runMode, deviceID):
 
 def getDeviceConfig(runMode, deviceID, forceReload = False):
 
-
     if  runMode == 'dummy':
 
         deviceID = deviceID.replace(":", "")
@@ -245,6 +240,8 @@ def getDeviceConfig(runMode, deviceID, forceReload = False):
 
 def isConfigAlreadyOnLocal(deviceID):
 
+    deviceID = str(deviceID) 
+
     # if there is a directory in constants.CONFIG_LOCAL_LOAD_LOCATION for this device, get the latest file from it 
     if not os.path.exists(constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/' ):
         return False
@@ -261,6 +258,7 @@ def isConfigAlreadyOnLocal(deviceID):
 
 def downloadDeviceConfigToLocal(deviceID):
 
+        deviceID = str(deviceID) 
 
         myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
 
@@ -299,6 +297,7 @@ def downloadDeviceConfigToLocal(deviceID):
 
 
 def tidyUpConfigDirectory(deviceID):
+    deviceID = str(deviceID) 
     # TODO
     #  loop myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
     # and only keep the latest 10 files...
@@ -445,6 +444,8 @@ def correctJsonTypesInConfig(config):
 
 def getDeviceBattery(runMode, deviceID):
 
+    deviceID = str(deviceID) 
+
     if runMode == 'dummy':
 
         return {"result": "-"}
@@ -484,6 +485,8 @@ def getDeviceBattery(runMode, deviceID):
 
 
 def receiveTrackerLogData(runMode, deviceID): 
+
+    deviceID = str(deviceID) 
 
     if  runMode == 'dummy':
 
@@ -614,6 +617,9 @@ def dummyResponse(runMode, deviceID, runtype):
 
 
 def eraseLog(runMode, deviceID): 
+
+    deviceID = str(deviceID) 
+
     logMessage("eraseLog for " + deviceID)
 
     if  runMode == 'dummy':
@@ -652,6 +658,9 @@ def eraseLog(runMode, deviceID):
 
 
 def createLog(runMode, deviceID): 
+
+    deviceID = str(deviceID) 
+
     logMessage("createLog for " + deviceID)
 
     if  runMode == 'dummy':
@@ -687,6 +696,9 @@ def createLog(runMode, deviceID):
                 return {'result': "Notcreated"}
  
 def flashDevice(runMode, deviceID): 
+
+    deviceID = str(deviceID) 
+
     logMessage("flashDevice for " + deviceID)
 
     if  runMode == 'dummy':
@@ -724,6 +736,9 @@ def flashDevice(runMode, deviceID):
                 return {'result': "NotFlashed"}
 
 def eraseDevice(runMode, deviceID): 
+
+    deviceID = str(deviceID) 
+
     logMessage("eraseDevice for " + deviceID)
 
     if  runMode == 'dummy':
@@ -800,6 +815,8 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
 def getLogFileListByDate(logPath, deviceID):
 
+    deviceID = str(deviceID) 
+
     if not os.path.exists(logPath):
         return "There are no logs for " + deviceID + ". Please request them."
 
@@ -872,4 +889,48 @@ def logMessage(message):
     # expand on this later.
     if constants.LOGGING_LEVEL == "verbose":
         print(message)
+
+
+def displayVersionID(deviceID):
+
+    displayDeviceID = base64.encode(deviceID)
+    return displayDeviceID[:6] + ' ' + displayDeviceID[6:]
+
+def setFriendlyName(deviceID, displayDeviceID):
+    # if the device is already known, get its friendly name, otherwise write it to the file,
+    # using the displayDeviceID
+    existingDevices = readKnownDevivces()
+    print(existingDevices)
+
+    if deviceID in existingDevices:
+        return existingDevices[deviceID]['friendlyName']
+    else:
+        saveFriendlyName(deviceID, displayDeviceID)
+        return displayDeviceID
+
+
+def saveFriendlyName(deviceID, friendlyName):
+
+    existingDevices = readKnownDevivces()
+
+    if deviceID in existingDevices:
+        existingDevices[deviceID].friendlyName = friendlyName
+    else:
+        existingDevices[deviceID] = {'friendlyName': friendlyName, 'displayDeviceID': displayVersionID(deviceID)}
+        
+    with open('knownDevices.json', 'w') as outfile:
+        json.dump(existingDevices, outfile)
+
+    return
+
+
+def readKnownDevivces():
+
+    try:
+        with open('knownDevices.json') as json_file:
+            data = json.load(json_file)
+    except: 
+        print ('Error reading /knownDevices.json')
+
+    return data
            

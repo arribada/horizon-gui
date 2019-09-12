@@ -25,7 +25,7 @@ LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])
 UPLOAD_FOLDERS =  {"config": "/uploads/config", "firmware": "/uploads/firmware" }
 
-FRIENDLY_NAME_ACTIVE = False
+FRIENDLY_NAME_ACTIVE = True
 
 #LOGGING_LEVEL = "none"
 LOGGING_LEVEL = "verbose"
