@@ -29,7 +29,7 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         if scanUSB:
             # this will scan all. 
             devices = deviceScan("USB")
-            print(devices)
+            #print(devices)
 
             if 'error' not in devices:
                 devices = json.loads(devices)
@@ -305,7 +305,6 @@ def tidyUpConfigDirectory(deviceID):
 def saveDeviceConfig(runMode, deviceID, config):
 
     logMessage("device functions saveDeviceConfig")
-    print(config['local'])
 
     if  runMode == 'dummy':
 
@@ -327,19 +326,19 @@ def saveDeviceConfig(runMode, deviceID, config):
                 saveFriendlyName(deviceID, config["local"]['friendlyName'])
 
             del config["local"]
+
+        
+        #print(config)
  
         myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
-
         if not os.path.exists(myConfigDirectory):
             os.mkdir(myConfigDirectory)
-
         currentDT = datetime.datetime.now()
         currentDateTime = currentDT.strftime("%Y%m%d_%H%M%S")
-
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
-
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
+        print(config)
 
         # save this config locally
         with open(newConfigFileName, 'w+') as outfile:
@@ -389,14 +388,20 @@ def correctJsonTypesInConfig(config):
             continue
         
         for fieldName, fieldData in categoryData['fields'].items():
+            
+            
             splitFieldName = fieldName.split(".")
 
-            if splitFieldName[1] in config[categoryName]:
+            # ignore data in the 'local' block
+            if splitFieldName[0] == 'local':
+                continue
+
+            elif splitFieldName[1] in config[categoryName]:
 
                 if categoryName not in result:
                     result[categoryName] = {}
 
-                # convert to correct jsonType
+
                 if 'jsonType' not in fieldData or fieldData['jsonType'] == "text":
                     if len(config[categoryName][splitFieldName[1]]) != 0:
 
@@ -440,7 +445,7 @@ def correctJsonTypesInConfig(config):
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
             else:
-                logMessage(categoryName + " > " + splitFieldName[1] + " in configSchema.jason, but not in config sent")
+                logMessage(categoryName + " > " + splitFieldName[1] + " in configSchema.json, but not in config sent")
 
 
     return result
@@ -904,7 +909,7 @@ def setFriendlyName(deviceID, displayDeviceID):
     # if the device is already known, get its friendly name, otherwise write it to the file,
     # using the displayDeviceID
     existingDevices = readKnownDevivces()
-    print(existingDevices)
+    #print(existingDevices)
 
     if deviceID in existingDevices:
         return existingDevices[deviceID]['friendlyName']

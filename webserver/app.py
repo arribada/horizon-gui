@@ -148,7 +148,6 @@ horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
 def gps_almanac():
     print("gps_almanac")
 
-
     devices = request.args.getlist("devices[]")
     fileToApply = request.args.get("value")
     if len(devices) == 1:
