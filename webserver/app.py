@@ -60,6 +60,10 @@ def readConfig(deviceID):
     # get device config
     config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID)
     config = horizonSCUTE.flattenJSON(config['result'])
+
+    config['local.friendlyName'] = deviceFunctions.getFriendlyName(deviceID)
+    config['local.displayVersionID'] = deviceFunctions.displayVersionID(deviceID)
+
     return config
 
 horizonSCUTE.registerHook("read_config", readConfig)
@@ -71,8 +75,8 @@ def saveConfig(deviceID, config):
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
     #save config
-    if deviceID != config['system']['deviceIdentifier']:
-        g.redirect = '/'
+    if deviceFunctions.displayVersionID(deviceID) != config['local']['displayVersionID']:
+        g.redirect = '/list'
 
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
 

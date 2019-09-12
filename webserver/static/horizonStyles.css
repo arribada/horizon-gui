@@ -71,10 +71,16 @@
   -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
           border-radius: 10px;
-  
+ 
+}
 
-
-
+.splash-screen-wrapper{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-color: white;
+  padding:10px;
 
 }
 

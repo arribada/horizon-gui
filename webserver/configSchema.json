@@ -1,28 +1,29 @@
 {
-	"system": {
-		"label": "System Settings",
-		"description": "",
+	"local": {
+		"label": "Local Settings",
+		"description": "These settings are only stored on this raspberry PI.",
 		"order": 1,
 		"fields": {
-			"system.friendlyName": {
+			"local.friendlyName": {
 				"label": "Nickname",
 				"description": "A user-readable name for the tag",
 				"type": "text",
 				"excludeFromPresets": true,
+				"localOnly": true,
 				"order": 1,
 				"default": "HORIZON_TAG",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "text"
 			},
-			"system.deviceIdentifier": {
-				"label": "ID",
+			"local.displayVersionID": {
+				"label": "Short Device ID",
+				"description": "A more human readable version of the hardware ID (base 64)",
 				"type": "text",
-				"description": "ID string in the format: 'xx:xx:xx:xx:xx:xx:xx:xx'",
 				"excludeFromPresets": true,
+				"localOnly": true,
 				"order": 2,
-				"default": "The device identity expressed as a MAC address style ID",
-				"userLocked": false,
+				"userLocked": true,
 				"advanced": false,
 				"jsonType": "text"
 			}

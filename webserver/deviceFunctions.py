@@ -105,8 +105,6 @@ def getDeviceReport(runMode, deviceID):
             # if deviceStatus['result']['logging']['dateTimeStampEnable']:
             #     result['sensorsEnabled'].append("Date Time.")
 
-        print(result
-        )
         return result
         
     
@@ -169,7 +167,6 @@ def getDeviceStatus(runMode, deviceID):
     deviceID = str(deviceID) 
 
     testString = "sudo " + constants.TRACKER_CONFIG + " --status --id " + deviceID
-    print(testString)
 
     if  runMode == 'dummy':
         return dummyResponses['STATUS']
@@ -232,9 +229,10 @@ def getDeviceConfig(runMode, deviceID, forceReload = False):
         
         # read config file
         print("getDeviceConfig " + configFileName)
+
         with open(configFileName, 'r') as configFile:
             data = json.load(configFile)
-        
+
         return {'result': data}
 
 
@@ -307,6 +305,7 @@ def tidyUpConfigDirectory(deviceID):
 def saveDeviceConfig(runMode, deviceID, config):
 
     logMessage("device functions saveDeviceConfig")
+    print(config['local'])
 
     if  runMode == 'dummy':
 
@@ -321,9 +320,14 @@ def saveDeviceConfig(runMode, deviceID, config):
 
     else:
 
-        if not constants.FRIENDLY_NAME_ACTIVE and "friendlyName" in config["system"]:
-            del config["system"]["friendlyName"]
+        # set the friendly name if sent, then remove the 'local' settings
+        if 'local' in config:
+            if 'friendlyName' in config["local"]:
+                
+                saveFriendlyName(deviceID, config["local"]['friendlyName'])
 
+            del config["local"]
+ 
         myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
 
         if not os.path.exists(myConfigDirectory):
@@ -909,12 +913,22 @@ def setFriendlyName(deviceID, displayDeviceID):
         return displayDeviceID
 
 
+def getFriendlyName(deviceID):
+
+    existingDevices = readKnownDevivces()
+
+    if deviceID in existingDevices:
+        return existingDevices[deviceID]['friendlyName']
+    else:
+        return "Not Set"
+
+
 def saveFriendlyName(deviceID, friendlyName):
 
     existingDevices = readKnownDevivces()
 
     if deviceID in existingDevices:
-        existingDevices[deviceID].friendlyName = friendlyName
+          existingDevices[deviceID]['friendlyName'] = friendlyName
     else:
         existingDevices[deviceID] = {'friendlyName': friendlyName, 'displayDeviceID': displayVersionID(deviceID)}
         
