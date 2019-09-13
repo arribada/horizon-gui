@@ -1,20 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
- <section class="happy-margin scriptsIndex">
-    {% if scripts|length > 0 %}
+
+
+<div class="main-wrapper">
+
+
+    <section class="white-background happy-margin scriptsIndex table-nav">
+        <div class="happy-margin happy-padding">
+        {% if scripts|length > 0 %}
+        <span class="happy-margin">
+            <h2>Run a pre-loaded script from the list below or open the Admin Console.<br>
+            </h2>
+                <button type="button" class='featured inline-block'><a  href='/admin_console'>Admin Console</a></button>
+            
+        </span>
+        <hr />
 
         {% for script in scripts %}
-<div class="script-item-wrapper happy-margin">
+        <div class="script-item-wrapper happy-margin">
             <h2>{{script.name}}</h2>
-            <a class="happy-margin" href="/scripts/{{script.fileName}}">More information</a>
-</div>
-<hr/>
+            {{script.description}}<br>
+            <button type="button" class='featured'><a href="/scripts/{{script.fileName}}">Go!</a></button>
+        </div>
+        <hr />
         {% endfor %}
 
-    {% else %}
+        {% else %}
 
-        <p>No scripts detected</p>
+        <p>No scripts found in /scripts</p>
 
-    {% endif %}
-</section>
+        {% endif %}
+    </div>
+    </section>
+</div>
 {% endblock %}

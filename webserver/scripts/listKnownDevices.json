@@ -4,7 +4,7 @@
     "commands": [
         {
             "command": "cd config && ls ",
-            "description": "Go to the device config directory"
+            "description": "List contents of device config directory"
         }
     ]
 }

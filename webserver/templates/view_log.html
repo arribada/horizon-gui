@@ -1,22 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<style>
-    .logPreview textarea {
-        overflow-y: scroll;
-        height: 300px;
-        width: 100%;
-        resize: none;
-        /* Remove this if you want the user to resize the textarea */
-    }
-</style>
 
 <div class="main-wrapper happy-margin">
 
     <section class="main-table-wrapper" toolversion>
         <div class="loadingPopup" id="loadingPopup">
-            <img src="/static/images/loading-turtle.gif" /><br/>
+            <img src="/static/images/loading-turtle.gif" /><br />
             The Log File is transferring from your device to the Pi.<br>
-            This page will refresh when complete.  
+            This page will refresh when complete.
             <br>Please do not click away.
         </div>
         <div class="table-nav flex top-tail-margin top-tail-padding">
@@ -28,96 +19,98 @@
                     <h2>Viewing Latest Log Data for {{device}}</h2>
                 </div>
                 <div>
-                <a onClick="displayLoadingPopup()" href="/view_log?devices[]={{device}}&new=yes"><button class="downloadLogBtn">Load New Log</button></a>
+                    <a onClick="displayLoadingPopup()" href="/view_log?devices[]={{device}}&new=yes"><button
+                            class="downloadLogBtn">Load New Log</button></a>
 
+                </div>
+            </div>
+            <div class="table-nav-right gray">
+                <div class="last-loaded key inline-block">
+                    <p class="inline-block light-gray">Log File Loaded:</p>
+                </div>
+                <div class="date value inline-block">
+                    <p class="inline-block">{{logData.latestLogDateTime}}</p>
+                </div>
             </div>
         </div>
-        <div class="table-nav-right gray">
-            <div class="last-loaded key inline-block">
-                <p class="inline-block light-gray">Log File Loaded:</p>
+
+        {% if logData.latestLogDateTime | length >0%}
+
+        <section class="happy-margin logData analysis">
+            <div class="inline-block navy">
+                <h1>Log Analysis for {{logData.latestLogDateTime}}</h1>
             </div>
-            <div class="date value inline-block">
-                <p class="inline-block">{{logData.latestLogDateTime}}</p>
+            <span class="clearFloat"></span>
+
+            {% for row in logData.logAnalysis %}
+            <div class="analysisBlock">
+                {{ row.name }} ({{ row.count }})<br>
+                First: {{ row.first }}<br>
+                Last: {{ row.last }}<br>
             </div>
-        </div>
-</div>
+            {% endfor %}
+            <span class="clearFloat"></span>
 
-{% if logData.latestLogDateTime | length >0%}
+        </section>
+        <div class="divider"></div>
+        <section class="happy-margin logData fileList">
 
-<section class="happy-margin logData analysis">
-    <div class="inline-block navy">
-        <h1>Log Analysis for {{logData.latestLogDateTime}}</h1>
-    </div>
-    <span class="clearFloat"></span>
+            <div class="inline-block navy table-header">
+                <h2>Available Log Files ({{logData.allLogFiles|length}})</h2>
+            </div>
 
-    {% for row in logData.logAnalysis %}
-    <div class="analysisBlock">
-        {{ row.name }} ({{ row.count }})<br>
-        First: {{ row.first }}<br>
-        Last: {{ row.last }}<br>
-    </div>
-    {% endfor %}
-    <span class="clearFloat"></span>
+            <ul>
 
-</section>
-<div class="divider"></div>
-<section class="happy-margin logData fileList">
+                {% for logDate in logData.allLogFiles%}
+                <li>
+                    {% for key, value in logDate.items() %}
+                    {{key}} - Download: <a class="downloadLink"
+                        href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']}}"
+                        target="_blank">JSON</a> <a class="downloadLink"
+                        href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}"
+                        target="_blank">Binary</a>
+                    {% endfor %}
+                </li>
 
-    <div class="inline-block navy table-header">
-        <h2>Available Log Files ({{logData.allLogFiles|length}})</h2>
-    </div>
-
-    <ul>
-
-        {% for logDate in logData.allLogFiles%}
-        <li>
-            {% for key, value in logDate.items() %}
-                {{key}} -  Download: <a class="downloadLink"
-                href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']}}" target="_blank">JSON</a> <a
-                class="downloadLink" href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}"
-                target="_blank">Binary</a>
-             {% endfor %}
-        </li>
-
-        {% endfor %}
+                {% endfor %}
 
 
-    </ul>
-</section>
-<div class="divider"></div>
-<section class="happy-margin logData logPreviewSection">
-    <div class="inline-block navy">
-        <h1>Log Preview (first {{ logData.fileHead|length }} records)</h1>
-    </div>
-    
-    {% if logData.fileHead|length > 0 %}
-    <div id="logPreview">{% for row in logData.fileHead %}{{ row }}<br>{% endfor %}
-    </div>
+            </ul>
+        </section>
+        <div class="divider"></div>
+        <section class="happy-margin logData logPreviewSection">
+            <div class="inline-block navy">
+                <h1>Log Preview (first {{ logData.fileHead|length }} records)</h1>
+            </div>
 
-    {% else %}
-    <div class="alert info">
-        No Log Data.
-    </div>
+            {% if logData.fileHead|length > 0 %}
+            <div id="logPreview">{% for row in logData.fileHead %}{{ row }}<br>{% endfor %}
+            </div>
 
-    {% endif %}
-</section>
-{% else %}
-<!--  no Log data -->
-<section class="happy-margin logData noData">
-    <div class="happy-margin">
+            {% else %}
+            <div class="happy-margin alert info">
+                No Logging Data.
+            </div>&nbsp;
 
-        <div class="alert error">
+            {% endif %}
+        </section>
+        {% else %}
+        <!--  no Log data -->
+        <section class="happy-margin logData noData">
+            <div class="happy-margin">
+                <div class="happy-margin">
+                    <div class="happy-margin alert error">
 
-            <h2>There is no Log Data downloaded for tag {{ device }}</h2>
-            <a onClick="displayLoadingPopup()" href="/view_log?devices[]={{device}}&new=yes"><button>Refresh
-                    Log</button></a>
-            <br>
-        </div>
-    </div>
+                        <h2>There is no Log Data downloaded to the PI for device {{ device }}</h2>
 
-</section>
-{% endif %}
-</section>
+                        <br>
+                    </div>&nbsp;
+                </div>
+            </div>
+
+        </section>
+        {% endif %}
+    </section>
 
 </div>
 {% endblock %}

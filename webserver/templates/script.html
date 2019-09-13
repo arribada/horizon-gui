@@ -1,61 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Move this into SCUTE -->
-<style>
-    .commandList {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding: 7px;
-        border: solid 1px grey;
-        background-color: white;
-        display: block;
-    }
-</style>
-<section class="happy-margin scriptRun">
-    <div class="happy-margin">
-    <h1>{{script.name}}</h1>
 
-    {% if output %}
-    <br><span class="commandList">Result from: [ {{ script.commands[nextCommand - 2].command }} ]<br></span>
-    <pre>{{output}}</pre>
-    <hr>
-    {% endif %}
-</div>
-    {% if nextCommand == 0 %}
+<div class="main-wrapper">
 
-    <p class="happy-margin">{{script.description}}</p>
 
-    <a class="happy-margin start button" href="/scripts/{{fileName}}?command={{nextCommand}}">Start</a>
+    <section class="white-background happy-margin table-nav scriptRun">
+        <div class="happy-margin">
+            <h1>{{script.name}}</h1>
 
-    {% elif nextCommand > script.commands|length %}
+            {% if output %}
+            <br><span class="commandList">Result from: [ {{ script.commands[nextCommand - 2].command }} ]<br></span>
+            <pre>{{output}}</pre>
+            <hr>
+            {% endif %}
+        </div>
+        {% if nextCommand == 0 %}
 
-    <span class="alert success">The script is complete.</span>
+        <p class="happy-margin">{{script.description}}</p>
 
-    {% else %}
+        <a class="happy-margin start button" href="/scripts/{{fileName}}?command={{nextCommand}}">Start</a>
 
-    <p class="happy-margin">{{script.commands[nextCommand - 1].description}}</p>
+        {% elif nextCommand > script.commands|length %}
+        <div class="happy-margin">
+            <span class="alert success happy-margin">The script is complete.</span>&nbsp;
+        </div>
 
-    {# Form for parameters #}
+        {% else %}
 
-    <form class="happy-margin">
+        <div class="happy-margin">{{script.commands[nextCommand - 1].description}}</div>
 
-        <input type="hidden" name="command" value="{{nextCommand}}">
+        {# Form for parameters #}
+        <div class="happy-margin">
+            <form class="happy-margin">
 
-        {% if script.commands[nextCommand - 1].parameters %}
+                <input type="hidden" name="command" value="{{nextCommand}}">
 
-        {% for key,value in script.commands[nextCommand - 1].parameters.items() %}
+                {% if script.commands[nextCommand - 1].parameters %}
 
-        <label for="{{key}}">{{value}}</label>
-        <input type="text" id="{{key}}" name="{{key}}" />
+                {% for key,value in script.commands[nextCommand - 1].parameters.items() %}
 
-        {% endfor %}
+                <label for="{{key}}">{{value}}</label>
+                <input type="text" id="{{key}}" name="{{key}}" />
+
+                {% endfor %}
+
+                {% endif %}
+                <span class="commandList">About to run: [ {{ script.commands[nextCommand - 1].command }} ]<br></span>
+                <button type="submit">Run Command</button><br>&nbsp;
+
+            </form>
+        </div>
 
         {% endif %}
-        <span class="commandList">About to run: [ {{ script.commands[nextCommand - 1].command }} ]<br></span>
-        <button type="submit">Run Command</button>
-
-    </form>
-
-    {% endif %}
-</section>
+    </section>
+</div>
 {% endblock %}

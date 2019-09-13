@@ -120,7 +120,13 @@ def scanDirectory(target):
 def uploads():
         # this is on hold for current release
         return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
+
+@app.route('/admin_console')
+def admin_console():
+        # this is on hold for current release
+        return render_template("adminConsole.html", title="Admin Console" )
   
+
 
 def getAlmanacList():
 

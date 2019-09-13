@@ -1,51 +1,4 @@
 
-.alert {
-    padding: 20px;
-    background-color: grey;
-    color: white;
-    margin-bottom: 15px;
-  }
-
-.alert.success {
-  background-color:#51f251;
-  border: 1px solid forestgreen;
-}
-
-.alert.error {
-  background-color: #ff8a8a;
-  border: 1px solid red;
-}
-
-.alert.info {
-  background-color: #5962fd;
-  border: 1px solid blue;
-}
-
-
-.analysisBlock{
-  padding: 10px;
-  border: 1px solid grey;
-
-  margin-bottom: 5px;
-
-}
-.analysisBlock.title{
-  width: 100%;
-  background-color: lightslategrey;
-  color: black;
-}
-
-.logPreview {
-
-  padding:10px; 
-  width: 98%; 
-  height: 400px; 
-  overflow-x: hidden; 
-  overflow-x: auto; 
-  text-align:justify; 
-  border: 1px solid grey;
-
-}
 
 
 .loadingPopup{
@@ -74,13 +27,4 @@
  
 }
 
-.splash-screen-wrapper{
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  background-color: white;
-  padding:10px;
-
-}
 
