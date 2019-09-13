@@ -5,7 +5,6 @@ import os.path
 import glob
 import datetime
 from itertools import islice
-from baseconv import base64
 
 # system config.
 import constants
@@ -902,8 +901,8 @@ def logMessage(message):
 
 def displayVersionID(deviceID):
 
-    displayDeviceID = base64.encode(deviceID)
-    return displayDeviceID[:6] + ' ' + displayDeviceID[6:]
+    ## first and last 5 digits of the full number...
+    return deviceID[:6] + ' - ' + deviceID[-6:]
 
 def setFriendlyName(deviceID, displayDeviceID):
     # if the device is already known, get its friendly name, otherwise write it to the file,
