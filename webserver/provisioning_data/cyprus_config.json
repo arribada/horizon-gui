@@ -28,7 +28,7 @@
     }, 
     "pressureSensor": {
         "highThreshold": 0, 
-        "logEnable": true, 
+        "logEnable": false, 
         "lowThreshold": 0, 
         "maximumAquisitionTime": 0, 
         "mode": "PERIODIC", 
@@ -37,7 +37,7 @@
     }, 
     "saltwaterSwitch": {
         "hysteresisPeriod": 0, 
-        "logEnable": true
+        "logEnable": false
     },
     "gps": {
         "logPositionEnable": true,

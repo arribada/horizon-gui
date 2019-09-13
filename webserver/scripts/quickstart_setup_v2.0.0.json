@@ -20,7 +20,7 @@
         },
         {
             "command": "sudo gps_almanac --file provisioning_data/mgaoffline.ubx",
-            "description": "Apply the GPS almanac. Revert switch to SYS mode, pressing reset and waiting until both the orange and red LEDs are lit. Run command."
+            "description": "Apply the GPS almanac. Revert switch to SYS mode, press reset and wait until both the orange and red LEDs are lit. Run command."
         },
         {
             "command": "sudo tracker_config --set_date_time \"`date`\"",
