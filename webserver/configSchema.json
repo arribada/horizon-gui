@@ -74,7 +74,7 @@
 					},
 					"lastknown.height": {
 						"type": "number",
-						"description": "Read-only last recorded height",
+						"description": "Last recorded height",
 						"excludeFromPresets": true,
 						"order": 3,
 						"userLocked": false,
@@ -83,7 +83,7 @@
 					},
 					"lastknown.iTOW": {
 						"type": "number",
-						"description": "",
+						"description": "Time of Week - The number of 2 hour periods elapsed since the start of the latest week",
 						"excludeFromPresets": true,
 						"order": 4,
 						"userLocked": false,
@@ -92,7 +92,7 @@
 					},
 					"lastknown.latitude": {
 						"type": "number",
-						"description": "Read-only last recorded latitude",
+						"description": "Last recorded latitude",
 						"excludeFromPresets": true,
 						"order": 5,
 						"userLocked": false,
@@ -101,7 +101,7 @@
 					},
 					"lastknown.longitude": {
 						"type": "number",
-						"description": "Read-only last recorded longitude",
+						"description": "Last recorded longitude",
 						"excludeFromPresets": true,
 						"order": 6,
 						"userLocked": false,
@@ -177,7 +177,7 @@
 			"gps.logTTFFEnable": {
 				"label": "Enable TTFF Log",
 				"type": "boolean",
-				"description": "Enable logging time till first fix",
+				"description": "Enable logging time to first fix",
 				"order": 3,
 				"default": true,
 				"userLocked": false,
@@ -185,7 +185,7 @@
 				"jsonType": "boolean"
 			},
 			"gps.logDebugEnable": {
-				"label": "Debug Log",
+				"label": "Enable GPS Debug Log",
 				"type": "boolean",
 				"description": "Enable logging GPS debug events",
 				"order": 4,
@@ -196,9 +196,9 @@
 				"jsonType": "boolean"
 			},
 			"gps.maximumAquisitionTime": {
-				"label": "Max Acquisition Time",
+				"label": "GPS On",
 				"type": "number",
-				"description": "Maximum GPS acqusition time (0=>indefinite)",
+				"description": "Maximum amount of time in seconds that the GPS will remain on trying to get a fix (i.e. 15 means 15s trying to get a fix)",
 				"excludeFromPresets": false,
 				"order": 5,
 				"default": 15,
@@ -207,9 +207,9 @@
 				"jsonType": "int"
 			},
 			"gps.scheduledAquisitionInterval": {
-				"label": "Scheduled Acquisition Interval",
+				"label": "GPS Sleep",
 				"type": "number",
-				"description": "GPS scheduling period (0=>continuous)",
+				"description": "Period of time in seconds to wait between trying to aquire fixes (i.e 60 means wait 60 seconds)",
 				"excludeFromPresets": false,
 				"order": 6,
 				"default": 165,
@@ -229,7 +229,7 @@
 				"jsonType": "int"
 			},
 			"gps.veryFirstFixHoldTime": {
-				"label": "Very First Fix Hold Time",
+				"label": "GPS First Fix Hold Time",
 				"type": "number",
 				"description": "Hold period after first GPS fix before shutting down (0=>disabled)",
 				"excludeFromPresets": false,
@@ -240,13 +240,12 @@
 				"jsonType": "int"
 			},
 			"gps.mode": {
-				"label": "Mode",
-				"description": "One of { 'SWITCH_TRIGGERED', 'SCHEDULED', 'HYBRID' }",
+				"label": "GPS Mode",
+				"description": "GPS can be triggered in one of two ways. 1) Scheduled - GPS set to come on for a fixed interval to obtain a fix and then sleeps for a fixed interval. 2) Switch triggered - GPS set to take a fix when the salt water switch is triggered.",
 				"type": "select",
 				"list": {
 					"SCHEDULED": "Scheduled",
-					"SWITCH_TRIGGERED": "Switch Triggered",
-					"HYBRID": "Hybrid"
+					"SWITCH_TRIGGERED": "Switch Triggered"
 				},
 				"order": 8,
 				"default": "SCHEDULED",
@@ -258,7 +257,7 @@
 	},
 	"rtc": {
 		"label": "RTC",
-		"description": "",
+		"description": "Real time clock. Displays the time of the device e.g. 'Wed, 21 Feb 2018 16:17:13 GMT'",
 		"order": 4,
 		"fields": {
 			"rtc.dateTime": {
@@ -287,12 +286,13 @@
 				"default": true,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"hidden": true
 			},
 			"logging.fileSize": {
 				"label": "Log Filesize",
 				"type": "number",
-				"description": "Read-only count of the log size",
+				"description": "Log size in bytes",
 				"excludeFromPresets": true,
 				"order": 3,
 				"userLocked": true,
@@ -302,9 +302,10 @@
 			"logging.fileType": {
 				"label": "Log File Type",
 				"type": "select",
-				"description": "Read-only type of log file (LINEAR or CIRCULAR)",
+				"description": "The log type. LINEAR means a continuous log that will be appended to each time the device is powered off / on. CIRCULAR means the log will be overwritten each time the device is powered off / on.",
 				"list": {
-					"LINEAR": "Linear"
+					"LINEAR": "Linear",
+					"CIRCULAR": "Circular"
 				},
 				"excludeFromPresets": true,
 				"order": 4,
@@ -322,7 +323,8 @@
 				"order": 7,
 				"userLocked": true,
 				"advanced": true,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"hidden": true
 			},
 			"logging.dateTimeStampEnable": {
 				"label": "Date Time Log Enable",
@@ -333,7 +335,8 @@
 				"default": true,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"hidden": true
 			}
 		}
 	},
@@ -356,7 +359,7 @@
 			"saltwaterSwitch.hysteresisPeriod": {
 				"label": "Hysteresis Period",
 				"type": "number",
-				"description": "Required settling period in seconds for debouncing switch closed events (0=>no debouncing)",
+				"description": "Time in seconds to wait before a trigger is registered (i.e prevents constant triggering within the defined time set)",
 				"excludeFromPresets": false,
 				"order": 1,
 				"default": 0,
@@ -374,46 +377,50 @@
 			"bluetooth.triggerControl": {
 				"label": "Trigger Control",
 				"type": "number",
-				"description": "Bit-mask: 1=>REED SWITCH, 2=>SCHEDULED, 4=>GEOFENCE; multiple options can be logically OR'd together",
+				"description": "Bit-mask: 1 - REED SWITCH, 2 - SCHEDULED, 4 - GEOFENCE; multiple options can be logically OR'd together",
 				"excludeFromPresets": false,
 				"order": 2,
 				"default": 1,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"bluetooth.scheduledInterval": {
 				"label": "Scheduled Interval",
 				"type": "number",
-				"description": "Scheduling period in seconds; 0=>CONTINUOUS",
+				"description": "Scheduling period in seconds; 0 - CONTINUOUS",
 				"excludeFromPresets": false,
 				"order": 3,
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"bluetooth.scheduledDuration": {
 				"label": "Scheduled Duration",
 				"type": "number",
-				"description": "Scheduled duration in seconds; 0=>INDEFINITE",
+				"description": "Scheduled duration in seconds; 0 - INDEFINITE",
 				"excludeFromPresets": false,
 				"order": 4,
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"bluetooth.advertisingInterval": {
 				"label": "Advertising Interval",
 				"type": "number",
-				"description": "Expressed in units of 0.625 ms",
+				"description": "How long device advertises itself as available. Expressed in units of 0.625 ms",
 				"excludeFromPresets": false,
 				"order": 5,
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "float"
+				"jsonType": "float",
+				"hidden": true
 			},
 			"bluetooth.connectionInterval": {
 				"label": "Connection Interval",
@@ -424,7 +431,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "float"
+				"jsonType": "float",
+				"hidden": true
 			},
 			"bluetooth.inactivityTimeout": {
 				"label": "Connection Inactivity Timeout",
@@ -435,7 +443,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"bluetooth.phyMode": {
 				"label": "phy Mode",
@@ -450,7 +459,8 @@
 				"default": "1_MBPS",
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "text"
+				"jsonType": "text",
+				"hidden": true
 			},
 			"bluetooth.logEnable": {
 				"label": "Enable Bluetooth Log",
@@ -461,7 +471,8 @@
 				"default": false,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"hidden": true
 			}
 		}
 	},
@@ -479,7 +490,8 @@
 				"default": "",
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"accelerometer.logEnable": {
 				"label": "logEnable",
@@ -490,7 +502,8 @@
 				"default": false,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"hidden": true
 			},
 			"accelerometer.highThreshold": {
 				"label": "High Threshold",
@@ -501,7 +514,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"accelerometer.sampleRate": {
 				"label": "Sample Rate",
@@ -512,7 +526,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"accelerometer.mode": {
 				"label": "Mode",
@@ -527,7 +542,8 @@
 				"default": "PERIODIC",
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "text"
+				"jsonType": "text",
+				"hidden": true
 			},
 			"accelerometer.scheduledAquisitionInterval": {
 				"label": "Scheduled Acquisition Interval",
@@ -538,7 +554,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			},
 			"accelerometer.maximumAquisitionTime": {
 				"label": "Maximum Acquisition Time",
@@ -549,7 +566,8 @@
 				"default": 0,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "int"
+				"jsonType": "int",
+				"hidden": true
 			}
 		}
 	},
@@ -583,7 +601,7 @@
 			"pressureSensor.highThreshold": {
 				"label": "High Threshold",
 				"type": "number",
-				"description": "High threshold (TRIGGERED_BETWEEN or TRIGGERED_ABOVE)",
+				"description": "Sets an upper threshold for the pressure sensor which can be used in two modes. 1) Pressure sensor is only triggered at pressures above this threshold. 2) Pressure sensor is only triggered between this pressure and a defined lower threshold (see below)",
 				"order": 3,
 				"excludeFromPresets": false,
 				"default": 0,
@@ -594,7 +612,7 @@
 			"pressureSensor.lowThreshold": {
 				"label": "Low Threshold",
 				"type": "number",
-				"description": "Low threshold (TRIGGERED_BELOW, TRIGGERED_BETWEEN)",
+				"description": "Sets a lower threshold for the pressure sensor which can be used in two modes. 1) Pressure sensor is only triggered at pressures below this threshold. 2) Pressure sensor is only triggered between this pressure and a defined upper threshold (see above)",
 				"order": 4,
 				"excludeFromPresets": false,
 				"default": 0,
@@ -620,7 +638,7 @@
 			"pressureSensor.scheduledAquisitionInterval": {
 				"label": "Scheduled Acquisition Interval",
 				"type": "number",
-				"description": "The repetition period in seconds at which acquisitions are started for PERIODIC mode, 0=>continuously",
+				"description": "The repetition period in seconds at which acquisitions are started for PERIODIC mode, 0 - continuously",
 				"order": 6,
 				"excludeFromPresets": false,
 				"default": 0,
@@ -631,7 +649,7 @@
 			"pressureSensor.maximumAquisitionTime": {
 				"label": "Maximum Acquisition Time",
 				"type": "number",
-				"description": "The period in seconds over which acquisitions are made for PERIODIC mode, 0=>indefinitely",
+				"description": "The period in seconds over which acquisitions are made for PERIODIC mode, 0 - indefinitely",
 				"order": 7,
 				"excludeFromPresets": false,
 				"default": 0,
