@@ -188,7 +188,7 @@
 			"gps.maximumAquisitionTime": {
 				"label": "GPS On",
 				"type": "number",
-				"description": "Maximum amount of time in seconds that the GPS will remain on trying to get a fix (i.e. 15 means 15s trying to get a fix)",
+				"description": "Maximum amount of time in seconds that the GPS will remain on",
 				"excludeFromPresets": false,
 				"order": 5,
 				"default": 15,
@@ -208,9 +208,9 @@
 				"jsonType": "int"
 			},
 			"gps.scheduledAquisitionNoFixTimeout": {
-				"label": "Scheduled Acquisition NoFix Timeout",
+				"label": "GPS Fix Attempt Timeout",
 				"type": "number",
-				"description": "GPS no-fix timeout period (0=>indefinite)",
+				"description": "Maximum amount of time in seconds that the GPS will attempt to obtain a fix",
 				"excludeFromPresets": false,
 				"order": 7,
 				"default": 0,
@@ -241,7 +241,8 @@
 				"default": "SCHEDULED",
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "text"
+				"jsonType": "text",
+				"hidden": true
 			}
 		}
 	},
@@ -577,6 +578,21 @@
 				"advanced": false,
 				"jsonType": "boolean"
 			},
+			"pressureSensor.mode": {
+				"label": "Mode",
+				"type": "select",
+				"description": "Either PERIODIC, where logs are done at regular intervals, or TRIGGERED, where logs are created in response to changes.",
+				"list": {
+					"PERIODIC": "Periodic",
+					"TRIGGERED": "Triggered"
+				},
+				"order": 5,
+				"excludeFromPresets": false,
+				"default": "PERIODIC",
+				"userLocked": false,
+				"advanced": false,
+				"jsonType": "text"
+			},
 			"pressureSensor.sampleRate": {
 				"label": "Sample Rate",
 				"type": "number",
@@ -609,21 +625,6 @@
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "int"
-			},
-			"pressureSensor.mode": {
-				"label": "Mode",
-				"type": "select",
-				"description": "One of { 'PERIODIC', 'TRIGGERED' }",
-				"list": {
-					"PERIODIC": "Periodic",
-					"TRIGGERED": "Triggered"
-				},
-				"order": 5,
-				"excludeFromPresets": false,
-				"default": "PERIODIC",
-				"userLocked": false,
-				"advanced": false,
-				"jsonType": "text"
 			},
 			"pressureSensor.scheduledAquisitionInterval": {
 				"label": "Scheduled Acquisition Interval",
