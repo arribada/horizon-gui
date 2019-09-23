@@ -344,7 +344,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
-        print(config)
+        #print(config)
 
         # save this config locally
         with open(newConfigFileName, 'w+') as outfile:

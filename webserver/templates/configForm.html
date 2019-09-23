@@ -1,0 +1,135 @@
+<div class="form-buttons">
+    <button class="featured button" type="submit">Save</button>
+    <button class="primary button save-as-preset" name="preset" type="submit">Save as preset</button>
+    THIS IS LOCAL
+</div>
+
+{% for key,category in schema.items() | sort(attribute='1.order')%}
+
+    {% for fieldKey,fieldSchema in category.fields.items() | sort(attribute='1.order') %}
+
+    {% if loop.first %}
+        {% if "hidden" in category and category.hidden == true %}
+            <!-- // do nothing -->
+        {% else %}
+                <div class="form-title happy-padding navy">
+                    <h2>{{category.label}}</h2>
+                    {% if category.description|length > 1 %}
+                        <p>{{category.description}}</p>
+                    {% endif %}
+                </div>
+        {%endif%}
+    {% endif %}
+        {% if "hidden" in fieldSchema and fieldSchema.hidden == true %}
+                
+        <input id="{{fieldKey}}" class="text-field" type="hidden" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+        {% else %}
+
+        <div class="form-field happy-margin" >
+           
+            {% if fieldSchema.type == "boolean" %}
+                <div class="boolean-field">
+            {% endif %}
+            <div class="form-field-top" title="{{ fieldSchema.description }}">
+                {# <span class="icon" title="{{ fieldSchema.description }}">
+                    {% if fieldSchema.description|length > 1 %}
+                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                    {% else %}
+                        <div class="no-info"></div>
+                    {% endif %}
+                </span> #}
+                <label for="{{fieldKey}}">{{fieldSchema.label}}
+                    {% if fieldSchema.userLocked == true %}
+                        (read only)
+                    {% endif %}
+                </label>
+            </div>
+
+            {% if fieldSchema.type == "text" %}
+
+                <!-- {% if fieldSchema.description|length > 1 %}
+                    <span class="icon" title="{{ fieldSchema.description }}">
+                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                    </span>
+                {% endif %}
+
+                <label for="{{fieldKey}}">{{fieldSchema.label}}
+                    {% if fieldSchema.userLocked == true %}
+                        (read only)
+                    {% endif %}
+                </label> -->
+                <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+            {% elif fieldSchema.type == "number" %}
+
+                <!-- {% if fieldSchema.description|length > 1 %}
+                    <span class="icon" title="{{ fieldSchema.description }}">
+                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                    </span>
+                {% endif %}
+                <label for="{{fieldKey}}">{{fieldSchema.label}}
+                    {% if fieldSchema.userLocked == true %}
+                        (read only)
+                    {% endif %}
+                </label> -->
+                <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+            {% elif fieldSchema.type == "select" %}
+
+                <!-- {% if fieldSchema.description|length > 1 %}
+                    <span class="icon" title="{{ fieldSchema.description }}">
+                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                    </span>
+                {% endif %}
+                <label for="{{fieldKey}}">{{fieldSchema.label}}
+                    {% if fieldSchema.userLocked == true %}
+                        (read only)
+                    {% endif %}
+                </label> -->
+                <select id="{{fieldKey}}" name="{{fieldKey}}">
+
+                    {% for value,label in fieldSchema.list.items() %}
+
+                        <option {% if current[fieldKey] == value %} selected="selected" {% endif %} value="{{value}}">
+                            {{label}}</option>
+
+                    {% endfor %}
+
+                </select>
+
+            {% elif fieldSchema.type == "boolean" %}
+
+                <!-- <div class="boolean-field">
+
+                    {% if fieldSchema.description|length > 1 %}
+                        <span class="icon" title="{{ fieldSchema.description }}">
+                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
+                        </span>
+                    {% endif %}
+
+                    <label>{{fieldSchema.label}}
+                        {% if fieldSchema.userLocked == true %}
+                            (read only)
+                        {% endif %}
+                    </label> -->
+                    <div class="radio-wrapper">
+                        <div>
+                            <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
+                            <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if current[fieldKey] == True %} checked {% endif %}/>
+                        </div>
+                        <div>
+                            <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
+                            <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if current[fieldKey] == False %} checked {% endif %}/>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% endif %}
+
+          </div>
+          {% endif %}
+
+
+    {% endfor %}
+
+{% endfor %}

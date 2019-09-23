@@ -361,6 +361,7 @@
 		}
 	},
 	"bluetooth": {
+		"hidden": true,
 		"label": "Bluetooth Settings",
 		"description": "",
 		"order": 7,
@@ -468,6 +469,7 @@
 		}
 	},
 	"accelerometer": {
+		"hidden": true,
 		"label": "Accelerometer Settings",
 		"description": "Accelerometer settings for the device",
 		"order": 8,
