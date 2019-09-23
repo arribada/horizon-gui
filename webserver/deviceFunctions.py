@@ -67,28 +67,35 @@ def getDeviceReport(runMode, deviceID):
         deviceStatus = getDeviceStatus(runMode, deviceID)
 
         if "result" in deviceStatus:
-            result['batteryLevel'] = deviceStatus['result']['charge_level']
+            
+            if deviceStatus['result']['charge_level'] == 254:
+                result['batteryLevel'] = "<a href='#' title='" + constants.BATTERY_ERROR_TOOLTIP + "'>" + constants.BATTERY_ERROR_TEXT +  "</a>"
+            else:
+                result['batteryLevel'] = str(deviceStatus['result']['charge_level'] ) + "%"
+            
             result['firmwareVersion'] = deviceStatus['result']['fw_version']
 
-            result['displayDeviceID'] = displayVersionID(deviceID)
+            result['hardwareID'] = deviceID
 
-            if constants.FRIENDLY_NAME_ACTIVE:
-                
-                result['friendlyName'] = setFriendlyName(deviceID, result['displayDeviceID'])
-            else:
-                result['friendlyName'] = "Not Yet Implemented"
+            result['friendlyName'] = setFriendlyName(deviceID)
 
             result['fileSize']  = deviceStatus['result']['log_file_size']
 
             result['sensorsEnabled']  = []
             if deviceStatus['result']['accel_enabled']:
-                result['sensorsEnabled'].append("Accelerometer.")
+                result['sensorsEnabled'].append("Accelerometer: ON")
+            else:
+                result['sensorsEnabled'].append("Accelerometer: Off")
 
             if deviceStatus['result']['pressure_enabled']:
-                result['sensorsEnabled'].append("Pressure.")
+                result['sensorsEnabled'].append("Pressure: ON")
+            else:
+                result['sensorsEnabled'].append("Pressure: Off")
 
             if deviceStatus['result']['temp_enabled']:
-                result['sensorsEnabled'].append("Temp.")
+                result['sensorsEnabled'].append("Temp: ON")
+            else:
+                result['sensorsEnabled'].append("Temp: Off")
 
 
             # these were in the old config, but not in current --status
@@ -337,7 +344,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
-        print(config)
+        #print(config)
 
         # save this config locally
         with open(newConfigFileName, 'w+') as outfile:
@@ -904,17 +911,18 @@ def displayVersionID(deviceID):
     ## first and last 5 digits of the full number...
     return deviceID[:6] + ' - ' + deviceID[-6:]
 
-def setFriendlyName(deviceID, displayDeviceID):
+def setFriendlyName(deviceID):
     # if the device is already known, get its friendly name, otherwise write it to the file,
-    # using the displayDeviceID
+    # using the deviceID
     existingDevices = readKnownDevivces()
     #print(existingDevices)
 
     if deviceID in existingDevices:
         return existingDevices[deviceID]['friendlyName']
     else:
-        saveFriendlyName(deviceID, displayDeviceID)
-        return displayDeviceID
+        # set friendly name to device id
+        saveFriendlyName(deviceID, deviceID)
+        return deviceID
 
 
 def getFriendlyName(deviceID):
@@ -934,7 +942,7 @@ def saveFriendlyName(deviceID, friendlyName):
     if deviceID in existingDevices:
           existingDevices[deviceID]['friendlyName'] = friendlyName
     else:
-        existingDevices[deviceID] = {'friendlyName': friendlyName, 'displayDeviceID': displayVersionID(deviceID)}
+        existingDevices[deviceID] = {'friendlyName': friendlyName}
         
     with open('knownDevices.json', 'w') as outfile:
         json.dump(existingDevices, outfile)

@@ -1,0 +1,25 @@
+<a id="burger" onclick="toggleBurger()">
+    <span></span>
+    <span></span>
+    <span></span>
+</a>
+<div class="system-info">GUI-Version v.0.1.0</div>
+<nav class="flex">
+    <div class="nav-tab nav-branding">
+        <a href="/">Horizon GPS</a><br><span class="tinyText">Hub Time: dd/mm/yyyy hh:ss <a href="#">Update</a></span>
+    </div>
+    <div class="mob-menu">
+        <div class="nav-tab navy {% if request.endpoint == "list" %}selected{% endif %}">
+            <a href="/list">Device Manager</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "presets" %}selected{% endif %}">
+            <a href="/presets">Preset Manager</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "scripts" %}selected{% endif %}">
+            <a href="/scripts">Scripts</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "help" %}selected{% endif %}">
+            <a href="/help">Help</a>
+        </div>
+    </div>
+</nav>

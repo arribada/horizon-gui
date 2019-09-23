@@ -4,8 +4,8 @@
         "description": "",
         "order": 1,
         "fields": {
-            "friendlyName": {
-                "label": "Nickname",
+            "hardwareID": {
+                "label": "Unique ID",
                 "order": 1
             },
             "batteryLevel": {

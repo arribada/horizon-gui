@@ -24,7 +24,8 @@ options = {
         "actionsSchema": "actionsSchema.json",
         "configSchema": "configSchema.json",
         "dataViews": "dataViews.json",
-        "dashboardSchema": "dashboardSchema.json"
+        "dashboardSchema": "dashboardSchema.json",
+        "helpInfo": "helpInformation.json"
     }
 #instantiate SCUTE
 horizonSCUTE = scute(options, app)
@@ -74,9 +75,10 @@ horizonSCUTE.registerHook("read_config", readConfig)
 def saveConfig(deviceID, config):
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
+    print(config)
     #save config
-    if deviceFunctions.displayVersionID(deviceID) != config['local']['displayVersionID']:
-        g.redirect = '/list'
+    #if deviceFunctions.displayVersionID(deviceID) != config['local']['displayVersionID']:
+    #    g.redirect = '/list'
 
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
 
@@ -126,7 +128,6 @@ def admin_console():
         # this is on hold for current release
         return render_template("adminConsole.html", title="Admin Console" )
   
-
 
 def getAlmanacList():
 

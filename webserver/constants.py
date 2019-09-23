@@ -1,3 +1,7 @@
+
+# GUI version nuber.  Must update manually
+GUI_VERSION = "v0.1.0"
+
 # set to "dummy" to run without PI or devices
 RUNMODE = "pi"
 #RUNMODE = "dummy"
@@ -25,7 +29,6 @@ LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
 ALLOWED_EXTENSIONS = set(['txt', 'gif'])
 UPLOAD_FOLDERS =  {"config": "/uploads/config", "firmware": "/uploads/firmware" }
 
-FRIENDLY_NAME_ACTIVE = True
 
 #LOGGING_LEVEL = "none"
 LOGGING_LEVEL = "verbose"
@@ -33,8 +36,8 @@ LOGGING_LEVEL = "verbose"
 CONFIG_FILE_EXTENSION = 'config'
 CONFIG_FILE_NUMBER_TO_KEEP = 10
 
-# for the field test, the unique ID is not hardware based...
-DEVICE_UNIQUE_IDENTIFIER = 'system.deviceIdentifier'
+BATTERY_ERROR_TOOLTIP = "Battery Error returned. Try charging battery or replacing"
+BATTERY_ERROR_TEXT = "Battery Error"
 
 
 

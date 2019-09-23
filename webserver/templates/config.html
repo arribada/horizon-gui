@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <section>
+        <div class="form-block happy-margin">
+            <div class="form-block-wrapper">
+                <div class="config-page-subheading flex">
+                    <div class="form-headings navy happy-margin">
+                        <h1>Config Settings for device: {{device}} ({{current['local.friendlyName']}})</h1>
+                        <span class="happy-margin">
+                            Device time last polled: {{current['rtc.dateTime']}}
+  
+                        </span>
+                        <div class="subheading red navy">
+                            <div class="icon">
+                                <img src="/scute/images/info-icon.png">
+                            </div>
+                            <h3>The fields in red are unsaved changes</h3>
+                        </div>
+                    </div>
+
+
+                </div>
+                <form class="form-body" id="configForm" method="post">
+                    {% include "configForm.html" %}
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
