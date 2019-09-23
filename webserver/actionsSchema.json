@@ -1,4 +1,9 @@
 {
+    "download_config": {
+        "label": "Download Config",
+        "order": 1,
+        "bulk": false
+    },
     "view_log": {
         "label": "Device Logs",
         "order": 3,

@@ -11,7 +11,9 @@
                     </span>
                     <div class="inline-block navy table-header">
                         <h2>Device Manager</h2>
+                        
                     </div>
+                    <button><a href="/list">Reload</a></button>
                 </div>
                 <div class="table-nav-right gray">
                     <div class="last-loaded key inline-block">
@@ -44,9 +46,9 @@
                     <tr>
                         <td></td>
                         {% for device in reportValues %}
-                            <td data-device="{{device}}" class="deviceHeader" title='Device Hardware ID: {{device}}'>
+                            <td data-device="{{device}}" class="deviceHeader">
                                 <span class="circle selected-no"></span>
-                                {{reportValues[device].displayDeviceID}}
+                                {{reportValues[device].friendlyName}}
                             </td>
                         {% endfor %}
                     </tr>
@@ -69,12 +71,12 @@
 
                                             {% for value in deviceValues[fieldKey] %}
 
-                                                {{value}}
+                                                {{value}}<br>
 
                                             {% endfor %}
 
                                         {% else %}
-                                            {{deviceValues[fieldKey]}}
+                                             {{deviceValues[fieldKey] | safe}}
                                         {% endif %}
 
                                     </td>
@@ -95,7 +97,7 @@
                 <div class="happy-margin no-devices">
                     <div class="alert info">
                         <img src="/static/images/usb-connect-white.png" width="100px"/>
-                        <h1>No configured devices detected.</h1>Please connect a device and <a href="/">reload the page.</a>
+                        <h1>No configured devices detected.</h1>Please connect a device and <a href="/list">reload the page.</a>
                     </div>
                 </div>
             </section>

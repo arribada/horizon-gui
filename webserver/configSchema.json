@@ -1,7 +1,7 @@
 {
 	"local": {
 		"label": "Local Settings",
-		"description": "These settings are only stored on this raspberry PI.",
+		"description": "",
 		"order": 1,
 		"fields": {
 			"local.friendlyName": {
@@ -12,16 +12,6 @@
 				"order": 1,
 				"default": "HORIZON_TAG",
 				"userLocked": false,
-				"advanced": false,
-				"jsonType": "text"
-			},
-			"local.displayVersionID": {
-				"label": "Short Device ID",
-				"description": "A more human readable version of the hardware ID (base 64)",
-				"type": "text",
-				"excludeFromPresets": true,
-				"order": 2,
-				"userLocked": true,
 				"advanced": false,
 				"jsonType": "text"
 			}
