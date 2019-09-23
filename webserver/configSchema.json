@@ -39,6 +39,7 @@
 		"order": 3,
 		"fields": {
 			"gps.lastKnownPosition": {
+				"hidden": true,
 				"label": "Last known GPS position",
 				"description": "",
 				"order": 1,
@@ -247,11 +248,13 @@
 		}
 	},
 	"rtc": {
+		"hidden": true,
 		"label": "RTC",
 		"description": "Real time clock. Displays the time of the device e.g. 'Wed, 21 Feb 2018 16:17:13 GMT'",
 		"order": 4,
 		"fields": {
 			"rtc.dateTime": {
+				"hidden": true,
 				"label": "Date Time",
 				"type": "text",
 				"description": "Accepts any reasonable time string e.g. 'Wed, 21 Feb 2018 16:17:13 GMT'",

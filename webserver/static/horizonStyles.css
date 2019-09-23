@@ -29,7 +29,11 @@
 
 .tinyText{
    font-size: 0.5em;
-
+}
+.system-info{
+   float: right;
+   text-align: right;
+   font-size: 0.6em;
 }
 
 

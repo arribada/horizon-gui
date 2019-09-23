@@ -1,3 +1,7 @@
+
+# GUI version nuber.  Must update manually
+GUI_VERSION = "v0.1.0"
+
 # set to "dummy" to run without PI or devices
 RUNMODE = "pi"
 #RUNMODE = "dummy"

@@ -1,7 +1,6 @@
 <div class="form-buttons">
-    <button class="featured button" type="submit">Save</button>
+    <button class="featured button" type="submit">Apply</button>
     <button class="primary button save-as-preset" name="preset" type="submit">Save as preset</button>
-    THIS IS LOCAL
 </div>
 
 {% for key,category in schema.items() | sort(attribute='1.order')%}
@@ -133,3 +132,8 @@
     {% endfor %}
 
 {% endfor %}
+<div class="form-buttons">
+        <button class="featured button" type="submit">Apply</button>
+        <button class="primary button save-as-preset" name="preset" type="submit">Save as preset</button>
+</div>
+    
