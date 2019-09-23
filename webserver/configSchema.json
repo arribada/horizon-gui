@@ -5,7 +5,7 @@
 		"order": 1,
 		"fields": {
 			"local.friendlyName": {
-				"label": "Nickname",
+				"label": "Friendly Name",
 				"description": "A user-readable name for the tag",
 				"type": "text",
 				"excludeFromPresets": true,

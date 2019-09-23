@@ -5,7 +5,7 @@
         "order": 1,
         "fields": {
             "friendlyName": {
-                "label": "Nickname",
+                "label": "Friendly Name",
                 "order": 1
             },
             "batteryLevel": {
