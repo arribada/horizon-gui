@@ -6,15 +6,16 @@ from flask import Flask, request, jsonify, render_template, send_file, send_from
 import json
 import os
 import datetime
+import imp # for importing from specific locations
 
 ## project functions
-import deviceFunctions
 import constants
+#import deviceFunctions
+deviceFunctions = imp.load_source('deviceFunctions', 'hardwareVersion/' + constants.DEVICE_HARDWARE_VERSION + '/deviceFunctions.py')
 
 app = Flask(__name__)
 
 # questions for filip
-# need to horizonSCUTE = scute(options, app) here AND deviceFunctions..  how do I share SCUTE?
 # the calls take a while, I'd like to use session data across modules so not always need to load config for example.
 
 #app.secret_key = "super secret key"

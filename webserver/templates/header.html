@@ -3,10 +3,17 @@
     <span></span>
     <span></span>
 </a>
-<div class="system-info">GUI-Version v.0.1.0</div>
+<div class="system-info">
+    <ul>
+        <li>GUI-Version: <span class="gui-version">v.0.1.0</span></li>
+        <li>Computer Time: <span class="time-computer">yyyy/mm/dd hh:mm</span></li>
+        <li>Hub Time: <span class="time-hub">yyyy/mm/dd hh:mm</span></li>
+    </ul>
+    
+</div>
 <nav class="flex">
     <div class="nav-tab nav-branding">
-        <a href="/">Horizon GPS</a><br><span class="tinyText">Hub Time: dd/mm/yyyy hh:ss <a href="#">Update</a></span>
+        <a href="/">Horizon GPS</a><!-- <span class="tinyText">Hub Time: dd/mm/yyyy hh:ss <a href="#">Update</a></span> -->
     </div>
     <div class="mob-menu">
         <div class="nav-tab navy {% if request.endpoint == "list" %}selected{% endif %}">
