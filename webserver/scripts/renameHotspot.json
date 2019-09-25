@@ -1,0 +1,13 @@
+{
+    "name": "Rename hotspot",
+    "description": "Change Wi-Fi hotspot name. Requires reboot to take effect.",
+    "commands": [
+        {
+            "command": "sudo sed 's/^ssid=.*$/ssid=${ssid}/' /etc/hostapd/hostapd.conf",
+            "description": "Replace current Wi-Fi hostpot name in system configuration file. Requires reboot to take effect.",
+            "parameters": {
+                "ssid": "New Wi-Fi hotspot name"
+            }
+        }
+    ]
+}
