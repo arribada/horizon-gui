@@ -35,5 +35,8 @@
    text-align: right;
    font-size: 0.6em;
 }
+.system-info ul{
+   list-style-type: none;
+}
 
 
