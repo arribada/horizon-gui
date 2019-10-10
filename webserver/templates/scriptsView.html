@@ -8,21 +8,17 @@
     <section class="white-background happy-margin scriptsIndex table-nav">
         <div class="happy-margin happy-padding">
         {% if scripts|length > 0 %}
-        <span class="happy-margin">
-            <h2>Run a pre-loaded script from the list below or open the Admin Console.<br>
+        <span class="happy-margin" style="display: inline-block">
+            <h2>This are a set of useful scripts that can be used to perform more advanced tasks.<br>
             </h2>
-                <button type="button" class='featured inline-block'><a  href='/admin_console'>Admin Console</a></button>
-            
+            <a  href='/admin_console'>Admin Console TBC</a>
         </span>
-        <hr />
 
         {% for script in scripts %}
         <div class="script-item-wrapper happy-margin">
-            <h2>{{script.name}}</h2>
-            {{script.description}}<br>
-            <button type="button" class='featured'><a href="/scripts/{{script.fileName}}">Go!</a></button>
+            <h2><a href="/scripts/{{script.fileName}}">{{script.name}}</a></h2>
+            {{script.description}}
         </div>
-        <hr />
         {% endfor %}
 
         {% else %}
@@ -30,6 +26,8 @@
         <p>No scripts found in /scripts</p>
 
         {% endif %}
+
+
     </div>
     </section>
 </div>

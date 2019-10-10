@@ -12,11 +12,13 @@
     "erase_log": {
         "bulk": true,
         "warn": true,
-        "label": "Erase log"
+        "label": "Erase log",
+        "userMessage": "Erase log from device?"
     },
     "erase_tag": {
         "bulk": false,
         "warn": true,
-        "label": "Erase Device"
+        "label": "Erase Device",
+        "userMessage": "Erase Device?"
     }
 }

@@ -1,16 +1,27 @@
+<script>
+        var today = new Date();
+        var localDateTime = formatDate(today);
+</script>
 <a id="burger" onclick="toggleBurger()">
     <span></span>
     <span></span>
     <span></span>
 </a>
+
 <div class="system-info">
+    <span id="clockWarning"></span>
     <ul>
-        <li>GUI-Version: <span class="gui-version">v.0.1.0</span></li>
-        <li>Computer Time: <span class="time-computer">yyyy/mm/dd hh:mm</span></li>
-        <li>Hub Time: <span class="time-hub">yyyy/mm/dd hh:mm</span></li>
+        <li>Computer Time: <span id="time-computer" class="time-computer"></span></li>
+        <li>Hub Time: <span id="time-hub" class="time-hub">{{headerData.hubDateTime}}</span></li>
     </ul>
     
 </div>
+<script>
+    document.getElementById("time-computer").innerHTML = localDateTime;
+    if (localDateTime != '{{headerData.hubDateTime}}'){
+        document.getElementById("clockWarning").innerHTML = "<span class='clockMismatch'>Time Mismatch</span>";
+    }
+</script>
 <nav class="flex">
     <div class="nav-tab nav-branding">
         <a href="/">Horizon GPS</a><!-- <span class="tinyText">Hub Time: dd/mm/yyyy hh:ss <a href="#">Update</a></span> -->

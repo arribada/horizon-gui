@@ -1,0 +1,13 @@
+{
+    "name": "Set the Date and Time of the Hub",
+    "description": "Set the Date and Time of the Hub - this date time will be used when updating config on devices.",
+    "commands": [
+        {
+            "command": "sudo date -s '${dateTime}' ",
+            "description": "Set the date time.",
+            "parameters": {
+                "dateTime": "Date Time in any reasonable format: e.g. YYYY-MM-DD HH:MM"
+            }
+        }
+    ]
+}

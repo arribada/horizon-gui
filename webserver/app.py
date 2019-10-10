@@ -2,7 +2,7 @@
 # see https://github.com/Octophin/scute for more info.
 
 from scute import scute
-from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, redirect, g
+from flask import Flask, request, jsonify, render_template, send_file, send_from_directory, redirect, g, session
 import json
 import os
 import datetime
@@ -14,11 +14,7 @@ import constants
 deviceFunctions = imp.load_source('deviceFunctions', 'hardwareVersion/' + constants.DEVICE_HARDWARE_VERSION + '/deviceFunctions.py')
 
 app = Flask(__name__)
-
-# questions for filip
-# the calls take a while, I'd like to use session data across modules so not always need to load config for example.
-
-#app.secret_key = "super secret key"
+app.secret_key = os.urandom(24)
 
 options = {
         "reportSchema": "reportSchema.json",
@@ -31,6 +27,38 @@ options = {
 #instantiate SCUTE
 horizonSCUTE = scute(options, app)
 
+def getIndexData():
+
+    # session management... Only one user allowed - flag it.
+    accessAllowed = False
+    if 'activeUser' not in session:
+        accessAllowed = True 
+        session['activeUser'] = "this user"
+        usermessage = {"type": "success",  "message": "OK"}
+    else:
+        accessAllowed = False 
+        usermessage = {"type": "error",  "message": "Hub In Use."}
+
+    return {"accessAllowed": accessAllowed, "usermessage": usermessage}
+
+
+horizonSCUTE.registerHook("get_index_data", getIndexData)
+
+
+def getHeaderData():
+
+    hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
+    systemIPAddress = deviceFunctions.systemIPAddress(constants.RUNMODE) 
+    hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE)
+
+    return {
+        "guiVersion": constants.GUI_VERSION,
+        "hardwareVersion": constants.DEVICE_HARDWARE_VERSION,
+        "hubDateTime": hubDateTime,
+        "systemIPAddress": systemIPAddress,
+        "hubSDSpace": hubSDSpace}
+
+horizonSCUTE.registerHook("get_header_data", getHeaderData)
 
 
 # get list of currently connected devices

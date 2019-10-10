@@ -47,8 +47,7 @@
                         <td></td>
                         {% for device in reportValues %}
                             <td data-device="{{device}}" class="deviceHeader">
-                                <span class="circle selected-no"></span>
-                                {{reportValues[device].friendlyName}}
+                                <span class="circle selected-no"></span>{{reportValues[device].friendlyName}}
                             </td>
                         {% endfor %}
                     </tr>
@@ -139,7 +138,7 @@
 
                         {% else %}
 
-                            <button onclick="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %} {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>{{action.label}}</button>
+                            <button onclick="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %} {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}  {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>{{action.label}}</button>
 
                         {% endif %}
 

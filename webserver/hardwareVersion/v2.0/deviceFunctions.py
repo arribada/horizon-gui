@@ -16,6 +16,94 @@ if constants.RUNMODE == "dummy":
         dummyResponses = json.load(json_file)
 
 
+
+def systemTime(runMode):
+
+    if runMode == 'dummy':
+
+        result = "yyyy-mm-dd hh:mm"
+
+    else: 
+
+        try:
+
+            result = subprocess.check_output("date '+%Y-%m-%d %H:%M'",shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+        
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        result = result.rstrip() # trailing new line...
+        
+        logMessage("System Date Time recieved: " + result)
+
+    # device with incompatible firmware breaks the call.
+    if len(result) == 0:
+        result = "yyyy-mm-dd hh:mm" 
+
+    return result
+
+
+def systemIPAddress(runMode):
+
+    if runMode == 'dummy':
+
+        result = "111.222.333.444"
+
+    else: 
+
+        try:
+
+            result = subprocess.check_output("hostname -I",shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+        
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        result = result.rstrip() # trailing new line...
+        resultArray = result.split() # on space by default
+                
+        logMessage("System IP: " + result)
+
+        result = resultArray[0]
+
+
+    # device with incompatible firmware breaks the call.
+    if len(result) == 0:
+        result = "111.222.333.444" 
+
+    return result
+   
+def hubSDSpace(runMode):
+
+    if runMode == 'dummy':
+
+        result = "dummy mode"
+
+    else: 
+
+        try:
+
+            result = subprocess.check_output("df -h",shell=True,stderr=subprocess.STDOUT) # these last parts are needed if you don't send an array
+        
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+
+        resultArray = result.split('\n') 
+        masterLine = resultArray[1].split()
+        logMessage(resultArray[1])
+      
+
+    # device with incompatible firmware breaks the call.
+    if len(masterLine) == 0:
+        return "Not Available" 
+
+    return "Total: " + masterLine[1] + ', Used: ' + masterLine[2] + ', Avail: ' + masterLine[3]
+
+
+
+
 def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
 
     if runMode == 'dummy':
