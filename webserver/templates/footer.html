@@ -1,4 +1,20 @@
 
+<script src="/scute/scute.js"></script>
+<script>
+
+        var today = new Date();
+        var localDateTime = formatDateTime(today);
+    
+        document.getElementById("time-computer").innerHTML = localDateTime;
+        if (localDateTime != '{{headerData.hubDateTime}}'){
+            document.getElementById("clockWarning").innerHTML = "<span class='clockMismatch'>Time Mismatch</span>";
+        }
+    
+    
+        document.getElementById("footer-time-computer").innerHTML = localDateTime;
+        toggleBurger();
+    </script>
+
 {% if request.endpoint != "index" %}
 <footer>
 GUI Version: <span class="gui-version">{{headerData.guiVersion}}</span><br/ >
@@ -7,9 +23,5 @@ Computer Time: <span id="footer-time-computer" class="time-computer"></span><br/
 Hub Time: <span id="time-hub" class="time-hub">{{headerData.hubDateTime}}</span><br/ >
 Hub IP: <span id="time-hub" class="time-hub">{{headerData.systemIPAddress}}</span><br/ >
 SD Card: {{headerData.hubSDSpace}}<br />
-<script>
-    document.getElementById("footer-time-computer").innerHTML = localDateTime;
-    toggleBurger();
-</script>
 </footer>
 {% endif %}
