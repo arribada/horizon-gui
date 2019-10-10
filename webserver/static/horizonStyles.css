@@ -16,6 +16,10 @@
    /* min-height: 7em; */
 }
 
+.leftAlign{
+    text-align: left !important;
+}
+
 .loadingPopup{
 
   display: none;
@@ -348,7 +352,7 @@ article.selected {
     display: block;
     margin: auto;
     margin-bottom: 0.5em;
-    border: solid 2px #0e2940;
+    border: solid 2px #f9f9f9;
     background-color: white;
     width: 1em;
     height: 1em;
@@ -450,6 +454,7 @@ tr:nth-child(even) td:first-child {
 .deviceHeader {
     cursor: pointer;
     position: relative;
+    background-color: #f9f9f9;
 }
 
 .main-table table {
@@ -479,6 +484,7 @@ table tr:first-of-type td {
 .deviceHeader[data-active] {
     border-top: solid 3px #62bc6c;
     border-radius: 0.2em 0.2em 0 0;
+    background-color: #d3ecf1;
 }
 
 .deviceHeader[data-active] .circle {

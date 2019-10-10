@@ -67,12 +67,13 @@
                                         {% if deviceValues[fieldKey] is iterable and deviceValues[fieldKey] is not string %}
 
                                             {# Check if list #}
-
-                                            {% for value in deviceValues[fieldKey] %}
-
-                                                {{value}}<br>
-
-                                            {% endfor %}
+                                            <ul class='leftAlign'>
+                                                {% for value in deviceValues[fieldKey] %}
+                                                
+                                                <li class='leftAlign'>{{value}}</li>
+                                                
+                                                {% endfor %}
+                                            </ul>
 
                                         {% else %}
                                              {{deviceValues[fieldKey] | safe}}
