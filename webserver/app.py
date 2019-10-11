@@ -119,8 +119,16 @@ horizonSCUTE.registerHook("get_report_fields", getReportFields)
 
 # read the config for one device
 def readConfig(deviceID):
+
+    if 'config' + str(deviceID) in session:
+        config = session['config' + str(deviceID) ]
+
+    else:
+        config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
+        session['config' + str(deviceID)] = config
+
+
     # get device config
-    config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID)
     config = horizonSCUTE.flattenJSON(config['result'])
 
     config['local.friendlyName'] = deviceFunctions.getFriendlyName(deviceID)
@@ -138,6 +146,10 @@ def saveConfig(deviceID, config):
     config = horizonSCUTE.expandJSON(config)
 
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
+
+    # remove config from session, so it needs loading again.
+    session.pop('config' + str(deviceID), None)
+
 
 horizonSCUTE.registerHook("save_config", saveConfig)
 
