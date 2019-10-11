@@ -47,9 +47,25 @@ horizonSCUTE.registerHook("get_index_data", getIndexData)
 
 def getHeaderData():
 
+
+    # load from session if avaiable.
+    if 'systemIPAddress'  in session:
+        systemIPAddress = session['systemIPAddress']
+
+    else:
+        systemIPAddress = deviceFunctions.systemIPAddress(constants.RUNMODE) 
+        session['systemIPAddress'] = systemIPAddress
+
+    if 'hubSDSpace'  in session:
+        hubSDSpace = session['hubSDSpace']
+
+    else:
+        hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE) 
+        session['hubSDSpace'] = hubSDSpace
+
+
     hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
-    systemIPAddress = deviceFunctions.systemIPAddress(constants.RUNMODE) 
-    hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE)
+     
 
     return {
         "guiVersion": constants.GUI_VERSION,
@@ -64,15 +80,18 @@ horizonSCUTE.registerHook("get_header_data", getHeaderData)
 # get list of currently connected devices
 def getDevices():
 
-    scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
+    # pass in ?force_update to clear the session field
+    if len(request.args.getlist("force_update")) != 0:
+        session.pop('scanResults', None)
 
-    # if 'error' in scanResults:
-        
-    #     for key, value in scanResults.items():
-    #         usermessage = {"type": "error", "message": value }
-        
-    #     #return render_template("defaultPage.html", title="Error", userMessage=usermessage )
-        
+    if 'scanResults' in session:
+        scanResults = session['scanResults']
+
+    else:
+        scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
+        session['scanResults'] = scanResults
+
+
     return scanResults  
 
 horizonSCUTE.registerHook("get_devices", getDevices)
@@ -80,7 +99,20 @@ horizonSCUTE.registerHook("get_devices", getDevices)
 
 # get the report data for one device
 def getReportFields(deviceID):
-    return deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)    
+
+    # pass in ?force_update to clear the session field
+    if len(request.args.getlist("force_update")) != 0:
+        session.pop('report_' + str(deviceID), None)
+
+    if 'report_' + str(deviceID) in session:
+        thisReport = session['report_' + str(deviceID)]
+
+    else:
+        thisReport = deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)  
+        session['report_' + str(deviceID)] = thisReport
+
+
+    return thisReport        
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)
 
@@ -104,10 +136,6 @@ horizonSCUTE.registerHook("read_config", readConfig)
 def saveConfig(deviceID, config):
     # indent fields into categories
     config = horizonSCUTE.expandJSON(config)
-    print(config)
-    #save config
-    #if deviceFunctions.displayVersionID(deviceID) != config['local']['displayVersionID']:
-    #    g.redirect = '/list'
 
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
 
@@ -271,6 +299,25 @@ def downloadLogFile ():
     root = constants.LOG_DATA_LOCAL_LOCATION
 
     return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+
+@app.route('/download_config')
+def downloadConfigFile ():
+
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 1:
+        device = devices[0]
+        
+    else:
+        #TODO
+        return "Invalid Device ID"
+    
+    root = constants.CONFIG_DATA_LOCAL_LOCATION
+
+    fileList = os.listdir(root + device)
+
+    return send_from_directory(root + device, fileList[len(fileList)-1] , as_attachment=True )
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)

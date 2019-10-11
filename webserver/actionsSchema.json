@@ -1,9 +1,5 @@
 {
-    "download_config": {
-        "label": "Download Config",
-        "order": 1,
-        "bulk": false
-    },
+
     "view_log": {
         "label": "Device Logs",
         "order": 3,
@@ -12,7 +8,7 @@
     "erase_log": {
         "bulk": true,
         "warn": true,
-        "label": "Erase log",
+        "label": "Erase Log",
         "userMessage": "Erase log from device?"
     },
     "erase_tag": {

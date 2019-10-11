@@ -13,14 +13,13 @@
                         <h2>Device Manager</h2>
                         
                     </div>
-                    <button><a href="/list">Reload</a></button>
                 </div>
                 <div class="table-nav-right gray">
                     <div class="last-loaded key inline-block">
                         <p class="inline-block light-gray">Last loaded:</p>
                     </div>
                     <div class="date value inline-block">
-                        <p class="inline-block">{{ timeLoaded }}</p>
+                        <p class="inline-block">{{ timeLoaded }} <a class='inlineLink' href="/list?force_update=true">Reload</a></p>
                     </div>
                 </div>
             </div>
