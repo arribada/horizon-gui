@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template, send_file, send_from
 import json
 import os
 import datetime
+import time
 import imp # for importing from specific locations
 
 ## project functions
@@ -72,7 +73,8 @@ def getHeaderData():
         "hardwareVersion": constants.DEVICE_HARDWARE_VERSION,
         "hubDateTime": hubDateTime,
         "systemIPAddress": systemIPAddress,
-        "hubSDSpace": hubSDSpace}
+        "hubSDSpace": hubSDSpace,
+        "timestamp": time.time()}
 
 horizonSCUTE.registerHook("get_header_data", getHeaderData)
 
@@ -326,6 +328,7 @@ def downloadConfigFile ():
     root = constants.CONFIG_DATA_LOCAL_LOCATION
 
     fileList = os.listdir(root + device)
+    fileList.sort()
 
     return send_from_directory(root + device, fileList[len(fileList)-1] , as_attachment=True )
 
