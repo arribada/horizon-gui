@@ -163,7 +163,7 @@ body {
 }
 
 .red {
-    color: red;
+    color:#e77665;
 }
 
 .green {
@@ -222,8 +222,8 @@ nav .mob-menu {
 }
 
 .nav-tab.selected {
-    border-bottom: solid #042A43;
-    background: linear-gradient(#fff, #e7edef);
+    border-bottom: solid #284c76;
+    background: linear-gradient(white, #d3ecf1);
 } 
 
 nav a {
@@ -260,7 +260,7 @@ nav a {
 }
 
 main {
-    background: linear-gradient(#fff, #e7edef);
+    background: linear-gradient(#fff, #d3ecf1);
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     max-width: 100%;
@@ -286,12 +286,12 @@ main {
   }
 
 footer {
-    background: linear-gradient(#aed0ec, #e7edef);
-    margin-top: 1px;
+    background: linear-gradient(white, #d3ecf1);
     padding: 1em;
     max-width: 100%;
     color: #284c76;
     text-align: center;
+    font-size: 0.65em;
 }
 
 /* TAB TITLES */
@@ -424,7 +424,7 @@ main tr td:not(:first-of-type) {
 }
 
 td {
-    color: #042A43;
+    color: #284c76;
     padding: 1em;
     /* margin: 0.2em; */
     width: 8.5em;
@@ -487,7 +487,7 @@ table tr:first-of-type td {
 [data-active] {
     border-left: solid 3px #62bc6c;
     border-right: solid 3px #62bc6c;
-    color: #2E6937;
+    color: #62bc6c;
 }
 
 .deviceHeader[data-active] {
@@ -625,8 +625,8 @@ button:active {
 }
 
 button.scary {
-    color: red;
-    border: solid 2px red;
+    color: #e77665;
+    border: solid 2px #e77665;
 }
 
 .select-all-button-wrapper {
@@ -949,7 +949,7 @@ select {
 
 input:focus,
 [data-changed] {
-    border: solid thin red;
+    border: solid thin #e77665;
 }
 
 .boolean-choice-label {
@@ -1065,13 +1065,13 @@ pre {
 
 .script-error-message {
     margin: 1em 0.75em;
-    color: red;
+    color: #e77665;
 }
 
 pre[data-error] {
     margin: 1em 0.75em;
-    border: solid thin red;
-    background-color: #ff8a8a;
+    border: solid thin #e77665;
+    background-color: #cecbcb;
 }
 
 /* Alerts, warnings and popups */
