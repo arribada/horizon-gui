@@ -423,9 +423,9 @@ def tidyUpConfigDirectory(deviceID):
 
     for i in range (len(fileList)): 
         if i >= constants.CONFIG_FILE_NUMBER_TO_KEEP: 
-            print ("delete:" + fileList[i])
-        else:
-            print ("keep:" + fileList[i])
+            # delete older files..
+            os.remove(root + deviceID + "/" +  fileList[i])
+        
 
 
 

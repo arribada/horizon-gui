@@ -122,12 +122,10 @@ horizonSCUTE.registerHook("get_report_fields", getReportFields)
 # read the config for one device
 def readConfig(deviceID):
 
-    if 'config' + str(deviceID) in session:
-        config = session['config' + str(deviceID) ]
-
-    else:
-        config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
-        session['config' + str(deviceID)] = config
+    # always load from device when this is called...  This saves a new local file.
+    config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
+    # pop it into session in case needed later.
+    session['config' + str(deviceID)] = config
 
 
     # get device config
