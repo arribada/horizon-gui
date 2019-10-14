@@ -1,17 +1,3 @@
-<script src="/scute/scute.js"></script>
-<script>
-
-    let localDateTime = formatDateTime(new Date());
-
-    document.getElementById("time-computer").innerHTML = localDateTime;
-    if (localDateTime != '{{headerData.hubDateTime}}') {
-        document.getElementById("clockWarning").innerHTML = "<span class='clockMismatch'>Time Mismatch</span>";
-    }
-
-    document.getElementById("footer-time-computer").innerHTML = localDateTime;
-
-</script>
-
 {% if request.endpoint != "index" %}
 <footer>
     GUI Version: <span class="gui-version">{{headerData.guiVersion}}</span><br />
@@ -22,3 +8,21 @@
     SD Card: {{headerData.hubSDSpace}}<br />
 </footer>
 {% endif %}
+<!-- <script src="/scute/scute.js"></script> -->
+<script src="/static/scute.js"></script>
+<script>
+
+    let localDateTime = formatDateTime(new Date());
+
+
+    document.getElementById("time-computer").innerHTML = localDateTime;
+    if (localDateTime != '{{headerData.hubDateTime}}') {
+        document.getElementById("clockWarning").innerHTML = "<span class='clockMismatch'>Time Mismatch</span>";
+    }
+
+    if(document.getElementById("footer-time-computer")){
+        document.getElementById("footer-time-computer").innerHTML = localDateTime;
+    }
+    
+
+</script>

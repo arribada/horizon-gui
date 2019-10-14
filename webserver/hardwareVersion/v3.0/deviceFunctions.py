@@ -246,17 +246,21 @@ def isConfigAlreadyOnLocal(deviceID):
 
     deviceID = str(deviceID) 
 
-    # if there is a directory in constants.CONFIG_LOCAL_LOAD_LOCATION for this device, get the latest file from it 
-    if not os.path.exists(constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/' ):
+    # if there is a directory in constants.CONFIG_DATA_LOCAL_LOCATION for this device, get the latest file from it 
+    if not os.path.exists(constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/' ):
         return False
 
-    list_of_files = glob.glob(constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/*.' + constants.CONFIG_FILE_EXTENSION) 
+    list_of_files = glob.glob(constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/*.' + constants.CONFIG_FILE_EXTENSION) 
     if not list_of_files: #no files
         return False
 
     latest_file = max(list_of_files, key=os.path.getctime)
 
     logMessage("Using Local config: "+ latest_file )
+
+    # only keep constants.CONFIG_FILE_NUMBER_TO_KEEP different files
+    tidyUpConfigDirectory(deviceID)
+
     return latest_file
 
 
@@ -264,7 +268,7 @@ def downloadDeviceConfigToLocal(deviceID):
 
         deviceID = str(deviceID) 
 
-        myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
+        myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
 
         if not os.path.exists(myConfigDirectory):
 
@@ -301,11 +305,21 @@ def downloadDeviceConfigToLocal(deviceID):
 
 
 def tidyUpConfigDirectory(deviceID):
-    deviceID = str(deviceID) 
-    # TODO
-    #  loop myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
-    # and only keep the latest 10 files...
-    print("TODO tidyUpConfigDirectory")
+
+    deviceID = str(deviceID)
+
+    root = constants.CONFIG_DATA_LOCAL_LOCATION
+
+    fileList = os.listdir(root + deviceID)
+    fileList.sort(reverse=True)
+
+    for i in range (len(fileList)): 
+        if i >= constants.CONFIG_FILE_NUMBER_TO_KEEP: 
+            # delete older files..
+            os.remove(root + deviceID + "/" +  fileList[i])
+        
+
+
 
 
 def saveDeviceConfig(runMode, deviceID, config):
@@ -336,7 +350,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         
         #print(config)
  
-        myConfigDirectory = constants.CONFIG_LOCAL_LOAD_LOCATION + deviceID + '/'
+        myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
         if not os.path.exists(myConfigDirectory):
             os.mkdir(myConfigDirectory)
         currentDT = datetime.datetime.now()
@@ -905,11 +919,6 @@ def logMessage(message):
     if constants.LOGGING_LEVEL == "verbose":
         print(message)
 
-
-def displayVersionID(deviceID):
-
-    ## first and last 5 digits of the full number...
-    return deviceID[:6] + ' - ' + deviceID[-6:]
 
 def setFriendlyName(deviceID):
     # if the device is already known, get its friendly name, otherwise write it to the file,

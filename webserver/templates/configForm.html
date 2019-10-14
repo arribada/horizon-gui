@@ -29,62 +29,29 @@
             {% if fieldSchema.type == "boolean" %}
                 <div class="boolean-field">
             {% endif %}
-            <div class="form-field-top" title="{{ fieldSchema.description }}">
-                {# <span class="icon" title="{{ fieldSchema.description }}">
-                    {% if fieldSchema.description|length > 1 %}
-                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
-                    {% else %}
-                        <div class="no-info"></div>
-                    {% endif %}
-                </span> #}
+            <div class="form-field-top">
+
                 <label for="{{fieldKey}}">{{fieldSchema.label}}
                     {% if fieldSchema.userLocked == true %}
                         (read only)
                     {% endif %}
                 </label>
+                {% if fieldSchema.description|length > 1 %}
+                    <br ><span class="fieldDescription" >{{ fieldSchema.description }}</span>
+                {% endif %}
+     
             </div>
 
             {% if fieldSchema.type == "text" %}
 
-                <!-- {% if fieldSchema.description|length > 1 %}
-                    <span class="icon" title="{{ fieldSchema.description }}">
-                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
-                    </span>
-                {% endif %}
-
-                <label for="{{fieldKey}}">{{fieldSchema.label}}
-                    {% if fieldSchema.userLocked == true %}
-                        (read only)
-                    {% endif %}
-                </label> -->
-                <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+                 <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
 
             {% elif fieldSchema.type == "number" %}
 
-                <!-- {% if fieldSchema.description|length > 1 %}
-                    <span class="icon" title="{{ fieldSchema.description }}">
-                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
-                    </span>
-                {% endif %}
-                <label for="{{fieldKey}}">{{fieldSchema.label}}
-                    {% if fieldSchema.userLocked == true %}
-                        (read only)
-                    {% endif %}
-                </label> -->
-                <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+                 <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
 
             {% elif fieldSchema.type == "select" %}
 
-                <!-- {% if fieldSchema.description|length > 1 %}
-                    <span class="icon" title="{{ fieldSchema.description }}">
-                        <img alt="Info icon" src="/scute/images/info-icon-navy.png">
-                    </span>
-                {% endif %}
-                <label for="{{fieldKey}}">{{fieldSchema.label}}
-                    {% if fieldSchema.userLocked == true %}
-                        (read only)
-                    {% endif %}
-                </label> -->
                 <select id="{{fieldKey}}" name="{{fieldKey}}">
 
                     {% for value,label in fieldSchema.list.items() %}
@@ -98,20 +65,9 @@
 
             {% elif fieldSchema.type == "boolean" %}
 
-                <!-- <div class="boolean-field">
+                {% if "asRadio" in fieldSchema %}
 
-                    {% if fieldSchema.description|length > 1 %}
-                        <span class="icon" title="{{ fieldSchema.description }}">
-                            <img alt="Info icon" src="/scute/images/info-icon-navy.png">
-                        </span>
-                    {% endif %}
-
-                    <label>{{fieldSchema.label}}
-                        {% if fieldSchema.userLocked == true %}
-                            (read only)
-                        {% endif %}
-                    </label> -->
-                    <div class="radio-wrapper">
+                     <div class="radio-wrapper">
                         <div>
                             <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
                             <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if current[fieldKey] == True %} checked {% endif %}/>
@@ -121,9 +77,20 @@
                             <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if current[fieldKey] == False %} checked {% endif %}/>
                         </div>
                     </div>
-                    
+                {% else %}
+
+                <div id="{{fieldKey}}" class="checkbox-wrapper" onclick="checkbox_change(event, '{{fieldKey}}')">
+                        <label class="boolean-choice-label " for="{{fieldKey}}selected">Yes</label>
+                        <input class="checkAsRadio" id="{{fieldKey}}selected" type="checkbox" name="{{fieldKey}}" value="selected" {% if current[fieldKey] == True %} selected {% endif %}/>
+                        <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
+                        <input class="checkAsRadio" id="{{fieldKey}}notselected" type="checkbox" name="{{fieldKey}}" value="notselected" {% if current[fieldKey] == False %} selected {% endif %}/>
                 </div>
-                {% endif %}
+
+                {%endif%}
+                </div>
+                    
+                
+            {% endif %}
 
           </div>
           {% endif %}
@@ -133,7 +100,24 @@
 
 {% endfor %}
 <div class="form-buttons">
-        <button class="featured button" type="submit">Apply</button>
+        <button class="featured button" type="submit" >Apply</button>
         <button class="primary button save-as-preset" name="preset" type="submit">Save as preset</button>
 </div>
     
+<script>
+    function checkbox_change(e, field){
+        e = e || event;
+        var cb = e.srcElement || e.target;
+        if (cb.type !== 'checkbox') {return true;}
+        var cbxs = document.getElementById(field)
+                    .getElementsByTagName('input'), 
+            i    = cbxs.length;
+         while(i--) {
+             if (cbxs[i].type 
+                  && cbxs[i].type == 'checkbox' 
+                  && cbxs[i].id !== cb.id) {
+               cbxs[i].checked = false;
+             }
+         }
+     }
+</script>

@@ -67,6 +67,10 @@
    list-style-type: none;
 }
 
+table{
+    border-spacing: 0px !important;
+}
+
 
 /* MOVE INTO SCUTE */
 
@@ -494,6 +498,7 @@ table tr:first-of-type td {
     border-top: solid 3px #62bc6c;
     border-radius: 0.2em 0.2em 0 0;
     background-color: #d3ecf1;
+    color: #284c76;
 }
 
 .deviceHeader[data-active] .circle {
@@ -511,6 +516,11 @@ table tr:first-of-type td {
     margin: auto;
     left: calc(50% - 0.375em);
     border: solid 3px white;
+}
+
+.fieldDescription{
+    font-size: 0.75em;
+    font-weight: lighter;
 }
 
 
@@ -933,7 +943,8 @@ select {
     margin-bottom: 0.5em;
 }
 
-.radio-wrapper {
+.radio-wrapper,
+.checkbox-wrapper  {
     margin-left: 2em;
 }
 
@@ -959,9 +970,13 @@ input:focus,
 input[type="radio"] {
     width: auto;
 }
+input[type="checkbox"] {
+    width: auto;
+}
 
 input.number-field {
     max-width: 8em;
+    height:2.5em;
 }
 
 .form-body input {
@@ -988,16 +1003,20 @@ textarea[name="paste"] {
     font-family: monospace;
 }
 
-.radio-wrapper {
+.radio-wrapper, 
+.checkbox-wrapper  {
     display: flex;
     flex-direction: column;
 }
+
 
 .boolean-choice-label {
     width: calc(100% - 3em);
 }
 
-.radio-wrapper div {
+.radio-wrapper div 
+.checkbox-wrapper div 
+{
     display: flex;
     margin: 0.5em;
 }

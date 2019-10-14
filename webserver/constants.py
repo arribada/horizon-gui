@@ -21,11 +21,8 @@ NO_TAG_TEXT = "No Device Detected."
 # when not in dummy mode, should we scan for USB devices?
 SCAN_USB= True
 
-# when not in dummy mode, should we scan for Bluetooth devices?
+# Bluetooth is not yet implemented. when not in dummy mode, should we scan for Bluetooth devices?
 SCAN_BLUETOOTH = False
-
-CONFIG_LOCAL_LOAD_LOCATION = "config/" # can separate these if needed...
-CONFIG_LOCAL_SAVE_LOCATION = "config/" 
 
 LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
 

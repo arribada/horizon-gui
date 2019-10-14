@@ -412,7 +412,6 @@ def downloadDeviceConfigToLocal(deviceID):
 
 
 def tidyUpConfigDirectory(deviceID):
-    print("TODO tidyUpConfigDirectory")
 
     deviceID = str(deviceID)
 
@@ -1075,13 +1074,6 @@ def logMessage(message):
     # expand on this later.
     if constants.LOGGING_LEVEL == "verbose":
         print(message)
-
-
-def displayVersionID(deviceID):
-
-    ## first and last 5 digits of the full number...
-    return deviceID[:6] + ' - ' + deviceID[-6:]
-
 
 def setFriendlyName(deviceID):
     # if the device is already known, get its friendly name, otherwise write it to the file,

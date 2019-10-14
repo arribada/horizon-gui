@@ -22,7 +22,6 @@ options = {
         "actionsSchema": "actionsSchema.json",
         "configSchema": "configSchema.json",
         "dataViews": "dataViews.json",
-        "dashboardSchema": "dashboardSchema.json",
         "helpInfo": "helpInformation.json"
     }
 #instantiate SCUTE
@@ -105,15 +104,18 @@ def getReportFields(deviceID):
     # pass in ?force_update to clear the session field
     if len(request.args.getlist("force_update")) != 0:
         session.pop('report_' + str(deviceID), None)
+        print("Clear session report for "+ str(deviceID))
 
     if 'report_' + str(deviceID) in session:
         thisReport = session['report_' + str(deviceID)]
+        print("Load session report for "+ str(deviceID))
 
     else:
         thisReport = deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)  
         session['report_' + str(deviceID)] = thisReport
+        print("Load device report for "+ str(deviceID))
 
-
+    print(thisReport)
     return thisReport        
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)
@@ -124,16 +126,15 @@ def readConfig(deviceID):
 
     # always load from device when this is called...  This saves a new local file.
     config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
+    
     # pop it into session in case needed later.
     session['config' + str(deviceID)] = config
 
-
-    # get device config
+    # make single depth
     config = horizonSCUTE.flattenJSON(config['result'])
 
     config['local.friendlyName'] = deviceFunctions.getFriendlyName(deviceID)
-    config['local.displayVersionID'] = deviceFunctions.displayVersionID(deviceID)
-
+    
     return config
 
 horizonSCUTE.registerHook("read_config", readConfig)

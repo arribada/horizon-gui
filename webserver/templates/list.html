@@ -45,7 +45,7 @@
                     <tr>
                         <td></td>
                         {% for device in reportValues %}
-                            <td data-device="{{device}}" class="deviceHeader">
+                            <td data-device="{{device}}" class="deviceHeader clickSelect">
                                 <span class="circle selected-no"></span>{{reportValues[device].friendlyName}}
                             </td>
                         {% endfor %}
@@ -61,7 +61,7 @@
 
                                 <!-- output the field cell -->
                                 {% for deviceKey,deviceValues in reportValues.items() %}
-                                    <td data-device="{{deviceKey}}">
+                                    <td data-device="{{deviceKey}}"  class="clickSelect">
 
                                         {% if deviceValues[fieldKey] is iterable and deviceValues[fieldKey] is not string %}
 

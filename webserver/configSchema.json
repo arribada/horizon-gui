@@ -29,7 +29,8 @@
 				"excludeFromPresets": true,
 				"userLocked": false,
 				"advanced": false,
-				"jsonType": "boolean"
+				"jsonType": "boolean",
+				"asRadio": true
 			}
 		}
 	},
