@@ -67,9 +67,11 @@
    list-style-type: none;
 }
 
-table{
-    border-spacing: 0px !important;
+#presetOptions{
+    display: none;
 }
+
+
 
 
 /* MOVE INTO SCUTE */

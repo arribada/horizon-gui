@@ -289,6 +289,15 @@ function confirmSubmitConfig (theForm){
 
     return confirm(message);
 
+}
 
+function showHideDiv(targetID){
+
+    var x = document.getElementById(targetID);
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
 
 }

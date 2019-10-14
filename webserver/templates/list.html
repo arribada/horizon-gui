@@ -107,14 +107,15 @@
             <section class="buttons actions">
 
                 <div class="buttons-wrapper">
-                    <select data-action="applyPreset" onchange="triggerAction(event)" data-bulk="true" disabled>
+                    <!-- <select data-action="applyPreset" onchange="triggerAction(event)" data-bulk="true" disabled>
                         <option value=''>Apply Preset</option>
 
                         {% for option in presetValues%}
                             <option value="{{option.value}}">{{option.label}}</option>
                         {% endfor %}                
 
-                    </select>
+                    </select> -->
+                    <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled>Apply Preset</button>
 
                     <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled>Device Config</button>
 
@@ -148,6 +149,11 @@
                     <br/>
 
                 </div>
+                <div class='happy-margin' id="presetOptions"><h2>Presets to Apply</h2>
+                {% for option in presetValues%}
+                    <button onclick="triggerAction(event)" data-action="applyPreset" data-value=""{{option.value}}"">{{option.label}}</button>
+                {% endfor %} </div>
+
 
             </section>
 
