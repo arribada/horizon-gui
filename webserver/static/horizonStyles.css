@@ -69,6 +69,8 @@
 
 #presetOptions{
     display: none;
+    border: 1px solid #6196b7;
+    background-color: white;
 }
 
 
@@ -293,11 +295,13 @@ main {
 
 footer {
     background: linear-gradient(white, #d3ecf1);
+    border: solid 1px #d3ecf1;
     padding: 1em;
     max-width: 100%;
     color: #284c76;
     text-align: center;
     font-size: 0.65em;
+    margin-bottom: 1em;
 }
 
 /* TAB TITLES */

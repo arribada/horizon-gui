@@ -1,113 +1,115 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="main-wrapper happy-margin">
+<div class="main-wrapper happy-margin">
 
-        <section class="main-table-wrapper" toolversion>
-            <div class="table-nav flex top-tail-margin top-tail-padding">
-                <div class="table-nav-left">
-                    <span class="usb-icon inline-block">
-                        <img alt="USB icon" src="/scute/images/usb-icon.png">
-                    </span>
-                    <div class="inline-block navy table-header">
-                        <h2>Device Manager</h2>
-                        
-                    </div>
-                </div>
-                <div class="table-nav-right gray">
-                    <div class="last-loaded key inline-block">
-                        <p class="inline-block light-gray">Last loaded:</p>
-                    </div>
-                    <div class="date value inline-block">
-                        <p class="inline-block">{{ timeLoaded }} <a class='inlineLink' href="/list?force_update=true">Reload</a></p>
-                    </div>
+    <section class="main-table-wrapper" toolversion>
+        <div class="table-nav flex top-tail-margin top-tail-padding">
+            <div class="table-nav-left">
+                <span class="usb-icon inline-block">
+                    <img alt="USB icon" src="/scute/images/usb-icon.png">
+                </span>
+                <div class="inline-block navy table-header">
+                    <h2>Device Manager</h2>
+
                 </div>
             </div>
-
-            {% if reportValues | length > 0 %}
-
-            {% if 'error' in reportValues %}
-
-                <section class="main-table">
-                    <div class="happy-margin no-devices">
-                        <div class="alert error">
-                            <img src="/static/images/invalid_firmware_white.png" width="100px"/>
-                            <h1>{{reportValues.error}}</h1>
-                            {{reportValues.message}}
-                        </div>
-                    </div>
-                </section>
-
-            {%else%}
-
-            <section class="main-table">
-                <table>
-                    <tr>
-                        <td></td>
-                        {% for device in reportValues %}
-                            <td data-device="{{device}}" class="deviceHeader clickSelect">
-                                <span class="circle selected-no"></span>{{reportValues[device].friendlyName}}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <!-- categories in report loop -->
-                    {% for key,category in reportSchema.items() | sort(attribute='1.order') %}
-
-                        <!-- report field loop rows -->
-                        {% for fieldKey,fieldSchema in category.fields.items() | sort(attribute='1.order') %}
-                            <tr>
-
-                                <td>{{fieldSchema.label}}</td>
-
-                                <!-- output the field cell -->
-                                {% for deviceKey,deviceValues in reportValues.items() %}
-                                    <td data-device="{{deviceKey}}"  class="clickSelect">
-
-                                        {% if deviceValues[fieldKey] is iterable and deviceValues[fieldKey] is not string %}
-
-                                            {# Check if list #}
-                                            <ul class='leftAlign'>
-                                                {% for value in deviceValues[fieldKey] %}
-                                                
-                                                <li class='leftAlign'>{{value}}</li>
-                                                
-                                                {% endfor %}
-                                            </ul>
-
-                                        {% else %}
-                                             {{deviceValues[fieldKey] | safe}}
-                                        {% endif %}
-
-                                    </td>
-                                {% endfor %}
-                            </tr>
-
-                        {% endfor %}
-
-                    {% endfor %}
-
-                </table>
-
-            </section>
-            {%endif%}
-            {% else %}
-
-            <section class="main-table">
-                <div class="happy-margin no-devices">
-                    <div class="alert info">
-                        <img src="/static/images/usb-connect-white.png" width="100px"/>
-                        <h1>No configured devices detected.</h1>Please connect a device and <a href="/list">reload the page.</a>
-                    </div>
+            <div class="table-nav-right gray">
+                <div class="last-loaded key inline-block">
+                    <p class="inline-block light-gray">Last loaded:</p>
                 </div>
-            </section>
-            {% endif %}
+                <div class="date value inline-block">
+                    <p class="inline-block">{{ timeLoaded }} <a class='inlineLink'
+                            href="/list?force_update=true">Reload</a></p>
+                </div>
+            </div>
+        </div>
 
-            <div class="divider"></div>
+        {% if reportValues | length > 0 %}
 
-            <section class="buttons actions">
+        {% if 'error' in reportValues %}
 
-                <div class="buttons-wrapper">
-                    <!-- <select data-action="applyPreset" onchange="triggerAction(event)" data-bulk="true" disabled>
+        <section class="main-table">
+            <div class="happy-margin no-devices">
+                <div class="alert error">
+                    <img src="/static/images/invalid_firmware_white.png" width="100px" />
+                    <h1>{{reportValues.error}}</h1>
+                    {{reportValues.message}}
+                </div>
+            </div>
+        </section>
+
+        {%else%}
+
+        <section class="main-table">
+            <table>
+                <tr>
+                    <td></td>
+                    {% for device in reportValues %}
+                    <td data-device="{{device}}" class="deviceHeader clickSelect">
+                        <span class="circle selected-no"></span>{{reportValues[device].friendlyName}}
+                    </td>
+                    {% endfor %}
+                </tr>
+                <!-- categories in report loop -->
+                {% for key,category in reportSchema.items() | sort(attribute='1.order') %}
+
+                <!-- report field loop rows -->
+                {% for fieldKey,fieldSchema in category.fields.items() | sort(attribute='1.order') %}
+                <tr>
+
+                    <td>{{fieldSchema.label}}</td>
+
+                    <!-- output the field cell -->
+                    {% for deviceKey,deviceValues in reportValues.items() %}
+                    <td data-device="{{deviceKey}}" class="clickSelect">
+
+                        {% if deviceValues[fieldKey] is iterable and deviceValues[fieldKey] is not string %}
+
+                        {# Check if list #}
+                        <ul class='leftAlign'>
+                            {% for value in deviceValues[fieldKey] %}
+
+                            <li class='leftAlign'>{{value}}</li>
+
+                            {% endfor %}
+                        </ul>
+
+                        {% else %}
+                        {{deviceValues[fieldKey] | safe}}
+                        {% endif %}
+
+                    </td>
+                    {% endfor %}
+                </tr>
+
+                {% endfor %}
+
+                {% endfor %}
+
+            </table>
+
+        </section>
+        {%endif%}
+        {% else %}
+
+        <section class="main-table">
+            <div class="happy-margin no-devices">
+                <div class="alert info">
+                    <img src="/static/images/usb-connect-white.png" width="100px" />
+                    <h1>No configured devices detected.</h1>Please connect a device and <a href="/list">reload the
+                        page.</a>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <div class="divider"></div>
+
+        <section class="buttons actions">
+
+            <div class="buttons-wrapper">
+                <!-- <select data-action="applyPreset" onchange="triggerAction(event)" data-bulk="true" disabled>
                         <option value=''>Apply Preset</option>
 
                         {% for option in presetValues%}
@@ -115,49 +117,62 @@
                         {% endfor %}                
 
                     </select> -->
-                    <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled>Apply Preset</button>
+                <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled>Apply Preset</button>
 
-                    <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled>Device Config</button>
+                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled>Device
+                    Config</button>
 
-                    {% for key,action in actions.items() %}
+                {% for key,action in actions.items() %}
 
-                        {# Check if list or select #}
+                {# Check if list or select #}
 
-                        {% if action.list %}
+                {% if action.list %}
 
-                            <select onchange="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %} {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>
+                <select onchange="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %}
+                    {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
+                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>
 
-                                <option value="">{{action.label}}</option>
+                    <option value="">{{action.label}}</option>
 
-                                {% for key,value in action.list.items() %}
+                    {% for key,value in action.list.items() %}
 
-                                    <option value="{{value}}">{{key}}</option>
-
-                                {% endfor %}
-
-                            </select>
-
-                        {% else %}
-
-                            <button onclick="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %} {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}  {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %} class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>{{action.label}}</button>
-
-                        {% endif %}
-
+                    <option value="{{value}}">{{key}}</option>
 
                     {% endfor %}
 
-                    <br/>
+                </select>
 
+                {% else %}
+
+                <button onclick="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %}
+                    {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}
+                    {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
+                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}"
+                    disabled>{{action.label}}</button>
+
+                {% endif %}
+
+
+                {% endfor %}
+
+                <br />
+                <div class='happy-margin' id="presetOptions">
+                    <div class='happy-margin'>
+
+                        <h2>Choose a Preset to apply to selected devices</h2>
+                        {% for option in presetValues%}
+                        <button class='notHidden' onclick="triggerAction(event)" data-action="applyPreset"
+                        data-value="{{option.value}}">{{option.label}}</button>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class='happy-margin' id="presetOptions"><h2>Presets to Apply</h2>
-                {% for option in presetValues%}
-                    <button onclick="triggerAction(event)" data-action="applyPreset" data-value=""{{option.value}}"">{{option.label}}</button>
-                {% endfor %} </div>
+            </div>
 
 
-            </section>
 
         </section>
 
-    </div>
+    </section>
+
+</div>
 {% endblock %}

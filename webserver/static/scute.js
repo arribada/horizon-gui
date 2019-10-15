@@ -68,7 +68,9 @@ let populateButtons = function () {
 
             singleActions.forEach(function (element) {
 
-                element.setAttribute("disabled", true);
+                if (!element.classList.contains('notHidden')) {
+                    element.setAttribute("disabled", true);
+                }
 
             });
 
@@ -78,7 +80,9 @@ let populateButtons = function () {
 
         Array.from(document.querySelectorAll(".actions select, .actions button")).forEach(function (element) {
 
-            element.setAttribute("disabled", true);
+            if (!element.classList.contains('notHidden')) {
+                element.setAttribute("disabled", true);
+            }
 
         });
 
@@ -279,25 +283,25 @@ function formatDateTime(date) {
     return year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0') + ' ' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0');
 }
 
-function confirmSubmitConfig (theForm){
+function confirmSubmitConfig(theForm) {
     //alert (theForm);
     lastHubTime = document.getElementById("time-hub").innerHTML;
     deviceIDString = document.getElementById("deviceIDString").innerHTML;
 
-    message = 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: '+ lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
-    
+    message = 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: ' + lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
+
 
     return confirm(message);
 
 }
 
-function showHideDiv(targetID){
+function showHideDiv(targetID) {
 
     var x = document.getElementById(targetID);
-    if (x.style.display === "none") {
-      x.style.display = "block";
+    if (x.style.display === "none" || x.style.display === "") {
+        x.style.display = "block";
     } else {
-      x.style.display = "none";
+        x.style.display = "none";
     }
 
 }

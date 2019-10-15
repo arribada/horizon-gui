@@ -36,7 +36,7 @@ def getIndexData():
         session['activeUser'] = "this user"
         usermessage = {"type": "success",  "message": "OK"}
     else:
-        accessAllowed = False 
+        accessAllowed = True # this needs to be false, but also need specific user check. 
         usermessage = {"type": "error",  "message": "Hub In Use."}
 
     return {"accessAllowed": accessAllowed, "usermessage": usermessage}
