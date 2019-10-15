@@ -20,7 +20,7 @@
                 </div>
                 <div class="date value inline-block">
                     <p class="inline-block">{{ timeLoaded }} <a class='inlineLink'
-                            href="/list?force_update=true">Reload</a></p>
+                            href="/list?force_update=true" title='Reload page and do a scan for devices.'>Reload</a></p>
                 </div>
             </div>
         </div>
@@ -109,17 +109,10 @@
         <section class="buttons actions">
 
             <div class="buttons-wrapper">
-                <!-- <select data-action="applyPreset" onchange="triggerAction(event)" data-bulk="true" disabled>
-                        <option value=''>Apply Preset</option>
+  
+                <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled title='Choose a preset config to apply'>Apply Preset</button>
 
-                        {% for option in presetValues%}
-                            <option value="{{option.value}}">{{option.label}}</option>
-                        {% endfor %}                
-
-                    </select> -->
-                <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled>Apply Preset</button>
-
-                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled>Device
+                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled title='View, edit and download device config.' >Device
                     Config</button>
 
                 {% for key,action in actions.items() %}
@@ -148,7 +141,7 @@
                     {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}
                     {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
                     class="{% if action.warn %} scary {% endif %}" data-action="{{key}}"
-                    disabled>{{action.label}}</button>
+                    disabled {% if action.toolTip %} title="{{action.toolTip}}" {% endif %}  >{{action.label}}</button>
 
                 {% endif %}
 
@@ -159,10 +152,10 @@
                 <div class='happy-margin' id="presetOptions">
                     <div class='happy-margin'>
 
-                        <h2>Choose a Preset to apply to selected devices</h2>
+                        <h2>Choose a Preset to apply to selected device(s)</h2>
                         {% for option in presetValues%}
                         <button class='notHidden' onclick="triggerAction(event)" data-action="applyPreset"
-                        data-value="{{option.value}}">{{option.label}}</button>
+                        data-value="{{option.value}}" title='Apply this preset to the selected device(s)' >{{option.label}}</button>
                         {% endfor %}
                     </div>
                 </div>

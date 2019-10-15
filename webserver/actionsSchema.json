@@ -3,18 +3,21 @@
     "view_log": {
         "label": "Device Logs",
         "order": 3,
-        "bulk": false
+        "bulk": false,
+        "toolTip": "Load, review, download and delete stored logs."
     },
     "erase_log": {
         "bulk": true,
         "warn": true,
         "label": "Erase Log",
-        "userMessage": "Erase log from device?"
+        "userMessage": "Erase log from device?",
+        "toolTip": "Remove log from device."
     },
     "erase_tag": {
         "bulk": false,
         "warn": true,
         "label": "Erase Device",
-        "userMessage": "Erase Device?"
+        "userMessage": "Erase Device?",
+        "toolTip": "Delete all config and log data."
     }
 }

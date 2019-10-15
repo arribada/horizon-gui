@@ -167,7 +167,7 @@ def erase_log():
         else:
                 usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + eraseResponse["result"]  + "  " + createResponse["result"] }
 
-        return render_template("defaultPage.html", title="Erase Log Result", userMessage=usermessage )
+        return render_template("defaultPage.html", title="Erase Log Result", headerData = getHeaderData(), userMessage=usermessage )
 
 
 def scanDirectory(target):
@@ -191,12 +191,12 @@ def scanDirectory(target):
 @app.route('/uploads')
 def uploads():
         # this is on hold for current release
-        return render_template("uploads.html", title="Upload Manager" , gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
+        return render_template("uploads.html", title="Upload Manager" , headerData = getHeaderData(), gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
 
 @app.route('/admin_console')
 def admin_console():
         # this is on hold for current release
-        return render_template("adminConsole.html", title="Admin Console" )
+        return render_template("adminConsole.html", title="Admin Console",headerData = getHeaderData() )
   
 
 def getAlmanacList():
@@ -235,13 +235,7 @@ def gps_almanac():
         else:
                 usermessage = "GPS Almanac Upload failed for " + devices[0] + ". " + response["result"]
 
-        return render_template("defaultPage.html", title="GPS Almanac Upload Result", userMessage=usermessage )
-
-
-    # if request.method == 'POST':
-    #         print(request.args)
-    #         # check for post data and deal with it...
-    #         return render_template("gps_almanac.html", title="GPS Almanac for " + devices[0], device=devices[0], gps_almanacFiles=scanDirectory("upload/gps_almanac"))
+        return render_template("defaultPage.html", title="GPS Almanac Upload Result", headerData = getHeaderData(), userMessage=usermessage )
 
 
 @app.route('/reset_flash')
@@ -255,7 +249,7 @@ def reset_flash():
         else:
                 usermessage = {"type": "error", "message": "Flash failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage )
+        return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage, headerData = getHeaderData() )
 
 
 @app.route('/erase_tag')
@@ -269,7 +263,7 @@ def erase_tag():
         else:
                 usermessage = {"type": "error", "message": "Erase failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("defaultPage.html", title="Erase Device Result", userMessage=usermessage )
+        return render_template("defaultPage.html", title="Erase Device Result", headerData = getHeaderData(), userMessage=usermessage )
 
 
 
@@ -290,7 +284,7 @@ def view_log():
 
         logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
 
-        return render_template("view_log.html", title="Latest Log for " + devices[0], logData=logData, device=devices[0])
+        return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
 
 
 
