@@ -35,6 +35,7 @@
 
   position:absolute;
   background-color: white;
+  border: solid 1px #284c76;
   top:100px;
   left:50%;
   width:400px; 
@@ -43,16 +44,13 @@
 
   padding: 20px;
   text-align: center;
-  font-size: 120%;
+  font-size: 80%;
 
-  -webkit-box-shadow: 0px 0px 10px grey;
-     -moz-box-shadow: 0px 0px 10px grey;
-          box-shadow: 0px 0px 10px grey; 
-       
-  -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-          border-radius: 10px;
  
+}
+
+.noData{
+    margin-top: 3em;
 }
 
 .tinyText{
@@ -1126,21 +1124,27 @@ pre[data-error] {
 
 /* Logs and alalysis */
 
-.analysisBlock.title{
-    width: 100%;
-    background-color: #d3ecf1;
-    color: #2c2f2d;
-  }
-  
+.downloadLogBtn{
+    position: absolute;
+    right: 1.5em;
+    
+   
+}
+
   .logPreview {
   
-    padding:10px; 
+    padding:1em; 
+    color: #6196b7;
     width: 98%; 
     height: 400px; 
     overflow-x: hidden; 
     overflow-x: auto; 
     text-align:justify; 
-    border: 1px solid #2c2f2d;
+    border: 1px solid #284c76;
+    font-family: monospace;
+    margin-bottom: 1em;
+
+
   
   }
   .logPreview textarea {

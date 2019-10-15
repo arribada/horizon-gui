@@ -282,9 +282,26 @@ def view_log():
     print (downloadNew)
     if len(devices) == 1:
 
-        logData =  deviceFunctions.vewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
+        logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
 
         return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
+
+
+
+@app.route('/delete_log')
+def selete_log():
+    devices = request.args.getlist("devices[]")
+    deleteKey = request.args.getlist("key")
+
+    deleteLogResult = deviceFunctions.deleteLogData(constants.LOG_DATA_LOCAL_LOCATION, devices[0], deleteKey)
+
+    if len(devices) == 1:
+
+        logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], False)
+
+        return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
+
+
 
 
 

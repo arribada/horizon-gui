@@ -513,11 +513,11 @@ def getDeviceBattery(runMode, deviceID):
 
 
 
-def receiveTrackerLogData(runMode, deviceID): 
+def receiveTrackerLogData(runMode, deviceID):
 
-    deviceID = str(deviceID) 
+    deviceID = str(deviceID)
 
-    if  runMode == 'dummy':
+    if runMode == 'dummy':
 
         destinationFile = "dummy_data/latest_logfile_" + deviceID + ".json"
 
@@ -526,15 +526,15 @@ def receiveTrackerLogData(runMode, deviceID):
         fileContents = f.read()
         f.close()
 
-        return {"file": destinationFile, "data": fileContents }
+        return {"file": destinationFile, "data": fileContents}
 
     else:
 
-        logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID 
+        logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
         currentDT = datetime.datetime.now()
         currentDateTime = currentDT.strftime("%Y-%m-%d_%H:%M:%S")
         print("receiveTrackerLogData logPath=" + logPath)
-        
+
         if not os.path.exists(logPath):
             os.makedirs(logPath)
             logMessage("Directory Created: " + logPath)
@@ -542,52 +542,56 @@ def receiveTrackerLogData(runMode, deviceID):
         binaryFile = logPath + "/" + currentDateTime + ".bin"
         jsonFile = logPath + "/" + currentDateTime + ".json"
 
-        logMessage("Making call to get " + binaryFile )
+        logMessage("Making call to get " + binaryFile)
 
         # get data off the tag
         try:
-            result1 = subprocess.check_output("sudo " + constants.TRACKER_CONFIG + " --read_log " + binaryFile + " --id " + deviceID ,shell=True,stderr=subprocess.STDOUT)
-            logMessage("Call complete for " + binaryFile )
+            result1 = subprocess.check_output(
+                "sudo " + constants.TRACKER_CONFIG + " --read_log " +
+                binaryFile + " --id " + deviceID,
+                shell=True,
+                stderr=subprocess.STDOUT)
+            logMessage("Call complete for " + binaryFile)
 
         except subprocess.CalledProcessError as e:
-            raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
+            raise RuntimeError(
+                "command '{}' return with error (code {}): {}".format(
+                    e.cmd, e.returncode, e.output))
 
         result1 = result1.split('\n')
-        
-        logMessage("Raw tracker_config binary load result " )
+
+        logMessage("Raw tracker_config binary load result ")
         for row in result1:
             logMessage(row)
 
-        result1Response = result1[len(result1) -1]
+        result1Response = result1[len(result1) - 1]
 
         # convert to json if success...
         if len(result1Response) == 0:
             try:
-                logMessage("Making call to create " + jsonFile )
-                result2 = subprocess.check_output("log_parse --file "+ binaryFile + " > " + jsonFile ,shell=True,stderr=subprocess.STDOUT)
-                logMessage("Call complete for " + jsonFile )
+                logMessage("Making call to create " + jsonFile)
+                result2 = subprocess.check_output(
+                    "log_parse --file " + binaryFile + " > " + jsonFile,
+                    shell=True,
+                    stderr=subprocess.STDOUT)
+                logMessage("Call complete for " + jsonFile)
             except subprocess.CalledProcessError as e:
-                raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-
+                raise RuntimeError(
+                    "command '{}' return with error (code {}): {}".format(
+                        e.cmd, e.returncode, e.output))
 
             result2 = result2.split('\n')
-            
-            logMessage("Raw tracker_config json convert result " )
+
+            logMessage("Raw tracker_config json convert result ")
             for row in result2:
                 logMessage(row)
 
-            result2Response = result2[len(result2) -1]
+            result2Response = result2[len(result2) - 1]
         else:
             return {'error': constants.NO_TAG_TEXT + ' or data error'}
 
-
         if len(result1Response) == 0 and len(result2Response) == 0:
             logMessage("Raw tracker_config log data Received and converted")
-
-            # write the dateTime to the lastLoaded file
-            with open(logPath + "/latest_log.txt" , 'w+') as outfile:
-                outfile.write(currentDateTime)
 
             return {'result': 'currentDateTime'}
         else:
@@ -805,7 +809,7 @@ def eraseDevice(runMode, deviceID):
 
 
 
-def vewLatestLogData(runMode, deviceID, downloadNew):
+def viewLatestLogData(runMode, deviceID, downloadNew):
 
     # force loading of new logs first...
     if downloadNew == "yes":
@@ -844,7 +848,7 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
 def getLogFileListByDate(logPath, deviceID):
 
-    deviceID = str(deviceID) 
+    deviceID = str(deviceID)
 
     if not os.path.exists(logPath):
         return "There are no logs for " + deviceID + ". Please request them."
@@ -855,12 +859,33 @@ def getLogFileListByDate(logPath, deviceID):
 
     for file in pathContent:
         if file != "latest_log.txt":
+
             fileName = file.split(".")
 
+            # add new download dates to output
             if fileName[0] not in tempDict:
                 tempDict[fileName[0]] = {}
-            tempDict[fileName[0]][fileName[1]] = file
-    
+
+            thisFileSize = os.path.getsize(logPath + '/'+ file)
+            if thisFileSize != 0:
+                if thisFileSize < 1000:
+                    thisFileSize = str(thisFileSize) + ' bytes'
+                else:
+
+                    thisFileSize = int(thisFileSize /1000)
+
+                    if thisFileSize > 1000:
+                        thisFileSize = str(int(thisFileSize /1000)) + ' Mb'
+
+                    else:
+                        thisFileSize = str(thisFileSize) + ' Kb'
+            else: 
+                thisFileSize = '0Kb'
+                
+            thisFile = {'fileName': file, 'fileSize': thisFileSize}
+
+            tempDict[fileName[0]][fileName[1]] = thisFile
+
     # converto to ordered list...
     returnFiles = []
     for key in reversed(sorted(tempDict.keys())):

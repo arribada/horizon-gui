@@ -715,10 +715,6 @@ def receiveTrackerLogData(runMode, deviceID):
         if len(result1Response) == 0 and len(result2Response) == 0:
             logMessage("Raw tracker_config log data Received and converted")
 
-            # write the dateTime to the lastLoaded file
-            with open(logPath + "/latest_log.txt", 'w+') as outfile:
-                outfile.write(currentDateTime)
-
             return {'result': 'currentDateTime'}
         else:
             return {'error': constants.NO_TAG_TEXT + ' or data error'}
@@ -945,15 +941,15 @@ def eraseDevice(runMode, deviceID):
                 return {'result': "NotErased"}
 
 
-def vewLatestLogData(runMode, deviceID, downloadNew):
+def viewLatestLogData(runMode, deviceID, downloadNew):
 
     # force loading of new logs first...
     if downloadNew == "yes":
         receiveTrackerLogData(runMode, deviceID)
 
-    # based on the latest loaded log (latest_log.txt), return:
+    # based on the latest loaded log, return:
     #  - log loaded data time
-    #  - list of all logs
+    #  - list of all logs & sizes
     #  - top 50 records of latest log
     #  - log inteligance: how many of what records in the json file...
 
@@ -961,7 +957,7 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
 
     # log might not exist...
     try:
-        latestLogInfo = open(logPath + "/latest_log.txt", "r")
+        latestLogDate = getLatestLogDate(logPath)
     except:
         return {
             "selectedDevice": deviceID,
@@ -973,7 +969,7 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
         }
 
     # this file holds the date time of the last log read time
-    latestLogDate = latestLogInfo.read()
+    #latestLogDate = latestLogInfo.read()
 
     logMessage("Getting info for " + logPath)
 
@@ -996,6 +992,19 @@ def vewLatestLogData(runMode, deviceID, downloadNew):
     }
 
 
+def getLatestLogDate(logPath):
+
+    list_of_files = glob.glob(logPath + '/*') # * means all if need specific format then *.csv
+
+    latest_file = max(list_of_files, key=os.path.getctime)
+
+    # e.g. log_data/4698194515267682328/2019-10-15_11:24:30.json
+
+    fileParts = latest_file.split('/')
+    latest_file = fileParts[2].split('.')
+
+    return latest_file[0]
+
 def getLogFileListByDate(logPath, deviceID):
 
     deviceID = str(deviceID)
@@ -1008,12 +1017,33 @@ def getLogFileListByDate(logPath, deviceID):
     tempDict = {}
 
     for file in pathContent:
-        if file != "latest_log.txt":
-            fileName = file.split(".")
+  
+        fileName = file.split(".")
 
-            if fileName[0] not in tempDict:
-                tempDict[fileName[0]] = {}
-            tempDict[fileName[0]][fileName[1]] = file
+        # add new download dates to output
+        if fileName[0] not in tempDict:
+            tempDict[fileName[0]] = {}
+
+        thisFileSize = os.path.getsize(logPath + '/'+ file)
+
+        if thisFileSize != 0:
+            if thisFileSize < 1000:
+                thisFileSize = str(thisFileSize) + ' bytes'
+            else:
+
+                thisFileSize = int(thisFileSize /1000)
+
+                if thisFileSize > 1000:
+                    thisFileSize = str(int(thisFileSize /1000)) + ' Mb'
+
+                else:
+                    thisFileSize = str(thisFileSize) + ' Kb'
+        else: 
+            thisFileSize = '0Kb'
+
+        thisFile = {'fileName': file, 'fileSize': thisFileSize}
+
+        tempDict[fileName[0]][fileName[1]] = thisFile
 
     # converto to ordered list...
     returnFiles = []
@@ -1021,6 +1051,20 @@ def getLogFileListByDate(logPath, deviceID):
         returnFiles.append({key: tempDict[key]})
 
     return returnFiles
+
+
+def deleteLogData(logRoot, deviceID, logDate):
+
+    logPath = logRoot + deviceID
+    keyToString = ''.join(logDate)
+
+    for fname in os.listdir(logPath):
+        print(fname)
+        if fname.startswith(keyToString):
+
+            os.remove(os.path.join(logPath, fname))
+
+    return True
 
 
 def getFileHead(directory, fileName, count):

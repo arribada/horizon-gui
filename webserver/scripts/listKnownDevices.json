@@ -1,6 +1,6 @@
 {
-    "name": "List Decives known to this PI",
-    "description": "List the decives that have previously connected to this Raspberry Pi",
+    "name": "List Decives known to this Hub",
+    "description": "List the decives that have previously connected to this Hub",
     "commands": [
         {
             "command": "cd config && ls ",

@@ -5,10 +5,9 @@
 
     <section class="main-table-wrapper" toolversion>
         <div class="loadingPopup" id="loadingPopup">
-            <img src="/static/images/loading-turtle.gif" /><br />
-            The Log File is transferring from your device to the Pi.<br>
-            This page will refresh when complete.
-            <br>Please do not click away.
+            <img src="/static/images/loading-blue.svg" /><br />
+            <h2>The Log File is transferring from your device to your Hub.</h2>
+            <br />This page will refresh when complete<br />please do not click away.
         </div>
         <div class="table-nav flex top-tail-margin top-tail-padding">
             <div class="table-nav-left">
@@ -16,17 +15,17 @@
                     <img alt="USB icon" src="/scute/images/usb-icon.png">
                 </span>
                 <div class="inline-block navy table-header">
-                    <h2>Viewing Latest Log Data for {{device}}</h2>
+                    <h2>Log Data for {{device}}</h2>
                 </div>
                 <div>
                     <a onClick="displayLoadingPopup()" href="/view_log?devices[]={{device}}&new=yes"><button
-                            class="downloadLogBtn">Load New Log</button></a>
+                            class="downloadLogBtn" title='Transfer Latest log data from device to Hub'>Import Log</button></a>
 
                 </div>
             </div>
             <div class="table-nav-right gray">
                 <div class="last-loaded key inline-block">
-                    <p class="inline-block light-gray">Log File Loaded:</p>
+                    <p class="inline-block light-gray">Displaying Log imported at </p>
                 </div>
                 <div class="date value inline-block">
                     <p class="inline-block">{{logData.latestLogDateTime}}</p>
@@ -36,27 +35,11 @@
 
         {% if logData.latestLogDateTime | length >0%}
 
-        <section class="happy-margin logData analysis">
-            <div class="inline-block navy">
-                <h1>Log Analysis for {{logData.latestLogDateTime}}</h1>
-            </div>
-            <span class="clearFloat"></span>
 
-            {% for row in logData.logAnalysis %}
-            <div class="analysisBlock">
-                {{ row.name }} ({{ row.count }})<br>
-                First: {{ row.first }}<br>
-                Last: {{ row.last }}<br>
-            </div>
-            {% endfor %}
-            <span class="clearFloat"></span>
-
-        </section>
-        <div class="divider"></div>
         <section class="happy-margin logData fileList">
 
             <div class="inline-block navy table-header">
-                <h2>Available Log Files ({{logData.allLogFiles|length}})</h2>
+                <h3>Available Log Files ({{logData.allLogFiles|length}})</h3>
             </div>
 
             <ul>
@@ -64,11 +47,13 @@
                 {% for logDate in logData.allLogFiles%}
                 <li>
                     {% for key, value in logDate.items() %}
+                    
                     {{key}} - Download: <a class="downloadLink"
-                        href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']}}"
-                        target="_blank">JSON</a> <a class="downloadLink"
-                        href="/download?device={{logData.selectedDevice}}&file={{value['bin']}}"
-                        target="_blank">Binary</a>
+                        href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
+                        target="_blank">JSON({{value['json']['fileSize']}})</a> <a class="downloadLink"
+                        href="/downloadLog?device={{logData.selectedDevice}}&file={{value['bin']['fileName']}}"
+                        target="_blank">Binary({{value['bin']['fileSize']}})</a>
+                        <a class='inlineLink' href="/delete_log?key={{key}}&devices[]={{device}}" title='Delete these logs.'  onclick="return confirm('Delete these Logs?\nOnce deleted, you can will not be able to recover them. ')">Delete</a>
                     {% endfor %}
                 </li>
 
@@ -78,32 +63,49 @@
             </ul>
         </section>
         <div class="divider"></div>
+        <section class="happy-margin logData analysis">
+                <div class="inline-block navy">
+                    <h3>Log Analysis for {{logData.latestLogDateTime}}</h3>
+                </div>
+                <span class="clearFloat"></span>
+    
+                <div class="analysisBlock happy-margin">
+                    <ul>
+                        {% for row in logData.logAnalysis %}
+                            <li>{{ row.name }} ({{ row.count }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <span class="clearFloat"></span>
+    
+            </section>
+            <div class="divider"></div>
         <section class="happy-margin logData logPreviewSection">
             <div class="inline-block navy">
-                <h1>Log Preview (first {{ logData.fileHead|length }} records)</h1>
+                <h3>Log Preview (first {{ logData.fileHead|length }} records)</h3>
             </div>
 
             {% if logData.fileHead|length > 0 %}
-            <div id="logPreview">{% for row in logData.fileHead %}{{ row }}<br>{% endfor %}
-            </div>
+            <div class="logPreview happy-margin">{% for row in logData.fileHead %}{{ row }}<br>{% endfor %}
+            </div><br />
 
             {% else %}
             <div class="happy-margin alert info">
-                No Logging Data.
+                No Log Data.
             </div>&nbsp;
 
             {% endif %}
         </section>
         {% else %}
         <!--  no Log data -->
-        <section class="happy-margin logData noData">
+        <section class="happy-margin logData">
             <div class="happy-margin">
-                <div class="happy-margin">
-                    <div class="happy-margin alert error">
+                <div class="happy-margin"><br><br>
+                    <div class="happy-margin alert info noData">
 
-                        <h2>There is no Log Data downloaded to the PI for device {{ device }}</h2>
+                        <h2>No Log Data has been downloaded to your Hub for device {{ device }}.</h2>  Import Logs using the link above.
 
-                        <br>
+
                     </div>&nbsp;
                 </div>
             </div>
