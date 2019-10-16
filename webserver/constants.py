@@ -28,10 +28,8 @@ LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
 
 CONFIG_DATA_LOCAL_LOCATION = "config/" 
 
-
-# for uploads - TBC
-ALLOWED_EXTENSIONS = set(['txt', 'gif'])
-UPLOAD_FOLDERS =  {"config": "/uploads/config", "firmware": "/uploads/firmware" }
+DOWNLOAD_DATA_LOCATION = "tmp/"
+DOWNLOAD_DATA_FILEPREFIX = "HorizonData"
 
 
 #LOGGING_LEVEL = "none"

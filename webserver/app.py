@@ -8,6 +8,7 @@ import os
 import datetime
 import time
 import imp # for importing from specific locations
+import zipfile
 
 ## project functions
 import constants
@@ -341,6 +342,65 @@ def downloadConfigFile ():
     fileList.sort()
 
     return send_from_directory(root + device, fileList[len(fileList)-1] , as_attachment=True )
+
+
+def getFileNamesForDevice(deviceID):
+
+    # get config from device, get it's filename.
+    deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
+    latestConfigFilename = deviceFunctions.isConfigAlreadyOnLocal(deviceID)
+
+    # get logs from device, construct filenames
+    logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, deviceID, 'yes')
+    logroot = constants.LOG_DATA_LOCAL_LOCATION + deviceID + '/' + logData['latestLogDateTime'].replace(' ', '_')
+
+    deviceReturn = {deviceID: {'config': latestConfigFilename, 'logJson': logroot + '.json', 'logBinary': logroot + '.bin'}}
+    
+    return deviceReturn
+
+
+def makeZip(deviceFilenameArray):
+
+    # the zip file
+    dateTime = deviceFunctions.systemTime(constants.RUNMODE)
+    zipFileName = constants.DOWNLOAD_DATA_LOCATION + constants.DOWNLOAD_DATA_FILEPREFIX + '_' + dateTime.replace(' ', '_') + '.zip'
+
+    # delete existing zip file if any.
+    if os.path.exists(zipFileName):
+        os.remove(zipFileName)
+
+    zipf = zipfile.ZipFile(zipFileName,'w', zipfile.ZIP_DEFLATED)
+
+    for deviceData in deviceFilenameArray:
+
+        thisDevice = deviceData.keys()[0]
+
+        zipf.write(deviceData[thisDevice]['config'])
+        zipf.write(deviceData[thisDevice]['logJson'])
+        zipf.write(deviceData[thisDevice]['logBinary'])
+
+    return zipFileName
+
+
+@app.route('/download_data')
+def downloadDataZip ():
+
+    devices = request.args.getlist("devices[]")
+    if len(devices) == 0:
+        #TODO
+        return "Invalid Device ID"
+
+    # for each device passed in:
+        # pull latest log from device
+        # pull config from device
+        # add to zip output (local temp save?)
+        # return the zip file as download.
+
+    filenamesToZip = map(getFileNamesForDevice, devices)
+
+    zipFilename = makeZip(filenamesToZip)
+
+    return send_from_directory('', zipFilename , as_attachment=True )
 
 
 

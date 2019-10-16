@@ -36,7 +36,7 @@ def systemTime(runMode):
 
         result = result.rstrip()  # trailing new line...
 
-        logMessage("System Date Time recieved: " + result)
+        #logMessage("System Date Time recieved: " + result)
 
     # device with incompatible firmware breaks the call.
     if len(result) == 0:
@@ -67,7 +67,7 @@ def systemIPAddress(runMode):
         result = result.rstrip()  # trailing new line...
         resultArray = result.split()  # on space by default
 
-        logMessage("System IP: " + result)
+        #logMessage("System IP: " + result)
 
         result = resultArray[0]
 

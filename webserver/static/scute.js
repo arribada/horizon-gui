@@ -162,10 +162,25 @@ let triggerAction = function (e) {
         targetURL += "&value=" + value;
 
     }
+    
 
-    if (element.hasAttribute("data-warn")) {
+    if (element.hasAttribute("data-warn") || element.hasAttribute("data-usermessage")) {
 
-        let warning = "Apply " + element.innerHTML + " to " + selectedDevices.toString() + "?";
+        let devicesDisplay = selectedDevices.join(', ');
+
+        let warning = "Run " + element.innerHTML + " for " + devicesDisplay + "?";
+
+        if(element.hasAttribute("data-usermessage")){
+            let message = element.getAttribute("data-usermessage");
+            if (selectedDevices.length === 1){
+                message = message.replace('(s)', '');
+            } else {
+                message = message.replace('(s)', 's');
+            }
+            
+            warning = message + '<br />' +  devicesDisplay; 
+
+        }
 
         showConfirm(warning, targetURL);
 
@@ -193,13 +208,21 @@ let showConfirm = function (warning, targetURL) {
                     <div class="pop-up navy">
                         <p>${warning}</p>
                         <div class="pop-up-buttons">
-                            <button onclick="document.location.href='${targetURL}'">Yes</button>
+                            <button onclick="okClickProcess('${targetURL}')">Yes</button>
                             <button onclick="document.getElementById('popup').outerHTML = ''">No</button>
                         </div>
                     </div>
                 </section>`;
 
     document.querySelector("main").insertAdjacentHTML("afterbegin", popup);
+
+};
+
+let okClickProcess = function (targetURL){
+    console.log(targetURL);
+    // close the poptp this came from and redirect the page
+    document.getElementById('popup').outerHTML = '';
+    document.location.href = targetURL;
 
 };
 
