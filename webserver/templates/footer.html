@@ -17,12 +17,14 @@
 
     document.getElementById("time-computer").innerHTML = localDateTime;
     if (localDateTime != '{{headerData.hubDateTime}}') {
-        document.getElementById("clockWarning").innerHTML = "<span class='clockMismatch'>Time Mismatch</span>";
+        document.getElementById("clockWarning").innerHTML = "<form id='syncClockForm' action='/list' method='post'><input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
+                    <a class='onRight clockMismatch' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
+                    title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form><br />";
     }
 
-    if(document.getElementById("footer-time-computer")){
+    if (document.getElementById("footer-time-computer")) {
         document.getElementById("footer-time-computer").innerHTML = localDateTime;
     }
-    
+
 
 </script>

@@ -82,9 +82,16 @@ horizonSCUTE.registerHook("get_header_data", getHeaderData)
 # get list of currently connected devices
 def getDevices():
 
-    # pass in ?force_update to clear the session field
-    if len(request.args.getlist("force_update")) != 0:
-        session.pop('scanResults', None)
+    if request.method == "POST":
+        # POST pass in force_update to clear the session field to rescan for device changes
+        if 'force_update' in request.form and request.form['force_update'] == 'yes':
+            session.pop('scanResults', None)
+
+        # POST pass in clock_sync to set the hub time to the clock time
+        if 'clock_sync' in request.form:
+            toTime = request.form['clock_sync']
+            deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
+            print("set the clock to " + toTime)
 
     if 'scanResults' in session:
         scanResults = session['scanResults']
@@ -92,7 +99,6 @@ def getDevices():
     else:
         scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
         session['scanResults'] = scanResults
-
 
     return scanResults  
 

@@ -19,6 +19,10 @@
 .leftAlign{
     text-align: left !important;
 }
+.onRight{
+    position: absolute;
+    right: 1.5em;
+}
 
 .inlineLink{
     border: 1px solid #6196b7;
@@ -1127,8 +1131,6 @@ pre[data-error] {
 .downloadLogBtn{
     position: absolute;
     right: 1.5em;
-    
-   
 }
 
   .logPreview {

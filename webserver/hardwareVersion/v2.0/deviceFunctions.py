@@ -1167,3 +1167,26 @@ def readKnownDevivces():
         print('Error reading /knownDevices.json')
 
     return data
+
+def syncHubToTime(runMode, toTime):
+
+    if runMode == 'dummy':
+
+        result = True
+
+    else:
+
+        try:
+
+            result = subprocess.check_output(
+                "sudo date -s '" + toTime + "'", shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(
+                "command '{}' return with error (code {}): {}".format(
+                    e.cmd, e.returncode, e.output))
+
+        result = result.rstrip()  # trailing new line...
+
+    return True
