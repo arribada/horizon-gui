@@ -1,10 +1,10 @@
 {
-    "name": "List Decives known to this Hub",
-    "description": "List the decives that have previously connected to this Hub",
+    "name": "List Known Devices",
+    "description": "List all the devices that have previously connected to this Hub.",
     "commands": [
         {
-            "command": "cd config && ls ",
-            "description": "List contents of device config directory"
+            "command": "cat knownDevices.json",
+            "description": "List the content of the internal file that keeps track of deviceIDs and Friendly names."
         }
     ]
 }
