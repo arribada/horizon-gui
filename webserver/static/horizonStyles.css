@@ -1,9 +1,12 @@
 
-.clockMismatch{
-   background-color: #e77665;
-   padding: 5px;
+.warningButton{
    text-align: center;
-   color: white;
+   background-color: #e3dc98;
+   border: 1px solid #e77665;
+   color: #992717;
+   font-size: 0.75em;
+   padding: 2px 10px 2px 10px;
+   margin: 0px 10px 0px 10px;
 }
 
 .script-item-wrapper{
@@ -31,6 +34,15 @@
     font-size: 0.75em;
     padding: 2px 10px 2px 10px;
     margin: 0px 10px 0px 10px;
+    
+}
+.noUnderline{
+    text-decoration-line: none !important;
+}
+.logFileEntry{
+    display: block;
+    padding:0.2em;
+
 }
 
 .loadingPopup{
@@ -84,6 +96,13 @@
 }
 
 
+.pastePresetArea{
+
+    margin: 1em 0em 1em 0em;
+    height: 10em;
+
+}
+
 
 /* MOVE INTO SCUTE */
 
@@ -130,7 +149,6 @@ h6 {
 
 * {
     max-width: 100%;
-    text-decoration-line: none;
     font-family: 'roboto', sans-serif;
     box-sizing: border-box;
 }
@@ -205,7 +223,7 @@ body {
 
 .icon {
     cursor: pointer;
-    width: 1.5em;
+    height: 2em;
     display: inline-block;
 }
 
@@ -246,6 +264,7 @@ nav .mob-menu {
 nav a {
     font-weight: 500;
     font-size: 1.2em;
+    text-decoration-line: none;
 }
 
 .nav-branding {
@@ -759,7 +778,7 @@ section.presetManager>h1 {
 }
 
 .edit-presets-icons img {
-    width: 1.2em;
+    width: 2em;
 }
 
 .presets-list ul {

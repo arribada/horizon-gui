@@ -162,7 +162,7 @@ def getDeviceReport(runMode, deviceID):
 
             if deviceStatus['result']['charge_level'] == 254:
                 result[
-                    'batteryLevel'] = "<a href='#' title='" + constants.BATTERY_ERROR_TOOLTIP + "'>" + constants.BATTERY_ERROR_TEXT + "</a>"
+                    'batteryLevel'] = "<a class='noUnderline' href='#' title='" + constants.BATTERY_ERROR_TOOLTIP + "'>" + constants.BATTERY_ERROR_TEXT + "</a>"
             else:
                 result['batteryLevel'] = str(
                     deviceStatus['result']['charge_level']) + "%"

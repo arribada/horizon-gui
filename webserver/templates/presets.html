@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main-wrapper happy-margin">
+    <section class="main-table-wrapper">
+    <div class="table-nav top-tail-margin top-tail-padding">   
+    <div class="happy-margin">
+        <h1 class="navy">Preset Manager</h1>
+        <div class="introText happy-margin">Here you can create, edit upload and share Device presets.  <br />Note: these are only applied to devices when selected from the <a class="clickMe" href="/list">Device Manager</a> screen.</div>
+    </div>   
+        <div class='happy-margin'>
+        <div class="presets-manager-wrapper">
+            <div class="presets-manager-list scrolling">
+                <div class="edit-presets-icons">
+                    <span class="icon add-preset" onclick="loadPreset('new')">
+                        <img alt="Add preset" src="scute/images/add-icon.png"/>
+                    </span>
+                    <span class="icon">
+                            <img onclick="uploadPreset()" alt="Upload preset" src="scute/images/upload-icon.png"/>
+                    </span>
+                    <span class="icon toRight">
+                        <img onclick="deletePreset()" alt="Delete preset" src="scute/images/delete-icon.png"/>
+                    </span>
+
+                </div>
+                <div class="presets-list">
+                    <ul>
+                        
+                        {% if presets %}
+                        
+                            {% for preset in presets  %}
+                                <li class="preset-list-item" data-preset-menu="{{preset.presetID}}" onclick="loadPreset('{{ preset.presetID }}')">
+                                    <span class="preset-title navy bold">{{ preset.presetName }}</span><br>
+                                    <span class="description gray">{{ preset.presetDescription }}</span>
+                                </li>
+                            {% endfor %}
+
+                        {% else %}
+
+                        <li>No presets found.</li>
+
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="presets-manager-content">
+                <div class="heading">
+                    <h1 id="presetHeading"></h1>
+                    <span id="presetDate"></span>
+                </div>
+
+                {# Upload new preset #}
+
+                <div class="happy-margin" data-preset="upload" style="display:none;">
+
+                <form method="POST">
+
+                    <p>Paste a preset. The screen will refresh and the preset contents will appear in the form for you to rename / alter. Note, this only accepts files created through this preset manager (flattened JSON) not raw config files from a device.</p>
+
+                    <textarea class="pastePresetArea" name="paste"></textarea><br />
+
+                    <button type="button">Save</button>
+
+                </form>
+
+                </div>
+
+                {# New preset form #}
+                <div data-preset="new">
+                    
+                    <h1>New Preset</h1>
+
+                    {% with current = current %}
+                        {% include "presetForm.html" %}
+                    {% endwith %}
+
+                </div>
+
+                {# Existing preset forms #}
+                {% for preset in presets %}
+                <div data-preset="{{preset.presetID}}" style="display:none">
+                    <h1>{{preset.presetID}}</h1>
+                    {% with current = preset %}
+                    {% include "presetForm.html" %}
+                    {% endwith %}
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        </div>
+        <br />
+    </div>
+    </section>
+</div>
+{% endblock %}
