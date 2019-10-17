@@ -155,8 +155,8 @@
 
                         <h2>Choose a Preset to apply to selected device(s)</h2>
                         {% for option in presetValues%}
-                        <button class='notHidden' onclick="triggerAction(event)" data-action="applyPreset"
-                        data-value="{{option.value}}" title='Apply this preset to the selected device(s)' >{{option.label}}</button>
+                        <button class='actionButton notHidden' onclick="triggerAction(event)" data-action="applyPreset"
+                        value="{{option.value}}" title='Apply this preset to the selected device(s)' >{{option.label}}</button>
                         {% endfor %}
                     </div>
                 </div>

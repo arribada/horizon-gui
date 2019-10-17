@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-wrapper">
+
+    <section class="white-background  happy-margin table-nav">
+        <div class="happy-margin">
+            <span class="happy-margin">
+                {% set presetToApply = preset.split('.') %}
+
+                <h1>Applying preset '{{presetToApply[0]}}' to 
+                    {% for device in devices%}
+                    {{device}}&nbsp;
+                    {%endfor%}
+                </h1>
+                
+                <p>You can adjust the preset below if required. Hit save to apply the settings to the device(s)</p>
+            </span>
+
+            <form data-preset class="form-body" id="configForm" method="post">
+                {% include "configForm.html" %}
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock %}

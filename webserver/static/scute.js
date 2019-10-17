@@ -130,7 +130,8 @@ let triggerAction = function (e) {
 
     let value;
 
-    if (element.tagName.toLowerCase() === "select") {
+    // if (element.tagName.toLowerCase() === "select") {  // no longer a select..
+    if (element.classList.contains('actionButton')){
 
         value = element.value;
 
