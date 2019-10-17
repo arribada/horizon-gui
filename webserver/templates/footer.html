@@ -17,7 +17,9 @@
 
     document.getElementById("time-computer").innerHTML = localDateTime;
     if (localDateTime != '{{headerData.hubDateTime}}') {
-        document.getElementById("clockWarning").innerHTML = "<form id='syncClockForm' action='/list' method='post'><input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
+        document.getElementById("clockWarning").innerHTML = "<form id='syncClockForm' action='/sync_clock'> \
+                    <input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
+                    <input type='hidden' name='passTo' value='{{ url_for(request.endpoint) }}' /> \
                     <a class='onRight clockMismatch' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
                     title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form><br />";
     }

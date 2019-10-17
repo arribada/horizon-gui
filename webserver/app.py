@@ -48,6 +48,12 @@ horizonSCUTE.registerHook("get_index_data", getIndexData)
 
 def getHeaderData():
 
+    # user message?
+    if 'userMessage'  in session:
+        userMessage = session['userMessage']
+        session.pop('userMessage')
+    else:
+        userMessage = False
 
     # load from session if avaiable.
     if 'systemIPAddress'  in session:
@@ -74,7 +80,8 @@ def getHeaderData():
         "hubDateTime": hubDateTime,
         "systemIPAddress": systemIPAddress,
         "hubSDSpace": hubSDSpace,
-        "timestamp": time.time()}
+        "timestamp": time.time(),
+        "userMessage": userMessage}
 
 horizonSCUTE.registerHook("get_header_data", getHeaderData)
 
@@ -86,12 +93,6 @@ def getDevices():
         # POST pass in force_update to clear the session field to rescan for device changes
         if 'force_update' in request.form and request.form['force_update'] == 'yes':
             session.pop('scanResults', None)
-
-        # POST pass in clock_sync to set the hub time to the clock time
-        if 'clock_sync' in request.form:
-            toTime = request.form['clock_sync']
-            deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
-            print("set the clock to " + toTime)
 
     if 'scanResults' in session:
         scanResults = session['scanResults']
@@ -312,7 +313,7 @@ def selete_log():
 
 
 
-# andle export requests - either for one device or multiple.
+# handle export requests - either for one device or multiple.
 @app.route('/request_log')
 def request_log():
     devices = request.args.getlist("devices[]")
@@ -407,6 +408,21 @@ def downloadDataZip ():
     zipFilename = makeZip(filenamesToZip)
 
     return send_from_directory('', zipFilename , as_attachment=True )
+
+
+@app.route('/sync_clock')
+def syncClock():
+        
+    toTime = request.args.getlist('clock_sync')[0]
+    passTo = request.args.getlist('passTo')[0]
+    print("set the clock to " + toTime + ' ' + passTo)
+    deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
+
+    # set user message
+    session['userMessage'] = {"type": 'info', "message": "Hub clock updated to "+toTime }
+    
+    return redirect(passTo)
+
 
 
 

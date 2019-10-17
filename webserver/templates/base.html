@@ -18,6 +18,9 @@
     </header>
 
     <main>
+    {% if headerData.userMessage %}
+        <div class='userMessage alert {{headerData.userMessage.type}}'>{{headerData.userMessage.message}}</div>
+    {%endif%}
     
     {% block content %}{% endblock %}
 
