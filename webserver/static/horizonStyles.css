@@ -797,7 +797,7 @@ section.presetManager>h1 {
 }
 
 .preset-list-item:hover {
-    background-color: #284c76;
+    background-color: #d3ecf1;
 }
 
 /* SCRIPTS */ 
@@ -813,7 +813,7 @@ section.presetManager>h1 {
 
 
 [data-preset-menu][data-selected] {
-    background-color: #62bc6c;
+    background-color: #a4ceee;
 }
 
 @media screen and (max-width: 600px) {
