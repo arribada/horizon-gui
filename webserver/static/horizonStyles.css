@@ -80,6 +80,7 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    display: block;
 }
 
 
@@ -1121,17 +1122,20 @@ pre[data-error] {
 .alert.success {
     background-color: #c9f5cf;
     border: 1px solid#62bc6c;
+    color: #317137;
     }
 
 .alert.error {
     background-color: #e3dc98;
     border: 1px solid #e77665;
+    color: #992717;
 
 }
 
 .alert.info {
     background-color: #6196b7;
     border: 1px solid #284c76;
+    color: white;
 }
 
 /* Logs and alalysis */
