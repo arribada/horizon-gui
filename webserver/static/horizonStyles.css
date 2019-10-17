@@ -75,6 +75,12 @@
     background-color: white;
 }
 
+.userMessage{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 
 
 
@@ -1107,18 +1113,20 @@ pre[data-error] {
     padding: 1em;
     display: block;
     background-color: #a4ceee;
-    color: white;
-    margin-bottom: 15px;
+    color: #284c76;
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
 
 .alert.success {
-    background-color: #62bc6c;
-    border: 1px solid#284c76;
-}
+    background-color: #c9f5cf;
+    border: 1px solid#62bc6c;
+    }
 
 .alert.error {
     background-color: #e3dc98;
     border: 1px solid #e77665;
+
 }
 
 .alert.info {

@@ -48,6 +48,9 @@ horizonSCUTE.registerHook("get_index_data", getIndexData)
 
 def getHeaderData():
 
+    # recoed this user action
+    recordUserAction()
+
     # user message?
     if 'userMessage'  in session:
         userMessage = session['userMessage']
@@ -70,7 +73,6 @@ def getHeaderData():
         hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE) 
         session['hubSDSpace'] = hubSDSpace
 
-
     hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
      
 
@@ -84,6 +86,24 @@ def getHeaderData():
         "userMessage": userMessage}
 
 horizonSCUTE.registerHook("get_header_data", getHeaderData)
+
+
+def recordUserAction():
+    thisAction = {
+        "path": request.path,
+        "method": request.method,
+        "fullUrl": request.url
+    }
+    if 'userActions' not in session:
+        session['userActions'] = []
+
+    currentActions = session['userActions']
+    currentActions.append(thisAction)
+
+    session['userActions'] = currentActions
+
+    return
+    
 
 
 # get list of currently connected devices
@@ -419,11 +439,17 @@ def syncClock():
     deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
 
     # set user message
-    session['userMessage'] = {"type": 'info', "message": "Hub clock updated to "+toTime }
+    session['userMessage'] = {"type": 'success', "message": "Hub clock updated to "+toTime }
     
     return redirect(passTo)
 
+@app.route('/my_actions')
+def userActions():
 
+    if 'userActions' in session:
+        return json.dumps(session['userActions'])
+    else: 
+        return 'None'
 
 
 if __name__ == "__main__":
