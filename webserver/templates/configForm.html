@@ -19,6 +19,7 @@
                 
         <input id="{{fieldKey}}" class="text-field" type="hidden" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
         {% else %}
+        {{fieldSchema}}
 
         <div class="form-field happy-margin" >
            

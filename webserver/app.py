@@ -177,6 +177,8 @@ def saveConfig(deviceID, config):
 
     deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
 
+    session['userMessage'] = {"type": 'success', "message": "Config Saved for " + str(deviceID)}
+
     # remove config from session, so it needs loading again.
     session.pop('config' + str(deviceID), None)
 
@@ -313,6 +315,9 @@ def view_log():
 
         logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
 
+        if downloadNew == 'yes':
+            session['userMessage'] = {"type": 'info', "message": "Log Imported"}
+
         return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
 
 
@@ -327,22 +332,10 @@ def selete_log():
     if len(devices) == 1:
 
         logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], False)
+        session['userMessage'] = {"type": 'info', "message": "Log Deleted: " + str(deleteKey[0])}
 
         return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
 
-
-
-
-
-# handle export requests - either for one device or multiple.
-@app.route('/request_log')
-def request_log():
-    devices = request.args.getlist("devices[]")
-    if len(devices) == 1:
-        return deviceFunctions.receiveTrackerLogData(constants.RUNMODE, devices[0])
-    else:
-        #TODO
-        return "<h1>Functionality to be confirmed for multiple exports.</h1>"
 
 
 @app.route('/downloadLog')

@@ -30,7 +30,8 @@
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
-				"asRadio": true
+				"asRadio": true,
+				"default": false
 			}
 		}
 	},
@@ -319,7 +320,8 @@
 				"userLocked": true,
 				"advanced": true,
 				"jsonType": "boolean",
-				"hidden": true
+				"hidden": true,
+				"default": 0
 			},
 			"logging.dateTimeStampEnable": {
 				"label": "Date Time Log Enable",
