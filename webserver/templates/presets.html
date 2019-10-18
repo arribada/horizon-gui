@@ -80,6 +80,7 @@
                 {# Existing preset forms #}
                 {% for preset in presets %}
                 <div data-preset="{{preset.presetID}}" style="display:none">
+                    <a  class='onRight inlineLink noUnderline' href="/download_file?type=preset&file={{preset.presetID}}" title='Download and this preset. Make sure you save any changes first.'>Download</a>
                     <h1>{{preset.presetID}}</h1>
                     {% with current = preset %}
                     {% include "presetForm.html" %}

@@ -133,6 +133,8 @@ def getReportFields(deviceID):
     if len(request.args.getlist("force_update")) != 0:
         session.pop('report_' + str(deviceID), None)
         print("Clear session report for "+ str(deviceID))
+        session['userMessage'] = {"type": 'info', "message": "Device Scan Complete." }
+   
 
     if 'report_' + str(deviceID) in session:
         thisReport = session['report_' + str(deviceID)]
@@ -143,7 +145,6 @@ def getReportFields(deviceID):
         session['report_' + str(deviceID)] = thisReport
         print("Load device report for "+ str(deviceID))
 
-    print(thisReport)
     return thisReport        
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)
@@ -351,6 +352,30 @@ def downloadLogFile ():
     root = constants.LOG_DATA_LOCAL_LOCATION
 
     return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+
+@app.route('/download_file')
+def downloadFile ():  
+    # this can be extended for other file types.
+    # don't allow full file specificaiton
+    
+    allowedTypes = ['preset']
+
+    fileName = request.args.getlist("file")[0]
+    fileType = request.args.getlist("type")[0]
+
+
+    if fileType in allowedTypes:
+        if fileType == 'preset':
+            fileLocation = "presets/" + fileName + '.json'
+
+            return send_from_directory('', fileLocation , as_attachment=True, attachment_filename=fileName+'.preset.json' )
+    
+    # still here?  error.
+    session['userMessage'] = {"type": 'error', "message": "User tried to download invalid file." }
+    
+    return redirect('list')
+    
+
 
 @app.route('/download_config')
 def downloadConfigFile ():

@@ -224,6 +224,7 @@ body {
 .icon {
     cursor: pointer;
     height: 2em;
+    width: 2em;
     display: inline-block;
 }
 
@@ -789,7 +790,7 @@ section.presetManager>h1 {
 
 .presets-list ul li {
     border-top: solid thin #284c76;
-    padding: 2em 1em;
+    padding: 1em;
 }
 
 .preset-title {

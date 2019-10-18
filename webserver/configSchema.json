@@ -26,7 +26,7 @@
 				"label": "Enable Battery Log",
 				"description": "Whether or not to log the current battery level",
 				"type": "boolean",
-				"excludeFromPresets": true,
+				"excludeFromPresets": false,
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",

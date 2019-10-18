@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="main-wrapper">
+<div class="main-wrapper happy-margin">
 
     <section class="white-background  happy-margin table-nav">
         <div class="happy-margin">
@@ -17,8 +17,15 @@
             </span>
 
             <form data-preset class="form-body" id="configForm" method="post">
+                <div class="form-buttons">
+                    <button class="featured button" type="submit">Apply</button>
+                </div>
                 {% include "configForm.html" %}
+                <div class="form-buttons">
+                    <button class="featured button" type="submit">Apply</button>
+                </div>                
             </form>
+            <br />
         </div>
     </section>
 </div>
