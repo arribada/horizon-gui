@@ -31,7 +31,7 @@
 				"advanced": false,
 				"jsonType": "boolean",
 				"asRadio": true,
-				"default": false
+				"default": "off"
 			}
 		}
 	},
@@ -162,7 +162,7 @@
 				"type": "boolean",
 				"description": "Enable GPS logging",
 				"order": 2,
-				"default": true,
+				"default": "on",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean"
@@ -172,7 +172,7 @@
 				"type": "boolean",
 				"description": "Enable logging time to first fix",
 				"order": 3,
-				"default": true,
+				"default": "on",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean"
@@ -183,7 +183,7 @@
 				"description": "Enable logging GPS debug events",
 				"order": 4,
 				"excludeFromPresets": false,
-				"default": false,
+				"default": "off",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean"
@@ -279,7 +279,7 @@
 				"description": "Global logging enable/disable",
 				"excludeFromPresets": true,
 				"order": 1,
-				"default": true,
+				"default": "on",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
@@ -329,7 +329,7 @@
 				"description": "Log the date/time",
 				"excludeFromPresets": false,
 				"order": 8,
-				"default": true,
+				"default": "on",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
@@ -348,7 +348,7 @@
 				"description": "Log enable/disable of saltwater switch submerged and surfaced event transitions",
 				"order": 1,
 				"excludeFromPresets": false,
-				"default": false,
+				"default": "off",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean"
@@ -466,7 +466,7 @@
 				"description": "Enable/disable logging of BLUETOOTH_xxx log messages",
 				"order": 9,
 				"excludeFromPresets": false,
-				"default": false,
+				"default": "off",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
@@ -498,7 +498,7 @@
 				"description": "Enable accelerometer logging",
 				"order": 2,
 				"excludeFromPresets": false,
-				"default": false,
+				"default": "off",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
@@ -581,7 +581,7 @@
 				"description": "Enable pressure sensor logging",
 				"order": 1,
 				"excludeFromPresets": false,
-				"default": false,
+				"default": "off",
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean"

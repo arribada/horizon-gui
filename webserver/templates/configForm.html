@@ -19,7 +19,12 @@
                 
         <input id="{{fieldKey}}" class="text-field" type="hidden" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
         {% else %}
-        {{fieldSchema}}
+
+        {% if not current[fieldKey] %}
+            {% set theValue = fieldSchema.default %}
+        {%else%}
+            {% set theValue = current[fieldKey]  %}
+        {%endif%}
 
         <div class="form-field happy-margin" >
            
@@ -41,11 +46,11 @@
 
             {% if fieldSchema.type == "text" %}
 
-                 <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+                 <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{theValue}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
 
             {% elif fieldSchema.type == "number" %}
 
-                 <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+                 <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{theValue}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
 
             {% elif fieldSchema.type == "select" %}
 
@@ -53,7 +58,7 @@
 
                     {% for value,label in fieldSchema.list.items() %}
 
-                        <option {% if current[fieldKey] == value %} selected="selected" {% endif %} value="{{value}}">
+                        <option {% if theValue == value %} selected="selected" {% endif %} value="{{value}}">
                             {{label}}</option>
 
                     {% endfor %}
@@ -67,20 +72,20 @@
                      <div class="radio-wrapper">
                         <div>
                             <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
-                            <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if current[fieldKey] == True %} checked {% endif %}/>
+                            <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if theValue == 'on' %} checked {% endif %}/>
                         </div>
                         <div>
                             <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
-                            <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if current[fieldKey] == False %} checked {% endif %}/>
+                            <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if theValue == 'off' %} checked {% endif %}/>
                         </div>
                     </div>
                 {% else %}
 
                 <div id="{{fieldKey}}" class="checkbox-wrapper" onclick="checkbox_change(event, '{{fieldKey}}')">
                         <label class="boolean-choice-label " for="{{fieldKey}}selected">Yes</label>
-                        <input class="checkAsRadio" id="{{fieldKey}}selected" type="checkbox" name="{{fieldKey}}" value="selected" {% if current[fieldKey] == True %} selected {% endif %}/>
+                        <input class="checkAsRadio" id="{{fieldKey}}selected" type="checkbox" name="{{fieldKey}}" value="selected" {% if theValue == 'on' %} checked {% endif %}/>
                         <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
-                        <input class="checkAsRadio" id="{{fieldKey}}notselected" type="checkbox" name="{{fieldKey}}" value="notselected" {% if current[fieldKey] == False %} selected {% endif %}/>
+                        <input class="checkAsRadio" id="{{fieldKey}}notselected" type="checkbox" name="{{fieldKey}}" value="notselected" {% if theValue == 'off' %} checked {% endif %}/>
                 </div>
 
                 {%endif%}
