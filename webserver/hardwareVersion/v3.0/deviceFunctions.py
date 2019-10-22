@@ -450,19 +450,24 @@ def correctJsonTypesInConfig(config):
                             result[categoryName][splitFieldName[1]] = fieldData["default"]  
 
 
-                elif fieldData['jsonType'] == "boolean": 
+                elif fieldData['jsonType'] == "boolean":
 
-                    if config[categoryName][splitFieldName[1]] == True:
+                    print(config[categoryName][splitFieldName[1]])
 
-                        result[categoryName][splitFieldName[1]] = True 
+                    if config[categoryName][splitFieldName[1]] == 'on':
 
-                    elif config[categoryName][splitFieldName[1]] == False:
+                        result[categoryName][splitFieldName[1]] = True
 
-                        result[categoryName][splitFieldName[1]] = False 
-                    else:                                
+                    elif config[categoryName][splitFieldName[1]] == 'off':
+
+                        result[categoryName][splitFieldName[1]] = False
+                    else:
                         # default?
                         if "default" in fieldData:
-                            result[categoryName][splitFieldName[1]] = fieldData["default"]  
+                            if fieldData["default"] == 'on':
+                                result[categoryName][splitFieldName[1]] = True
+                            else:
+                                result[categoryName][splitFieldName[1]] = False
 
             else:
                 logMessage(categoryName + " > " + splitFieldName[1] + " in configSchema.json, but not in config sent")

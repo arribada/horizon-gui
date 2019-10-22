@@ -466,7 +466,6 @@ def saveDeviceConfig(runMode, deviceID, config):
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
-        #print(config)
 
         # save this config locally
         with open(newConfigFileName, 'w+') as outfile:
@@ -484,7 +483,6 @@ def saveDeviceConfig(runMode, deviceID, config):
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
-        # result = 'Connecting to device at index 0\n'
         result = result.split('\n')
 
         logMessage("Raw tracker_config data save result ")
@@ -494,7 +492,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         resultResponse = result[len(result) - 1]
 
         # some error...
-        if len(resultResponse) != 0:
+        if len(resultResponse) != 0 or result[0].startswith("Unexpected error:"):
             # error could mean malformed local config file for this device... remove it
             os.remove(newConfigFileName)
             return {'error': result[0]}
@@ -519,7 +517,7 @@ def correctJsonTypesInConfig(config):
     for categoryName, categoryData in masterSchema.items():
 
         if "hasSubLevel" in categoryData:
-            #  skip for now - will need to cone back to this.  See gps.lastKnownPosition in config.
+            #  skip for now - will need to come back to this.  See gps.lastKnownPosition in config.
             continue
 
         for fieldName, fieldData in categoryData['fields'].items():
@@ -534,9 +532,8 @@ def correctJsonTypesInConfig(config):
 
                 if categoryName not in result:
                     result[categoryName] = {}
-
-                if 'jsonType' not in fieldData or fieldData[
-                        'jsonType'] == "text":
+ 
+                if 'jsonType' not in fieldData or fieldData['jsonType'] == "text":
                     if len(config[categoryName][splitFieldName[1]]) != 0:
 
                         result[categoryName][
@@ -572,19 +569,25 @@ def correctJsonTypesInConfig(config):
 
                 elif fieldData['jsonType'] == "boolean":
 
-                    if config[categoryName][splitFieldName[1]] == True:
-
+                    if config[categoryName][splitFieldName[1]] == 'True':
                         result[categoryName][splitFieldName[1]] = True
 
-                    elif config[categoryName][splitFieldName[1]] == False:
-
+                    elif config[categoryName][splitFieldName[1]] == 'False':
                         result[categoryName][splitFieldName[1]] = False
-                    else:
+
+                    elif config[categoryName][splitFieldName[1]] == None:
                         # default?
                         if "default" in fieldData:
-                            result[categoryName][
-                                splitFieldName[1]] = fieldData["default"]
+                            if fieldData["default"] == True:
+                                result[categoryName][splitFieldName[1]] = True
+                            else:
+                                result[categoryName][splitFieldName[1]] = False
+                    else:
+                        # its a boolean value!!
+                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]] 
 
+                    
+                    
             else:
                 logMessage(categoryName + " > " + splitFieldName[1] +
                            " in configSchema.json, but not in config sent")

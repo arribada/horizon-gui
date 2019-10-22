@@ -15,16 +15,20 @@
 
     let localDateTime = formatDateTime(new Date());
     let thisEndpoint = '{{request.endpoint}}'
-    if (thisEndpoint === 'script'){ // firward this back to the main script page.  
+    // CLOCK UPDATE: forward this back to specific page.  
+    if (thisEndpoint === 'script'){ 
         thisEndpoint = 'scripts'
+    }
+    if (thisEndpoint === 'view_log'){ 
+        thisEndpoint = 'list'
     }
 
     if (localDateTime != '{{headerData.hubDateTime}}') {
         document.getElementById("clockWarning").innerHTML = "<form id='syncClockForm' action='/sync_clock'> \
                     <input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
                     <input type='hidden' name='passTo' value='" + thisEndpoint + "' /> \
-                    <a class='onRight warningButton' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
-                    title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form><br />";
+                    <a class='warningButton noUnderLine' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
+                    title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form>";
     }
 
 

@@ -1,9 +1,9 @@
 
 .warningButton{
    text-align: center;
-   background-color: #e3dc98;
-   border: 1px solid #e77665;
-   color: #992717;
+   background-color: #d03620;
+   border: 1px solid #992717;
+   color: white !important;
    font-size: 0.75em;
    padding: 2px 10px 2px 10px;
    margin: 0px 10px 0px 10px;
@@ -75,7 +75,7 @@
 .system-info{
    float: right;
    text-align: right;
-   font-size: 0.6em;
+   font-size: 0.7em;
 }
 .system-info ul{
    list-style-type: none;

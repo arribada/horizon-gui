@@ -308,7 +308,7 @@ function formatDateTime(date) {
 }
 
 function confirmSubmitConfig(theForm) {
-    //alert (theForm);
+    
     lastHubTime = document.getElementById("time-hub").innerHTML;
     deviceIDString = document.getElementById("deviceIDString").innerHTML;
 
