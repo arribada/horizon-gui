@@ -8,6 +8,7 @@
             <img src="/static/images/loading-blue.svg" /><br />
             <h2>The Log File is transferring from your device to your Hub.</h2>
             <br />This page will refresh when complete<br />please do not click away.
+            <br /><br />Note: The date/time in the log filename is the current Hub time.
         </div>
         <div class="table-nav flex top-tail-margin top-tail-padding">
             <div class="table-nav-left">
@@ -39,10 +40,11 @@
         <section class="happy-margin logData fileList">
 
             <div class="inline-block navy table-header">
-                <h3>Available Log Files ({{logData.allLogFiles|length}})</h3>
+                <h3>Available Log Imports ({{logData.allLogFiles|length}})</h3>
             </div>
 
             <div class="logFileList happy-margin">
+                <span class="logFileEntry" style="text-decoration: underline;">Log Import Date/Time</span>
 
                 {% for logDate in logData.allLogFiles%}
                 
