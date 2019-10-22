@@ -114,6 +114,8 @@ def getDevices():
         if 'force_update' in request.form and request.form['force_update'] == 'yes':
             session.pop('scanResults', None)
 
+            session['userMessage'] = {"type": 'success', "message": "Device Scan Complete"}
+
     if 'scanResults' in session:
         scanResults = session['scanResults']
 
