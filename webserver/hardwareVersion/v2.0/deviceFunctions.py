@@ -265,7 +265,8 @@ def trackerConfigVesion(runMode):
     if result.startswith('Unexpected error'):
         return 'Error - unexpected error.'
     else:
-        return result
+        versionParts = result.split(' ') 
+        return versionParts[1]
 
 
 def getDeviceStatus(runMode, deviceID):

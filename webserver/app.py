@@ -73,12 +73,22 @@ def getHeaderData():
         hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE) 
         session['hubSDSpace'] = hubSDSpace
 
+
+    # load from session if avaiable.
+    if 'toolsVersion'  in session:
+        toolsVersion = session['toolsVersion']
+
+    else:
+        toolsVersion = deviceFunctions.trackerConfigVesion(constants.RUNMODE) 
+        session['toolsVersion'] = toolsVersion
+
     hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
      
 
     return {
         "guiVersion": constants.GUI_VERSION,
         "hardwareVersion": constants.DEVICE_HARDWARE_VERSION,
+        "toolsVersion": toolsVersion,
         "hubDateTime": hubDateTime,
         "systemIPAddress": systemIPAddress,
         "hubSDSpace": hubSDSpace,
