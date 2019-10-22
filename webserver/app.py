@@ -135,7 +135,7 @@ def getReportFields(deviceID):
     if len(request.args.getlist("force_update")) != 0:
         session.pop('report_' + str(deviceID), None)
         print("Clear session report for "+ str(deviceID))
-        session['userMessage'] = {"type": 'info', "message": "Device Scan Complete." }
+
    
 
     if 'report_' + str(deviceID) in session:
@@ -193,19 +193,44 @@ def saveConfig(deviceID, config):
 horizonSCUTE.registerHook("save_config", saveConfig)
 
 
+def deleteAndReplaceLog(deviceID):
+    print(deviceID)
+
+    eraseResponse = deviceFunctions.eraseLog(constants.RUNMODE, deviceID)
+    createResponse = deviceFunctions.createLog(constants.RUNMODE, deviceID)
+
+    if eraseResponse["result"] == "erased" and createResponse["result"] == "created" :
+        return str(deviceID) + " - Log erased and replaced with empty log. "
+
+    response = str(deviceID) + " - "
+    
+    if eraseResponse["result"] != "erased":
+        response += "Log erase failed. "
+    
+    if createResponse["result"] != "created":
+        response += "Log create failed. "
+
+    return response
+
+
 @app.route('/erase_log')
 def erase_log():
     devices = request.args.getlist("devices[]")
-    if len(devices) == 1:
-        eraseResponse = deviceFunctions.eraseLog(constants.RUNMODE, devices[0])
-        createResponse = deviceFunctions.createLog(constants.RUNMODE, devices[0])
 
-        if eraseResponse["result"] == "erased" and createResponse["result"] == "created" :
-                usermessage = {"type": "success",  "message": "Log erased and created for " + devices[0]}
-        else:
-                usermessage = {"type": "error", "message": "Log erase failed for " + devices[0] + ". " + eraseResponse["result"]  + "  " + createResponse["result"] }
+    print(devices)
+    print(type(devices))
+    print(len(devices))
 
-        return render_template("defaultPage.html", title="Erase Log Result", headerData = getHeaderData(), userMessage=usermessage )
+    if len(devices) != 0:
+
+        logResults = map(deleteAndReplaceLog, devices)
+        logResults = "    \n".join(logResults)
+
+        session['userMessage'] = {"type": 'info', "message": "Erase Log Results: " + logResults}
+                
+        
+    
+    return redirect('list')
 
 
 def scanDirectory(target):
@@ -259,35 +284,25 @@ def getAlmanacList():
 horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
 
 
-@app.route('/gps_almanac')
-def gps_almanac():
-    print("gps_almanac")
 
-    devices = request.args.getlist("devices[]")
-    fileToApply = request.args.get("value")
-    if len(devices) == 1:
-        response = deviceFunctions.writeGPSAlmanacToDevice(constants.RUNMODE, devices[0], fileToApply )
+# @app.route('/reset_flash')
+# def reset_flash():
+#     devices = request.args.getlist("devices[]")
+#     if len(devices) == 1:
+#         response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
 
-        if response["result"] == "flashed":
-                usermessage = "Device " + devices[0] + " GPS Almanac Uploaded."
-        else:
-                usermessage = "GPS Almanac Upload failed for " + devices[0] + ". " + response["result"]
+#         if response["result"] == "flashed":
+#                 usermessage = {"type": "success",  "message": "Device Flashed: " + devices[0]}
+#         else:
+#                 usermessage = {"type": "error", "message": "Flash failed for " + devices[0] + ". " + response["result"] }
 
-        return render_template("defaultPage.html", title="GPS Almanac Upload Result", headerData = getHeaderData(), userMessage=usermessage )
+#         return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage, headerData = getHeaderData() )
 
-
-@app.route('/reset_flash')
-def reset_flash():
-    devices = request.args.getlist("devices[]")
-    if len(devices) == 1:
-        response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
-
-        if response["result"] == "flashed":
-                usermessage = {"type": "success",  "message": "Device Flashed: " + devices[0]}
-        else:
-                usermessage = {"type": "error", "message": "Flash failed for " + devices[0] + ". " + response["result"] }
-
-        return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage, headerData = getHeaderData() )
+# @app.route('/gps_ascii')
+# def gps_ascii():
+#     devices = request.args.getlist("devices[]")
+#     if len(devices) == 1:
+#         return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")
 
 
 @app.route('/erase_tag')
@@ -297,19 +312,13 @@ def erase_tag():
         response = deviceFunctions.eraseDevice(constants.RUNMODE, devices[0])
 
         if response["result"] == "erased":
-                usermessage = {"type": "success",  "message": "Device Erased: " + devices[0]}
+
+                session['userMessage'] = {"type": 'info', "message": "Device Erased: " + devices[0]}
         else:
-                usermessage = {"type": "error", "message": "Erase failed for " + devices[0] + ". " + response["result"] }
+                session['userMessage'] = {"type": 'error', "message": "Erase failed for " + devices[0]}
+                
+        return redirect('list')
 
-        return render_template("defaultPage.html", title="Erase Device Result", headerData = getHeaderData(), userMessage=usermessage )
-
-
-
-@app.route('/gps_ascii')
-def gps_ascii():
-    devices = request.args.getlist("devices[]")
-    if len(devices) == 1:
-        return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")
 
 
 @app.route('/view_log')
