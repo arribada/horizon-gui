@@ -15,6 +15,9 @@ DUMMY_RESPONSES = "dummy_data/dummyResponses.json"
 # the toolset command name
 TRACKER_CONFIG = "tracker_config"
 
+# number of data blocks in value config
+VALID_CONFIG_DATA_BLOCKS = 8
+
 # used in a numbe of places
 NO_TAG_TEXT = "No Device Detected."
 

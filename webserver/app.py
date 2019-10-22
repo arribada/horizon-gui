@@ -167,9 +167,13 @@ def readConfig(deviceID):
 
     # always load from device when this is called...  This saves a new local file.
     config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
-    
-    # pop it into session in case needed later.
-    session['config' + str(deviceID)] = config
+
+    if len(config['result'].keys()) == constants.VALID_CONFIG_DATA_BLOCKS:
+   
+        # pop it into session in case needed later.
+        session['config' + str(deviceID)] = config
+        #TODO what to do with invalid config.
+
 
     # make single depth
     config = horizonSCUTE.flattenJSON(config['result'])
@@ -320,6 +324,7 @@ def erase_tag():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
         response = deviceFunctions.eraseDevice(constants.RUNMODE, devices[0])
+
 
         if response["result"] == "erased":
 

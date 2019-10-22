@@ -926,7 +926,6 @@ def eraseDevice(runMode, deviceID):
                     e.cmd, e.returncode, e.output))
 
         result = result.rstrip()  # trailing new line...
-        print(result)
 
         if result.startswith('Unexpected error'):
             logMessage(result)
