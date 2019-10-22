@@ -23,7 +23,7 @@ options = {
         "actionsSchema": "actionsSchema.json",
         "configSchema": "configSchema.json",
         "dataViews": "dataViews.json",
-        "helpInfo": "helpInformation.md"
+        "helpInfo": "helpfiles/index.md"
     }
 #instantiate SCUTE
 horizonSCUTE = scute(options, app)

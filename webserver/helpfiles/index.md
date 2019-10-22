@@ -1,6 +1,6 @@
 # Help Information
 
-This is loaded from the markdown file **/helpInformaiton.md**
+This is loaded from the markdown file **/helpfiles/index.md**
 
 - Lorem ipsum dolor sit amet, 
 - consectetur adipiscing elit. 
