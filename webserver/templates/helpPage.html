@@ -20,35 +20,7 @@
         <div class="help-page-wrapper happy-margin">
 
             <h2>{{helpInfo.pageHeader}}</h2>
-
-            {% if helpInfo.category | length > 0 %}
-            
-                {% for category in helpInfo.category %}
-                    <div class="helpCategory happy-margin">
-
-                        <h3>{{category.categoryHeader}}</h3>
-                        
-                        {% if category.blocks | length > 0 %}
-                        
-                        {% for block in category.blocks %}
-                        <div class="helpBlock happy-margin">
-                            {% if "blockAnchor" in block %} 
-                                <a name="{{block.blockAnchor}}"></a>
-                            {%endif%}
-
-                            <h4>{{block.blockHeader}}</h4>
-                            {{block.blockContent}}
-                            
-                        </div>
-                        {%endfor%}
-                        
-                        {%endif%}
-                        
-                        
-                    </div>
-                {% endfor %}
-            {% endif %}
-                
+            {{helpInfo|safe}}
   
         </div>
 
