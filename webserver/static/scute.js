@@ -31,7 +31,7 @@ document.querySelectorAll(".clickSelect").forEach(function (element) {
 
             }
 
-        })
+        });
 
         populateButtons();
 
@@ -307,12 +307,35 @@ function formatDateTime(date) {
     return year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0') + ' ' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0');
 }
 
+function getFieldName(field){
+    
+    fieldName = field.id.split(".");
+    return " - " + fieldName[1] + " (" + fieldName[0] + ") \n";
+}
+
 function confirmSubmitConfig(theForm) {
     
     lastHubTime = document.getElementById("time-hub").innerHTML;
     deviceIDString = document.getElementById("deviceIDString").innerHTML;
 
-    message = 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: ' + lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
+
+    changedFields = document.querySelectorAll("[data-changed]");
+
+    if (changedFields.length == 0){
+
+        message = 'No fields have been changed. \n\n';
+
+    } else {
+        
+        message = changedFields.length + ' fields have changed. \n';
+
+        fieldList =  Object.values(changedFields).map(getFieldName); // returns array 
+
+        message += fieldList.join('') +  '\n\n'; // avoid the auto joining ','
+
+    }
+
+    message += 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: ' + lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
 
 
     return confirm(message);
@@ -321,7 +344,7 @@ function confirmSubmitConfig(theForm) {
 
 function showHideDiv(targetID) {
 
-    var x = document.getElementById(targetID);
+    let x = document.getElementById(targetID);
     if (x.style.display === "none" || x.style.display === "") {
         x.style.display = "block";
     } else {
@@ -329,3 +352,26 @@ function showHideDiv(targetID) {
     }
 
 }
+
+
+if(document.getElementById("warningFieldsChanged")){
+
+    checkForChanges();
+
+}
+
+function checkForChanges(){
+    changedFields = document.querySelectorAll("[data-changed]");
+    let x = document.getElementById('warningFieldsChanged');
+    if (changedFields.length != 0){
+        x.style.display = "block";
+        
+    } else {
+        x.style.display = "none";
+
+    }
+    setTimeout(checkForChanges, 1000);
+}
+   
+    
+    

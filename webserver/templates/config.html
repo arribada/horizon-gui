@@ -9,11 +9,11 @@
                         <h1>Config Settings for device:<br /><span id="deviceIDString">{{current['local.friendlyName']}}({{device}})</span></h1>
                         <span class="happy-margin">Device time: {{current['rtc.dateTime']}} <a class='inlineLink toRight noUnderLine' href='download_config?devices[]={{device}}&a={{headerData.timestamp}}>'>Download</a>
                         </span>
-                        <div class="subheading red navy">
+                        <div id="warningFieldsChanged" class="warningFieldsChanged subheading red navy">
                             <div class="icon">
                                 <img src="/scute/images/info-icon.png">
                             </div>
-                            <h3>The fields in red are unsaved changes</h3>
+                            <h3>There are unsaved changes.</h3>
                         </div>
                     </div>
 
