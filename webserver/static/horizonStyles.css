@@ -522,6 +522,13 @@ td {
 table tr:first-of-type td {
     border-top: solid 3px transparent;
 }
+table tr:last-of-type td {
+    border-bottom: solid 3px transparent;
+}
+
+table tr:last-of-type td[data-active] {
+    border-bottom: solid 3px #62bc6c;
+}
 
 [data-active] {
     border-left: solid 3px #62bc6c;
@@ -535,6 +542,7 @@ table tr:first-of-type td {
     background-color: #d3ecf1;
     color: #284c76;
 }
+
 
 .deviceHeader[data-active] .circle {
     /* border: solid 2px#62bc6c; */
