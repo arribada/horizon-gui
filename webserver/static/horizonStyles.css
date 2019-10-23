@@ -28,11 +28,21 @@
 }
 
 .inlineLink{
-    border: 1px solid #6196b7;
-    background-color: #d3ecf1;
+    border: 1px solid #a4ceee;
+    background: linear-gradient(#d3ecf1, #a4ceee);
     color: #284c76;
     font-size: 0.75em;
-    padding: 2px 10px 2px 10px;
+    padding: 4px 10px 4px 10px;
+    margin: 0px 10px 0px 10px;
+    text-decoration: none;
+    
+}
+.inlineLink:hover{
+    border: 1px solid #6196b7;
+    background: linear-gradient(#a4ceee, #6196b7);
+    color: white;
+    font-size: 0.75em;
+    padding: 4px 10px 4px 10px;
     margin: 0px 10px 0px 10px;
     
 }
@@ -91,7 +101,7 @@ a.inlineLink{
 }
 
 .userMessage{
-    width: 50%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -109,6 +119,12 @@ a.inlineLink{
 .warningFieldsChanged{
     display: none;
 }
+
+.versionInfo{
+    font-size: 0.75em;
+    margin-top: 1em;
+}
+
 
 /* MOVE INTO SCUTE */
 
@@ -329,8 +345,8 @@ main {
   }
 
 footer {
-    background: linear-gradient(white, #d3ecf1);
-    border: solid 1px #d3ecf1;
+    background: linear-gradient(#e7ecef, #d4d6d4);
+    border: solid 1px #d4d6d4;
     padding: 1em;
     max-width: 100%;
     color: #284c76;

@@ -124,7 +124,7 @@ def getDevices():
         if 'force_update' in request.form and request.form['force_update'] == 'yes':
             session.pop('scanResults', None)
 
-            session['userMessage'] = {"type": 'success', "message": "Device Scan Complete"}
+            session['userMessage'] = {"type": 'success', "message": "Device Scan Complete."}
 
     if 'scanResults' in session:
         scanResults = session['scanResults']
@@ -200,7 +200,7 @@ def saveConfig(deviceID, config):
     if 'error' in saveResponse:
         session['userMessage'] = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['message']}
     else:
-        session['userMessage'] = {"type": 'success', "message": "Config Saved for " + str(deviceID)}
+        session['userMessage'] = {"type": 'success', "message": "Config Saved for <strong>" + str(deviceID) + "</strong>"}
 
     # remove config from session, so it needs loading again.
     session.pop('config' + str(deviceID), None)
@@ -242,7 +242,7 @@ def erase_log():
         logResults = map(deleteAndReplaceLog, devices)
         logResults = "    \n".join(logResults)
 
-        session['userMessage'] = {"type": 'info', "message": "Erase Log Results: " + logResults}
+        session['userMessage'] = {"type": 'info', "message": "Erase Log Results: <strong>" + logResults + "</strong>"}
                 
         
     
@@ -330,9 +330,9 @@ def erase_tag():
 
         if response["result"] == "erased":
 
-                session['userMessage'] = {"type": 'info', "message": "Device Erased: " + devices[0]}
+                session['userMessage'] = {"type": 'info', "message": "Device Erased: <strong>" + devices[0] + "</strong>"}
         else:
-                session['userMessage'] = {"type": 'error', "message": "Erase failed for " + devices[0]}
+                session['userMessage'] = {"type": 'error', "message": "Erase failed for <strong>" + devices[0]+ "</strong>"}
                 
         return redirect('list')
 
@@ -365,7 +365,7 @@ def selete_log():
     if len(devices) == 1:
 
         logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], False)
-        session['userMessage'] = {"type": 'info', "message": "Log Deleted: " + str(deleteKey[0])}
+        session['userMessage'] = {"type": 'info', "message": "Log Deleted: <strong>" + str(deleteKey[0])+"</strong>"}
 
         return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
 
@@ -490,7 +490,7 @@ def syncClock():
     deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
 
     # set user message
-    session['userMessage'] = {"type": 'success', "message": "Hub clock updated to "+toTime }
+    session['userMessage'] = {"type": 'success', "message": "Hub clock updated to <strong>" + toTime + "</strong>"}
     
     return redirect(passTo)
 

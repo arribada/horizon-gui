@@ -261,10 +261,12 @@ let loadPreset = function (presetID) {
         if (element.getAttribute("data-preset") === presetID) {
 
             element.style.display = "block";
+            element.setAttribute("data-selectedForm", "true");
 
         } else {
 
             element.style.display = "none";
+            element.removeAttribute("data-selectedForm");
 
         }
 
@@ -313,32 +315,41 @@ function getFieldName(field){
     return " - " + fieldName[1] + " (" + fieldName[0] + ") \n";
 }
 
+var buttonClicked; // used to flay which of 2 form button types has been clicked - CONFIG page.
+
 function confirmSubmitConfig(theForm) {
-    
-    lastHubTime = document.getElementById("time-hub").innerHTML;
-    deviceIDString = document.getElementById("deviceIDString").innerHTML;
+
+    if (buttonClicked === "save"){
+       
+        lastHubTime = document.getElementById("time-hub").innerHTML;
+        deviceIDString = document.getElementById("deviceIDString").innerHTML;
 
 
-    changedFields = document.querySelectorAll("[data-changed]");
+        changedFields = document.querySelectorAll("[data-changed]");
 
-    if (changedFields.length == 0){
+        if (changedFields.length == 0){
 
-        message = 'No fields have been changed. \n\n';
+            message = 'No fields have been changed. \n\n';
+
+        } else {
+            
+            message = changedFields.length + ' fields have changed. \n';
+
+            fieldList =  Object.values(changedFields).map(getFieldName); // returns array 
+
+            message += fieldList.join('') +  '\n\n'; // avoid the auto joining ','
+
+        }
+
+        message += 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: ' + lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
+
+        return confirm(message);
 
     } else {
-        
-        message = changedFields.length + ' fields have changed. \n';
+        message = "Click 'OK' to transfer these config setting to the Preset Page.\nEnter a preset name and press save on the next page.";
 
-        fieldList =  Object.values(changedFields).map(getFieldName); // returns array 
-
-        message += fieldList.join('') +  '\n\n'; // avoid the auto joining ','
-
+        return confirm(message);
     }
-
-    message += 'Save This Config to Device "' + deviceIDString + '"? \n\nThe device time will be set to the Hub Time: ' + lastHubTime + ' \nHub Time can be updated in the SCRIPTS section.';
-
-
-    return confirm(message);
 
 }
 
@@ -371,6 +382,47 @@ function checkForChanges(){
 
     }
     setTimeout(checkForChanges, 1000);
+}
+
+function checkPresetName(){
+
+    // which preset dov is selected?
+
+    presetName = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[0].value.trim();
+
+    if (presetName === ''){
+                alert("Preset Name can not be blank");
+        return false;
+    }
+
+
+    let existing = document.getElementsByClassName("preset-title");
+
+    let existingNames = Object.values(existing).map(x => x.innerText);
+
+
+
+    if(existingNames.includes(presetName)){
+
+        if (confirm("Preset Name exists - overwrite it?")){
+
+            return true;
+            
+        } else {
+
+            return false;
+            
+        }
+
+    } else {
+    
+        return true;
+
+    }
+
+    
+    
+
 }
    
     

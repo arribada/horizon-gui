@@ -6,7 +6,7 @@
     <div class="table-nav top-tail-margin top-tail-padding">   
     <div class="happy-margin">
         <h1 class="navy">Preset Manager</h1>
-        <div class="introText happy-margin">Here you can create, edit upload and share Device presets.  <br />Note: these are only applied to devices when selected from the <a class="clickMe" href="/list">Device Manager</a> screen.</div>
+        <div class="introText happy-margin">Here you can create, edit upload and share Device Presets.  <br />Note: these are only applied to devices when selected from the <a class="clickMe" href="/list">Device Manager</a> screen.</div>
     </div>   
         <div class='happy-margin'>
         <div class="presets-manager-wrapper">
@@ -29,6 +29,7 @@
                         {% if presets %}
                         
                             {% for preset in presets  %}
+                            
                                 <li class="preset-list-item" data-preset-menu="{{preset.presetID}}" onclick="loadPreset('{{ preset.presetID }}')">
                                     <span class="preset-title navy bold">{{ preset.presetName }}</span><br>
                                     <span class="description gray">{{ preset.presetDescription }}</span>
@@ -67,7 +68,7 @@
                 </div>
 
                 {# New preset form #}
-                <div data-preset="new">
+                <div data-preset="new" data-selectedform="true">
                     
                     <h1>New Preset</h1>
 
