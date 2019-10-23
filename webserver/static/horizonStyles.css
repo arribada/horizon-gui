@@ -36,6 +36,9 @@
     margin: 0px 10px 0px 10px;
     
 }
+a.inlineLink{
+    color: #284c76;
+}
 .noUnderline{
     text-decoration-line: none !important;
 }
@@ -1157,8 +1160,8 @@ pre[data-error] {
     }
 
 .alert.error {
-    background-color: #e3dc98;
-    border: 1px solid #e77665;
+    background-color: #f7cfca;
+    border: 1px solid #992717;
     color: #992717;
 
 }

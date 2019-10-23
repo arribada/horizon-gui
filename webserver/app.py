@@ -145,7 +145,6 @@ def getReportFields(deviceID):
     if len(request.args.getlist("force_update")) != 0:
         session.pop('report_' + str(deviceID), None)
         print("Clear session report for "+ str(deviceID))
-
    
 
     if 'report_' + str(deviceID) in session:
@@ -172,14 +171,17 @@ def readConfig(deviceID):
    
         # pop it into session in case needed later.
         session['config' + str(deviceID)] = config
-        #TODO what to do with invalid config.
+        
+    else:
+        # flag scute that the config is wrong.
+        config['result']['invalidConfigDetected'] = True
 
 
     # make single depth
     config = horizonSCUTE.flattenJSON(config['result'])
 
     config['local.friendlyName'] = deviceFunctions.getFriendlyName(deviceID)
-    
+   
     return config
 
 horizonSCUTE.registerHook("read_config", readConfig)

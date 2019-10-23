@@ -17,10 +17,12 @@
             <div class="table-nav-right gray">
                 <div class="last-loaded inline-block">
                     <span class="light-gray">Last loaded: {{ timeLoaded }}
-                    <form id='reloadForm' action="/list" method="post">
-                        <input type="hidden" name="force_update" value ='yes' />
-                        <a  class='onRight inlineLink noUnderline' href="#" onclick='document.getElementById("reloadForm").submit()' title='Reload page and do a scan for devices.'>Scan For Updates</a>
-                    </form>
+                        <form id='reloadForm' action="/list" method="post">
+                            <input type="hidden" name="force_update" value='yes' />
+                            <a class='onRight inlineLink noUnderline' href="#"
+                                onclick='document.getElementById("reloadForm").submit()'
+                                title='Reload page and do a scan for devices.'>Scan For Updates</a>
+                        </form>
                     </span>
                 </div>
             </div>
@@ -98,8 +100,13 @@
             <div class="happy-margin no-devices">
                 <div class="alert info">
                     <img src="/static/images/usb-connect-white.png" width="100px" />
-                    <h1>No configured devices detected.</h1>Please connect a device and <a href="/list">reload the
-                        page.</a>
+                    <h1>No configured devices detected.</h1>
+                    <form id='reloadForm2' action="/list" method="post">
+                        Please connect a device then <a class='' href="#"
+                            onclick='document.getElementById("reloadForm2").submit()'
+                            title='Reload page and do a scan for devices.'>Scan For Updates</a>
+                        <input type="hidden" name="force_update" value='yes' />
+                    </form>
                 </div>
             </div>
         </section>
@@ -110,10 +117,12 @@
         <section class="buttons actions">
 
             <div class="buttons-wrapper">
-  
-                <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled title='Choose a preset config to apply'>Apply Preset</button>
 
-                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled title='View, edit and download device config.' >Device
+                <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled
+                    title='Choose a preset config to apply'>Apply Preset</button>
+
+                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled
+                    title='View, edit and download device config.'>Device
                     Config</button>
 
                 {% for key,action in actions.items() %}
@@ -141,8 +150,8 @@
                 <button onclick="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %}
                     {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}
                     {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
-                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}"
-                    disabled {% if action.toolTip %} title="{{action.toolTip}}" {% endif %}  >{{action.label}}</button>
+                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled
+                    {% if action.toolTip %} title="{{action.toolTip}}" {% endif %}>{{action.label}}</button>
 
                 {% endif %}
 
@@ -156,7 +165,8 @@
                         <h2>Choose a Preset to apply to selected device(s)</h2>
                         {% for option in presetValues%}
                         <button class='actionButton notHidden' onclick="triggerAction(event)" data-action="applyPreset"
-                        value="{{option.value}}" title='Apply this preset to the selected device(s)' >{{option.label}}</button>
+                            value="{{option.value}}"
+                            title='Apply this preset to the selected device(s)'>{{option.label}}</button>
                         {% endfor %}
                     </div>
                 </div>
