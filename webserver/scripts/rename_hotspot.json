@@ -1,5 +1,5 @@
 {
-    "name": "Rename hotspot",
+    "name": "Rename Hotspot",
     "description": "Change Wi-Fi hotspot name. Requires reboot to take effect.",
     "commands": [
         {

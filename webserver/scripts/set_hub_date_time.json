@@ -1,5 +1,5 @@
 {
-    "name": "Set the Date and Time of the Hub",
+    "name": "Set Hub Date Time",
     "description": "Set the Date and Time of the Hub - this date time will be used when updating config on devices.",
     "commands": [
         {
