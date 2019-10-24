@@ -125,6 +125,11 @@ a.inlineLink{
     margin-top: 1em;
 }
 
+.scriptBody{
+    min-height: 20em;
+}
+
+
 
 /* MOVE INTO SCUTE */
 
@@ -346,7 +351,6 @@ main {
 
 footer {
     background: linear-gradient(#e7ecef, #d4d6d4);
-    border: solid 1px #d4d6d4;
     padding: 1em;
     max-width: 100%;
     color: #284c76;

@@ -384,7 +384,7 @@ def downloadFile ():
     # this can be extended for other file types.
     # don't allow full file specificaiton
     
-    allowedTypes = ['preset']
+    allowedTypes = ['preset', 'script']
 
     fileName = request.args.getlist("file")[0]
     fileType = request.args.getlist("type")[0]
@@ -393,8 +393,12 @@ def downloadFile ():
     if fileType in allowedTypes:
         if fileType == 'preset':
             fileLocation = "presets/" + fileName + '.json'
+            downloadFileName = fileName+'.preset.json'
+        if fileType == 'script':
+            fileLocation = "scripts/" + fileName
+            downloadFileName = fileName
 
-            return send_from_directory('', fileLocation , as_attachment=True, attachment_filename=fileName+'.preset.json' )
+        return send_from_directory('', fileLocation , as_attachment=True, attachment_filename=downloadFileName )
     
     # still here?  error.
     session['userMessage'] = {"type": 'error', "message": "User tried to download invalid file." }

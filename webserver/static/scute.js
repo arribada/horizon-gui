@@ -290,6 +290,60 @@ function displayLoadingPopup() {
     document.getElementById("loadingPopup").style.display = "block";
 }
 
+let loadScript = function (script) {
+
+    Array.from(document.querySelectorAll("[data-preset-menu]")).forEach(function (menu) {
+
+        if (menu.getAttribute("data-preset-menu") === script) {
+
+            menu.setAttribute("data-selected", "true");
+
+        } else {
+
+            menu.removeAttribute("data-selected");
+
+        }
+
+    });
+
+    document.querySelectorAll("[data-preset]").forEach(function (element) {
+
+
+        if (element.getAttribute("data-preset") === script) {
+
+            element.style.display = "block";
+            element.setAttribute("data-selectedForm", "true");
+
+        } else {
+
+            element.style.display = "none";
+            element.removeAttribute("data-selectedForm");
+
+        }
+
+    });
+
+
+
+}
+
+let uploadScript = function () {
+
+    alert('TODO uploadScript');
+
+}
+
+
+let deleteScript = function () {
+
+    alert('TODO deleteScript');
+
+}
+
+
+
+
+
 
 // Burger Menu
 
@@ -425,5 +479,55 @@ function checkPresetName(){
 
 }
    
+function checkScriptName(){
+
+    // which preset dov is selected?
+
+    scriptName = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[0].value.trim();
+    scriptDescription = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[1].value.trim();
+    scriptCommands = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("textarea")[0].value.trim();
+
+    if (scriptName === '' || scriptDescription=== '' || scriptCommands===''){
+        alert("All 3 fields must be completed.");
+        return false;
+    }
+
+    scriptFileName = scriptName.toLowerCase().replace(/\ /g, "_") + ".json";
+    console.log(scriptFileName);
+
+
+    let existing = document.getElementsByClassName("preset-list-item"); // data-preset-menu
+
+    let existingNames = Object.values(existing).map(x => x.dataset.presetMenu);
+
+
+
+    if(existingNames.includes(scriptFileName)){
+
+        if (confirm("Script Name exists - overwrite it?")){
+
+            //return true;
+            alert("Save: TBC");
+            return false;
+            
+        } else {
+
+            return false;
+            
+        }
+
+    } else {
+    
+        //return true;
+        alert("Save: TBC");
+        return false;
+
+    }
+
+    
+    
+    
+
+}
     
     
