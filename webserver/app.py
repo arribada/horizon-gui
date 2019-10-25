@@ -89,6 +89,12 @@ def getHeaderData():
     pageTitle = None
     if request.endpoint in localisation.pageTitles:
         pageTitle = localisation.pageTitles[request.endpoint]
+
+    
+    # load from session if avaiable.
+    latestScan = ''
+    if 'scanResultsDateTime'  in session:
+        latestScan = session['scanResultsDateTime']
     
     return {
         "guiVersion": constants.GUI_VERSION,
@@ -99,7 +105,8 @@ def getHeaderData():
         "hubSDSpace": hubSDSpace,
         "timestamp": time.time(),
         "userMessage": userMessage,
-        "pageTitle": pageTitle
+        "pageTitle": pageTitle,
+        "latestScan": latestScan
         }
 
 horizonSCUTE.registerHook("get_header_data", getHeaderData)
@@ -130,6 +137,7 @@ def getDevices():
         # POST pass in force_update to clear the session field to rescan for device changes
         if 'force_update' in request.form and request.form['force_update'] == 'yes':
             session.pop('scanResults', None)
+            session.pop('scanResultsDateTime', None)
 
             session['userMessage'] = {"type": 'success', "message": "Device Scan Complete."}
 
@@ -138,7 +146,10 @@ def getDevices():
 
     else:
         scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
+        
         session['scanResults'] = scanResults
+
+        session['scanResultsDateTime'] = deviceFunctions.currentDateTimeDisplay("%a %w %b %Y, %H:%M:%S")
 
     return scanResults  
 
@@ -200,9 +211,10 @@ def saveConfig(deviceID, config):
     # indent fields into categories
 
     config = horizonSCUTE.expandJSON(config)
-
+    print("Save Response 1")
     saveResponse = deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
-    #print(saveResponse)
+    print("Save Response 2")
+    print(saveResponse)
 
     if 'error' in saveResponse:
         session['userMessage'] = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['message']}
@@ -308,26 +320,6 @@ horizonSCUTE.registerHook("get_list__gps_almanacFiles", getAlmanacList)
 
 
 
-# @app.route('/reset_flash')
-# def reset_flash():
-#     devices = request.args.getlist("devices[]")
-#     if len(devices) == 1:
-#         response = deviceFunctions.flashDevice(constants.RUNMODE, devices[0])
-
-#         if response["result"] == "flashed":
-#                 usermessage = {"type": "success",  "message": "Device Flashed: " + devices[0]}
-#         else:
-#                 usermessage = {"type": "error", "message": "Flash failed for " + devices[0] + ". " + response["result"] }
-
-#         return render_template("defaultPage.html", title="Reset Flash Result", userMessage=usermessage, headerData = getHeaderData() )
-
-# @app.route('/gps_ascii')
-# def gps_ascii():
-#     devices = request.args.getlist("devices[]")
-#     if len(devices) == 1:
-#         return deviceFunctions.dummyResponse(constants.RUNMODE, devices[0], "Apply GPS ASCII")
-
-
 @app.route('/erase_tag')
 def erase_tag():
     devices = request.args.getlist("devices[]")
@@ -338,6 +330,7 @@ def erase_tag():
         if response["result"] == "erased":
 
                 session['userMessage'] = {"type": 'info', "message": "Device Erased: <strong>" + devices[0] + "</strong>"}
+          
         else:
                 session['userMessage'] = {"type": 'error', "message": "Erase failed for <strong>" + devices[0]+ "</strong>"}
                 

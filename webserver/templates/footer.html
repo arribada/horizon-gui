@@ -1,5 +1,8 @@
-{% if request.endpoint != "index" %}
 <footer>
+<<<<<<< HEAD
+=======
+{% if request.endpoint != "index" %}
+>>>>>>> fixingCommits
     {% include "client_footer.html" %}
     Hub IP: <span id="time-hub" class="time-hub">{{headerData.systemIPAddress}}</span><br />
     SD Card: {{headerData.hubSDSpace}}<br />
@@ -10,8 +13,11 @@
     Tools Version: <span class="gui-version">{{headerData.toolsVersion}}</span> <br />
       
     <a href="/my_actions" target="_blank">Action History</a>
-</footer>
+{% else %}
+<br />
 {% endif %}
+</footer>
+
 <!-- <script src="/scute/scute.js"></script> put this back later.. -->
 <script src="/static/scute.js"></script>
 <script>

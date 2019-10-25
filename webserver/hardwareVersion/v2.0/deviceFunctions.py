@@ -381,8 +381,7 @@ def downloadDeviceConfigToLocal(deviceID):
 
         os.mkdir(myConfigDirectory)
 
-    currentDT = datetime.datetime.now()
-    currentDateTime = currentDT.strftime("%Y%m%d_%H%M%S")
+    currentDateTime = currentDateTimeDisplay("%Y%m%d_%H%M%S")
 
     newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
 
@@ -462,13 +461,14 @@ def saveDeviceConfig(runMode, deviceID, config):
 
             del config["local"]
 
-        #print(config)
+        print(config)
 
         myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
         if not os.path.exists(myConfigDirectory):
             os.mkdir(myConfigDirectory)
-        currentDT = datetime.datetime.now()
-        currentDateTime = currentDT.strftime("%Y%m%d_%H%M%S")
+            
+        currentDateTime = currentDateTimeDisplay("%Y%m%d_%H%M%S")
+
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
@@ -483,7 +483,6 @@ def saveDeviceConfig(runMode, deviceID, config):
                 newConfigFileName + " --id " + deviceID,
                 shell=True,
                 stderr=subprocess.STDOUT)
-
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
@@ -508,9 +507,9 @@ def saveDeviceConfig(runMode, deviceID, config):
 
         # only keep constants.CONFIG_FILE_NUMBER_TO_KEEP different files
         tidyUpConfigDirectory(deviceID)
-
-
-        return {'result': newConfigFileName}
+        print("hoo hoo.")
+        return {'error': "testing config save failure"}
+        #return {'result': newConfigFileName}
 
 
 def correctJsonTypesInConfig(config):
@@ -662,8 +661,9 @@ def receiveTrackerLogData(runMode, deviceID):
     else:
 
         logPath = constants.LOG_DATA_LOCAL_LOCATION + deviceID
-        currentDT = datetime.datetime.now()
-        currentDateTime = currentDT.strftime("%Y-%m-%d_%H:%M:%S")
+
+        currentDateTime = currentDateTimeDisplay("%Y-%m-%d_%H:%M:%S")
+
         print("receiveTrackerLogData logPath=" + logPath)
 
         if not os.path.exists(logPath):
@@ -944,6 +944,10 @@ def eraseDevice(runMode, deviceID):
                 logMessage(row)
 
             if len(result) == 1:
+
+                # forget device.
+                forgetDevice(deviceID)
+
                 return {'result': "erased"}
             else:
                 return {'result': "NotErased"}
@@ -1165,6 +1169,19 @@ def saveFriendlyName(deviceID, friendlyName):
 
     return
 
+def forgetDevice(deviceID):
+
+    existingDevices = readKnownDevivces()
+
+    if deviceID in existingDevices:
+        del existingDevices[deviceID]
+        
+        with open('knownDevices.json', 'w') as outfile:
+            json.dump(existingDevices, outfile)
+
+    return
+
+
 
 def readKnownDevivces():
 
@@ -1198,3 +1215,8 @@ def syncHubToTime(runMode, toTime):
         result = result.rstrip()  # trailing new line...
 
     return True
+
+
+def currentDateTimeDisplay(dateFormat):
+    currentDT = datetime.datetime.now()
+    return currentDT.strftime(dateFormat)
