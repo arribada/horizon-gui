@@ -1,15 +1,4 @@
 <footer>
-<<<<<<< Updated upstream
-    GUI Version: <span class="gui-version">{{headerData.guiVersion}}</span>, 
-    Hardware Version: <span class="gui-version">{{headerData.hardwareVersion}}</span>, 
-    Tools Version: <span class="gui-version">{{headerData.toolsVersion}}</span> <br />
-    Computer Time: <span id="footer-time-computer" class="time-computer"></span><br />
-    Hub Time: <span id="time-hub" class="time-hub">{{headerData.hubDateTime}}</span><br />
-    Hub IP: <span id="time-hub" class="time-hub">{{headerData.systemIPAddress}}</span><br />
-    SD Card: {{headerData.hubSDSpace}}<br />
-    <a href="/my_actions" target="_blank">My Actions</a>
-</footer>
-=======
 {% if request.endpoint != "index" %}
     {% include "client_footer.html" %}
     Hub IP: <span id="time-hub" class="time-hub">{{headerData.systemIPAddress}}</span><br />
@@ -23,7 +12,6 @@
     <a href="/my_actions" target="_blank">Action History</a>
 {% else %}
 <br />
->>>>>>> Stashed changes
 {% endif %}
 </footer>
 
