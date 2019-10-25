@@ -183,7 +183,13 @@ let triggerAction = function (e) {
 
         }
 
-        showConfirm(warning, targetURL);
+        let lockscreenData = element.getAttribute("data-lockscreen");
+        let lockscreen = false;
+        if (lockscreenData === "true"){
+            lockscreen = true;
+        }
+
+        showConfirm(warning, targetURL, lockscreen);
 
         return false;
 
@@ -195,7 +201,7 @@ let triggerAction = function (e) {
 
 };
 
-let showConfirm = function (warning, targetURL) {
+let showConfirm = function (warning, targetURL, lockscreen=false) {
 
     // Remove existing popup
 
@@ -205,11 +211,17 @@ let showConfirm = function (warning, targetURL) {
 
     }
 
+    let lockscreenJS = '';
+
+    if (lockscreen){
+        lockscreenJS = 'lockScreenOverlay(); ';
+    }
+
     let popup = `<section id="popup" class="are-you-sure">
                     <div class="pop-up navy">
                         <p>${warning}</p>
                         <div class="pop-up-buttons">
-                            <button onclick="okClickProcess('${targetURL}')">Yes</button>
+                            <button onclick="${lockscreenJS}okClickProcess('${targetURL}')">Yes</button>
                             <button onclick="document.getElementById('popup').outerHTML = ''">No</button>
                         </div>
                     </div>
@@ -288,6 +300,12 @@ let deletePreset = function () {
 
 function displayLoadingPopup() {
     document.getElementById("loadingPopup").style.display = "block";
+    lockScreenOverlay();
+}
+
+function lockScreenOverlay() {
+
+    document.getElementById("clickOverlay").style.display = "block";
 }
 
 let loadScript = function (script) {

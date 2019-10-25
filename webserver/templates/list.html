@@ -11,8 +11,10 @@
                 </span>
                 <div class="inline-block navy table-header">
                     <h2>Device Manager</h2>
-
                 </div>
+                {% if headerData.pageTitle %}
+                <div class="introText happy-margin">{{headerData.pageTitle|safe}}</div>
+                {% endif%}
             </div>
             <div class="table-nav-right gray">
                 <div class="last-loaded inline-block">
@@ -20,7 +22,7 @@
                         <form id='reloadForm' action="/list" method="post">
                             <input type="hidden" name="force_update" value='yes' />
                             <a class='onRight inlineLink noUnderline' href="#"
-                                onclick='document.getElementById("reloadForm").submit()'
+                                onclick=' lockScreenOverlay(); document.getElementById("reloadForm").submit()'
                                 title='Reload page and do a scan for devices.'>Scan For Updates</a>
                         </form>
                     </span>
@@ -121,7 +123,7 @@
                 <button onclick="showHideDiv('presetOptions')" data-bulk="true" disabled
                     title='Choose a preset config to apply'>Apply Preset</button>
 
-                <button onclick="triggerAction(event)" data-action="config" data-bulk="false" disabled
+                <button onclick="lockScreenOverlay(); triggerAction(event)" data-action="config" data-bulk="false" disabled
                     title='View, edit and download device config.'>Device
                     Config</button>
 
@@ -133,7 +135,8 @@
 
                 <select onchange="triggerAction(event)" {% if action.warn %} data-warn="true" {% endif %}
                     {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
-                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled>
+                    class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" 
+                    {% if action.lockScreen %} data-lockscreen="true" {% else %} data-lockscreen="false" {% endif %} disabled>
 
                     <option value="">{{action.label}}</option>
 
@@ -151,7 +154,8 @@
                     {% if action.userMessage %} data-usermessage="{{action.userMessage}}" {% endif %}
                     {% if action.bulk %} data-bulk="true" {% else %} data-bulk="false" {% endif %}
                     class="{% if action.warn %} scary {% endif %}" data-action="{{key}}" disabled
-                    {% if action.toolTip %} title="{{action.toolTip}}" {% endif %}>{{action.label}}</button>
+                    {% if action.toolTip %} title="{{action.toolTip}}" {% endif %}
+                    {% if action.lockScreen %} data-lockscreen="true" {% else %} data-lockscreen="false" {% endif %}>{{action.label}}</button>
 
                 {% endif %}
 
@@ -159,7 +163,7 @@
                 {% endfor %}
 
                 <br />
-                <div class='happy-margin' id="presetOptions">
+                <div id="presetOptions">
                     <div class='happy-margin'>
 
                         <h2>Choose a Preset to apply to selected device(s)</h2>

@@ -30,7 +30,6 @@
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
-				"asRadio": true,
 				"default": false
 			}
 		}

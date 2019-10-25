@@ -7,8 +7,8 @@
 <div class="system-info">
     <span id="clockWarning"></span>
     <ul>
-        <li>Computer Time: <span id="time-computer" class="time-computer"></span></li>
-        <li>Hub Time: <span id="time-hub" class="time-hub">{{headerData.hubDateTime}}</span></li>
+        <li>Hub: <span id="time-hub" class="time-hub">{{headerData.hubDateTime}}</span></li>
+        <li>Computer: <span id="time-computer" class="time-computer"></span></li>
     </ul>
     
 </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="mob-menu">
         <div class="nav-tab navy {% if request.endpoint == "list" %}selected{% endif %}">
-            <a href="/list">Device Manager</a>
+            <a href="/list" onclick="lockScreenOverlay();">Device Manager</a>
         </div>
         <div class="nav-tab navy {% if request.endpoint == "presets" %}selected{% endif %}">
             <a href="/presets">Preset Manager</a>

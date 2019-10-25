@@ -19,13 +19,18 @@ def systemTime(runMode):
 
     if runMode == 'dummy':
 
-        result = "yyyy-mm-dd hh:mm"
+        result = "Europe/London yyyy-mm-dd hh:mm"
 
     else:
 
         try:
+            hubTimezoneFile = open("/etc/timezone", "r")
+            if hubTimezoneFile.mode == "r":
+                hubTimezone = hubTimezoneFile.read()
+            else:
+                hubTimezone = ""
 
-            result = subprocess.check_output(
+            hubTime = subprocess.check_output(
                 "date '+%Y-%m-%d %H:%M'", shell=True, stderr=subprocess.STDOUT
             )  # these last parts are needed if you don't send an array
 
@@ -34,7 +39,7 @@ def systemTime(runMode):
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
-        result = result.rstrip()  # trailing new line...
+        result = hubTimezone.rstrip() +  ' ' + hubTime.rstrip()  # trailing new line...
 
         #logMessage("System Date Time recieved: " + result)
 

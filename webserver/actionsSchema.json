@@ -4,13 +4,15 @@
         "order": 2,
         "bulk": true,
         "userMessage": "Download latest logs and config for selected device(s)? <br />This may take a while.",
-        "toolTip": "Download latest logs and config for selected devices?"
+        "toolTip": "Download latest logs and config for selected devices?",
+        "lockScreen": false
     },
     "view_log": {
         "label": "Device Logs",
         "order": 1,
         "bulk": false,
-        "toolTip": "Load, review, download and delete stored logs."
+        "toolTip": "Load, review, download and delete stored logs.",
+        "lockScreen": false
     },
     "erase_log": {
         "bulk": true,
@@ -18,7 +20,8 @@
         "order": 3,
         "label": "Erase Log",
         "userMessage": "Erase log from device(s)?",
-        "toolTip": "Remove log from device."
+        "toolTip": "Remove log from device.",
+        "lockScreen": true
     },
     "erase_tag": {
         "bulk": false,
@@ -26,6 +29,7 @@
         "order": 4,
         "label": "Erase Device",
         "userMessage": "This will remove all log and config data from the selected devices.",
-        "toolTip": "Delete all config and log data."
+        "toolTip": "Delete all config and log data.",
+        "lockScreen": true
     }
 }

@@ -68,9 +68,7 @@
 
             {% elif fieldSchema.type == "boolean" %}
 
-                {% if "asRadio" in fieldSchema %}
-
-                     <div class="radio-wrapper">
+                <div class="radio-wrapper">
                         <div>
                             <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
                             <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if theValue == True %} checked {% endif %}/>
@@ -80,16 +78,7 @@
                             <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if theValue == False %} checked {% endif %}/>
                         </div>
                     </div>
-                {% else %}
 
-                <div id="{{fieldKey}}" class="checkbox-wrapper" onclick="checkbox_change(event, '{{fieldKey}}')">
-                        <label class="boolean-choice-label " for="{{fieldKey}}selected">Yes</label>
-                        <input class="checkAsRadio" id="{{fieldKey}}selected" type="checkbox" name="{{fieldKey}}" value="selected" {% if theValue == True %} checked {% endif %}/>
-                        <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
-                        <input class="checkAsRadio" id="{{fieldKey}}notselected" type="checkbox" name="{{fieldKey}}" value="notselected" {% if theValue == False %} checked {% endif %}/>
-                </div>
-
-                {%endif%}
                 </div>
                     
                 

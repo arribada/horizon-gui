@@ -6,20 +6,22 @@
     <div class="table-nav top-tail-margin top-tail-padding">   
     <div class="happy-margin">
         <h1 class="navy">Preset Manager</h1>
-        <div class="introText happy-margin">Here you can create, edit upload and share Device Presets.  <br />Note: these are only applied to devices when selected from the <a class="clickMe" href="/list">Device Manager</a> screen.</div>
+        {% if headerData.pageTitle %}
+        <div class="introText happy-margin">{{headerData.pageTitle|safe}}</div>
+        {% endif%}
     </div>   
         <div class='happy-margin'>
         <div class="presets-manager-wrapper">
             <div class="presets-manager-list scrolling">
                 <div class="edit-presets-icons">
                     <span class="icon add-preset" onclick="loadPreset('new')">
-                        <img alt="Add preset" src="scute/images/add-icon.png"/>
+                        <img title="Add preset" src="scute/images/add-icon.png"/>
                     </span>
                     <span class="icon">
-                            <img onclick="uploadPreset()" alt="Upload preset" src="scute/images/upload-icon.png"/>
+                            <img onclick="uploadPreset()" title="Paste in preset" src="scute/images/upload-icon.png"/>
                     </span>
                     <span class="icon toRight">
-                        <img onclick="deletePreset()" alt="Delete preset" src="scute/images/delete-icon.png"/>
+                        <img onclick="deletePreset()" title="Delete preset" src="scute/images/delete-icon.png"/>
                     </span>
 
                 </div>

@@ -6,20 +6,21 @@
         <div class="table-nav top-tail-margin top-tail-padding">
             <div class="happy-margin">
                 <h1 class="navy">Script Manager</h1>
-                <div class="introText happy-margin">This are a set of useful scripts that can be used to perform more
-                    advanced tasks.</div>
+                {% if headerData.pageTitle %}
+                <div class="introText happy-margin">{{headerData.pageTitle|safe}}</div>
+                {% endif%}
                 <div class='happy-margin'>
                     <div class="presets-manager-wrapper">
                         <div class="presets-manager-list scrolling">
                             <div class="edit-presets-icons">
                                 <span class="icon add-preset" onclick="loadScript('new')">
-                                    <img alt="Add Script" src="scute/images/add-icon.png" />
+                                    <img title="Add Script" src="scute/images/add-icon.png" />
                                 </span>
                                 <!-- <span class="icon">
                             <img onclick="uploadScript()" alt="Upload Script" src="scute/images/upload-icon.png"/>
                     </span> -->
                                 <span class="icon toRight">
-                                    <img onclick="deleteScript()" alt="Delete Script"
+                                    <img onclick="deleteScript()" title="Delete Script"
                                         src="scute/images/delete-icon.png" />
                                 </span>
 
@@ -53,21 +54,7 @@
                                 <span id="presetDate"></span>
                             </div>
 
-                            {# Upload new preset #}
-
-                            <!-- <div class="happy-margin" data-preset="upload" style="display:none;">
-
-                <form method="POST">
-
-                    <p>Paste a preset. The screen will refresh and the preset contents will appear in the form for you to rename / alter. Note, this only accepts files created through this preset manager (flattened JSON) not raw config files from a device.</p>
-
-                    <textarea class="pastePresetArea" name="paste"></textarea><br />
-
-                    <button type="button">Save</button>
-
-                </form>
-
-                </div> -->
+                            {# Welcome #}
 
                             <div data-preset="welcome">
 
@@ -117,8 +104,10 @@
                                 <label for="scriptDescription">Description</label><br />
                                 <input name="scriptDescription" type="text" value="{{element.description|safe}}"/>
                                 
-                                <label for="scriptCommands">Commands</label><br />
-                                <textarea name="scriptCommands" class="scriptBody happy-margin">{{element.commands| replace("u'","'")}}</textarea>
+                                 <div style="display: none"><!-- Hiding for this iteration -->
+                                    <label for="scriptCommands">Commands</label><br />
+                                    <textarea name="scriptCommands" class="scriptBody happy-margin">{{element.commands| replace("u'","'")}}</textarea>
+                                </div>
                                 </div>
 
                                 <a class='onRight inlineLink noUnderline'

@@ -12,17 +12,18 @@
                     {{device}}&nbsp;
                     {%endfor%}
                 </h1>
-                
-                <p>You can adjust the preset below if required. Hit save to apply the settings to the device(s)</p>
+                {% if headerData.pageTitle %}
+                <div class="introText happy-margin">{{headerData.pageTitle|safe}}</div>
+                {% endif%}
             </span>
 
             <form data-preset class="form-body" id="configForm" method="post">
                 <div class="form-buttons">
-                    <button class="featured button" type="submit">Apply</button>
+                    <button onclick="lockScreenOverlay();" class="featured button" type="submit">Apply</button>
                 </div>
                 {% include "configForm.html" %}
                 <div class="form-buttons">
-                    <button class="featured button" type="submit">Apply</button>
+                    <button onclick="lockScreenOverlay();" class="featured button" type="submit">Apply</button>
                 </div>                
             </form>
             <br />

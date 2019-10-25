@@ -12,6 +12,7 @@ import zipfile
 
 ## project functions
 import constants
+import localisation
 #import deviceFunctions
 deviceFunctions = imp.load_source('deviceFunctions', 'hardwareVersion/' + constants.DEVICE_HARDWARE_VERSION + '/deviceFunctions.py')
 
@@ -83,8 +84,12 @@ def getHeaderData():
         session['toolsVersion'] = toolsVersion
 
     hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
-     
 
+    # page titles from localisation?
+    pageTitle = None
+    if request.endpoint in localisation.pageTitles:
+        pageTitle = localisation.pageTitles[request.endpoint]
+    
     return {
         "guiVersion": constants.GUI_VERSION,
         "hardwareVersion": constants.DEVICE_HARDWARE_VERSION,
@@ -93,7 +98,9 @@ def getHeaderData():
         "systemIPAddress": systemIPAddress,
         "hubSDSpace": hubSDSpace,
         "timestamp": time.time(),
-        "userMessage": userMessage}
+        "userMessage": userMessage,
+        "pageTitle": pageTitle
+        }
 
 horizonSCUTE.registerHook("get_header_data", getHeaderData)
 

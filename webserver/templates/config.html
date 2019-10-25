@@ -7,7 +7,7 @@
                 <div class="config-page-subheading flex">
                     <div class="form-headings navy happy-margin">
                         <h1>Config Settings for device:<br /><span id="deviceIDString">{{current['local.friendlyName']}} ({{device}})</span></h1>
-                        <span class="happy-margin">Device time: {{current['rtc.dateTime']}} <a class='inlineLink toRight noUnderLine' href='download_config?devices[]={{device}}&a={{headerData.timestamp}}>'>Download</a>
+                        <span class="happy-margin">Device time: {{current['rtc.dateTime']}} <a class='inlineLink toRight noUnderLine' href='download_config?devices[]={{device}}&a={{headerData.timestamp}}>'>Download Config</a>
                         </span>
                         <div id="warningFieldsChanged" class="warningFieldsChanged subheading red navy">
                             <div class="icon">
@@ -21,12 +21,12 @@
                 </div>
                 <form class="form-body" id="configForm" method="post" onsubmit="return confirmSubmitConfig(this)">
                     <div class="form-buttons">
-                        <button class="featured button" type="submit" onclick="buttonClicked='save'">Apply</button>
+                        <button class="featured button" type="submit" onclick="lockScreenOverlay(); buttonClicked='save'">Apply</button>
                         <button class="primary button save-as-preset" name="preset" type="submit" onclick="buttonClicked='preset'" >Save To Preset</button>
                     </div>
                     {% include "configForm.html" %}
                     <div class="form-buttons">
-                        <button class="featured button" name="save" type="submit" onclick="buttonClicked='save'">Apply</button>
+                        <button class="featured button" name="save" type="submit" onclick="lockScreenOverlay(); buttonClicked='save'">Apply</button>
                         <button class="primary button save-as-preset" name="preset" type="submit" onclick="buttonClicked='preset'">Save To Preset</button>
                     </div>
                 </form><br />

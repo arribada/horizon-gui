@@ -61,7 +61,7 @@ a.inlineLink{
 .loadingPopup{
 
   display: none;
-
+  z-index: 10;
   position:absolute;
   background-color: white;
   border: solid 1px #284c76;
@@ -101,11 +101,45 @@ a.inlineLink{
 }
 
 .userMessage{
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    margin-left: 1em;
+    margin-right: 1em;
     text-align: center;
     display: block;
+
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; height:0%}
+    to   { opacity: 1; height:100%}
+}
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; height:0%}
+    to   { opacity: 1; height:100%}
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 
@@ -129,7 +163,30 @@ a.inlineLink{
     min-height: 20em;
 }
 
+.clientFooter{
+    margin: 1em;
+    padding: 1em;
+    border: solid 1px #c2c2c2;
+}
 
+#clickOverlay{
+    z-index: 5;
+    top: 0px;
+    left: 0px;
+    display: none;
+    position: fixed;
+    background-color: #d3ecf1;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+
+    background-image: url('images/loading-blue.svg');
+    background-repeat: no-repeat;
+    background-position: center; 
+
+}
 
 /* MOVE INTO SCUTE */
 
@@ -401,7 +458,6 @@ article.selected {
 }
 
 .table-nav-left {
-    line-height: 3em;
     margin-left: 1em;
 }
 
@@ -735,13 +791,13 @@ button.scary {
     text-align: center;
     width: 40%;
     display: block;
-    border: solid thin #d3ecf1;
+    border: solid 2px #284c76;
     box-shadow: 1em 1em 1em -0.8em #d3ecf1;
 }
 
 .pop-up p {
     font-size: 1.3em;
-    line-height: 2em;
+    line-height: 1.5em;
     padding: 0 3em;
 }
 
@@ -1175,7 +1231,7 @@ pre[data-error] {
 
 .alert.success {
     background-color: #c9f5cf;
-    border: 1px solid#62bc6c;
+    border: none;
     color: #317137;
     }
 
@@ -1188,7 +1244,7 @@ pre[data-error] {
 
 .alert.info {
     background-color: #6196b7;
-    border: 1px solid #284c76;
+    border: none;
     color: white;
 }
 
