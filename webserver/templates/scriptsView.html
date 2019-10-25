@@ -58,7 +58,8 @@
 
                             <div data-preset="welcome">
 
-                                <h2>Select a script to run, or <a href='#' onclick="loadScript('new')">add a new one.</a>
+                                <h2>Select a script to run, or <a href='#' onclick="loadScript('new')">add a new
+                                        one.</a>
                                 </h2>
 
 
@@ -68,54 +69,55 @@
                             {# New preset form #}
                             <div data-preset="new" style="display:none">
 
-                                    <h1>Add New Script</h1>
-                                    <div class="happy-margin">
-                                    
+                                <h1>Add New Script</h1>
+                                <div class="happy-margin">
+
                                     <label for="scriptName">Name</label><br />
-                                    <input name="scriptName" type="text" value=""/><br>
-                                    
+                                    <input name="scriptName" type="text" value="" /><br>
+
                                     <label for="scriptDescription">Description</label><br />
-                                    <input name="scriptDescription" type="text" value=""/><br>
-                                    
+                                    <input name="scriptDescription" type="text" value="" /><br>
+
                                     <label for="scriptCommands">Commands</label><br />
                                     <textarea name="scriptCommands" class="scriptBody happy-margin"></textarea>
-                                    </div>
-                                    <div class="form-buttons">
-                                            <button onclick="return  checkScriptName();" class="featured button" type="submit">Save</button>
-                                    </div>
+                                </div>
+                                <div class="form-buttons">
+                                    <button onclick="return  checkScriptName();" class="featured button"
+                                        type="submit">Save</button>
+                                </div>
 
 
                             </div>
 
                             {# Existing script forms #}
                             <form id="existingScriptForms" class="presetForm form-body" method="post">
-                            {% for element in scripts %}
-                             <div data-preset="{{element.fileName}}" style="display:none">
-                                <button type="button" class='onRight featured noUnderline'><a class='noUnderline'
-                                        href="/scripts/{{element.fileName}}"" title=" Run '{{element.name}}' .">Run
-                                        Script</a>
-                                </button><br />
+                                {% for element in scripts %}
+                                <div data-preset="{{element.fileName}}" style="display:none">
+                                    <button type="button" class='onRight featured noUnderline'><a class='noUnderline'
+                                            href="/scripts/{{element.fileName}}"" title=" Run '{{element.name}}' .">Run
+                                            Script</a>
+                                    </button><br />
 
-                                <h1>{{element.name}}</h1>
-                                <div class="happy-margin">
-                                <label for="scriptName">Name</label><br />
-                                <input name="scriptName" type="text" value="{{element.name|safe}}"/>
-                                
-                                <label for="scriptDescription">Description</label><br />
-                                <input name="scriptDescription" type="text" value="{{element.description|safe}}"/>
-                                
-                                 <div style="display: none"><!-- Hiding for this iteration -->
-                                    <label for="scriptCommands">Commands</label><br />
-                                    <textarea name="scriptCommands" class="scriptBody happy-margin">{{element.commands| replace("u'","'")}}</textarea>
+                                    <h1>{{element.name}}</h1>
+                                    <div class="happy-margin">
+                                        {{element.description|safe}}
+
+                                        <div style="display: none">
+                                            <!-- Hiding for this iteration -->
+                                            <label for="scriptCommands">Commands</label><br />
+                                            <textarea name="scriptCommands"
+                                                class="scriptBody happy-margin">{{element.commands| replace("u'","'")}}</textarea>
+                                        </div>
+
+                                    </div>
+                                    <a class=' inlineLink noUnderline'
+                                        href="/download_file?type=script&file={{element.fileName}}"
+                                        title='Download and this script.'>Download Script</a>
+
+
+
                                 </div>
-                                </div>
-
-                                <a class='onRight inlineLink noUnderline'
-                                    href="/download_file?type=script&file={{element.fileName}}"
-                                    title='Download and this script.'>Download Script</a>
-
-                            </div>
-                            {% endfor %}
+                                {% endfor %}
                             </form>
 
                         </div>

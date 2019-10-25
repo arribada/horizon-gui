@@ -211,18 +211,17 @@ def saveConfig(deviceID, config):
     # indent fields into categories
 
     config = horizonSCUTE.expandJSON(config)
-    print("Save Response 1")
     saveResponse = deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
-    print("Save Response 2")
-    print(saveResponse)
 
     if 'error' in saveResponse:
-        session['userMessage'] = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['message']}
+        response = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['error']}
     else:
-        session['userMessage'] = {"type": 'success', "message": "Config Saved for <strong>" + str(deviceID) + "</strong>"}
+        response = {"type": 'success', "message": "Config Saved for <strong>" + str(deviceID) + "</strong>"}
 
     # remove config from session, so it needs loading again.
     session.pop('config' + str(deviceID), None)
+
+    return response
 
 
 horizonSCUTE.registerHook("save_config", saveConfig)

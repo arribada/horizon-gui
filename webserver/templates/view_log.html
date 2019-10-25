@@ -44,19 +44,19 @@
             </div>
 
             <div class="logFileList happy-margin">
-                <span class="logFileEntry" style="text-decoration: underline;">Log Import Date/Time</span>
+                <!-- <span class="logFileEntry" style="text-decoration: underline;">Log Import Date/Time</span> -->
 
                 {% for logDate in logData.allLogFiles%}
                 
                 {% for key, value in logDate.items() %}
                 <span class="logFileEntry">
-
-                    {{key}}&nbsp;<a class='warningButton noUnderline' href="/delete_log?key={{key}}&devices[]={{device}}" title='Delete these logs.'  onclick="return confirm('Delete these Logs?\nOnce deleted, you can will not be able to recover them. ')">Delete</a>&nbsp;
-                    - Downloads: <a class="downloadLink"
-                    href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
+                    <a class='' href="/delete_log?key={{key}}&devices[]={{device}}" title='Delete these logs.'  onclick="return confirm('Delete these Logs?\nOnce deleted, you will NOT be able to recover them. ')"><span class="icon"><img title="Delete Script" src="scute/images/delete-icon.png" /></span></a>
+                    &nbsp;{{key}}&nbsp;
+                    Downloads: <a class="downloadLink" href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
                     target="_blank">JSON<span class="tinyText">({{value['json']['fileSize']}})</span></a> <a class="downloadLink"
                     href="/downloadLog?device={{logData.selectedDevice}}&file={{value['bin']['fileName']}}"
                     target="_blank">Binary<span class="tinyText">({{value['bin']['fileSize']}})</span></a>
+                    
                 </span>
                 {% endfor %}
 

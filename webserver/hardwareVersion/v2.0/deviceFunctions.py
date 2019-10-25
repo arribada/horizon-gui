@@ -461,7 +461,7 @@ def saveDeviceConfig(runMode, deviceID, config):
 
             del config["local"]
 
-        print(config)
+        #print(config)
 
         myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
         if not os.path.exists(myConfigDirectory):
@@ -502,14 +502,11 @@ def saveDeviceConfig(runMode, deviceID, config):
             os.remove(newConfigFileName)
             return {'error': result[0]}
 
-        # for field test the system.deviceIdentifier is editable and is the deviceID
-        # flag back to calling routine if this has changed..
-
         # only keep constants.CONFIG_FILE_NUMBER_TO_KEEP different files
         tidyUpConfigDirectory(deviceID)
-        print("hoo hoo.")
-        return {'error': "testing config save failure"}
-        #return {'result': newConfigFileName}
+
+        #return {'error': "testing config save failure"}
+        return {'result': newConfigFileName}
 
 
 def correctJsonTypesInConfig(config):
