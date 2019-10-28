@@ -33,9 +33,9 @@
                                     {% for element in scripts  %}
 
                                     <li class="preset-list-item" data-preset-menu="{{element.fileName}}"
-                                        onclick="loadScript('{{ element.fileName }}')">
+                                        onclick="loadScript('{{ element.fileName }}')"><a href="#pageTop">
                                         <span class="preset-title navy bold">{{ element.name }}</span><br>
-                                        <span class="description gray">{{ element.description }}</span>
+                                        <span class="description gray">{{ element.description }}</span></a>
                                     </li>
                                     {% endfor %}
 
@@ -70,7 +70,7 @@
                             <div data-preset="new" style="display:none">
 
                                 <h1>Add New Script</h1>
-                                <div class="happy-margin">
+                                <div class="happy-margin addNewForm">
 
                                     <label for="scriptName">Name</label><br />
                                     <input name="scriptName" type="text" value="" /><br>
@@ -90,11 +90,12 @@
                             </div>
 
                             {# Existing script forms #}
+                            <a id="pageTop"></a>
                             <form id="existingScriptForms" class="presetForm form-body" method="post">
                                 {% for element in scripts %}
                                 <div data-preset="{{element.fileName}}" style="display:none">
                                     <button type="button" class='onRight featured noUnderline'><a class='noUnderline'
-                                            href="/scripts/{{element.fileName}}"" title=" Run '{{element.name}}' .">Run
+                                            href="/scripts/{{element.fileName}}" title=" Run '{{element.name}}' .">Run
                                             Script</a>
                                     </button><br />
 

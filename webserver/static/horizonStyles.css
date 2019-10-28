@@ -7,5 +7,30 @@
     background-color: floralwhite;
 }
 
+.userMessage {
+    text-align: center;
+    display: block;
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
+    -ms-animation: fadein 1s;
+    -o-animation: fadein 1s;
+    animation: fadein 1s;
+    margin: 0;
+    width: auto;
+
+}
+
+.preset-list-item a{
+    text-decoration: none;
+}
+
+.addNewForm input, .addNewForm textarea{
+    margin-left: 0em !important;
+    border: solid thin #d3ecf1;
+
+}
+textarea{
+    border: solid thin #d3ecf1;
+}
 
 

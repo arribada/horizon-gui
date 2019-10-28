@@ -458,7 +458,7 @@ function checkForChanges(){
 
 function checkPresetName(){
 
-    // which preset dov is selected?
+    // which preset div is selected?
 
     presetName = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[0].value.trim();
 
@@ -499,7 +499,7 @@ function checkPresetName(){
    
 function checkScriptName(){
 
-    // which preset dov is selected?
+    // which preset div is selected?
 
     scriptName = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[0].value.trim();
     scriptDescription = document.querySelectorAll("[data-selectedForm]")[0].getElementsByTagName("input")[1].value.trim();
@@ -524,9 +524,9 @@ function checkScriptName(){
 
         if (confirm("Script Name exists - overwrite it?")){
 
-            //return true;
-            alert("Save: TBC");
-            return false;
+            
+            return true;
+ 
             
         } else {
 
