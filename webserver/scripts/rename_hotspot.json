@@ -9,5 +9,6 @@
                 "ssid": "New Wi-Fi hotspot name"
             }
         }
-    ]
+    ],
+    "type": "system"
 }

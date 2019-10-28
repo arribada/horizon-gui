@@ -9,5 +9,6 @@
                 "dateTime": "Date Time in any reasonable format: e.g. YYYY-MM-DD HH:MM"
             }
         }
-    ]
+    ],
+    "type": "system"
 }

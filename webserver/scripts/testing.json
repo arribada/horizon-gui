@@ -1,0 +1,11 @@
+{
+    "name": "Testing",
+    "description": "Set the Date and Time of the Hub - this date time will be used when updating config on devices.",
+    "commands": [
+        {
+            "command": "date '+%Y-%m-%d %H:%M'",
+            "description": "Get the date time."
+        }
+    ],
+    "type": "user"
+}

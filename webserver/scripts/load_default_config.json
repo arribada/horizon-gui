@@ -6,5 +6,6 @@
             "command": "sudo tracker_config --write provisioning_data/default_config.json",
             "description": "Load default config to the tag."
         }
-    ]
+    ],
+    "type": "system"
 }

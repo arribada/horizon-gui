@@ -6,5 +6,6 @@
             "command": "cat knownDevices.json",
             "description": "List the content of the internal file that keeps track of deviceIDs and Friendly names."
         }
-    ]
+    ],
+    "type": "system"
 }

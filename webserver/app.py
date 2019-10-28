@@ -220,6 +220,7 @@ def saveConfig(deviceID, config):
 
     # remove config from session, so it needs loading again.
     session.pop('config' + str(deviceID), None)
+    session.pop('report_' + str(deviceID), None)
 
     return response
 
@@ -442,8 +443,9 @@ def getFileNamesForDevice(deviceID):
 
 def makeZip(deviceFilenameArray):
 
-    # the zip file
-    dateTime = deviceFunctions.systemTime(constants.RUNMODE)
+    # the zip file = start with the date part of timezone / datetime
+    dateTime = deviceFunctions.systemTime(constants.RUNMODE).split(' ', 1)[1]
+
     zipFileName = constants.DOWNLOAD_DATA_LOCATION + constants.DOWNLOAD_DATA_FILEPREFIX + '_' + dateTime.replace(' ', '_') + '.zip'
 
     # delete existing zip file if any.
@@ -489,7 +491,7 @@ def syncClock():
         
     toTime = request.args.getlist('clock_sync')[0]
     passTo = request.args.getlist('passTo')[0]
-    print("set the clock to " + toTime + ' ' + passTo)
+    # print("set the clock to " + toTime + ' ' + passTo)
     deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
 
     # set user message

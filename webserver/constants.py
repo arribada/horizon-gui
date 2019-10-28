@@ -1,6 +1,6 @@
 
 # GUI version nuber.  Must update manually
-GUI_VERSION = "v0.1.0"
+GUI_VERSION = "v0.1.1"
 
 # device tool version / directory
 DEVICE_HARDWARE_VERSION = "v2.0"  # for firmware 11 hardware 2
@@ -43,6 +43,3 @@ CONFIG_FILE_NUMBER_TO_KEEP = 10
 
 BATTERY_ERROR_TOOLTIP = "Battery Error returned. Try charging battery or replacing"
 BATTERY_ERROR_TEXT = "Battery Error"
-
-
-
