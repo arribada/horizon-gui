@@ -317,6 +317,12 @@ def erase_tag():
 
         if response["result"] == "erased":
 
+                # forget device
+                deviceFunctions.forgetDevice(devices[0])
+                # remove config from session, so it needs loading again.
+                session.pop('config' + str(devices[0]), None)
+                session.pop('report_' + str(devices[0]), None)
+
                 session['userMessage'] = {"type": 'info', "message": "Device Erased: <strong>" + devices[0] + "</strong>"}
           
         else:
