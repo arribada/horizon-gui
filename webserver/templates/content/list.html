@@ -18,7 +18,13 @@
             </div>
             <div class="table-nav-right gray">
                 <div class="last-loaded inline-block">
-                    <span class="light-gray">Latest Scan: {%if systemInfo.latestScan %}   {{ systemInfo.latestScan|safe }} {% else %}  {{systemInfo.currentDateTime|safe}} {% endif%}
+                    <span class="light-gray">Latest Scan: {{ systemInfo.latestScan|safe }}
+                        <form id='reloadForm' action="/list" method="post">
+                            <input type="hidden" name="force_update" value='yes' />
+                            <a class='onRight inlineLink noUnderline' href="#"
+                                onclick='lockScreenOverlay(); document.getElementById("reloadForm").submit()'
+                                title='Reload page and do a scan for devices.'>Scan For Changes</a>
+                        </form>
                     </span>
                 </div>
             </div>

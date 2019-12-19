@@ -16,7 +16,8 @@
     },
     "erase_log": {
         "bulk": true,
-        "warn": true,
+        "popupWarning": true,
+        "popupButtons": "Erase|Cancel",
         "order": 3,
         "label": "Erase Log",
         "userMessage": "Erase log from device(s)?",
@@ -25,9 +26,10 @@
     },
     "erase_tag": {
         "bulk": false,
-        "warn": true,
+        "popupWarning": true,
+        "popupButtons": "Reset Device|Cancel",
         "order": 4,
-        "label": "Erase Device",
+        "label": "Reset Device",
         "userMessage": "This will remove all log and config data from the selected devices.",
         "toolTip": "Delete all config and log data.",
         "lockScreen": true

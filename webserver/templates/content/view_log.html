@@ -50,7 +50,7 @@
                 
                 {% for key, value in logDate.items() %}
                 <span class="logFileEntry">
-                    <a class='' href="/delete_log?key={{key}}&devices[]={{device}}" title='Delete these logs.'  onclick="return confirm('Delete these Logs?\nOnce deleted, you will NOT be able to recover them. ')"><span class="icon"><img title="Delete Script" src="scute/images/delete-icon.png" /></span></a>
+                    <a class='' href="#" title='Delete these logs.'  onclick="showConfirm('<strong>Delete these Logs?</strong><br />Once deleted, you will NOT be able to recover them. ', '/delete_log?key={{key}}&devices[]={{device}}', false, ['Delete', 'Cancel']); return false;"><span class="icon-small"><img title="Delete these logs" src="scute/images/delete-icon.png" /></span></a>
                     &nbsp;{{key}}&nbsp;
                     Downloads: <a class="downloadLink" href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
                     target="_blank">JSON<span class="tinyText">({{value['json']['fileSize']}})</span></a> <a class="downloadLink"

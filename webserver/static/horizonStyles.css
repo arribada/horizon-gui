@@ -43,4 +43,11 @@ nav{
     margin-right: 0.25em;
 }
 
+.icon-small {
+    cursor: pointer;
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+}
+
 
