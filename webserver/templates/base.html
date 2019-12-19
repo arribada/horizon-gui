@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/scute/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    {% include "includes.html" %}
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div id='clickOverlay'>
+    </div>
+    <header>
+        {% include "layout/header.html" %}
+    </header>
+
+    <main>
+    {% if systemInfo.userMessage %}
+        <div id='userMessage' onclick='showHideDiv("userMessage")' class='userMessage alert {{systemInfo.userMessage.type}}'>{{systemInfo.userMessage.message|safe}}</div>
+    {%endif%}
+    
+    {% block content %}{% endblock %}
+
+    </main>
+
+    {% include "layout/footer.html" %}
+</body>
+
+</html>

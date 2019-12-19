@@ -1,0 +1,61 @@
+<script src="/scute/scute.js"></script>
+<script src="/scute/replaceOrRemove.js"></script>
+<script src="/static/horizon.js"></script>
+
+<footer>
+    {% if request.endpoint != "index" %}
+        {% include "layout/client_footer.html" %}
+        <div class="happy-margin">
+
+            Hub IP: <span id="time-hub" class="time-hub">{{systemInfo.systemIPAddress}}</span><br />
+            SD Card: {{systemInfo.hubSDSpace}}<br />
+            Hub Time: <span id="time-hub" class="time-hub">{{systemInfo.hubDateTime}}</span><br />
+            Computer Time: <span id="footer-time-computer" class="time-computer"></span><br />
+            GUI Version: <span class="gui-version">{{systemInfo.guiVersion}}</span>, 
+            Hardware Version: <span class="gui-version">{{systemInfo.hardwareVersion}}</span>, 
+            Tools Version: <span class="gui-version">{{systemInfo.toolsVersion}}</span> <br />
+            {% if systemInfo.scuteVersion %}SCUTE: <a href='https://github.com/Octophin/scute' target='_blank'
+            title='SCUTE on GitHub'>{{systemInfo.scuteVersion | safe}}</a><br>{%endif%}
+
+            <a href="/my_actions" target="_blank">Action History</a>
+        </div>
+{% endif %}
+
+</footer>
+
+
+<script>
+
+    let localDateTime = formatDateTime(new Date());
+    
+    let localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    let thisEndpoint = '{{request.endpoint}}'
+
+    // CLOCK UPDATE: forward this back to specific page.  
+    if (thisEndpoint === 'script'){ 
+        thisEndpoint = 'scripts'
+    }
+    if (thisEndpoint === 'view_log' || thisEndpoint === 'config' || thisEndpoint === 'deviceConfig'){ 
+        thisEndpoint = 'list'
+    }
+
+    hubDateTimeBits = '{{systemInfo.hubDateTime}}'.split(' ');
+    hubDateTime = hubDateTimeBits[1] + " " + hubDateTimeBits[2]
+
+    if (localDateTime != hubDateTime || localTimezone != hubDateTimeBits[0]) {
+        document.getElementById("clockWarning").innerHTML = "<form id='syncClockForm' action='/sync_clock'> \
+                    <input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
+                    <input type='hidden' name='passTo' value='" + thisEndpoint + "' /> \
+                    <a class='warningButton noUnderline' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
+                    title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form>";
+    }
+
+    document.getElementById("time-computer").innerHTML = localTimezone + " " + localDateTime;
+
+    if (document.getElementById("footer-time-computer")) {
+        document.getElementById("footer-time-computer").innerHTML = localTimezone + " " + localDateTime;
+    }
+
+
+</script>

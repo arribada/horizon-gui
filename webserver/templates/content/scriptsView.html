@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main-wrapper happy-margin">
+    <section class="main-table-wrapper">
+        {% include "layout/contentTitle.html" %}
+            <div class="happy-margin">
+                {% if systemInfo.pageTitle %}
+                <div class="introText happy-margin">{{systemInfo.pageTitle|safe}}</div>
+                {% endif%}
+                <div class='happy-margin'>
+                    <div class="presets-manager-wrapper">
+                        <div class="presets-manager-list scrolling">
+                            <div class="edit-presets-icons">
+                                <span class="icon add-preset" onclick="loadScript('new')">
+                                    <img title="Add Script" src="scute/images/add-icon.png" />
+                                </span>
+                                <!-- <span class="icon">
+                            <img onclick="uploadScript()" alt="Upload Script" src="scute/images/upload-icon.png"/>
+                    </span> -->
+                                <span class="icon toRight">
+                                    <img onclick="deleteScript()" title="Delete Script"
+                                        src="scute/images/delete-icon.png" />
+                                </span>
+
+                            </div>
+                            <div class="presets-list">
+                                <ul>
+
+                                    {% if scripts %}
+
+                                    {% for element in scripts  %}
+
+                                    <li class="preset-list-item" data-preset-menu="{{element.fileName}}" data-type="{{element.type}}"
+                                        onclick="loadScript('{{ element.fileName }}')"><a href="#pageTop">
+                                        <span class="preset-title navy bold">{{ element.name }}</span><br>
+                                        <span class="description gray">{{ element.description }}</span></a>
+                                    </li>
+                                    {% endfor %}
+
+                                    {% else %}
+
+                                    <li>No scripts found.</li>
+
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="presets-manager-content">
+                            <div class="heading">
+                                <h1 id="presetHeading"></h1>
+                                <span id="presetDate"></span>
+                            </div>
+
+                            {# Welcome #}
+
+                            <div data-preset="welcome">
+
+                                <h2>Select a script to run, or <a href='#' onclick="loadScript('new')">add a new
+                                        one.</a>
+                                </h2>
+
+
+
+                            </div>
+
+                            {# New preset form #}
+                            <form id="existingScriptForms" class="presetForm form-body" method="post">
+                            <div data-preset="new" style="display:none">
+
+                                <h1>Add New Script</h1>
+                                <div class="happy-margin addNewForm">
+
+                                    <label for="scriptName">Name</label><br />
+                                    <input name="scriptName" type="text" value="" /><br>
+
+                                    <label for="scriptDescription">Description</label><br />
+                                    <input name="scriptDescription" type="text" value="" /><br>
+
+                                    <label for="scriptCommands">Commands</label><br />
+                                    <textarea name="scriptCommands" class="scriptBody happy-margin">[{"command": "date '+%Y-%m-%d %H:%M'", "description": "This is an example script format.  Running this script will get the local Time"}]</textarea>
+                                </div>
+                                <div class="form-buttons">
+                                    <button onclick="return  checkScriptName();" class="featured button"
+                                        type="submit">Save Script</button>
+                                </div>
+                            </form>
+
+                            </div>
+
+                            {# Existing script forms #}
+                            <a id="pageTop"></a>
+                            
+                                {% for element in scripts %}
+                                <div data-preset="{{element.fileName}}" style="display:none">
+                                    <button type="button" class='onRight featured noUnderline'><a class='noUnderline'
+                                            href="/scripts/{{element.fileName}}" title=" Run '{{element.name}}' .">Run
+                                            Script</a>
+                                    </button><br />
+
+                                    <h1>{{element.name}}</h1>
+                                    <div class="happy-margin">
+                                        {{element.description|safe}}
+
+                                        <div style="display: none">
+                                            <!-- Hiding for this iteration -->
+                                            <label for="scriptCommands">Commands</label><br />
+                                            <textarea name="scriptCommands"
+                                                class="scriptBody happy-margin">{{element.commands| replace("u'","'")}}</textarea>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            
+
+                        </div>
+                    </div>
+
+
+    </section>
+</div>
+<script>
+
+// window.document.onload = function(e){ 
+//    loadScript({{scripts[0].name}});
+// }
+
+</script>
+{% endblock %}

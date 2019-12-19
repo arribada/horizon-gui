@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main-wrapper happy-margin">
+
+    <section class="main-table-wrapper">
+        {% include "layout/contentTitle.html" %}
+        <div class="happy-margin">
+                    <div class="form-headings navy happy-margin">
+                        <h2>Config Settings for device: <span id="deviceIDString">{{current['local.friendlyName']}} ({{device}})</span></h2>
+
+                        <div id="warningFieldsChanged" class="warningFieldsChanged subheading red navy">
+                            <div class="icon">
+                                <img src="/scute/images/info-icon.png">
+                            </div>
+                            <h3>There are unsaved changes.</h3>
+                        </div>
+                    </div>
+
+                <form class="form-body" id="configForm" method="post" onsubmit="return confirmSubmitConfig(this)">
+                    <div class="form-buttons">
+                        <button class="featured button" type="submit" onclick="document.getElementById('clickAction').value = 'save';">Apply Changes</button>
+                        <button class="primary button save-as-preset" name="preset" type="submit" onclick="document.getElementById('clickAction').value = 'preset';" >Save To Preset</button>
+                    </div>
+                    {% include "forms/configForm.html" %}
+                    <div class="form-buttons">
+                        <button class="featured button" name="save" type="submit" onclick="document.getElementById('clickAction').value = 'save';">Apply Changes</button>
+                        <button class="primary button save-as-preset" name="preset" type="submit" onclick="document.getElementById('clickAction').value = 'preset';">Save To Preset</button>
+                    </div>
+                </form>
+            </div>
+    </section>
+    </div>
+{% endblock %}

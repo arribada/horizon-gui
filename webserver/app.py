@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template, send_file, send_from
 import json
 import os
 import datetime
+from datetime import datetime, date
 import time
 import imp # for importing from specific locations
 import zipfile
@@ -23,41 +24,35 @@ options = {
         "reportSchema": "reportSchema.json",
         "actionsSchema": "actionsSchema.json",
         "configSchema": "configSchema.json",
-        "dataViews": "dataViews.json",
+        "scriptsDirectory": "scripts",
         "helpInfo": "helpfiles/index.md"
     }
 #instantiate SCUTE
 horizonSCUTE = scute(options, app)
 
-def getIndexData():
-
-    # session management... Only one user allowed - flag it.
-    accessAllowed = False
-    if 'activeUser' not in session:
-        accessAllowed = True 
-        session['activeUser'] = "this user"
-        usermessage = {"type": "success",  "message": "OK"}
-    else:
-        accessAllowed = True # this needs to be false, but also need specific user check. 
-        usermessage = {"type": "error",  "message": "Hub In Use."}
-
-    return {"accessAllowed": accessAllowed, "usermessage": usermessage}
-
-
-horizonSCUTE.registerHook("get_index_data", getIndexData)
-
-
-def getHeaderData():
+def getSystemInfo():
 
     # recoed this user action
     recordUserAction()
 
-    # user message?
-    if 'userMessage'  in session:
+    # is there a user message in session? extract it for display and remove it from session.
+    if 'userMessage' in session:
         userMessage = session['userMessage']
         session.pop('userMessage')
     else:
         userMessage = False
+
+    # session management... Only one user allowed - flag it < disabled for now.
+    accessAllowed = False
+    if 'activeUser' not in session:
+        accessAllowed = True 
+        session['activeUser'] = "this user" #TODO
+        
+    else:
+        accessAllowed = True # this needs to be false, but also need specific user check. 
+        #userMessage = {"type": "error",  "message": "Hub In Use."}
+
+    now = datetime.now()
 
     # load from session if avaiable.
     if 'systemIPAddress'  in session:
@@ -106,10 +101,13 @@ def getHeaderData():
         "timestamp": time.time(),
         "userMessage": userMessage,
         "pageTitle": pageTitle,
-        "latestScan": latestScan
+        "latestScan": latestScan,
+        "accessAllowed": accessAllowed, 
+        "scuteVersion": horizonSCUTE.getSCUTEVersion(),
+        "currentDateTime": now.strftime("%c")
         }
 
-horizonSCUTE.registerHook("get_header_data", getHeaderData)
+horizonSCUTE.registerHook("get_system_info", getSystemInfo)
 
 
 def recordUserAction():
@@ -286,16 +284,6 @@ def scanDirectory(target):
     return returnFiles
 
 
-@app.route('/uploads')
-def uploads():
-        # this is on hold for current release
-        return render_template("uploads.html", title="Upload Manager" , headerData = getHeaderData(), gps_almanacFiles=scanDirectory("upload/gps_almanac"),  firmwareFiles=scanDirectory("upload/firmware"))
-
-@app.route('/admin_console')
-def admin_console():
-        # this is on hold for current release
-        return render_template("adminConsole.html", title="Admin Console",headerData = getHeaderData() )
-  
 
 def getAlmanacList():
 
@@ -351,7 +339,7 @@ def view_log():
         if downloadNew == 'yes':
             session['userMessage'] = {"type": 'info', "message": "Log Imported"}
 
-        return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
+        return render_template("content/view_log.html", title="Latest Log for " + devices[0], systemInfo = getSystemInfo(), logData=logData, device=devices[0])
 
 
 
@@ -367,7 +355,7 @@ def selete_log():
         logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], False)
         session['userMessage'] = {"type": 'info', "message": "Log Deleted: <strong>" + str(deleteKey[0])+"</strong>"}
 
-        return render_template("view_log.html", title="Latest Log for " + devices[0], headerData = getHeaderData(), logData=logData, device=devices[0])
+        return render_template("content/view_log.html", title="Latest Log for " + devices[0], systemInfo = getSystemInfo(), logData=logData, device=devices[0])
 
 
 

@@ -1,0 +1,112 @@
+<input type="hidden" name="clickAction" id="clickAction" value=""/>
+{% for key,category in schema.items() | sort(attribute='1.order')%}
+
+    {% for fieldKey,fieldSchema in category.fields.items() | sort(attribute='1.order') %}
+
+    {% if loop.first %}
+        {% if "hidden" in category and category.hidden == true %}
+            <!-- // do nothing -->
+        {% else %}
+                <div class="form-title happy-padding navy">
+                    <h2>{{category.label}}</h2>
+                    {% if category.description|length > 1 %}
+                        <p>{{category.description}}</p>
+                    {% endif %}
+                </div>
+        {%endif%}
+    {% endif %}
+        {% if "hidden" in fieldSchema and fieldSchema.hidden == true %}
+                
+        <input id="{{fieldKey}}" class="text-field" type="hidden" name="{{fieldKey}}" value="{{current[fieldKey]}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+        {% else %}
+
+        {% if current[fieldKey] == None %}
+            {% set theValue = fieldSchema.default %}
+        {%else%}
+            {% set theValue = current[fieldKey]  %}
+        {%endif%}
+        
+        <div class="form-field happy-margin" >
+           
+            {% if fieldSchema.type == "boolean" %}
+                <div class="boolean-field">
+
+            {% endif %}
+            <div class="form-field-top">
+
+                <label for="{{fieldKey}}">{{fieldSchema.label}}
+                    {% if fieldSchema.userLocked == true %}
+                        (read only)
+                    {% endif %}
+                </label>
+                {% if fieldSchema.description|length > 1 %}
+                    <br ><span class="fieldDescription" >{{ fieldSchema.description }}</span>
+                {% endif %}
+     
+            </div>
+
+            {% if fieldSchema.type == "text" %}
+
+                 <input id="{{fieldKey}}" class="text-field" type="text" name="{{fieldKey}}" value="{{theValue}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+            {% elif fieldSchema.type == "number" %}
+
+                 <input id="{{fieldKey}}" class="number-field" type="text" name="{{fieldKey}}" value="{{theValue}}" {% if fieldSchema.userLocked == true %} readonly {% endif %}/>
+
+            {% elif fieldSchema.type == "select" %}
+
+                <select id="{{fieldKey}}" name="{{fieldKey}}">
+
+                    {% for value,label in fieldSchema.list.items() %}
+
+                        <option {% if theValue == value %} selected="selected" {% endif %} value="{{value}}">
+                            {{label}}</option>
+
+                    {% endfor %}
+
+                </select>
+
+            {% elif fieldSchema.type == "boolean" %}
+
+                <div class="radio-wrapper">
+                        <div>
+                            <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
+                            <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if theValue == True %} checked {% endif %}/>
+                        </div>
+                        <div>
+                            <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
+                            <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if theValue == False %} checked {% endif %}/>
+                        </div>
+                    </div>
+
+                </div>
+                    
+                
+            {% endif %}
+
+          </div>
+          {% endif %}
+
+
+    {% endfor %}
+
+{% endfor %}
+<br />
+    
+<script>
+    function checkbox_change(e, field){
+        e = e || event;
+        var cb = e.srcElement || e.target;
+        if (cb.type !== 'checkbox') {return true;}
+        var cbxs = document.getElementById(field)
+                    .getElementsByTagName('input'), 
+            i    = cbxs.length;
+         while(i--) {
+             if (cbxs[i].type 
+                  && cbxs[i].type == 'checkbox' 
+                  && cbxs[i].id !== cb.id) {
+               cbxs[i].checked = false;
+             }
+         }
+     }
+</script>

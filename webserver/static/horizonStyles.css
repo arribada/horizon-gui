@@ -1,10 +1,8 @@
 
 
 .clientFooter{
-    margin: 1em;
     padding: 1em;
-    border: solid 1px #c2c2c2;
-    background-color: floralwhite;
+
 }
 
 .userMessage {
@@ -31,6 +29,18 @@
 }
 textarea{
     border: solid thin #d3ecf1;
+}
+header{
+    background-color:  white !important;
+    border-bottom: solid thin #B3B1B1;
+}
+
+nav{
+    border-bottom: none;
+}
+
+.system-info{
+    margin-right: 0.25em;
 }
 
 

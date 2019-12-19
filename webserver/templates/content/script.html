@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main-wrapper happy-margin">
+
+    <section class="main-table-wrapper scriptRun">
+        {% include "layout/contentTitle.html" %}
+        <div class="happy-margin">
+
+            {% if output %}
+            <br><span class="commandList">Result from: [ {{ script.commands[nextCommand - 2].command }} ]<br></span>
+            <pre>{{output}}</pre>
+            <hr>
+            {% endif %}
+        
+        {% if nextCommand == 0 %}
+
+        <p class="happy-margin">{{script.description}}</p>
+
+        <a class="happy-margin start button" href="/scripts/{{fileName}}?command={{nextCommand}}">Start</a>
+
+        {% elif nextCommand > script.commands|length %}
+
+        <span class="alert success happy-margin">The script is complete.</span>&nbsp;
+
+
+        {% else %}
+
+        {{script.commands[nextCommand - 1].description}}
+
+        {# Form for parameters #}
+        <div class="happy-margin">
+            <form class="happy-margin">
+
+                <input type="hidden" name="command" value="{{nextCommand}}">
+
+                {% if script.commands[nextCommand - 1].parameters %}
+
+                {% for key,value in script.commands[nextCommand - 1].parameters.items() %}
+
+                <label for="{{key}}">{{value}}</label>
+                <input type="text" id="{{key}}" name="{{key}}" />
+
+                {% endfor %}
+
+                {% endif %}
+                <span class="commandList">About to run: [ {{ script.commands[nextCommand - 1].command }} ]<br></span>
+                <button type="submit">Run Command</button><br>&nbsp;
+
+            </form>
+        </div>
+
+        {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

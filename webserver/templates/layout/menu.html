@@ -1,0 +1,32 @@
+<a id="burger" onclick="toggleBurger()">
+    <span></span>
+    <span></span>
+    <span></span>
+</a>
+<div class="system-info">
+    <span id="clockWarning"></span>
+    <ul>
+        <li>Hub: <span id="time-hub" class="time-hub">{{systemInfo.hubDateTime}}</span></li>
+        <li>Computer: <span id="time-computer" class="time-computer"></span></li>
+    </ul>
+    
+</div>
+<nav class="flex">
+    <div class="nav-tab nav-branding">
+        <a href="/">Horizon GPS</a>
+    </div>
+    <div class="mob-menu">
+        <div class="nav-tab navy {% if request.endpoint == "list" %}selected{% endif %}">
+            <a href="/list" onclick="lockScreenOverlay();">Device Manager</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "presets" %}selected{% endif %}">
+            <a href="/presets">Preset Manager</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "scripts" %}selected{% endif %}">
+            <a href="/scripts">Scripts</a>
+        </div>
+        <div class="nav-tab navy {% if request.endpoint == "help" %}selected{% endif %}">
+            <a href="/help">Help</a>
+        </div>
+    </div>
+</nav>
