@@ -21,9 +21,9 @@
                     <span class="light-gray">Latest Scan: {{ systemInfo.latestScan|safe }}
                         <form id='reloadForm' action="/list" method="post">
                             <input type="hidden" name="force_update" value='yes' />
-                            <a class='onRight inlineLink noUnderline' href="#"
+                            <a class='button tertiary onRight noUnderline' href="#"
                                 onclick='lockScreenOverlay(); document.getElementById("reloadForm").submit()'
-                                title='Reload page and do a scan for devices.'>Scan For Changes</a>
+                                title='Reload page and do a scan for devices.'>Scan For Updates</a>
                         </form>
                     </span>
                 </div>

@@ -8,12 +8,13 @@
 .userMessage {
     text-align: center;
     display: block;
-    -webkit-animation: fadein 1s;
+    /* -webkit-animation: fadein 1s;
     -moz-animation: fadein 1s;
     -ms-animation: fadein 1s;
     -o-animation: fadein 1s;
-    animation: fadein 1s;
+    animation: fadein 1s; */
     margin: 0;
+    margin-top: .5em;
     width: auto;
 
 }
@@ -51,4 +52,9 @@ nav{
     display: inline-block;
 }
 
+
+[data-preset] h1 {
+    border-bottom: none;
+    text-decoration: underline;
+}
 

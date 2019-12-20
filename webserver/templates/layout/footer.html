@@ -13,11 +13,11 @@
             Computer Time: <span id="footer-time-computer" class="time-computer"></span><br />
             GUI Version: <span class="gui-version">{{systemInfo.guiVersion}}</span>, 
             Hardware Version: <span class="gui-version">{{systemInfo.hardwareVersion}}</span>, 
-            Tools Version: <span class="gui-version">{{systemInfo.toolsVersion}}</span> <br />
-            {% if systemInfo.scuteVersion %}SCUTE: <a href='https://github.com/Octophin/scute' target='_blank'
-            title='SCUTE on GitHub'>{{systemInfo.scuteVersion | safe}}</a><br>{%endif%}
+            Tools Version: <span class="gui-version">{{systemInfo.toolsVersion}}</span> 
+            {% if systemInfo.scuteVersion %}, SCUTE: <a href='https://github.com/Octophin/scute' target='_blank'
+            title='SCUTE on GitHub'>{{systemInfo.scuteVersion | safe}}</a>{%endif%}
 
-            <a href="/my_actions" target="_blank">Action History</a>
+            <br /><a href="/my_actions" target="_blank">Action History</a>
         </div>
 {% endif %}
 

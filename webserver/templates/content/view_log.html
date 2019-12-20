@@ -6,8 +6,8 @@
     <section class="main-table-wrapper" toolversion>
         <div class="loadingPopup" id="loadingPopup">
             <img src="/static/images/loading-blue.svg" /><br />
-            <h2>The Log File is transferring from your device to your Hub.</h2>
-            <br />This page will refresh when complete<br />please do not click away.
+            <h2>The latest Log data is being imported from device {{device}} to the Hub.</h2>
+            <br />This page will refresh when complete.<br />Please do not click away.
             <br /><br />Note: The date/time in the log filename is the current Hub time.
         </div>
         <div class="table-nav flex top-tail-margin top-tail-padding">
@@ -51,11 +51,11 @@
                 {% for key, value in logDate.items() %}
                 <span class="logFileEntry">
                     <a class='' href="#" title='Delete these logs.'  onclick="showConfirm('<strong>Delete these Logs?</strong><br />Once deleted, you will NOT be able to recover them. ', '/delete_log?key={{key}}&devices[]={{device}}', false, ['Delete', 'Cancel']); return false;"><span class="icon-small"><img title="Delete these logs" src="scute/images/delete-icon.png" /></span></a>
-                    &nbsp;{{key}}&nbsp;
-                    Downloads: <a class="downloadLink" href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
-                    target="_blank">JSON<span class="tinyText">({{value['json']['fileSize']}})</span></a> <a class="downloadLink"
+                    <strong>&nbsp;{{key}}&nbsp;</strong>
+                    Download: <a class="downloadLink" href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
+                    target="_blank">JSON data<span class="tinyText">({{value['json']['fileSize']}})</span></a> <a class="downloadLink"
                     href="/downloadLog?device={{logData.selectedDevice}}&file={{value['bin']['fileName']}}"
-                    target="_blank">Binary<span class="tinyText">({{value['bin']['fileSize']}})</span></a>
+                    target="_blank">Binary data<span class="tinyText">({{value['bin']['fileSize']}})</span></a>
                     
                 </span>
                 {% endfor %}

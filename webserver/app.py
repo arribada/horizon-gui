@@ -25,6 +25,7 @@ options = {
         "actionsSchema": "actionsSchema.json",
         "configSchema": "configSchema.json",
         "scriptsDirectory": "scripts",
+        "presetsDirectory": "presets",
         "helpInfo": "helpfiles/index.md"
     }
 #instantiate SCUTE
@@ -387,15 +388,15 @@ def downloadFile ():
     if fileType in allowedTypes:
         if fileType == 'preset':
             fileLocation = "presets/" + fileName + '.json'
-            downloadFileName = fileName+'.preset.json'
+            downloadFileName = 'preset_'+fileName+'.json'
         if fileType == 'script':
             fileLocation = "scripts/" + fileName
-            downloadFileName = fileName
+            downloadFileName = 'script_'+fileName
 
         return send_from_directory('', fileLocation , as_attachment=True, attachment_filename=downloadFileName )
     
     # still here?  error.
-    session['userMessage'] = {"type": 'error', "message": "User tried to download invalid file." }
+    session['userMessage'] = {"type": 'error', "message": "Invalid file download request." }
     
     return redirect('list')
     
