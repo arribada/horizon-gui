@@ -1,5 +1,4 @@
 # Install Arribada Tools v1.0.1 compatible with STM32-based Arribada Horizon tags.
-echo "Install Arribada Tools v1.0.1 compatible with STM32-based Arribada Horizon tags."
 
 # system up to date
 sudo apt update
