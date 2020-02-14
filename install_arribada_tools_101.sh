@@ -19,4 +19,12 @@ sudo python setup.py install
 # Install SCUTE framework
 pip install git+https://github.com/octophin/scute
 
+# Install Horizon Tags project
+cd ~
+curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.0.zip"
+unzip -o gui-v.0.2.0.zip
+cd horizon-gui-gui-v.0.2.0
+
+
+
 
