@@ -5,7 +5,7 @@ sudo apt update
 sudo apt upgrade
 
 # install required software
-sudo apt install git pip unzip openssh-server python2.7 python-setuptools build-essential libgtk2.0-dev
+sudo apt install git python-pip unzip openssh-server python2.7 python-setuptools build-essential libgtk2.0-dev
 
 # allow ssh access
 sudo systemctl enable ssh
