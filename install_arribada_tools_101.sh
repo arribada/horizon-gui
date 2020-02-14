@@ -8,11 +8,11 @@ sudo apt upgrade
 sudo apt install unzip openssh-server python2.7 python-setuptools build-essential libgtk2.0-dev
 
 # allow ssh access
-sudo systemctl enable ssh
+#sudo systemctl enable ssh
 
 # arribada tools
-curl -L -o 1.0.1.zip  "https://github.com/arribada/horizon-v2-tools/archive/1.0.1.zip"
-unzip 1.0.1.zip
-cd horizon-v2-tools-1.0.1
+#curl -L -o 1.0.1.zip  "https://github.com/arribada/horizon-v2-tools/archive/1.0.1.zip"
+#unzip 1.0.1.zip
+#cd horizon-v2-tools-1.0.1
 
-sudo python setup.py install
+#sudo python setup.py install
