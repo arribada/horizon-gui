@@ -9,13 +9,26 @@ There are two versions available, running on Ubuntu or Raspbian.
 
 We provide downloadable SD .img files so you can quickly get up and running [list downloads]
 
-## To create a fresh installation of the GUI on Ubuntu follow our step-by-step process;
+## To create a fresh installation of the GUI on Ubuntu Server follow our step-by-step process;
+
+What you will need;
+
+    A Raspberry Pi 2, 3, or 4
+    A micro-USB power cable
+    A microSD card with the Ubuntu Server image
+    A monitor with an HDMI interface
+    An HDMI cable for the Pi 2 & 3 and a MicroHDMI cable for the Pi 4
+    A USB keyboard
 
 1. Download a 64-bit Ubuntu 18.04.4 LTS image from ubuntu.com: https://ubuntu.com/download/raspberry-pi/thank-you?version=18.04.4&architecture=arm64+raspi3
 
-2. Next, install SD Card Formatter and format a fresh 16GB microSD card. Download SD Card Formatter here https://www.sdcard.org/downloads/formatter/ 
+2. Next, install SD Card Formatter and format a fresh 16GB microSD card. Download SD Card Formatter here https://www.sdcard.org/downloads/formatter/. Label the SD card name as HORIZON. 
 
-3. Now we will write the Ubuntu .img file to the SD card. To do this, download Balena Etcher (https://www.balena.io/etcher/) and install.
+3. Now we will write the Ubuntu .img file to the SD card. To do this, download Balena Etcher (https://www.balena.io/etcher/) and install. Before we write the .img file we need to extact it from the ZIP file we downloaded previously. Do this by right clicking on the ZIP file (Windows) and select "Extract here". When done you will be left with a 2.2GB file called "ubuntu-18.04.4-preinstalled-server-arm64+raspi3". This is what we will write to the SD card.
+
+4. Open Balena Etcher and select the SD card .img file we just extracted (ubuntu-18.04.4-preinstalled-server-arm64+raspi3). Click "Flash" to start writing the image file to the SD card and make yourself a cup of tea / coffee whilst it completes.
+
+5. 
 
 
 
