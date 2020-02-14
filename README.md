@@ -9,7 +9,7 @@ There are two versions available, running on Ubuntu or Raspbian.
 
 We provide downloadable SD .img files so you can quickly get up and running [list downloads]
 
-## To create a fresh installation of the GUI on Ubuntu Server follow our step-by-step process;
+## Stage 1. To create a fresh installation of the GUI on Ubuntu Server follow our step-by-step process;
 
 What you will need;
 
@@ -38,7 +38,18 @@ What you will need;
 
 9. Type `sudo apt install wireless-tools` and press enter. Press Y to continue. If you have no errors then the WiFi packages are now installed. You can now setup WiFi if required, however we will continue using the ethernet connection for now.
 
-10. 
+10. You now have a clean Ubuntu Server running. We can now proceed and setup the environment necessary to talk to Arribada Horizon tags.
+
+## Stage 2. Installing Arribada Horizon Tools.
+
+1. Type `sudo apt-get install dfu-util` and press enter.
+
+2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_101.sh | bash` and press enter. The Horizon tools will now install. You will see a successful message at the end of the process.
+
+## Stage 3. Installing the GUI
+
+.
+ 
 
 
 
@@ -60,7 +71,7 @@ What you will need;
 
 
 
-
+chmod +x  install_arribada_tools.sh
 
 
 ## Install Tools on Pi:
