@@ -41,6 +41,8 @@ echo "   |_________/     "
 echo "   |_|_| |_|_|"
 
 echo "Successfully Installed."
+echo "Disconnect the Ethernet cable.  Rebooting in 10 seconds."
+sleep 10 ; reboot
 
 
 
