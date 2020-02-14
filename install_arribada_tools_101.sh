@@ -26,7 +26,13 @@ unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
 echo "###############################"
-eho "All Installed"
+echo "  _____     ____"
+echo " /      \  |  o |" 
+echo "|        |/ ___\| "
+echo "|_________/     "
+echo "|_|_| |_|_|"
+
+ehco "All Installed"
 
 
 
