@@ -25,6 +25,14 @@ curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui
 unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
+# accesspoint
+sudo snap install wifi-ap
+
+sudo wifi-ap.config set wifi.ssid=Horizon
+sudo wifi-ap.config set wifi.security=wpa2 wifi.security-passphrase=arribada
+sudo wifi-ap.config set wifi.address=192.168.220.1
+
+
 echo "###############################"
 echo "  _____     ____"
 echo " /      \  |  o |" 
