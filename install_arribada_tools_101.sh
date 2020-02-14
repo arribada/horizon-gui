@@ -32,7 +32,7 @@ echo "|        |/ ___\| "
 echo "|_________/     "
 echo "|_|_| |_|_|"
 
-echo "All Installed"
+echo "Successfully Installed."
 
 
 
