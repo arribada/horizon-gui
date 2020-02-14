@@ -28,7 +28,17 @@ What you will need;
 
 4. Open Balena Etcher and select the SD card .img file we just extracted (ubuntu-18.04.4-preinstalled-server-arm64+raspi3). Click "Flash" to start writing the image file to the SD card and make yourself a cup of tea / coffee whilst it completes.
 
-5. 
+5. Put the SD card into the Raspberry Pi 4. To power the Raspberry Pi you will need a USB-C mains powered adapter (from your laptop you won't have enough power). Make sure the monitor and keyboard are plugged in too.
+
+6. You'll find that to get online you can't setup WiFi straight away as the iwconfig tools are not installed by default. Therefore, the first thing to do is to also connect your ethernet cable before powering on the Pi. Connect your ethernet cable to your home router and then to your Raspberry Pi. 
+
+7. The default login is ubuntu and the password is ubuntu.
+
+8. Once at the command line / terminal, type ifconfig and check that you have an IP address and are connected to the internet. You will see eth0 as your default connection.
+
+9. Type `sudo apt install wireless-tools` and press enter. Press Y to continue. If you have no errors then the WiFi packages are now installed. You can now setup WiFi if required, however we will continue using the ethernet connection for now.
+
+10. 
 
 
 
