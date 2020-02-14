@@ -30,7 +30,7 @@ sudo snap install wifi-ap
 
 sudo wifi-ap.config set wifi.ssid=Horizon
 sudo wifi-ap.config set wifi.security=wpa2 wifi.security-passphrase=arribada
-#sudo wifi-ap.config set wifi.address=192.168.220.1
+sudo wifi-ap.config set wifi.address=10.0.60.1
 
 
 echo "###############################"
