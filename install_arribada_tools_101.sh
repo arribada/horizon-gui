@@ -25,7 +25,8 @@ curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui
 unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
-print "All Installed";
+echo "###############################"
+eho "All Installed"
 
 
 
