@@ -40,48 +40,10 @@ What you will need;
 
 10. You now have a clean Ubuntu Server running. We can now proceed and setup the environment necessary to talk to Arribada Horizon tags.
 
-## Stage 2. Installing Arribada Horizon Tools.
+## Stage 2. Installing Arribada Horizon Tools and the GUI
 
 1. Type `sudo apt-get install dfu-util` and press enter.
 
-2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_101.sh | bash` and press enter. The Horizon tools will now install. You will see a successful message at the end of the process.
+2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_101.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
 
-## Stage 3. Installing the GUI
-
-.
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-chmod +x  install_arribada_tools.sh
-
-
-## Install Tools on Pi:
-* `curl -L -o v0.0.6.zip "https://bitbucket.org/icoteq-eng/arribada_python_tools/get/v0.0.6.zip"`
-* `unzip v0.0.6.zip`
-* `cd icoteq-eng-arribada_python_tools-871a26caa971/`
-* `sudo python setup.py install`
-
-
-
-## GUI Test mode
-* There is a flag in /deviceFunctions.py that puts the GUI into debug mode where dummy responses are given.
 
