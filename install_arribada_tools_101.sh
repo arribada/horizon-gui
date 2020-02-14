@@ -34,11 +34,11 @@ sudo wifi-ap.config set wifi.address=192.168.220.1
 
 
 echo "###############################"
-echo "  _____     ____"
-echo " /      \  |  o |" 
-echo "|        |/ ___\| "
-echo "|_________/     "
-echo "|_|_| |_|_|"
+echo "     _____     ____"
+echo "    /      \  |  o |" 
+echo "   |        |/ ___\| "
+echo "   |_________/     "
+echo "   |_|_| |_|_|"
 
 echo "Successfully Installed."
 
