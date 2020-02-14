@@ -32,7 +32,7 @@ echo "|        |/ ___\| "
 echo "|_________/     "
 echo "|_|_| |_|_|"
 
-ehco "All Installed"
+echo "All Installed"
 
 
 
