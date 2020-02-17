@@ -48,8 +48,9 @@ echo "###############################"
 echo "##### Setup Accrss point   ####"
 echo "###############################"
 sudo snap install wifi-ap
+# disable cloud-init - not needed and causes errors.
 sudo touch /etc/cloud/cloud-init.disabled
-cloud-init=disabled
+
 
 echo "###############################"
 echo "##### Set WIFI network     ####"
