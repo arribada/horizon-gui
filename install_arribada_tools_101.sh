@@ -39,7 +39,7 @@ echo "###############################"
 echo "##### Install Horizon ###"
 echo "###############################"
 cd ~
-curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.0.zip"
+curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
 unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
