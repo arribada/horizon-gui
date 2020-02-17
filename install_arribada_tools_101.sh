@@ -45,7 +45,7 @@ cd horizon-gui-gui-v.0.2.0
 
 # accesspoint
 echo "###############################"
-echo "##### Setup Accrss point   ####"
+echo "##### Setup Access point   ####"
 echo "###############################"
 sudo snap install wifi-ap
 # disable cloud-init - not needed and causes errors.
