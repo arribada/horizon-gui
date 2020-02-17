@@ -45,6 +45,7 @@ cd horizon-gui-gui-v.0.2.0
 
 # Install python production server
 pip install gunicorn
+pip install virtualenv
 
 
 # accesspoint
