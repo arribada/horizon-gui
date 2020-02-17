@@ -43,6 +43,10 @@ curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui
 unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
+# Install python production server
+pip install waitress
+
+
 # accesspoint
 echo "###############################"
 echo "##### Setup Access point   ####"
