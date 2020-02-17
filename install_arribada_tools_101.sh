@@ -45,9 +45,9 @@ echo "###############################"
 echo "##### Install Horizon       ###"
 echo "###############################"
 cd ~
-curl -L -o v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
-unzip -o v.0.2.1.zip
-cd horizon-gui-v.0.2.1
+curl -L -o v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/0.2.2.zip"
+unzip -o gui_install.zip
+cd horizon-gui-0.2.2
 
 # Install python production server
 # Install Horizon Tags project
