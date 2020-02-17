@@ -36,16 +36,21 @@ pip install git+https://github.com/octophin/scute
 
 # Install Horizon Tags project
 echo "###############################"
-echo "##### Install Horizon ###"
+echo "##### Install Horizon       ###"
 echo "###############################"
 cd ~
-curl -L -o gui-v.0.2.0.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
-unzip -o gui-v.0.2.0.zip
-cd horizon-gui-gui-v.0.2.0
+curl -L -o gui-v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
+unzip -o gui-v.0.2.1.zip
+cd horizon-gui-v.0.2.1
 
 # Install python production server
+# Install Horizon Tags project
+echo "###############################"
+echo "##### Setup Virtual Env.    ###"
+echo "###############################"
 pip install gunicorn
 pip install virtualenv
+virtualenv horizon_gui_venv
 
 
 # accesspoint
