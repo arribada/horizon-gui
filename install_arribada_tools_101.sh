@@ -44,7 +44,7 @@ unzip -o gui-v.0.2.0.zip
 cd horizon-gui-gui-v.0.2.0
 
 # Install python production server
-pip install waitress
+pip install gunicorn
 
 
 # accesspoint
