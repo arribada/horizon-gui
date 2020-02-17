@@ -33,18 +33,20 @@ cd horizon-v2-tools-1.0.1
 sudo python setup.py install
 
 # Install SCUTE framework
+echo ""
 echo "###############################"
 echo "##### Install SCUTE        ####"
 echo "###############################"
 pip install git+https://github.com/octophin/scute
 
 # Install Horizon Tags project
+echo ""
 echo "###############################"
 echo "##### Install Horizon       ###"
 echo "###############################"
 cd ~
-curl -L -o gui-v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
-unzip -o gui-v.0.2.1.zip
+curl -L -o v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/gui-v.0.2.1.zip"
+unzip -o v.0.2.1.zip
 cd horizon-gui-v.0.2.1
 
 # Install python production server
@@ -67,7 +69,7 @@ sudo snap install wifi-ap
 # disable cloud-init - not needed and causes errors.
 sudo touch /etc/cloud/cloud-init.disabled
 
-
+echo ""
 echo "###############################"
 echo "##### Set WIFI network     ####"
 echo "###############################"
@@ -76,7 +78,7 @@ sudo wifi-ap.config set wifi.security=wpa2 wifi.security-passphrase=arribada
 sudo wifi-ap.config set wifi.address=10.0.60.1
 ifconfig
 
-
+echo ""
 echo "###############################"
 echo "###############################"
 echo "     _____     ____"
