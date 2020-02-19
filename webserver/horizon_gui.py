@@ -504,6 +504,6 @@ def userActions():
 
 
 if __name__ == "__main__":
-    #app.run(host="0.0.0.0", port=80) # for Developlent / Testing (Flask server)
-    app.run() # for production server Gunicorn
+    app.run(host="0.0.0.0", port=80) # for Developlent / Testing (Flask server)
+    #app.run() # for production server Gunicorn
 
