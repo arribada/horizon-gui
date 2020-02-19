@@ -106,7 +106,7 @@ echo "##### TEMP: Starting Python app"
 echo "##### ctrl-C to exit."
 echo "###############################"
 cd ~/horizon-gui-0.2.3/webserver
-python horizon_gui.py
+sudo python horizon_gui.py
 
 
 
