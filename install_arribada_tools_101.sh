@@ -58,6 +58,7 @@ echo "###############################"
 pip install gunicorn
 pip install virtualenv
 virtualenv horizon_gui_venv
+# TODO - this is not complete yet.  Need to set up /etc/systemd/system/horizon_gui.service
 
 
 # accesspoint
@@ -92,7 +93,11 @@ echo "###############################"
 echo "Successfully Installed."
 #echo "Disconnect the Ethernet cable.  Rebooting in 10 seconds."
 #sleep 10 ; reboot
-echo "Development mode - no restart."
+echo "Development mode - No Reboot."
+echo "TEMP: Starting Python app"
+cd ~/horizon-gui-0.2.2/webserver
+python horizon_gui.py
+
 
 
 
