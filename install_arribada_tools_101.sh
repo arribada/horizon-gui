@@ -45,9 +45,9 @@ echo "###############################"
 echo "##### Install Horizon      ####"
 echo "###############################"
 cd ~
-curl -L -o v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/0.2.2.zip"
+curl -L -o v.0.2.1.zip  "https://github.com/arribada/horizon-gui/archive/0.2.3.zip"
 unzip -o gui_install.zip
-cd horizon-gui-0.2.2
+cd horizon-gui-0.2.3
 
 # Install python production server
 # Install Horizon Tags project
@@ -105,7 +105,7 @@ echo "###############################"
 echo "##### TEMP: Starting Python app"
 echo "##### ctrl-C to exit."
 echo "###############################"
-cd ~/horizon-gui-0.2.2/webserver
+cd ~/horizon-gui-0.2.3/webserver
 python horizon_gui.py
 
 
