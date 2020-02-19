@@ -104,7 +104,7 @@ echo "Development Mode - No Reboot."
 echo "###############################"
 echo "##### TEMP: Starting Python app"
 echo "##### ctrl-C to exit."
-echo "###############################
+echo "###############################"
 cd ~/horizon-gui-0.2.2/webserver
 python horizon_gui.py
 
