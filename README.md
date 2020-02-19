@@ -46,4 +46,6 @@ What you will need;
 
 2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_101.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
 
+3. NOTE: at the moment, this installs and runs the GUI as a Flask Server.  This needs to be replaced with Gunicorn for a production release.
+
 
