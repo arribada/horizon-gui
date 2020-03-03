@@ -2,16 +2,16 @@
     <form class="form-body" method="post">
         <br/>
         <br />
-        <h2>Preset name</h2>
+        <h2>{{_('Preset name')}}</h2>
         <input name="presetName" type="text" value="{{current.presetName}}"/><br/><br />
-        <h2>Preset description</h2>
+        <h2>{{_('Preset description')}}</h2>
         <textarea name="presetDescription">{{current.presetDescription}}</textarea><br/>
         <div class="form-buttons">
-            <button onclick="return checkPresetName();" class="featured button" type="submit">Save</button>
+            <button onclick="return checkPresetName();" class="featured button" type="submit">{{_('Save')}}</button>
         </div>
         {% include 'forms/configForm.html' %}
         <div class="form-buttons">
-            <button onclick="return  checkPresetName();" class="featured button" type="submit">Save</button>
+            <button onclick="return  checkPresetName();" class="featured button" type="submit">{{_('Save')}}</button>
         </div>
     </form>
 </div>

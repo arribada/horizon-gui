@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
 
     <main>
     {% if systemInfo.userMessage %}
-        <div id='userMessage' onclick='showHideDiv("userMessage")' class='userMessage alert {{systemInfo.userMessage.type}}'>{{systemInfo.userMessage.message|safe}}</div>
+        <div id='userMessage' onclick='showHideDiv("userMessage")' class='userMessage alert {{systemInfo.userMessage.type}}'>{{_(systemInfo.userMessage.message)|safe}}</div>
     {%endif%}
     
     {% block content %}{% endblock %}

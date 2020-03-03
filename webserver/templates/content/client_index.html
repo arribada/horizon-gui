@@ -1,11 +1,11 @@
 <div class="splash-screen-wrapper happy-padding">
-    <h2>Welcome to Horizon GPS</h2><br />
+    <h2>{{_('Welcome to Horizon GPS')}}</h2><br />
     <img src="/static/images/arribada_initative_logo_blog_ig.png" />
     <br /><br />
     <button type="button" class='featured noUnderline'><a class="" href='/list'>Device Scan</a></button>
     <div class="versionInfo">
-        Hub IP: {{systemInfo.systemIPAddress}}<br />
-        GUI:{{systemInfo.guiVersion}}, Hardware:{{systemInfo.hardwareVersion}}, Tools:{{systemInfo.toolsVersion}}<br />
-        Storage: {{systemInfo.hubSDSpace}}<br />
+        {{_('Hub IP')}}: {{systemInfo.systemIPAddress}}<br />
+        {{_('GUI')}}:{{systemInfo.guiVersion}}, {{_('Hardware')}}:{{systemInfo.hardwareVersion}}, {{_('Tools')}}:{{systemInfo.toolsVersion}}<br />
+        {{_('Storage')}}: {{systemInfo.hubSDSpace}}<br />
     </div>
 </div>

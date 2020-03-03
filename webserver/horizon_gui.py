@@ -10,6 +10,7 @@ from datetime import datetime, date
 import time
 import imp # for importing from specific locations
 import zipfile
+from flask_babel import gettext, ngettext
 
 ## project functions
 import constants
@@ -39,19 +40,10 @@ def getSystemInfo():
     # is there a user message in session? extract it for display and remove it from session.
     if 'userMessage' in session:
         userMessage = session['userMessage']
+        userMessage['message']  = gettext(userMessage['message'])
         session.pop('userMessage')
     else:
         userMessage = False
-
-    # session management... Only one user allowed - flag it < disabled for now.
-    accessAllowed = False
-    if 'activeUser' not in session:
-        accessAllowed = True 
-        session['activeUser'] = "this user" #TODO
-        
-    else:
-        accessAllowed = True # this needs to be false, but also need specific user check. 
-        #userMessage = {"type": "error",  "message": "Hub In Use."}
 
     now = datetime.now()
 
@@ -85,6 +77,8 @@ def getSystemInfo():
     pageTitle = None
     if request.endpoint in localisation.pageTitles:
         pageTitle = localisation.pageTitles[request.endpoint]
+        pageTitle = gettext(pageTitle)
+
 
     
     # load from session if avaiable.
@@ -103,7 +97,6 @@ def getSystemInfo():
         "userMessage": userMessage,
         "pageTitle": pageTitle,
         "latestScan": latestScan,
-        "accessAllowed": accessAllowed, 
         "scuteVersion": horizonSCUTE.getSCUTEVersion(),
         "currentDateTime": now.strftime("%c")
         }

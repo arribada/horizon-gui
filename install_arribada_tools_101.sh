@@ -49,17 +49,6 @@ curl -L -o gui_install.zip  "https://github.com/arribada/horizon-gui/archive/0.2
 unzip -o gui_install.zip
 cd horizon-gui-0.2.3
 
-# Install python production server
-# Install Horizon Tags project
-echo ""
-echo "###############################"
-echo "##### Setup Virtual Env.    ###"
-echo "###############################"
-pip install gunicorn
-pip install virtualenv
-virtualenv horizon_gui_venv
-# TODO - this is not complete yet.  Need to set up /etc/systemd/system/horizon_gui.service
-
 
 # accesspoint
 echo ""

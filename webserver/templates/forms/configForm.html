@@ -8,9 +8,9 @@
             <!-- // do nothing -->
         {% else %}
                 <div class="form-title happy-padding navy">
-                    <h2>{{category.label}}</h2>
+                    <h2>{{_(category.label)}}</h2>
                     {% if category.description|length > 1 %}
-                        <p>{{category.description}}</p>
+                        <p>{{_(category.description)}}</p>
                     {% endif %}
                 </div>
         {%endif%}
@@ -34,13 +34,11 @@
             {% endif %}
             <div class="form-field-top">
 
-                <label for="{{fieldKey}}">{{fieldSchema.label}}
-                    {% if fieldSchema.userLocked == true %}
-                        (read only)
-                    {% endif %}
+                <label for="{{fieldKey}}">{{_(fieldSchema.label)}}
+                    {% if fieldSchema.userLocked == true %}{{_('(read only)')}}{% endif %}
                 </label>
                 {% if fieldSchema.description|length > 1 %}
-                    <br ><span class="fieldDescription" >{{ fieldSchema.description }}</span>
+                    <br ><span class="fieldDescription" >{{ _(fieldSchema.description) }}</span>
                 {% endif %}
      
             </div>
@@ -60,7 +58,7 @@
                     {% for value,label in fieldSchema.list.items() %}
 
                         <option {% if theValue == value %} selected="selected" {% endif %} value="{{value}}">
-                            {{label}}</option>
+                            {{_(label)}}</option>
 
                     {% endfor %}
 
@@ -70,11 +68,11 @@
 
                 <div class="radio-wrapper">
                         <div>
-                            <label class="boolean-choice-label" for="{{fieldKey}}selected">Yes</label>
+                            <label class="boolean-choice-label" for="{{fieldKey}}selected">{{_('Yes')}}</label>
                             <input id="{{fieldKey}}selected" type="radio" name="{{fieldKey}}" value="selected" {% if theValue == True %} checked {% endif %}/>
                         </div>
                         <div>
-                            <label class="boolean-choice-label" for="{{fieldKey}}notselected">No</label>
+                            <label class="boolean-choice-label" for="{{fieldKey}}notselected">{{_('No')}}</label>
                             <input id="{{fieldKey}}notselected" type="radio" name="{{fieldKey}}" value="notselected" {% if theValue == False %} checked {% endif %}/>
                         </div>
                     </div>

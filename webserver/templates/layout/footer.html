@@ -7,17 +7,17 @@
         {% include "layout/client_footer.html" %}
         <div class="happy-margin">
 
-            Hub IP: <span id="time-hub" class="time-hub">{{systemInfo.systemIPAddress}}</span><br />
-            SD Card: {{systemInfo.hubSDSpace}}<br />
-            Hub Time: <span id="time-hub" class="time-hub">{{systemInfo.hubDateTime}}</span><br />
-            Computer Time: <span id="footer-time-computer" class="time-computer"></span><br />
-            GUI Version: <span class="gui-version">{{systemInfo.guiVersion}}</span>, 
-            Hardware Version: <span class="gui-version">{{systemInfo.hardwareVersion}}</span>, 
-            Tools Version: <span class="gui-version">{{systemInfo.toolsVersion}}</span> 
+            {{_('Hub IP')}}: <span id="time-hub" class="time-hub">{{systemInfo.systemIPAddress}}</span><br />
+            {{_('SD Card')}}: {{systemInfo.hubSDSpace}}<br />
+            {{_('Hub Time')}}: <span id="time-hub" class="time-hub">{{systemInfo.hubDateTime}}</span><br />
+            {{_('Computer Time')}}: <span id="footer-time-computer" class="time-computer"></span><br />
+            {{_('GUI Version')}}: <span class="gui-version">{{systemInfo.guiVersion}}</span>, 
+            {{_('Hardware Version')}}: <span class="gui-version">{{systemInfo.hardwareVersion}}</span>, 
+            {{_('Tools Version')}}: <span class="gui-version">{{systemInfo.toolsVersion}}</span> 
             {% if systemInfo.scuteVersion %}, SCUTE: <a href='https://github.com/Octophin/scute' target='_blank'
-            title='SCUTE on GitHub'>{{systemInfo.scuteVersion | safe}}</a>{%endif%}
+            title='{{_('SCUTE on GitHub')}}'>{{systemInfo.scuteVersion | safe}}</a>{%endif%}
 
-            <br /><a href="/my_actions" target="_blank">Action History</a>
+            <br /><a href="/my_actions" target="_blank">{{_('Action History')}}</a>
         </div>
 {% endif %}
 
@@ -48,7 +48,7 @@
                     <input type='hidden' name='clock_sync' value='" + localDateTime + "' /> \
                     <input type='hidden' name='passTo' value='" + thisEndpoint + "' /> \
                     <a class='warningButton noUnderline' href='#' onclick=\"document.getElementById('syncClockForm').submit()\" \
-                    title='Sync Hub Time to Computer Time?'>Time Mismatch</a></form>";
+                    title='{{_('Sync Hub Time to Computer Time?')}}'>{{_('Time Mismatch')}}</a></form>";
     }
 
     document.getElementById("time-computer").innerHTML = localTimezone + " " + localDateTime;
