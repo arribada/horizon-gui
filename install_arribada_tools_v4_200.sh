@@ -2,7 +2,7 @@
 echo "###############################"
 echo "###############################"
 echo "##### Setting Up Horizon  #####"
-echo "#####  Version 2 Hardware #####"
+echo "#####  Version 4 Hardware #####"
 echo "###############################"
 echo "###############################"
 cd ~
@@ -19,7 +19,7 @@ echo ""
 echo "###############################"
 echo "##### Install Core Software ###"
 echo "###############################"
-sudo apt install git python-pip unzip openssh-server python2.7 python-setuptools build-essential libgtk2.0-dev
+sudo apt install git python3 python3.7 python3-pip unzip openssh-server libssl-dev libffi-dev libglib2.0-dev libyaml-dev usbutils python3-dev
 
 # allow ssh access
 echo ""
@@ -33,7 +33,7 @@ echo ""
 echo "###############################"
 echo "##### Install Hardware Tools ##"
 echo "###############################"
-curl -L -o 1.0.1.zip  "https://github.com/arribada/horizon-v2-tools/archive/1.0.1.zip"
+curl -L -o 1.0.1.zip  "https://github.com/arribada/horizon-v2-tools/archive/1.0.1.zip" <<<< update this.
 unzip -o 1.0.1.zip
 cd horizon-v2-tools-1.0.1
 sudo python setup.py install
