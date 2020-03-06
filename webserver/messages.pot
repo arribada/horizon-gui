@@ -1,0 +1,281 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-03-04 09:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: horizon_gui.py:43
+msgid "message"
+msgstr ""
+
+#: templates/content/client_index.html:2
+msgid "Welcome to Horizon GPS"
+msgstr ""
+
+#: templates/content/client_index.html:7 templates/layout/footer.html:10
+msgid "Hub IP"
+msgstr ""
+
+#: templates/content/client_index.html:8
+msgid "GUI"
+msgstr ""
+
+#: templates/content/client_index.html:8
+msgid "Hardware"
+msgstr ""
+
+#: templates/content/client_index.html:8
+msgid "Tools"
+msgstr ""
+
+#: templates/content/client_index.html:9
+msgid "Storage"
+msgstr ""
+
+#: templates/content/config.html:10
+msgid "Config Settings for device"
+msgstr ""
+
+#: templates/content/config.html:16
+msgid "There are unsaved changes."
+msgstr ""
+
+#: templates/content/config.html:22 templates/content/config.html:27
+msgid "Apply Changes"
+msgstr ""
+
+#: templates/content/config.html:23 templates/content/config.html:28
+msgid "Save To Preset"
+msgstr ""
+
+#: templates/content/list.html:21
+msgid "Latest Scan:"
+msgstr ""
+
+#: templates/content/list.html:26 templates/content/list.html:108
+msgid "Scan For Updates"
+msgstr ""
+
+#: templates/content/list.html:105
+msgid "No configured devices detected."
+msgstr ""
+
+#: templates/content/list.html:106
+msgid "Please connect a device then"
+msgstr ""
+
+#: templates/content/list.html:108
+msgid "Reload page and do a scan for devices."
+msgstr ""
+
+#: templates/content/list.html:123
+msgid "Choose a preset config to apply"
+msgstr ""
+
+#: templates/content/list.html:123
+msgid "Apply Preset"
+msgstr ""
+
+#: templates/content/list.html:126
+msgid "View, edit and download device config."
+msgstr ""
+
+#: templates/content/list.html:126
+msgid "Device Config"
+msgstr ""
+
+#: templates/content/list.html:170
+msgid "Choose a Preset to apply to selected device(s)"
+msgstr ""
+
+#: templates/content/list.html:174
+msgid "Apply this preset to the selected device(s)"
+msgstr ""
+
+#: templates/content/view_log.html:9
+msgid "The latest Log data is being imported from device"
+msgstr ""
+
+#: templates/content/view_log.html:9
+msgid "to the Hub"
+msgstr ""
+
+#: templates/content/view_log.html:10
+msgid "This page will refresh when complete.<br />Please do not click away."
+msgstr ""
+
+#: templates/content/view_log.html:11
+msgid "Note: The date/time in the log filename is the current Hub time."
+msgstr ""
+
+#: templates/content/view_log.html:19
+msgid "Log Data for"
+msgstr ""
+
+#: templates/content/view_log.html:23
+msgid "Import Log"
+msgstr ""
+
+#: templates/content/view_log.html:29
+msgid "Displaying Log imported at"
+msgstr ""
+
+#: templates/content/view_log.html:43
+msgid "Available Log Imports"
+msgstr ""
+
+#: templates/content/view_log.html:53
+msgid ""
+"<strong>Delete these Logs?</strong><br />Once deleted, you will NOT be "
+"able to recover them."
+msgstr ""
+
+#: templates/content/view_log.html:53
+msgid "Delete these logs"
+msgstr ""
+
+#: templates/content/view_log.html:55
+msgid "Download"
+msgstr ""
+
+#: templates/content/view_log.html:56
+msgid "JSON data"
+msgstr ""
+
+#: templates/content/view_log.html:58
+msgid "Binary data"
+msgstr ""
+
+#: templates/content/view_log.html:71
+msgid "Log Analysis for"
+msgstr ""
+
+#: templates/content/view_log.html:88
+msgid "Log Preview (first"
+msgstr ""
+
+#: templates/content/view_log.html:88
+msgid "records"
+msgstr ""
+
+#: templates/content/view_log.html:97
+msgid "The Log is empty."
+msgstr ""
+
+#: templates/content/view_log.html:109
+msgid "There is no Log Data downloaded to your Hub for device"
+msgstr ""
+
+#: templates/content/view_log.html:109
+msgid "Import current Logs using the link above."
+msgstr ""
+
+#: templates/forms/configForm.html:38
+msgid "(read only)"
+msgstr ""
+
+#: templates/forms/configForm.html:71
+msgid "Yes"
+msgstr ""
+
+#: templates/forms/configForm.html:75
+msgid "No"
+msgstr ""
+
+#: templates/forms/presetForm.html:5
+msgid "Preset name"
+msgstr ""
+
+#: templates/forms/presetForm.html:7
+msgid "Preset description"
+msgstr ""
+
+#: templates/forms/presetForm.html:10 templates/forms/presetForm.html:14
+msgid "Save"
+msgstr ""
+
+#: templates/layout/client_footer.html:2
+msgid "Horizon Footer Info"
+msgstr ""
+
+#: templates/layout/footer.html:11
+msgid "SD Card"
+msgstr ""
+
+#: templates/layout/footer.html:12
+msgid "Hub Time"
+msgstr ""
+
+#: templates/layout/footer.html:13
+msgid "Computer Time"
+msgstr ""
+
+#: templates/layout/footer.html:14
+msgid "GUI Version"
+msgstr ""
+
+#: templates/layout/footer.html:15
+msgid "Hardware Version"
+msgstr ""
+
+#: templates/layout/footer.html:16
+msgid "Tools Version"
+msgstr ""
+
+#: templates/layout/footer.html:18
+msgid "SCUTE on GitHub"
+msgstr ""
+
+#: templates/layout/footer.html:20
+msgid "Action History"
+msgstr ""
+
+#: templates/layout/footer.html:51
+msgid "Sync Hub Time to Computer Time?"
+msgstr ""
+
+#: templates/layout/footer.html:51
+msgid "Time Mismatch"
+msgstr ""
+
+#: templates/layout/menu.html:9
+msgid "Hub"
+msgstr ""
+
+#: templates/layout/menu.html:10
+msgid "Computer"
+msgstr ""
+
+#: templates/layout/menu.html:16
+msgid "Horizon GPS"
+msgstr ""
+
+#: templates/layout/menu.html:20
+msgid "Device Manager"
+msgstr ""
+
+#: templates/layout/menu.html:23
+msgid "Preset Manager"
+msgstr ""
+
+#: templates/layout/menu.html:26
+msgid "Scripts"
+msgstr ""
+
+#: templates/layout/menu.html:29
+msgid "Help"
+msgstr ""
+
