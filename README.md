@@ -13,7 +13,7 @@ We provide downloadable SD .img files so you can quickly get up and running [lis
 
 What you will need;
 
-    A Raspberry Pi 2, 3, or 4
+    A Raspberry Pi 3, or 4
     A micro-USB power cable
     A microSD card with the Ubuntu Server image
     A monitor with an HDMI interface
@@ -28,24 +28,25 @@ What you will need;
 
 4. Open Balena Etcher and select the SD card .img file we just extracted (ubuntu-18.04.4-preinstalled-server-arm64+raspi3). Click "Flash" to start writing the image file to the SD card and make yourself a cup of tea / coffee whilst it completes.
 
-5. Put the SD card into the Raspberry Pi 4. To power the Raspberry Pi you will need a USB-C mains powered adapter (from your laptop you won't have enough power). Make sure the monitor and keyboard are plugged in too.
+5. Put the SD card into the Raspberry Pi 3/4. To power the Raspberry Pi you will need a USB-C mains powered adapter (from your laptop you won't have enough power). Make sure the monitor and keyboard are plugged in too.
 
-6. You'll find that to get online you can't setup WiFi straight away as the iwconfig tools are not installed by default. Therefore, the first thing to do is to also connect your ethernet cable before powering on the Pi. Connect your ethernet cable to your home router and then to your Raspberry Pi. 
+6. Disable Ubuntu Cooud init.  See https://makandracards.com/operations/42688-how-to-remove-cloud-init-from-ubuntu
 
-7. The default login is ubuntu and the password is ubuntu.
+7. You'll find that to get online you can't setup WiFi straight away as the iwconfig tools are not installed by default. Therefore, the first thing to do is to also connect your ethernet cable before powering on the Pi. Connect your ethernet cable to your home router and then to your Raspberry Pi. 
 
-8. Once at the command line / terminal, type ifconfig and check that you have an IP address and are connected to the internet. You will see eth0 as your default connection.
+8. The default login is ubuntu and the password is ubuntu.
 
-9. Type `sudo apt install wireless-tools` and press enter. Press Y to continue. If you have no errors then the WiFi packages are now installed. You can now setup WiFi if required, however we will continue using the ethernet connection for now.
+9. Once at the command line / terminal, type ifconfig and check that you have an IP address and are connected to the internet. You will see eth0 as your default connection.
 
-10. You now have a clean Ubuntu Server running. We can now proceed and setup the environment necessary to talk to Arribada Horizon tags.
+01. Type `sudo apt install wireless-tools` and press enter. Press Y to continue. If you have no errors then the WiFi packages are now installed. You can now setup WiFi if required, however we will continue using the ethernet connection for now.
 
-## Stage 2. Installing Arribada Horizon Tools and the GUI
+11. You now have a clean Ubuntu Server running. We can now proceed and setup the environment necessary to talk to Arribada Horizon tags.
+
+## Stage 2. Installing Arribada Horizon Tools and the GUI - Version 2 Tools (supports version 3 hardware)
 
 1. Type `sudo apt-get install dfu-util` and press enter.
 
-2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_101.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
+2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_v2_101.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
 
-3. NOTE: at the moment, this installs and runs the GUI as a Flask Server.  This needs to be replaced with Gunicorn for a production release.
 
 
