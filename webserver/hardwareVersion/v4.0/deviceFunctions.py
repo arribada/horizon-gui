@@ -387,7 +387,7 @@ def downloadDeviceConfigToLocal(deviceID):
 
     try:
         result = subprocess.check_output("sudo " + constants.TRACKER_CONFIG +
-                                         " --read " + newConfigFileName +
+                                         " --read_config " + newConfigFileName +
                                          " --id " + deviceID,
                                          shell=True,
                                          stderr=subprocess.STDOUT)
