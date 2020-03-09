@@ -231,7 +231,7 @@ def deviceScan(runMode):
 
         result = result.rstrip()  # trailing new line...
 
-        logMessage("Raw tracker_config list_id Received: " + result)
+        logMessage("Raw tracker_config list_id Received: " + join(mylist))
 
     # device with incompatible firmware breaks the call.
     if 'requires a buffer of at least 31 bytes' in result:
@@ -244,7 +244,15 @@ def deviceScan(runMode):
     elif result.startswith('Unexpected error'):
         return "{}"  # no devices...
     else:
-        return result
+
+        # convert the ids into the system format.
+        index = 0
+        resultDict = {}
+        for device in result:
+            resultDict[index] = device
+            index += 1
+
+        return resultDict
 
 
 def trackerConfigVesion(runMode):

@@ -3,8 +3,8 @@
 GUI_VERSION = "v1.0.0"
 
 # device tool version / directory
-DEVICE_HARDWARE_VERSION = "v2.0"  # for firmware 11 hardware 2
-#DEVICE_HARDWARE_VERSION = "v4.0" # for firmware ?? hardware 4
+#DEVICE_HARDWARE_VERSION = "v2.0"  # for firmware 11 hardware 2
+DEVICE_HARDWARE_VERSION = "v4.0" # for firmware ?? hardware 4
 
 # set to "dummy" to run without PI or devices
 RUNMODE = "pi"
