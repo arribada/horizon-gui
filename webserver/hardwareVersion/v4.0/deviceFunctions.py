@@ -229,9 +229,10 @@ def deviceScan(runMode):
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
-        result = result.rstrip()  # trailing new line...
-
-        logMessage("Raw tracker_config list_id Received: " + join(mylist))
+        result = result.rstrip() 
+        # logResult = join(result) # trailing new line...
+   
+        # logMessage("Raw tracker_config list_id Received: " + logResult)
 
     # device with incompatible firmware breaks the call.
     if 'requires a buffer of at least 31 bytes' in result:
