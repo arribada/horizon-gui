@@ -1,0 +1,37 @@
+{
+    "battery": {
+        "logEnable": true
+    },
+    "bluetooth": {
+        "logEnable": true,
+        "triggerControl": [
+            "REED_SWITCH"
+        ]
+    },
+    "gps": {
+        "logDebugEnable": true,
+        "logPositionEnable": true,
+        "logTTFFEnable": true,
+        "maximumAquisitionTime": 25,
+        "mode": [
+            "SCHEDULED"
+        ],
+        "scheduledAquisitionInterval": 305,
+        "testFixHoldTime": 60
+    },
+    "logging": {
+        "dateTimeStampEnable": true,
+        "enable": true
+    },
+    "rtc": {
+        "syncToGPSEnable": true
+    },
+    "saltwaterSwitch": {
+        "hysteresisPeriod": 5,
+        "logEnable": true
+    },
+    "system": {
+        "deviceName": "altitudeleave"
+    },
+    "version": 1
+}
