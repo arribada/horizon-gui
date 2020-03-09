@@ -33,9 +33,9 @@ echo ""
 echo "###############################"
 echo "##### Install Hardware Tools ##"
 echo "###############################"
-curl -L -o 1.0.1.zip  "https://github.com/arribada/horizon-v2-tools/archive/1.0.1.zip" <<<< update this.
-unzip -o 1.0.1.zip
-cd horizon-v2-tools-1.0.1
+curl -L -o tools_install.zip  "https://arribada.org/downloads/arribada_tools-2.0.0.zip" 
+unzip -o tools_install.zip
+cd horizon-v2-tools-2.0.0
 sudo python setup.py install
 
 # Install SCUTE framework
@@ -51,9 +51,9 @@ echo "###############################"
 echo "##### Install Horizon      ####"
 echo "###############################"
 cd ~
-curl -L -o gui_install.zip  "https://github.com/arribada/horizon-gui/archive/0.2.3.zip"
+curl -L -o gui_install.zip  "https://github.com/arribada/horizon-gui/archive/4.0.0.zip"
 unzip -o gui_install.zip
-cd horizon-gui-0.2.3
+cd horizon-gui-4.0.0
 
 
 # accesspoint
