@@ -104,7 +104,7 @@ echo "###############################"
 echo "##### TEMP: Starting Python app"
 echo "##### ctrl-C to exit."
 echo "###############################"
-cd ~/horizon-gui-0.2.3/webserver
+cd ~/horizon-gui-4.0.0/webserver
 sudo python3 horizon_gui.py
 
 
