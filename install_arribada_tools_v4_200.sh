@@ -36,7 +36,7 @@ echo "###############################"
 curl -L -o tools_install.zip  "https://arribada.org/downloads/arribada_tools-2.0.0.zip" 
 unzip -o tools_install.zip
 cd arribada_tools-2.0.0
-sudo python setup.py install
+sudo python3 setup.py install
 
 # Install SCUTE framework
 echo ""
