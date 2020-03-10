@@ -1,6 +1,6 @@
 
 # GUI version nuber.  Must update manually
-GUI_VERSION = "v4.0.0"
+GUI_VERSION = "v4.0.1"
 
 # device tool version / directory
 #DEVICE_HARDWARE_VERSION = "v2.0"  # for firmware 11 hardware 2
