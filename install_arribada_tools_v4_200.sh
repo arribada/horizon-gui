@@ -81,7 +81,9 @@ ifconfig
 echo "#####################################################"
 echo "update rc.local to start the GUI on system boot"
 echo "#####################################################"
-echo "sudo python3 ~/horizon-gui-4.0.0/webserver/horizon_gui.py" >> /etc/rc.local
+echo "cd /home/ubuntu/horizon-gui-4.0.0/webserver/ >> /etc/rc.local
+echo "sudo python3 horizon_gui.py" >> /etc/rc.local
+
 
 echo ""
 echo "###############################"
@@ -95,17 +97,14 @@ echo "###############################"
 echo "###############################"
 
 echo "Successfully Installed."
-#echo "Disconnect the Ethernet cable.  Rebooting in 10 seconds."
-#sleep 10 ; reboot
+echo "Disconnect the Ethernet cable.  Rebooting in 10 seconds."
+sleep 10 ; reboot
 
-
-echo "Development Mode - No Reboot."
-echo "###############################"
-echo "##### TEMP: Starting Python app"
-echo "##### ctrl-C to exit."
-echo "###############################"
-cd ~/horizon-gui-4.0.0/webserver
-sudo python3 horizon_gui.py
+# echo "Development Mode - No Reboot."
+# echo "###############################"
+# echo "##### TEMP: Starting Python app"
+# echo "##### ctrl-C to exit."
+# echo "###############################"
 
 
 
