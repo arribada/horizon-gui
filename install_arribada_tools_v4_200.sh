@@ -78,6 +78,10 @@ echo "##### ifconfig            #####"
 echo "###############################"
 ifconfig
 
+echo "#####################################################"
+echo "update rc.local to start the GUI on system boot"
+echo "#####################################################"
+echo "sudo python3 ~/horizon-gui-0.2.3/webserver/horizon_gui.py" >> /etc/rc.local
 
 echo ""
 echo "###############################"
