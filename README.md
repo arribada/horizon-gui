@@ -30,7 +30,11 @@ What you will need;
 
 5. Put the SD card into the Raspberry Pi 3/4. To power the Raspberry Pi you will need a USB-C mains powered adapter (from your laptop you won't have enough power). Make sure the monitor and keyboard are plugged in too.
 
-6. Disable Ubuntu Cooud init.  See https://makandracards.com/operations/42688-how-to-remove-cloud-init-from-ubuntu
+6. Disable Ubuntu Cooud init. This is used by Ubuntu to connect to cloud servers and setup. If you have access to wired ethernet, plug it in and it will continue fine. If not, disable it by going to the command line and running;
+
+sudo touch /etc/cloud/cloud-init.disabled
+
+Then reboot.
 
 7. You'll find that to get online you can't setup WiFi straight away as the iwconfig tools are not installed by default. Therefore, the first thing to do is to also connect your ethernet cable before powering on the Pi. Connect your ethernet cable to your home router and then to your Raspberry Pi. 
 
@@ -42,11 +46,11 @@ What you will need;
 
 11. You now have a clean Ubuntu Server running. We can now proceed and setup the environment necessary to talk to Arribada Horizon tags.
 
-## Stage 2. Installing Arribada Horizon Tools and the GUI - Version 2 Tools (supports version 3 hardware)
+## Stage 2. Installing Arribada Horizon Tools and the GUI - Version 4 Tools (supports version 4 hardware)
 
 1. Type `sudo apt-get install dfu-util` and press enter.
 
-2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_v2_101.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
+2. Type `wget -O- https://raw.githubusercontent.com/arribada/horizon-gui/master/install_arribada_tools_v4_200.sh | bash` and press enter. The Horizon tools package and GUI will now install the necessary files to run. You will see a successful message at the end of the process.
 
 
 
