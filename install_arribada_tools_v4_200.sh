@@ -35,7 +35,7 @@ echo "##### Install Hardware Tools ##"
 echo "###############################"
 curl -L -o tools_install.zip  "https://arribada.org/downloads/arribada_tools-2.0.0.zip" 
 unzip -o tools_install.zip
-cd horizon-v2-tools-2.0.0
+cd arribada_tools-2.0.0
 sudo python setup.py install
 
 # Install SCUTE framework
