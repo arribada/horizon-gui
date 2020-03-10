@@ -43,7 +43,7 @@ echo ""
 echo "###############################"
 echo "##### Install SCUTE       #####"
 echo "###############################"
-pip install git+https://github.com/octophin/scute
+pip3 install git+https://github.com/octophin/scute
 
 # Install Horizon Tags project
 echo ""
@@ -101,7 +101,7 @@ echo "##### TEMP: Starting Python app"
 echo "##### ctrl-C to exit."
 echo "###############################"
 cd ~/horizon-gui-0.2.3/webserver
-sudo python horizon_gui.py
+sudo python3 horizon_gui.py
 
 
 
