@@ -15,6 +15,17 @@
             "firmwareVersion": {
                 "label": "Firmware Version",
                 "order": 7
+            }
+        }
+    },
+    "logging": {
+        "label": "Logging settings",
+        "description": "",
+        "order": 2,
+        "fields": {
+            "fileSize": {
+                "label": "Log File Size",
+                "order": 1
             },
             "sensorsEnabled": {
                 "label": "Sensors Enabled",

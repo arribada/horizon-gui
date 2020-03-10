@@ -11,6 +11,9 @@ import time
 import imp # for importing from specific locations
 import zipfile
 from flask_babel import gettext, ngettext
+import csv
+import sys
+from pathlib import Path
 
 ## project functions
 import constants
@@ -367,6 +370,93 @@ def downloadLogFile ():
 
     return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
 
+@app.route('/downloadSeparated')
+def downloadSeparated ():
+    fileName = request.args.getlist("file")[0]
+    device = request.args.getlist("device")[0]
+    root = constants.LOG_DATA_LOCAL_LOCATION
+
+    theFile = log_to_split_csv_files(root + device + '/' + fileName, 'logdownload', device)
+    print("beep", theFile)
+
+    return send_from_directory('logdownload', theFile , as_attachment=True, attachment_filename="separated_logs_" + device+ ".zip" )
+
+
+def log_to_split_csv_files(logFile, outputDir, device):
+    
+    try:
+        # Python 2
+        xrange
+    except NameError:
+        # Python 3, xrange is now named range
+        xrange = range
+
+    def chunks(lst, n):
+        """Yield successive n-sized chunks from lst."""
+        for i in xrange(0, len(lst), n):
+            yield lst[i:i + n]
+
+    with open(logFile, 'r') as log_file:
+
+        splitLogs = {}
+        log = log_file.read().splitlines()
+        # Split into pairs (date and actual log)
+        log = chunks(log, 2)
+        for logEntry in log:
+
+            logPart = json.loads(logEntry[1])
+
+            # Get type of log it is from key
+            logType = list(logPart.keys())[0]
+
+            # Does this logType already exist in the splitLogs dict?
+
+            if logType not in splitLogs:
+                splitLogs[logType] = []
+
+            # Get log details
+            
+            logDetails = logPart[logType]
+            
+            # Get date part and parse
+
+            datePart = json.loads(logEntry[0])["Timestamp"]["timestamp"]
+                
+            logdate = datetime.utcfromtimestamp(datePart).strftime("%Y-%m-%d:%H-%M-%S")
+            
+            logDetails["time"] = logdate
+
+            splitLogs[logType].append(logDetails)
+
+        # Make output directory if doesn't exist
+
+        Path(outputDir).mkdir(parents=True, exist_ok=True)
+
+        # Split logs, now turn them into a csv file each
+
+        for category in splitLogs:
+            f = open(outputDir + "/" + category + ".csv", "w")
+            csv_file = csv.writer(f)
+
+            # columns
+            csv_file.writerow(list(splitLogs[category][0].keys()))
+
+            # rows
+            for item in splitLogs[category]:
+                csv_file.writerow(item.values())
+
+        zipf = zipfile.ZipFile(outputDir + "/separated_logs_" + device + ".zip", "w", zipfile.ZIP_DEFLATED)
+
+        for root, dirs, files in os.walk(outputDir):
+            for file in files:
+                if file != "/separated_logs_" + device + ".zip": # No zip inception
+                    zipf.write(os.path.join(root, file))
+
+        zipf.close()
+
+        # Return name of zipfile
+        return "separated_logs_" + device + ".zip"
+
 @app.route('/download_file')
 def downloadFile ():  
     # this can be extended for other file types.
@@ -467,6 +557,8 @@ def downloadDataZip ():
         # add to zip output (local temp save?)
         # return the zip file as download.
 
+    #print("--------->>> ", getFileNamesForDevice())
+
     filenamesToZip = map(getFileNamesForDevice, devices)
 
     zipFilename = makeZip(filenamesToZip)
@@ -498,5 +590,5 @@ def userActions():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80) # for Developlent / Testing (Flask server)
-    #app.run() # for production server Gunicorn
+
 
