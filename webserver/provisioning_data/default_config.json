@@ -12,11 +12,11 @@
         "logDebugEnable": true,
         "logPositionEnable": true,
         "logTTFFEnable": true,
-        "maximumAquisitionTime": 25,
+        "maximumAquisitionTime": 40,
         "mode": [
             "SCHEDULED"
         ],
-        "scheduledAquisitionInterval": 305,
+        "scheduledAquisitionInterval": 152,
         "testFixHoldTime": 60
     },
     "logging": {
@@ -31,7 +31,7 @@
         "logEnable": true
     },
     "system": {
-        "deviceName": "altitudeleave"
+        "deviceName": "extendedconfig"
     },
     "version": 1
 }

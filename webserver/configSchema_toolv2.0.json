@@ -173,6 +173,7 @@
 				"description": "Log the date/time",
 				"excludeFromPresets": false,
 				"order": 8,
+				"default": true,
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "boolean",
