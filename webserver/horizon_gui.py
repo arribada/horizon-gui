@@ -204,10 +204,12 @@ horizonSCUTE.registerHook("read_config", readConfig)
 # save config for one device
 def saveConfig(deviceID, config):
     # indent fields into categories
-
+    del config["clickAction"]
+    config["local.bluetooth.triggerControl"]=[["REED_SWITCH"]]
+    config["local.gps.mode"]=[["SCHEDULED"]]
     config = horizonSCUTE.expandJSON(config)
     saveResponse = deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
-
+    print(config)
     if 'error' in saveResponse:
         response = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['error']}
     else:

@@ -99,14 +99,7 @@ def hubSDSpace(runMode):
 
         resultArray = result.split('\n')
 
-        # pick the system line in the output..
-        masterLine = []
-        for oneLine in resultArray:
-            thisLine = oneLine.split()
-
-            if thisLine[5] == '/':
-                masterLine = thisLine
-                break
+        masterLine = resultArray[1].split()
 
 
     # device with incompatible firmware breaks the call.
@@ -455,7 +448,7 @@ def tidyUpConfigDirectory(deviceID):
 
 
 def saveDeviceConfig(runMode, deviceID, config):
-
+    #print(config)
     logMessage("device functions saveDeviceConfig")
 
     if runMode == 'dummy':
@@ -463,7 +456,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         deviceID = deviceID.replace(":", "")
 
         destinationFile = "dummy_data/" + deviceID + ".json"
-
+        #print(config)
         with open(destinationFile, 'w') as configFile:
             json.dump(config, configFile)
 
@@ -476,10 +469,10 @@ def saveDeviceConfig(runMode, deviceID, config):
             if 'friendlyName' in config["local"]:
 
                 saveFriendlyName(deviceID, config["local"]['friendlyName'])
+            #print(config)
+            #del config["local"]
 
-            del config["local"]
-
-        #print(config)
+        del config["local"]["friendlyName"]
 
         myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
         if not os.path.exists(myConfigDirectory):
@@ -490,10 +483,12 @@ def saveDeviceConfig(runMode, deviceID, config):
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
         # convert to correct json types
         config = correctJsonTypesInConfig(config)
-
         # save this config locally
+        print(config)
+
         with open(newConfigFileName, 'w+') as outfile:
             json.dump(config, outfile)
+        #json.dump(config["local"], outfile) ---- this works but doesn't save
 
         try:
             result = subprocess.check_output(

@@ -102,7 +102,7 @@
 					"SWITCH_TRIGGERED": "Switch Triggered"
 				},
 				"order": 8,
-				"default": "SCHEDULED",
+				"default": ["SCHEDULED"],
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "text",
@@ -218,11 +218,14 @@
 		"fields": {
 			"bluetooth.triggerControl": {
 				"label": "Trigger Control",
-				"type": "number",
-				"description": "Bit-mask: 1 - REED SWITCH, 2 - SCHEDULED, 4 - GEOFENCE; multiple options can be logically OR'd together",
+				"description": "REED SWITCH, SCHEDULED, GEOFENCE",
+				"list": {
+					"SCHEDULED": "SCHEDULED",
+					"REED_SWITCH": "REED SWITCH"
+				},
 				"excludeFromPresets": false,
 				"order": 2,
-				"default": 1,
+				"default": ["REED_SWITCH"],
 				"userLocked": false,
 				"advanced": false,
 				"jsonType": "int",
@@ -241,6 +244,22 @@
 				"hidden": true
 			}
 		}
+	},
+	"system": {
+		"label": "Device Name",
+		"description": "The device name is retrieved from the tag and displayed here",
+		"order": 10,
+		"fields": {
+			"system.deviceName": {
+				"label": "The device name",
+				"description": "A unique name for the device",
+				"type": "text",
+				"excludeFromPresets": false,
+				"userLocked": false,
+				"advanced": false,
+				"jsonType": "text",
+				"default": false
+			}
+		}
 	}
-
 }

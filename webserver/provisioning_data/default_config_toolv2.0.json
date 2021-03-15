@@ -21,9 +21,12 @@
     },
     "logging": {
         "dateTimeStampEnable": true,
-        "enable": true
+        "enable": true,
+        "fileSize": 20,
+        "fileType": "LINEAR"
     },
     "rtc": {
+        "dateTime": "Thu Jan  1 06:05:52 1970",
         "syncToGPSEnable": true
     },
     "saltwaterSwitch": {
@@ -32,6 +35,5 @@
     },
     "system": {
         "deviceName": "extendedconfig"
-    },
-    "version": 1
+    }
 }
