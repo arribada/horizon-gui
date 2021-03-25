@@ -55,14 +55,14 @@ def getSystemInfo():
         systemIPAddress = session['systemIPAddress']
 
     else:
-        systemIPAddress = deviceFunctions.systemIPAddress(constants.RUNMODE) 
+        systemIPAddress = deviceFunctions.systemIPAddress(constants.RUNMODE)
         session['systemIPAddress'] = systemIPAddress
 
     if 'hubSDSpace'  in session:
         hubSDSpace = session['hubSDSpace']
 
     else:
-        hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE) 
+        hubSDSpace = deviceFunctions.hubSDSpace(constants.RUNMODE)
         session['hubSDSpace'] = hubSDSpace
 
 
@@ -71,10 +71,10 @@ def getSystemInfo():
         toolsVersion = session['toolsVersion']
 
     else:
-        toolsVersion = deviceFunctions.trackerConfigVesion(constants.RUNMODE) 
+        toolsVersion = deviceFunctions.trackerConfigVesion(constants.RUNMODE)
         session['toolsVersion'] = toolsVersion
 
-    hubDateTime = deviceFunctions.systemTime(constants.RUNMODE) 
+    hubDateTime = deviceFunctions.systemTime(constants.RUNMODE)
 
     # page titles from localisation?
     pageTitle = None
@@ -83,12 +83,12 @@ def getSystemInfo():
         pageTitle = gettext(pageTitle)
 
 
-    
+
     # load from session if avaiable.
     latestScan = ''
     if 'scanResultsDateTime'  in session:
         latestScan = session['scanResultsDateTime']
-    
+
     return {
         "guiVersion": constants.GUI_VERSION,
         "hardwareVersion": constants.DEVICE_HARDWARE_VERSION,
@@ -122,7 +122,7 @@ def recordUserAction():
     session['userActions'] = currentActions
 
     return
-    
+
 
 
 # get list of currently connected devices
@@ -140,13 +140,13 @@ def getDevices():
         scanResults = session['scanResults']
 
     else:
-        scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)  
-        
+        scanResults = deviceFunctions.scanForAttachedDevices(constants.RUNMODE, constants.SCAN_USB, constants.SCAN_BLUETOOTH)
+
         session['scanResults'] = scanResults
 
         session['scanResultsDateTime'] = deviceFunctions.currentDateTimeDisplay("%a %w %b %Y, %H:%M:%S")
 
-    return scanResults  
+    return scanResults
 
 horizonSCUTE.registerHook("get_devices", getDevices)
 
@@ -158,18 +158,18 @@ def getReportFields(deviceID):
     if len(request.args.getlist("force_update")) != 0:
         session.pop('report_' + str(deviceID), None)
         print("Clear session report for "+ str(deviceID))
-   
+
 
     if 'report_' + str(deviceID) in session:
         thisReport = session['report_' + str(deviceID)]
         print("Load session report for "+ str(deviceID))
 
     else:
-        thisReport = deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)  
+        thisReport = deviceFunctions.getDeviceReport(constants.RUNMODE, deviceID)
         session['report_' + str(deviceID)] = thisReport
         print("Load device report for "+ str(deviceID))
 
-    return thisReport        
+    return thisReport
 
 horizonSCUTE.registerHook("get_report_fields", getReportFields)
 
@@ -181,10 +181,10 @@ def readConfig(deviceID):
     config = deviceFunctions.getDeviceConfig(constants.RUNMODE, deviceID, True)
 
     if len(config['result'].keys()) == constants.VALID_CONFIG_DATA_BLOCKS:
-   
+
         # pop it into session in case needed later.
         session['config' + str(deviceID)] = config
-        
+
     else:
         # flag scute that the config is wrong.
         config['result']['invalidConfigDetected'] = True
@@ -194,7 +194,7 @@ def readConfig(deviceID):
     config = horizonSCUTE.flattenJSON(config['result'])
 
     config['local.friendlyName'] = deviceFunctions.getFriendlyName(deviceID)
-   
+
     return config
 
 horizonSCUTE.registerHook("read_config", readConfig)
@@ -204,12 +204,10 @@ horizonSCUTE.registerHook("read_config", readConfig)
 # save config for one device
 def saveConfig(deviceID, config):
     # indent fields into categories
-    del config["clickAction"]
-    config["local.bluetooth.triggerControl"]=[["REED_SWITCH"]]
-    config["local.gps.mode"]=[["SCHEDULED"]]
+
     config = horizonSCUTE.expandJSON(config)
     saveResponse = deviceFunctions.saveDeviceConfig(constants.RUNMODE, deviceID, config)
-    print(config)
+
     if 'error' in saveResponse:
         response = {"type": 'error', "message": "<h3>Error</h3>" + saveResponse['error']}
     else:
@@ -235,10 +233,10 @@ def deleteAndReplaceLog(deviceID):
         return str(deviceID) + " - Log erased and replaced with empty log. "
 
     response = str(deviceID) + " - "
-    
+
     if eraseResponse["result"] != "erased":
         response += "Log erase failed. "
-    
+
     if createResponse["result"] != "created":
         response += "Log create failed. "
 
@@ -259,9 +257,9 @@ def erase_log():
         logResults = "    \n".join(logResults)
 
         session['userMessage'] = {"type": 'info', "message": "Erase Log Results: <strong>" + logResults + "</strong>"}
-                
-        
-    
+
+
+
     return redirect('list')
 
 
@@ -273,7 +271,7 @@ def scanDirectory(target):
         return "There are files in this directory."
 
     pathContent = os.listdir(target)
-   
+
     returnFiles = []
 
     for file in pathContent:
@@ -293,13 +291,13 @@ def getAlmanacList():
         return {}
 
     pathContent = os.listdir(almanacPath)
-   
+
     returnFiles = {}
 
     for file in pathContent:
         fileName = file.split(".")
         returnFiles[fileName[0]] = file
-    
+
     return returnFiles
 
 
@@ -323,10 +321,10 @@ def erase_tag():
                 session.pop('report_' + str(devices[0]), None)
 
                 session['userMessage'] = {"type": 'info', "message": "Device Erased: <strong>" + devices[0] + "</strong>"}
-          
+
         else:
                 session['userMessage'] = {"type": 'error', "message": "Erase failed for <strong>" + devices[0]+ "</strong>"}
-                
+
         return redirect('list')
 
 
@@ -385,7 +383,7 @@ def downloadSeparated ():
 
 
 def log_to_split_csv_files(logFile, outputDir, device):
-    
+
     try:
         # Python 2
         xrange
@@ -393,42 +391,53 @@ def log_to_split_csv_files(logFile, outputDir, device):
         # Python 3, xrange is now named range
         xrange = range
 
-    def chunks(lst, n):
-        """Yield successive n-sized chunks from lst."""
-        for i in xrange(0, len(lst), n):
-            yield lst[i:i + n]
-
     with open(logFile, 'r') as log_file:
 
         splitLogs = {}
         log = log_file.read().splitlines()
-        # Split into pairs (date and actual log)
-        log = chunks(log, 2)
-        for logEntry in log:
 
-            logPart = json.loads(logEntry[1])
 
-            # Get type of log it is from key
-            logType = list(logPart.keys())[0]
+        # CT 25th MAtch 20201 - refator logs to CSVs to pater for records without timestamp records
+        # loop this list, until all records have been processed.
+        #   if there is a pair of TIMESTAMP and DATA records, merge them
+        #   if there is a data record without TIMESTAMP, default timestamp and process.
+        recordCounter = 0
+        while recordCounter < len(log):
+            firstRecord = json.loads(log[recordCounter])
+            secondRecord = json.loads(log[recordCounter + 1])
 
-            # Does this logType already exist in the splitLogs dict?
+            firstRecordKey = list(firstRecord.keys())[0]
+            secondRecordKey = list(secondRecord.keys())[0]
+
+            if firstRecordKey == "Timestamp" and secondRecordKey != "Timestamp":
+                # record pair
+                recordCounter = recordCounter +  2
+
+                datePart = firstRecord["Timestamp"]["timestamp"]
+                if int(datePart) == 0:
+                    logdate = "Empty Timestamp"
+                else:
+                    logdate = datetime.utcfromtimestamp(datePart).strftime("%Y-%m-%d:%H-%M-%S")
+
+                logPart = secondRecord
+                logType = secondRecordKey
+            else:
+                #Single Record
+                recordCounter = recordCounter + 1
+                logdate = "No Timestamp Record"
+                logPart = firstRecord
+                logType = firstRecordKey
 
             if logType not in splitLogs:
                 splitLogs[logType] = []
 
-            # Get log details
-            
             logDetails = logPart[logType]
-            
-            # Get date part and parse
-
-            datePart = json.loads(logEntry[0])["Timestamp"]["timestamp"]
-                
-            logdate = datetime.utcfromtimestamp(datePart).strftime("%Y-%m-%d:%H-%M-%S")
-            
             logDetails["time"] = logdate
 
             splitLogs[logType].append(logDetails)
+
+            ######  End Refactor 25/03/2021
+
 
         # Make output directory if doesn't exist
 
@@ -460,10 +469,10 @@ def log_to_split_csv_files(logFile, outputDir, device):
         return "separated_logs_" + device + ".zip"
 
 @app.route('/download_file')
-def downloadFile ():  
+def downloadFile ():
     # this can be extended for other file types.
     # don't allow full file specificaiton
-    
+
     allowedTypes = ['preset', 'script']
 
     fileName = request.args.getlist("file")[0]
@@ -479,12 +488,12 @@ def downloadFile ():
             downloadFileName = 'script_'+fileName
 
         return send_from_directory('', fileLocation , as_attachment=True, attachment_filename=downloadFileName )
-    
+
     # still here?  error.
     session['userMessage'] = {"type": 'error', "message": "Invalid file download request." }
-    
+
     return redirect('list')
-    
+
 
 
 @app.route('/download_config')
@@ -493,11 +502,11 @@ def downloadConfigFile ():
     devices = request.args.getlist("devices[]")
     if len(devices) == 1:
         device = devices[0]
-        
+
     else:
         #TODO
         return "Invalid Device ID"
-    
+
     root = constants.CONFIG_DATA_LOCAL_LOCATION
 
     fileList = os.listdir(root + device)
@@ -517,7 +526,7 @@ def getFileNamesForDevice(deviceID):
     logroot = constants.LOG_DATA_LOCAL_LOCATION + deviceID + '/' + logData['latestLogDateTime'].replace(' ', '_')
 
     deviceReturn = {deviceID: {'config': latestConfigFilename, 'logJson': logroot + '.json', 'logBinary': logroot + '.bin'}}
-    
+
     return deviceReturn
 
 
@@ -570,7 +579,7 @@ def downloadDataZip ():
 
 @app.route('/sync_clock')
 def syncClock():
-        
+
     toTime = request.args.getlist('clock_sync')[0]
     passTo = request.args.getlist('passTo')[0]
     # print("set the clock to " + toTime + ' ' + passTo)
@@ -578,7 +587,7 @@ def syncClock():
 
     # set user message
     session['userMessage'] = {"type": 'success', "message": "Hub clock updated to <strong>" + toTime + "</strong>"}
-    
+
     return redirect(passTo)
 
 @app.route('/my_actions')
@@ -586,11 +595,9 @@ def userActions():
 
     if 'userActions' in session:
         return json.dumps(session['userActions'])
-    else: 
+    else:
         return 'None'
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80) # for Developlent / Testing (Flask server)
-
-
