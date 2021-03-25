@@ -432,6 +432,10 @@ def log_to_split_csv_files(logFile, outputDir, device):
                 splitLogs[logType] = []
 
             logDetails = logPart[logType]
+            if logDetails == {}:
+                logDetails['noValue'] = "-"
+
+
             logDetails["time"] = logdate
 
             splitLogs[logType].append(logDetails)
