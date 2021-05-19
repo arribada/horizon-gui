@@ -921,6 +921,8 @@ def viewLatestLogData(runMode, deviceID, downloadNew):
     # log might not exist...
     try:
         latestLogDate = getLatestLogDate(logPath)
+
+        
     except:
         return {
             "selectedDevice": deviceID,
@@ -930,7 +932,8 @@ def viewLatestLogData(runMode, deviceID, downloadNew):
             "allLogFiles": [],
             "logAnalysis": []
         }
-
+    print("TESTING")
+    print(latestLogDate)
     # this file holds the date time of the last log read time
     #latestLogDate = latestLogInfo.read()
 
@@ -957,7 +960,8 @@ def viewLatestLogData(runMode, deviceID, downloadNew):
 
 def getLatestLogDate(logPath):
 
-    list_of_files = glob.glob(logPath + '/*') # * means all if need specific format then *.csv
+    # this was erroring if there wasa binary, but no json for some reason, so only check for json.
+    list_of_files = glob.glob(logPath + '/*.json') # * means all if need specific format then *.csv
 
     latest_file = max(list_of_files, key=os.path.getctime)
 
