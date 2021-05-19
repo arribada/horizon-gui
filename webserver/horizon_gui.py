@@ -384,6 +384,11 @@ def downloadSeparated ():
 
 def log_to_split_csv_files(logFile, outputDir, device):
 
+    # First delete all existing files
+    for filename in os.listdir(outputDir):
+        file_path = os.path.join(outputDir, filename)
+        os.unlink(file_path)
+
     try:
         # Python 2
         xrange
@@ -397,48 +402,34 @@ def log_to_split_csv_files(logFile, outputDir, device):
         log = log_file.read().splitlines()
 
 
-        # CT 25th MAtch 20201 - refator logs to CSVs to pater for records without timestamp records
-        # loop this list, until all records have been processed.
-        #   if there is a pair of TIMESTAMP and DATA records, merge them
-        #   if there is a data record without TIMESTAMP, default timestamp and process.
-        recordCounter = 0
-        while recordCounter < len(log):
-            firstRecord = json.loads(log[recordCounter])
-            secondRecord = json.loads(log[recordCounter + 1])
+        # Filip CSV rewrite added 26/03/2021
 
-            firstRecordKey = list(firstRecord.keys())[0]
-            secondRecordKey = list(secondRecord.keys())[0]
-
-            if firstRecordKey == "Timestamp" and secondRecordKey != "Timestamp":
-                # record pair
-                recordCounter = recordCounter +  2
-
-                datePart = firstRecord["Timestamp"]["timestamp"]
-                if int(datePart) == 0:
-                    logdate = "Empty Timestamp"
-                else:
-                    logdate = datetime.utcfromtimestamp(datePart).strftime("%Y-%m-%d:%H-%M-%S")
-
-                logPart = secondRecord
-                logType = secondRecordKey
+        for index,line in enumerate(log):
+            line = json.loads(line)
+            if "Timestamp" in line:
+                # It's a timestamp line, convert the timestamp
+                timestamp = line["Timestamp"]["timestamp"]
+                # Handle bad timestamps
+                try:
+                    timestamp = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d:%H-%M-%S")
+                except:
+                    timestamp = 0
+                # Parse the next line underneath
+                try:
+                    logline = json.loads(log[index + 1])
+                    logtype = list(logline.keys())[0]
+                    if logtype not in splitLogs:
+                        splitLogs[logtype] = []
+                    logdetails = logline[logtype]
+                    if logdetails == {}:
+                        logdetails['noValue'] = "-"
+                    logdetails["time"] = timestamp
+                    splitLogs[logtype].append(logdetails)
+                except:
+                    continue
             else:
-                #Single Record
-                recordCounter = recordCounter + 1
-                logdate = "No Timestamp Record"
-                logPart = firstRecord
-                logType = firstRecordKey
-
-            if logType not in splitLogs:
-                splitLogs[logType] = []
-
-            logDetails = logPart[logType]
-            if logDetails == {}:
-                logDetails['noValue'] = "-"
-
-
-            logDetails["time"] = logdate
-
-            splitLogs[logType].append(logDetails)
+                # No timestamp, skip
+                continue
 
             ######  End Refactor 25/03/2021
 
@@ -464,7 +455,9 @@ def log_to_split_csv_files(logFile, outputDir, device):
 
         for root, dirs, files in os.walk(outputDir):
             for file in files:
-                if file != "/separated_logs_" + device + ".zip": # No zip inception
+                print(file)
+                if file != "separated_logs_" + device + ".zip": # No zip inception 2 years later....
+
                     zipf.write(os.path.join(root, file))
 
         zipf.close()
