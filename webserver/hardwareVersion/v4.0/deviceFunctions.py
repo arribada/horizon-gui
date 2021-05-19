@@ -676,6 +676,14 @@ def receiveTrackerLogData(runMode, deviceID):
 
         logMessage("Making call to get " + binaryFile)
 
+        # is there any data?  Empty or corrupt file will cause error later.
+        try:
+            binarySize = os.path.getsize(binaryFile)
+        except:
+            logMessage("Binary File missing or corrupt:" + binaryFile)
+            return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
         # get data off the tag
         try:
             result1 = subprocess.check_output(
@@ -684,7 +692,7 @@ def receiveTrackerLogData(runMode, deviceID):
                 shell=True,
                 stderr=subprocess.STDOUT).decode()
             logMessage("Call complete for " + binaryFile)
-
+            
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
