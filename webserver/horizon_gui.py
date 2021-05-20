@@ -224,7 +224,6 @@ horizonSCUTE.registerHook("save_config", saveConfig)
 
 
 def deleteAndReplaceLog(deviceID):
-    print(deviceID)
 
     eraseResponse = deviceFunctions.eraseLog(constants.RUNMODE, deviceID)
     createResponse = deviceFunctions.createLog(constants.RUNMODE, deviceID)
@@ -247,9 +246,9 @@ def deleteAndReplaceLog(deviceID):
 def erase_log():
     devices = request.args.getlist("devices[]")
 
-    print(devices)
-    print(type(devices))
-    print(len(devices))
+    # print(devices)
+    # print(type(devices))
+    # print(len(devices))
 
     if len(devices) != 0:
 
@@ -332,17 +331,23 @@ def erase_tag():
 @app.route('/view_log')
 def view_log():
     devices = request.args.getlist("devices[]")
-    downloadNew = request.args.get("new") # returns 'None' or the value
 
-    print (downloadNew)
     if len(devices) == 1:
+
+        downloadNew = request.args.get("new") # returns 'None' or the value
+        csv_ready = request.args.get("csv_ready") # returns 'None' or the value
+        csv_location = request.args.get("csv_location") # returns 'None' or the value
 
         logData =  deviceFunctions.viewLatestLogData(constants.RUNMODE, devices[0], downloadNew)
 
         if downloadNew == 'yes':
             session['userMessage'] = {"type": 'info', "message": "Log Imported"}
 
-        return render_template("content/view_log.html", title="Latest Log for " + devices[0], systemInfo = getSystemInfo(), logData=logData, device=devices[0])
+        if csv_ready:
+            session['userMessage'] = {"type": 'info', "message": "CSV Files available for download"}
+
+
+        return render_template("content/view_log.html", title="Latest Log for " + devices[0], systemInfo = getSystemInfo(), logData=logData, device=devices[0], csv_ready=csv_ready, csv_location=csv_location )
 
 
 
@@ -364,11 +369,23 @@ def selete_log():
 
 @app.route('/downloadLog')
 def downloadLogFile ():
-    fileName = request.args.getlist("file")[0]
-    directory = request.args.getlist("device")[0]
-    root = constants.LOG_DATA_LOCAL_LOCATION
 
-    return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+    # switch between raw log data and csv data
+    type = request.args.get("type") # returns 'None' or the value
+
+    if type == None:
+
+        fileName = request.args.getlist("file")[0]
+        directory = request.args.getlist("device")[0]
+        root = constants.LOG_DATA_LOCAL_LOCATION
+
+        return send_from_directory(root + directory, fileName , as_attachment=True, attachment_filename=directory+ "_" + fileName.replace(".bin", ".binary") )
+    else: 
+        fileName = request.args.get("file")
+        device = request.args.get("device")
+        root = constants.CSV_LOG_DATA_LOCAL_LOCATION
+ 
+        return send_from_directory(root + device, fileName , as_attachment=True, attachment_filename=device+ "_" + fileName )
 
 @app.route('/downloadSeparated')
 def downloadSeparated ():
@@ -376,13 +393,24 @@ def downloadSeparated ():
     device = request.args.getlist("device")[0]
     root = constants.LOG_DATA_LOCAL_LOCATION
 
-    theFile = log_to_split_csv_files(root + device + '/' + fileName, 'logdownload', device)
-    print("beep", theFile)
+   # theFile = log_to_split_csv_files(root + device + '/' + fileName, 'logdownload', device)
+    theFiles = log_to_split_csv_files(root + device + '/' + fileName, 'log_csv_data/'+ device, device)
 
-    return send_from_directory('logdownload', theFile , as_attachment=True, attachment_filename="separated_logs_" + device+ ".zip" )
+    fileList = ''
+    for theFile in theFiles:
+        fileList += theFile + "|"
+
+    #return send_from_directory('logdownload', theFile , as_attachment=True, attachment_filename="separated_logs_" + device+ ".zip" )
+    return redirect('view_log?devices[]=' + device + '&csv_ready=' + fileList + '&device=' + device)
 
 
 def log_to_split_csv_files(logFile, outputDir, device):
+
+    # actually first, make the output dir if not exists
+    if not os.path.exists(outputDir):
+        os.makedirs(outputDir)
+        print("Log Directory Created for device: " + outputDir)
+
 
     # First delete all existing files
     for filename in os.listdir(outputDir):
@@ -407,13 +435,20 @@ def log_to_split_csv_files(logFile, outputDir, device):
         for index,line in enumerate(log):
             line = json.loads(line)
             if "Timestamp" in line:
+                # Cris timestamp fix 19/05/2021
                 # It's a timestamp line, convert the timestamp
                 timestamp = line["Timestamp"]["timestamp"]
                 # Handle bad timestamps
                 try:
-                    timestamp = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d:%H-%M-%S")
+                    # Cris timestamp fix 19/05/2021
+                    # some timestamps are e.g. 21962, which get converted to 1970...
+                    if timestamp > 1621000000:
+                        timestamp = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d:%H-%M-%S")
+                    else:
+                        timestamp = 'invalid timestamp'
                 except:
-                    timestamp = 0
+                    timestamp = 'invalid timestamp.'
+
                 # Parse the next line underneath
                 try:
                     logline = json.loads(log[index + 1])
@@ -422,7 +457,7 @@ def log_to_split_csv_files(logFile, outputDir, device):
                         splitLogs[logtype] = []
                     logdetails = logline[logtype]
                     if logdetails == {}:
-                        logdetails['noValue'] = "-"
+                        logdetails['unnamed'] = "-"
                     logdetails["time"] = timestamp
                     splitLogs[logtype].append(logdetails)
                 except:
@@ -434,12 +469,13 @@ def log_to_split_csv_files(logFile, outputDir, device):
             ######  End Refactor 25/03/2021
 
 
+        # CT 19/05/2021 - this was not working.  Different version added above.
         # Make output directory if doesn't exist
-
-        Path(outputDir).mkdir(parents=True, exist_ok=True)
+        # Path(outputDir).mkdir(parents=True, exist_ok=True)
 
         # Split logs, now turn them into a csv file each
 
+        csvLibrary = []
         for category in splitLogs:
             f = open(outputDir + "/" + category + ".csv", "w")
             csv_file = csv.writer(f)
@@ -451,19 +487,26 @@ def log_to_split_csv_files(logFile, outputDir, device):
             for item in splitLogs[category]:
                 csv_file.writerow(item.values())
 
-        zipf = zipfile.ZipFile(outputDir + "/separated_logs_" + device + ".zip", "w", zipfile.ZIP_DEFLATED)
+            csvLibrary.append(category + ".csv")
 
-        for root, dirs, files in os.walk(outputDir):
-            for file in files:
-                print(file)
-                if file != "separated_logs_" + device + ".zip": # No zip inception 2 years later....
 
-                    zipf.write(os.path.join(root, file))
+        # Cris remove Zipping as causing errors for some clients 19/05/2021
+        # zipf = zipfile.ZipFile(outputDir + "/separated_logs_" + device + ".zip", "w", zipfile.ZIP_DEFLATED)
 
-        zipf.close()
+        # for root, dirs, files in os.walk(outputDir):
+        #     for file in files:
+        #         print(file)
+        #         if file != "separated_logs_" + device + ".zip": # No zip inception 2 years later....
+
+        #             zipf.write(os.path.join(root, file))
+
+        # zipf.close()
 
         # Return name of zipfile
-        return "separated_logs_" + device + ".zip"
+        #return "separated_logs_" + device + ".zip"
+
+        #return the list of csv files created.
+        return csvLibrary
 
 @app.route('/download_file')
 def downloadFile ():
@@ -565,8 +608,6 @@ def downloadDataZip ():
         # add to zip output (local temp save?)
         # return the zip file as download.
 
-    #print("--------->>> ", getFileNamesForDevice())
-
     filenamesToZip = map(getFileNamesForDevice, devices)
 
     zipFilename = makeZip(filenamesToZip)
@@ -579,7 +620,7 @@ def syncClock():
 
     toTime = request.args.getlist('clock_sync')[0]
     passTo = request.args.getlist('passTo')[0]
-    # print("set the clock to " + toTime + ' ' + passTo)
+    print("Seting clock to " + toTime + ' ' + passTo)
     deviceFunctions.syncHubToTime(constants.RUNMODE, toTime)
 
     # set user message

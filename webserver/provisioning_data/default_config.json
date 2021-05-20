@@ -1,39 +1,55 @@
 {
-    "battery": {
-        "logEnable": true
-    },
-    "bluetooth": {
-        "logEnable": true,
-        "triggerControl": [
-            "REED_SWITCH"
-        ]
-    },
     "gps": {
         "logDebugEnable": true,
         "logPositionEnable": true,
         "logTTFFEnable": true,
-        "maximumAquisitionTime": 40,
+        "maxFixes": 5,
+        "maximumAquisitionTime": 30,
         "mode": [
             "SCHEDULED"
         ],
-        "scheduledAquisitionInterval": 152,
-        "testFixHoldTime": 60
+        "scheduledAquisitionInterval": 120,
+        "testFixHoldTime": 120
+    },
+    "iot": {
+        "enable": false,
+        "logEnable": false,
+        "minBatteryThreshold": 0,
+        "satellite": {
+            "artic": {
+                "argosProtocol": 2,
+		"bulletin": [],
+                "deviceAddress": "00:00:00:00",
+                "minElevation": 0,
+                "warmupTime": 5
+            },
+            "connectionPriority": 0,
+            "enable": false,
+            "maxInterval": 60,
+            "minInterval": 0,
+            "minUpdates": 1,
+            "randomizedTxWindow": 5,
+            "retransmissionCount": 0,
+            "retransmissionInterval": 60,
+            "statusFilter": [
+                "LAST_GPS_LOCATION",
+                "BATTERY_VOLTAGE"
+            ],
+            "testModeEnable": false
+        }
     },
     "logging": {
         "dateTimeStampEnable": true,
-        "enable": true,
-        "fileSize": 20,
-        "fileType": "LINEAR"
+        "enable": true
+    },
+    "battery":{
+	"logEnable": true
     },
     "rtc": {
-        "dateTime": "Thu Jan  1 06:05:52 1970",
         "syncToGPSEnable": true
     },
-    "saltwaterSwitch": {
-        "hysteresisPeriod": 5,
-        "logEnable": true
-    },
     "system": {
-        "deviceName": "extendedconfig"
-    }
+        "deviceName": "DEFAULT"
+    },
+    "version": 1
 }

@@ -1,0 +1,35 @@
+{
+    "name": "Quickstart: Setup Firmware v11.1a5",
+    "description": "Apply fresh firmware to a tag and prepare for deployment. Apply a configuration after completion.",
+    "commands": [
+        {
+            "command": "sudo tracker_config --battery",
+            "description": "Verify battery is at 100."
+        },
+        {
+            "command": "sudo tracker_config --reset FLASH",
+            "description": "Clear flash memory on tag."
+        },
+        {
+            "command": "sudo dfu-util --download provisioning_data/horizon_app_v11.1a5_debug.bin -a 0 -s 0x8000000",
+            "description": "Apply new firmware. Switch tag to DFU mode. Run command while light cycling red/green/blue."
+        },
+        {
+            "command": "sudo gps_almanac --file provisioning_data/mgaoffline.ubx",
+            "description": "Apply the GPS almanac. Press reset and wait until both the orange and red LEDs are lit. Run command."
+        },
+        {
+            "command": "sudo tracker_config --set_date_time \"`date`\"",
+            "description": "Update the clock to the current date and time."
+        },
+        {
+            "command": "sudo tracker_config --create_log LINEAR",
+            "description": "Create a blank log on the tag."
+        },
+        {
+            "command": "sudo tracker_config --write provisioning_data/default_config.json",
+            "description": "Load default config to the tag"
+        }
+    ],
+    "type": "system"
+}

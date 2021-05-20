@@ -58,3 +58,20 @@ nav{
     text-decoration: underline;
 }
 
+.csvPopup{
+ 
+    z-index: 10;
+    position:absolute;
+    background-color: white;
+    border: solid 1px #284c76;
+    top:200px;
+    left:50%;
+    width:400px; 
+    height:400px;  
+    margin-left:-200px;  
+  
+    padding: 20px;
+    font-size: 80%;
+   
+  }
+  

@@ -11,6 +11,27 @@
             <br /><br />{{_('Note: The date/time in the log filename is the current Hub time.')}}
             <br />{{_('NOTE: if the import crashed, please reboot the Hub.')}}
         </div>
+        {% if csv_ready != None %} 
+            {% if csv_ready|length != 0%}
+                {% set csv_files = csv_ready.split('|') %}
+                <div class="csvPopup" id="csvPopup">
+
+                    <h1>Click to download a CSV file.</h1>
+                    <br />
+                    <ul>
+                        {% for file in csv_files %}
+                            {% if file|length !=0 %}
+                            <li><a href="/downloadLog?type=csv&file={{file}}&device={{device}}">{{file}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <br>
+                    <button onClick="hideThisDiv('csvPopup')" class="downloadLogBtn" href="">Close</button>
+
+
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="table-nav flex top-tail-margin top-tail-padding">
             <div class="table-nav-left">
                 <span class="usb-icon inline-block">
@@ -55,7 +76,7 @@
                     <strong>&nbsp;{{key}}&nbsp;</strong>
                     {{_('Download')}}:
                     <a class="downloadLink" href="/downloadSeparated?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
-                    target="_blank">{{_('Separated CSV')}}</a>&nbsp;
+                    >{{_('Separated CSV')}}</a>&nbsp;
                     <a class="downloadLink" href="/downloadLog?device={{logData.selectedDevice}}&file={{value['json']['fileName']}}"
                     target="_blank">{{_('JSON')}}<span class="tinyText">({{value['json']['fileSize']}})</span></a>&nbsp;
                     <a class="downloadLink"
@@ -64,7 +85,6 @@
                                         
                 </span>
                 {% endfor %}
-
             
                 {% endfor %}
             </div>

@@ -10,3 +10,7 @@ function formatDateTime(date) {
 
     return year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0') + ' ' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0');
 }
+
+function hideThisDiv(divName) {
+    document.getElementById(divName).style.display = "none";
+}

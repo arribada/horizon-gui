@@ -27,7 +27,8 @@ SCAN_USB= True
 # Bluetooth is not yet implemented. when not in dummy mode, should we scan for Bluetooth devices?
 SCAN_BLUETOOTH = False
 
-LOG_DATA_LOCAL_LOCATION = "log_data/" # can separate these if needed...
+LOG_DATA_LOCAL_LOCATION = "log_data/"
+CSV_LOG_DATA_LOCAL_LOCATION = "log_csv_data/"
 
 CONFIG_DATA_LOCAL_LOCATION = "config/" 
 

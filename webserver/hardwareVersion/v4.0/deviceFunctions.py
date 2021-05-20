@@ -191,6 +191,10 @@ def getDeviceReport(runMode, deviceID):
 
 def deviceScan(runMode):
 
+    # NOTE: CT May 2021
+    # I have re-worked this section to cater for error 500s generated when no devices attached, 
+    # also added UTF decoding of response...
+
     if runMode == 'dummy':
 
         result = {"0": "1234567890123456789"}
@@ -198,12 +202,15 @@ def deviceScan(runMode):
     else:
 
         try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--list_id"]).decode()
+            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--list_id"]).decode("utf-8")
 
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(
-                "command '{}' return with error (code {}): {}".format(
-                    e.cmd, e.returncode, e.output))
+
+            result = e.output.decode("utf-8")
+
+            # raise RuntimeError(
+            #     "command '{}' return with error (code {}): {}".format(
+            #         e.cmd, e.returncode, e.output))
 
         result = result.rstrip()
 
@@ -218,7 +225,9 @@ def deviceScan(runMode):
             'One or more connected devices do not dontain the correct firmware.  Please check device. You can use the Scripts Menu to update firmware.'
         }
     elif result.startswith('Unexpected error'):
-        return "{}"  # no devices...
+    
+        #return "{}"  # no devices...
+        return {}  # no devices...
     else:
 
         # convert the ids into the system format.
@@ -676,14 +685,6 @@ def receiveTrackerLogData(runMode, deviceID):
 
         logMessage("Making call to get " + binaryFile)
 
-        # is there any data?  Empty or corrupt file will cause error later.
-        try:
-            binarySize = os.path.getsize(binaryFile)
-        except:
-            logMessage("Binary File missing or corrupt:" + binaryFile)
-            return {'error': constants.NO_TAG_TEXT + ' or data error'}
-
-
         # get data off the tag
         try:
             result1 = subprocess.check_output(
@@ -940,8 +941,7 @@ def viewLatestLogData(runMode, deviceID, downloadNew):
             "allLogFiles": [],
             "logAnalysis": []
         }
-    print("TESTING")
-    print(latestLogDate)
+
     # this file holds the date time of the last log read time
     #latestLogDate = latestLogInfo.read()
 
@@ -992,7 +992,7 @@ def getLogFileListByDate(logPath, deviceID):
     tempDict = {}
 
     for file in pathContent:
-  
+
         fileName = file.split(".")
 
         # add new download dates to output
