@@ -8,7 +8,7 @@ import os
 import datetime
 from datetime import datetime, date
 import time
-import imp # for importing from specific locations
+from importlib.machinery import SourceFileLoader # for importing from specific locations
 import zipfile
 from flask_babel import gettext, ngettext
 import csv
@@ -19,7 +19,8 @@ from pathlib import Path
 import constants
 import localisation
 #import deviceFunctions
-deviceFunctions = imp.load_source('deviceFunctions', 'hardwareVersion/' + constants.DEVICE_HARDWARE_VERSION + '/deviceFunctions.py')
+script_path = os.path.abspath(r"hardwareVersion/" + constants.DEVICE_HARDWARE_VERSION + "/deviceFunctions.py")
+deviceFunctions = SourceFileLoader("deviceFunctions", script_path).load_module()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
