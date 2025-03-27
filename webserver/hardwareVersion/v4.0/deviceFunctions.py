@@ -5,6 +5,7 @@ import os.path
 import glob
 import datetime
 from itertools import islice
+from os.path import join
 
 # system config.
 import constants
@@ -30,14 +31,16 @@ def systemTime(runMode):
             else:
                 hubTimezone = ""
 
-            hubTime = subprocess.check_output("date '+%Y-%m-%d %H:%M'", shell=True, stderr=subprocess.STDOUT).decode()  
+            hubTime = subprocess.check_output(
+                "date '+%Y-%m-%d %H:%M'", shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
+            hubTime = str(hubTime)
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
-        
         result = hubTimezone.rstrip() +  ' ' + hubTime.rstrip()  # trailing new line...
 
         #logMessage("System Date Time recieved: " + result)
@@ -59,13 +62,15 @@ def systemIPAddress(runMode):
 
         try:
 
-            result = subprocess.check_output("hostname -I", shell=True, stderr=subprocess.STDOUT).decode() 
+            result = subprocess.check_output(
+                "hostname -I", shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
-
+        result = str(result)
         result = result.rstrip()  # trailing new line...
         resultArray = result.split()  # on space by default
 
@@ -90,30 +95,28 @@ def hubSDSpace(runMode):
 
         try:
 
-            result = subprocess.check_output("df -h", shell=True, stderr=subprocess.STDOUT).decode()
-
+            result = subprocess.check_output(
+                "df -h", shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
         except subprocess.CalledProcessError as e:
+            print("command '{}' return with error (code {}): {}".format(
+                e.cmd, e.returncode, e.output))
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
-
+        
+        result = str(result)
+        
         resultArray = result.split('\n')
-
-        # pick the system line in the output..
-        masterLine = []
-        for oneLine in resultArray:
-            thisLine = oneLine.split()
-
-            if thisLine[5] == '/':
-                masterLine = thisLine
-                break
-
+        masterLine = resultArray[1].split()
+        logMessage(resultArray[1])
 
     # device with incompatible firmware breaks the call.
     if len(masterLine) == 0:
         return "Not Available"
 
-    return "Total: " + masterLine[1] + ', Used: ' + masterLine[2] + ', Avail: ' + masterLine[3]
+    return "Total: " + masterLine[1] + ', Used: ' + masterLine[
+        2] + ', Avail: ' + masterLine[3]
 
 
 def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
@@ -128,9 +131,10 @@ def scanForAttachedDevices(runMode, scanUSB, scanBluetooth):
         if scanUSB:
             # this will scan all.
             devices = deviceScan("USB")
+            #print(devices)
 
             if 'error' not in devices:
-                #devices = json.loads(devices)
+                #print(devices)
                 for connectionID, deviceID in devices.items():
                     result.append(deviceID)
                     # add the device to session data..
@@ -154,6 +158,12 @@ def getDeviceReport(runMode, deviceID):
     else:
 
         result = {}
+        #  all the details are now on --status
+
+        # battery level
+        #deviceBatteryLevel = getDeviceBattery(runMode, deviceID)
+        # config items
+        #deviceConfig = getDeviceConfig(runMode, deviceID, True)
 
         # status items - this now has all the report items
         deviceStatus = getDeviceStatus(runMode, deviceID)
@@ -166,6 +176,7 @@ def getDeviceReport(runMode, deviceID):
             else:
                 result['batteryLevel'] = str(
                     deviceStatus['result']['charge_level']) + "%"
+
             result['firmwareVersion'] = deviceStatus['result']['fw_version']
 
             result['hardwareID'] = deviceID
@@ -180,18 +191,28 @@ def getDeviceReport(runMode, deviceID):
             else:
                 result['sensorsEnabled'].append("Accelerometer: Off")
 
-
             if deviceStatus['result']['pressure_enabled']:
                 result['sensorsEnabled'].append("Pressure: ON")
             else:
                 result['sensorsEnabled'].append("Pressure: Off")
-
 
             if deviceStatus['result']['temp_enabled']:
                 result['sensorsEnabled'].append("Temp: ON")
             else:
                 result['sensorsEnabled'].append("Temp: Off")
 
+            # these were in the old config, but not in current --status
+            # if deviceStatus['result']['gps']['logPositionEnable']:
+            #     result['sensorsEnabled'].append("GPS Position.")
+
+            # if deviceStatus['result']['saltwaterSwitch']['logEnable']:
+            #     result['sensorsEnabled'].append("Saltwater.")
+
+            # if deviceStatus['result']['battery']['logEnable']:
+            #     result['sensorsEnabled'].append("Battery.")
+
+            # if deviceStatus['result']['logging']['dateTimeStampEnable']:
+            #     result['sensorsEnabled'].append("Date Time.")
 
         return result
 
@@ -205,38 +226,38 @@ def deviceScan(runMode):
     else:
 
         try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--list_id"]).decode()
+            result = subprocess.check_output(
+                ["sudo", constants.TRACKER_CONFIG, "--list_id"])
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
-
+        result = str(result)
         result = result.rstrip()
 
-        logMessage("Raw tracker_config list_id Received: " + result)
+        #logResult = join(result) # trailing new line...
+        #logMessage("Raw tracker_config list_id Received: " + logResult)
 
     # device with incompatible firmware breaks the call.
-    if 'requires a buffer of at least 31 bytes' in result:
+    if isinstance(result, str) and 'requires a buffer of at least 31 bytes' in result:
         return {
             'error':
             'Incompatible Device Detected',
             'message':
             'One or more connected devices do not dontain the correct firmware.  Please check device. You can use the Scripts Menu to update firmware.'
         }
-    elif result.startswith('Unexpected error'):
+    elif isinstance(result, str) and   result.startswith('Unexpected error'):
         return "{}"  # no devices...
     else:
 
         # convert the ids into the system format.
-        result = json.loads(result)
-
         index = 0
         resultDict = {}
+        result = json.loads(result)
         for device in result:
             resultDict[index] = device
             index += 1
-
         return resultDict
 
 
@@ -249,20 +270,23 @@ def trackerConfigVesion(runMode):
     else:
 
         try:
-            result = subprocess.check_output(["sudo", constants.TRACKER_CONFIG, "--version"]).decode()
-
+            result = subprocess.check_output(
+                ["sudo", constants.TRACKER_CONFIG, "--version"])
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
-        logMessage("Raw tracker_config version Received: " + result)
+
+
+        #logMessage("Raw tracker_config version Received: " + result)
 
     if result.startswith('Unexpected error'):
         return 'Error - unexpected error.'
     else:
-        versionParts = result.split(' ') 
+        versionParts = result.split(' ')
         return versionParts[1]
 
 
@@ -270,7 +294,7 @@ def getDeviceStatus(runMode, deviceID):
 
     deviceID = str(deviceID)
 
-    testString = "sudo " + constants.TRACKER_CONFIG + " --get_version --id " + deviceID
+    testString = "sudo " + constants.TRACKER_CONFIG + " --status --id " + deviceID
 
     if runMode == 'dummy':
         return dummyResponses['STATUS']
@@ -279,15 +303,16 @@ def getDeviceStatus(runMode, deviceID):
 
         try:
 
-            result = subprocess.check_output( testString, shell=True, stderr=subprocess.STDOUT).decode()
-
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            ) # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
-
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
         if result.startswith('Unexpected error'):
@@ -295,43 +320,17 @@ def getDeviceStatus(runMode, deviceID):
             return {'error': constants.NO_TAG_TEXT}
         else:
 
+            # the result is:  Connecting to device at index 0\n{"cfg_version": 4, "ble_fw_version": 65704, "fw_version": 10}
+            # so we need to divide at the '\n' and json load the last part...
+            result = result.split('\n')
 
-            result = json.loads(result)
+            logMessage("Raw tracker_config status result")
+            for row in result:
+                logMessage(row)
 
-            # adding this for now, until get_version is updated like status in v2 tools.
-            result = mockResponse(result)
+            resultJson = json.loads(result[len(result) - 1])
+            return {'result': resultJson}
 
-            return {'result': result}
-
-def mockResponse(result):
-    # adding this for now, until get_version is updated like status in v2 tools.
-
-
-    if "device_id" not in result:
-        result['device_id'] = result['unique_device_identifier']
-
-    if "charge_level" not in result:
-        batteryResults = getDeviceBattery('pi', result['unique_device_identifier'])
-        result['charge_level'] = batteryResults['result']['charging_level']
-
-    if "log_file_size" not in result:
-        result['log_file_size'] = '-'
-
-    if "accel_enabled" not in result:
-        result['accel_enabled'] = False
-
-    if "temp_enabled" not in result:
-        result['temp_enabled'] = False
-
-    if "pressure_enabled" not in result:
-        result['pressure_enabled'] = False
-
-    if "fw_version" not in result:
-        result['fw_version'] = result['app_version']
-    if "ble_fw_version" not in result:
-        result['ble_fw_version'] = 0
-
-    return result
 
 def getDeviceConfig(runMode, deviceID, forceReload=False):
 
@@ -408,7 +407,7 @@ def downloadDeviceConfigToLocal(deviceID):
                                          " --read_config " + newConfigFileName +
                                          " --id " + deviceID,
                                          shell=True,
-                                         stderr=subprocess.STDOUT).decode()
+                                         stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(
@@ -416,6 +415,7 @@ def downloadDeviceConfigToLocal(deviceID):
                 e.cmd, e.returncode, e.output))
 
     # result = 'Connecting to device at index 0\n'
+    result = str(result)
     result = result.split('\n')
 
     logMessage("Raw tracker_config config load recieved")
@@ -443,15 +443,15 @@ def tidyUpConfigDirectory(deviceID):
     fileList = os.listdir(root + deviceID)
     fileList.sort(reverse=True)
 
-    for i in range (len(fileList)): 
-        if i >= constants.CONFIG_FILE_NUMBER_TO_KEEP: 
+    for i in range (len(fileList)):
+        if i >= constants.CONFIG_FILE_NUMBER_TO_KEEP:
             # delete older files..
             os.remove(root + deviceID + "/" +  fileList[i])
-        
 
 
 
-    
+
+
 
 
 def saveDeviceConfig(runMode, deviceID, config):
@@ -484,7 +484,7 @@ def saveDeviceConfig(runMode, deviceID, config):
         myConfigDirectory = constants.CONFIG_DATA_LOCAL_LOCATION + deviceID + '/'
         if not os.path.exists(myConfigDirectory):
             os.mkdir(myConfigDirectory)
-            
+
         currentDateTime = currentDateTimeDisplay("%Y%m%d_%H%M%S")
 
         newConfigFileName = myConfigDirectory + currentDateTime + "-" + deviceID + "." + constants.CONFIG_FILE_EXTENSION
@@ -497,15 +497,16 @@ def saveDeviceConfig(runMode, deviceID, config):
 
         try:
             result = subprocess.check_output(
-                "sudo " + constants.TRACKER_CONFIG + " --write_config " +
+                "sudo " + constants.TRACKER_CONFIG + " --write " +
                 newConfigFileName + " --id " + deviceID,
                 shell=True,
-                stderr=subprocess.STDOUT).decode()
+                stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.split('\n')
 
         logMessage("Raw tracker_config data save result ")
@@ -552,7 +553,7 @@ def correctJsonTypesInConfig(config):
 
                 if categoryName not in result:
                     result[categoryName] = {}
- 
+
                 if 'jsonType' not in fieldData or fieldData['jsonType'] == "text":
                     if len(config[categoryName][splitFieldName[1]]) != 0:
 
@@ -561,8 +562,7 @@ def correctJsonTypesInConfig(config):
                                 splitFieldName[1]]
                     else:
                         # default?
-                        if "default" in fieldData:
-                            result[categoryName][
+                        if "default" in fieldData:                            result[categoryName][
                                 splitFieldName[1]] = fieldData["default"]
 
                 elif fieldData['jsonType'] == "number":
@@ -604,10 +604,10 @@ def correctJsonTypesInConfig(config):
                                 result[categoryName][splitFieldName[1]] = False
                     else:
                         # its a boolean value!!
-                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]] 
+                        result[categoryName][splitFieldName[1]] = config[categoryName][splitFieldName[1]]
 
-                    
-                    
+
+
             else:
                 logMessage(categoryName + " > " + splitFieldName[1] +
                            " in configSchema.json, but not in config sent")
@@ -628,13 +628,16 @@ def getDeviceBattery(runMode, deviceID):
         try:
 
             testString = "sudo " + constants.TRACKER_CONFIG + " --battery --id " + deviceID
-            result = subprocess.check_output(testString, shell=True, stderr=subprocess.STDOUT).decode()
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
     if result.startswith('Unexpected error'):
@@ -642,9 +645,16 @@ def getDeviceBattery(runMode, deviceID):
 
     else:
 
-        result = json.loads(result)
+        # the result is:  'Connecting to device at index 0\n{"charging_level": 100, "charging_ind": true}'
+        # so we need to divide at the '\n' and json load the last part...
+        result = result.split('\n')
 
-        returnResult = {'result': result}
+        logMessage("Raw tracker_config battery result ")
+        for row in result:
+            logMessage(row)
+
+        resultJson = json.loads(result[len(result) - 1])
+        returnResult = {'result': resultJson}
 
     return returnResult
 
@@ -687,7 +697,7 @@ def receiveTrackerLogData(runMode, deviceID):
                 "sudo " + constants.TRACKER_CONFIG + " --read_log " +
                 binaryFile + " --id " + deviceID,
                 shell=True,
-                stderr=subprocess.STDOUT).decode()
+                stderr=subprocess.STDOUT)
             logMessage("Call complete for " + binaryFile)
 
         except subprocess.CalledProcessError as e:
@@ -695,6 +705,7 @@ def receiveTrackerLogData(runMode, deviceID):
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result1 = result1.split('\n')
 
         logMessage("Raw tracker_config binary load result ")
@@ -710,13 +721,14 @@ def receiveTrackerLogData(runMode, deviceID):
                 result2 = subprocess.check_output(
                     "log_parse --file " + binaryFile + " > " + jsonFile,
                     shell=True,
-                    stderr=subprocess.STDOUT).decode()
+                    stderr=subprocess.STDOUT)
                 logMessage("Call complete for " + jsonFile)
             except subprocess.CalledProcessError as e:
                 raise RuntimeError(
                     "command '{}' return with error (code {}): {}".format(
                         e.cmd, e.returncode, e.output))
 
+            result2 = str(result2)
             result2 = result2.split('\n')
 
             logMessage("Raw tracker_config json convert result ")
@@ -733,6 +745,49 @@ def receiveTrackerLogData(runMode, deviceID):
             return {'result': 'currentDateTime'}
         else:
             return {'error': constants.NO_TAG_TEXT + ' or data error'}
+
+
+def writeGPSAlmanacToDevice(runMode, deviceID, fileToApply):
+
+    if runMode == 'dummy':
+
+        return {"result": "-"}
+
+    else:
+
+        try:
+
+            testString = "sudo " + constants.TRACKER_CONFIG + " sudo gps_almanac --file upload/gps_almanac" + fileToApply + " --id " + deviceID
+            print("Sending: " + testString)
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
+
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(
+                "command '{}' return with error (code {}): {}".format(
+                    e.cmd, e.returncode, e.output))
+
+        result = str(result)
+        result = result.rstrip()  # trailing new line...
+
+    if result.startswith('Unexpected error'):
+        returnResult = {"error": constants.NO_TAG_TEXT}
+
+    else:
+
+        # the result is:  'Connecting to device at index 0\n{"charging_level": 100, "charging_ind": true}'
+        # so we need to divide at the '\n' and json load the last part...
+        result = result.split('\n')
+
+        logMessage("Raw tracker_config upload Almanac result ")
+        for row in result:
+            logMessage(row)
+
+        resultJson = json.loads(result[len(result) - 1])
+        returnResult = {'result': resultJson}
+
+    return returnResult
 
 
 def dummyResponse(runMode, deviceID, runtype):
@@ -754,13 +809,16 @@ def eraseLog(runMode, deviceID):
 
         try:
             testString = "sudo " + constants.TRACKER_CONFIG + " --erase_log --id " + deviceID
-            result = subprocess.check_output(testString, shell=True, stderr=subprocess.STDOUT).decode()
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
         if result.startswith('Unexpected error'):
@@ -796,13 +854,16 @@ def createLog(runMode, deviceID):
 
         try:
             testString = "sudo " + constants.TRACKER_CONFIG + " --create_log LINEAR --id " + deviceID
-            result = subprocess.check_output(testString, shell=True, stderr=subprocess.STDOUT).decode() 
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
         if result.startswith('Unexpected error'):
@@ -836,13 +897,16 @@ def flashDevice(runMode, deviceID):
 
         try:
             testString = "sudo " + constants.TRACKER_CONFIG + " --reset FLASH --id " + deviceID
-            result = subprocess.check_output(testString, shell=True, stderr=subprocess.STDOUT) .decode()
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
         print(result)
 
@@ -879,13 +943,16 @@ def eraseDevice(runMode, deviceID):
 
         try:
             testString = "sudo " + constants.TRACKER_CONFIG + " --erase --id " + deviceID
-            result = subprocess.check_output(testString, shell=True, stderr=subprocess.STDOUT).decode()
+            result = subprocess.check_output(
+                testString, shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
         if result.startswith('Unexpected error'):
@@ -985,7 +1052,7 @@ def getLogFileListByDate(logPath, deviceID):
     tempDict = {}
 
     for file in pathContent:
-  
+
         fileName = file.split(".")
 
         # add new download dates to output
@@ -1006,7 +1073,7 @@ def getLogFileListByDate(logPath, deviceID):
 
                 else:
                     thisFileSize = str(thisFileSize) + ' Kb'
-        else: 
+        else:
             thisFileSize = '0Kb'
 
         thisFile = {'fileName': file, 'fileSize': thisFileSize}
@@ -1131,7 +1198,7 @@ def forgetDevice(deviceID):
 
     if deviceID in existingDevices:
         del existingDevices[deviceID]
-        
+
         with open('knownDevices.json', 'w') as outfile:
             json.dump(existingDevices, outfile)
 
@@ -1159,13 +1226,16 @@ def syncHubToTime(runMode, toTime):
 
         try:
 
-            result = subprocess.check_output("sudo date -s '" + toTime + "'", shell=True, stderr=subprocess.STDOUT).decode()
+            result = subprocess.check_output(
+                "sudo date -s '" + toTime + "'", shell=True, stderr=subprocess.STDOUT
+            )  # these last parts are needed if you don't send an array
 
         except subprocess.CalledProcessError as e:
             raise RuntimeError(
                 "command '{}' return with error (code {}): {}".format(
                     e.cmd, e.returncode, e.output))
 
+        result = str(result)
         result = result.rstrip()  # trailing new line...
 
     return True
